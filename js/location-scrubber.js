@@ -263,7 +263,7 @@ function loadPath() {
 
                     let marker = new google.maps.Marker({
                         position: elementLatLng,
-                        title: new Date(element.time).toLocaleString(), //convert to UC unix to a "human" time with local time conversion
+                        title: moment.tz(element.time, TZ_STRING).format("D-MMM-Y h:mma z"),
                         icon: MARKER_ICONS.DEFAULT,
                         map: map,
                     });
