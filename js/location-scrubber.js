@@ -263,7 +263,7 @@ function loadPath() {
 
                     let marker = new google.maps.Marker({
                         position: elementLatLng,
-                        title: moment.tz(element.time, TZ_STRING).format("D-MMM-Y h:mma z"),
+                        title: moment.tz(element.time, TZ_STRING).format(DATE_FORMAT),
                         icon: MARKER_ICONS.DEFAULT,
                         map: map,
                     });
