@@ -567,19 +567,11 @@ function loadPath() {
 }
 
 function initDateSlider(msStartDate, msEndDate) {
-    let utcSecondsToMidnight = function (utcSeconds) {
-        date = new Date(utcSeconds);
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        return date.getTime();
-    };
-
-    msStartDate = utcSecondsToMidnight(msStartDate);
-    msEndDate = utcSecondsToMidnight(msEndDate);
+    msStartDate = moment(msStartDate).startOf("hour");
+    msEndDate = moment(msEndDate).add(1, "hour").startOf("hour");
 
     let incrementFactor = 1000 * 60 * 60; //milliseconds in one hour
-    let sliderStepCount = Math.ceil((msEndDate - msStartDate) / incrementFactor) + 24; //number of days to have the slider cover (has to be +1 because we take the end date and move back to midnight)
+    let sliderStepCount = Math.ceil((msEndDate - msStartDate) / incrementFactor); //number of days to have the slider cover (has to be +1 because we take the end date and move back to midnight)
     $(function () {
         let windowRange = {
             value: null,
