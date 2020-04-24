@@ -96,6 +96,9 @@ const MARKER_ICONS = {
     TRAVEL: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fdf569", //YELLOW
 };
 
+const ERROR_TYPES = {
+    FILE_ERROR: {message:'Unable to load the file.'}
+}
 var map;
 //May still have use for geo-coding
 //var infoWindow;
@@ -236,7 +239,7 @@ function normalizeInputData(arr) {
         return result;
     }
     catch(e){
-        throw { type: "File Error" }
+        throw ERROR_TYPES.FILE_ERROR
     }
 }
 
@@ -268,7 +271,7 @@ function loadPath() {
                 try {
                     let lines = event.target.result;
                     if(!isValidJson(lines)){
-                        throw { type: "File Error" }
+                        throw ERROR_TYPES.FILE_ERROR
                     }
                     let lastLatLng = null;
                     let currentGroupId = 0;
@@ -577,8 +580,8 @@ function loadPath() {
                     updateStats();
                 }
                 catch(e){
-                    if (e.type ==='File Error') {
-                        alert("Unable to load the file.");
+                    if (e === ERROR_TYPES.FILE_ERROR) {
+                        alert(ERROR_TYPES.FILE_ERROR.message);
                     }
                     else {
                     alert(e);
