@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: safeplaces
+  labels:
+    app: safeplaces
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: safeplaces
+  template:
+    metadata:
+      labels:
+        app: safeplaces
+    spec:
+      containers:
+        - name: safeplaces
+          image: extremesolution/safeplaces-frontend
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+
