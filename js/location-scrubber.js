@@ -97,8 +97,8 @@ const MARKER_ICONS = {
 };
 
 const ERROR_TYPES = {
-    FILE_ERROR: {message:'Unable to load the file.'}
-}
+    FILE_ERROR: { message: "Unable to load the file." },
+};
 var map;
 //May still have use for geo-coding
 //var infoWindow;
@@ -232,14 +232,13 @@ function normalizeInputData(arr) {
                 });
             }
         }
-        
+
         result.sort(function (a, b) {
             return a.time - b.time;
         });
         return result;
-    }
-    catch(e){
-        throw ERROR_TYPES.FILE_ERROR
+    } catch (e) {
+        throw ERROR_TYPES.FILE_ERROR;
     }
 }
 
@@ -270,8 +269,8 @@ function loadPath() {
             return function (event) {
                 try {
                     let lines = event.target.result;
-                    if(!isValidJson(lines)){
-                        throw ERROR_TYPES.FILE_ERROR
+                    if (!isValidJson(lines)) {
+                        throw ERROR_TYPES.FILE_ERROR;
                     }
                     let lastLatLng = null;
                     let currentGroupId = 0;
@@ -283,7 +282,7 @@ function loadPath() {
 
                         let marker = new google.maps.Marker({
                             position: elementLatLng,
-                            title: new Date(element.time).toLocaleString(), //convert to UC unix to a "human" time with local time conversion
+                            title: moment.tz(element.time, TZ_STRING).format(DATE_FORMAT),
                             icon: MARKER_ICONS.DEFAULT,
                             map: map,
                         });
@@ -350,7 +349,10 @@ function loadPath() {
 
                                     let uncolorColsure = (function (groupId) {
                                         return function (event) {
-                                            exposureGroups[groupId].markers.forEach(function (element, index) {
+                                            exposureGroups[groupId].markers.forEach(function (
+                                                element,
+                                                index
+                                            ) {
                                                 element.setIcon(getMarkerIcon(groupType));
                                                 element.setZIndex(getMarkerZIndex(groupType));
                                             });
@@ -459,7 +461,8 @@ function loadPath() {
                         //round to 2 decimal places...soooo ugly in javascript
                         travelGroupSpeedMPH =
                             Math.round((travelGroupSpeedKMPH / 1.609 + Number.EPSILON) * 100) / 100;
-                        travelGroupSpeedKMPH = Math.round((travelGroupSpeedKMPH + Number.EPSILON) * 100) / 100;
+                        travelGroupSpeedKMPH =
+                            Math.round((travelGroupSpeedKMPH + Number.EPSILON) * 100) / 100;
 
                         travelGroupMarkers.forEach(function (element, index) {
                             element.setTitle(
@@ -483,13 +486,18 @@ function loadPath() {
                         for (var i = groupCount; i < exposureGroups.length; i++) {
                             //We may need to put some time boundaries on this because travel groups could intersect if you travel a similar route periodically.
                             if (
-                                exposureGroups[key].bounds.intersects(exposureGroups[exposureGroupKeys[i]].bounds)
+                                exposureGroups[key].bounds.intersects(
+                                    exposureGroups[exposureGroupKeys[i]].bounds
+                                )
                             ) {
                                 foundInteresection = true;
                                 exposureGroups[key].elements.forEach(function (element, index) {
                                     element.groupType = GROUP_TYPES.RECURRING;
                                 });
-                                exposureGroups[exposureGroupKeys[i]].elements.forEach(function (element, index) {
+                                exposureGroups[exposureGroupKeys[i]].elements.forEach(function (
+                                    element,
+                                    index
+                                ) {
                                     element.groupType = GROUP_TYPES.RECURRING;
                                 });
                             }
@@ -578,16 +586,14 @@ function loadPath() {
 
                     initDateSlider(exposureJSON[0].time, exposureJSON[exposureJSON.length - 1].time);
                     updateStats();
-                }
-                catch(e){
+                } catch (e) {
                     if (e === ERROR_TYPES.FILE_ERROR) {
                         alert(ERROR_TYPES.FILE_ERROR.message);
+                    } else {
+                        alert(e);
                     }
-                    else {
-                    alert(e);
                 }
-            }
-        }
+            };
         })(map, exposurePoints, exposurePaths);
         fr.readAsText(file);
 
@@ -596,19 +602,11 @@ function loadPath() {
 }
 
 function initDateSlider(msStartDate, msEndDate) {
-    let utcSecondsToMidnight = function (utcSeconds) {
-        date = new Date(utcSeconds);
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        return date.getTime();
-    };
-
-    msStartDate = utcSecondsToMidnight(msStartDate);
-    msEndDate = utcSecondsToMidnight(msEndDate);
+    msStartDate = moment(msStartDate).startOf("hour");
+    msEndDate = moment(msEndDate).add(1, "hour").startOf("hour");
 
     let incrementFactor = 1000 * 60 * 60; //milliseconds in one hour
-    let sliderStepCount = Math.ceil((msEndDate - msStartDate) / incrementFactor) + 24; //number of days to have the slider cover (has to be +1 because we take the end date and move back to midnight)
+    let sliderStepCount = Math.ceil((msEndDate - msStartDate) / incrementFactor); //number of days to have the slider cover (has to be +1 because we take the end date and move back to midnight)
     $(function () {
         let windowRange = {
             value: null,

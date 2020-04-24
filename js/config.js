@@ -12,3 +12,6 @@ var logo_destination_url = "";
 // Comment out line if MAP_API_KEY hardcoded
 var MAP_API_KEY = localStorage.getItem("MAP_API_KEY");
 // var MAP_API_KEY = "<GOOGLE_MAPS_API_KEY_HERE>"
+
+const TZ_STRING = moment.tz.guess(true);
+const DATE_FORMAT = "D-MMM-Y h:mma z";

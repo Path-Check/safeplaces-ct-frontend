@@ -213,9 +213,9 @@ function updateDateRange(startDate, endDate) {
     updateLockIcon();
 
     // Change the slider and labels related to the date range
-    $("#date-start").text(startDate.toLocaleString());
+    $("#date-start").text(moment.tz(startDate, TZ_STRING).format(DATE_FORMAT));
     $("#date-sep").html("&mdash;");
-    $("#date-end").text(endDate.toLocaleString());
+    $("#date-end").text(moment.tz(endDate, TZ_STRING).format(DATE_FORMAT));
 
     updateExposurePoints();
 
