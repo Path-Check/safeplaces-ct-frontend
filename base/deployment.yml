@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: safeplaces
-          image: extremesolution/safeplaces-frontend
+          image: gcr.io/PROJECT_ID/IMAGE:TAG
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
