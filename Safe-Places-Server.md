@@ -186,23 +186,21 @@ Consumed by the Safe Paths client application. This requires no authentication.
 
 ```json
 {
-    "data": {
-        "authority_name": "Fake Organization",
-        "concern_points": [
-            {
-                "latitude": 12.34,
-                "longitude": 12.34,
-                "time": 1584924233
-            },
-            {
-                "latitude": 12.34,
-                "longitude": 12.34,
-                "time": 1584924583
-            }
-        ],
-        "info_website": "https://www.something.gov/path/to/info/website",
-        "publish_date_utc": "1584924583"
-    }
+    "authority_name": "Fake Organization",
+    "concern_points": [
+        {
+            "latitude": 12.34,
+            "longitude": 12.34,
+            "time": 1584924233
+        },
+        {
+            "latitude": 12.34,
+            "longitude": 12.34,
+            "time": 1584924583
+        }
+    ],
+    "info_website": "https://www.something.gov/path/to/info/website",
+    "publish_date_utc": "1584924583"
 }
 ```
 
