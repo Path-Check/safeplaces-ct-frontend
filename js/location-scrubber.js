@@ -96,6 +96,9 @@ const MARKER_ICONS = {
     TRAVEL: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fdf569", //YELLOW
 };
 
+const ERROR_TYPES = {
+    FILE_ERROR: {message:'Unable to load the file.'}
+}
 var map;
 //May still have use for geo-coding
 //var infoWindow;
@@ -217,23 +220,36 @@ function normalizeInputData(arr) {
     //   * Values stored as strings instead of numbers
     //   * Extra info in the input
     //   * Improperly sorted data (can happen after an Import)
-    var result = [];
-
-    for (var i = 0; i < arr.length; i++) {
-        elem = arr[i];
-        if ("time" in elem && "latitude" in elem && "longitude" in elem) {
-            result.push({
-                time: Number(elem.time),
-                latitude: Number(elem.latitude),
-                longitude: Number(elem.longitude),
-            });
+    try {
+        var result = [];
+        for (var i = 0; i < arr.length; i++) {
+            elem = arr[i];
+            if ("time" in elem && "latitude" in elem && "longitude" in elem) {
+                result.push({
+                    time: Number(elem.time),
+                    latitude: Number(elem.latitude),
+                    longitude: Number(elem.longitude),
+                });
+            }
         }
+        
+        result.sort(function (a, b) {
+            return a.time - b.time;
+        });
+        return result;
     }
+    catch(e){
+        throw ERROR_TYPES.FILE_ERROR
+    }
+}
 
-    result.sort(function (a, b) {
-        return a.time - b.time;
-    });
-    return result;
+function isValidJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 
 function loadPath() {
@@ -252,313 +268,326 @@ function loadPath() {
         fr = new FileReader();
         fr.onload = (function (map, points, path) {
             return function (event) {
-                let lines = event.target.result;
-                let lastLatLng = null;
-                let currentGroupId = 0;
-                let currentGroupBounds = new google.maps.LatLngBounds();
-                exposureJSON = normalizeInputData(JSON.parse(lines));
+                try {
+                    let lines = event.target.result;
+                    if(!isValidJson(lines)){
+                        throw ERROR_TYPES.FILE_ERROR
+                    }
+                    let lastLatLng = null;
+                    let currentGroupId = 0;
+                    let currentGroupBounds = new google.maps.LatLngBounds();
+                    exposureJSON = normalizeInputData(JSON.parse(lines));
 
-                exposureJSON.forEach(function (element, index) {
-                    elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
+                    exposureJSON.forEach(function (element, index) {
+                        elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
 
-                    let marker = new google.maps.Marker({
-                        position: elementLatLng,
-                        title: new Date(element.time).toLocaleString(), //convert to UC unix to a "human" time with local time conversion
-                        icon: MARKER_ICONS.DEFAULT,
-                        map: map,
+                        let marker = new google.maps.Marker({
+                            position: elementLatLng,
+                            title: new Date(element.time).toLocaleString(), //convert to UC unix to a "human" time with local time conversion
+                            icon: MARKER_ICONS.DEFAULT,
+                            map: map,
+                        });
+
+                        points.push(marker);
+
+                        //create a circle with which to measure a 100' radius from the center of our current bounds
+                        if (
+                            !currentGroupBounds.isEmpty() &&
+                            google.maps.geometry.spherical.computeDistanceBetween(
+                                elementLatLng,
+                                currentGroupBounds.getCenter()
+                            ) > 30.48
+                        ) {
+                            //save off the previous group for later evaluation as recurring or transient
+                            exposureGroups[currentGroupId].bounds = currentGroupBounds;
+
+                            //increment the groupId
+                            ++currentGroupId;
+
+                            //create a new group bound and add current location to that group
+                            currentGroupBounds = new google.maps.LatLngBounds();
+                        }
+                        //just add this location to our group bounds in order to update the center of the group appropriately
+                        currentGroupBounds.extend(elementLatLng);
+
+                        //create a new object to hold the groups if we don't have one already
+                        if (
+                            exposureGroups[currentGroupId] === undefined ||
+                            exposureGroups[currentGroupId] === null
+                        ) {
+                            exposureGroups[currentGroupId] = {
+                                markers: [],
+                                elements: [],
+                                bounds: currentGroupBounds,
+                            };
+                        }
+                        exposureGroups[currentGroupId].markers.push(marker);
+                        exposureGroups[currentGroupId].elements.push(element);
+
+                        //set our current JSON element properties with our current group info
+                        element.groupId = currentGroupId;
+                        element.groupType = GROUP_TYPES.UNDEF;
+
+                        //we add the event listener after we determine what group the marker is in
+                        google.maps.event.addListener(
+                            marker,
+                            "click",
+                            (function (thisMarker, groupId) {
+                                return function (event) {
+                                    selectNone();
+                                    enableDelete(false);
+
+                                    let groupType = exposureGroups[groupId].elements[0].groupType;
+
+                                    // when we click a marker set all the markers in that group to purple
+                                    exposureGroups[groupId].markers.forEach(function (element, index) {
+                                        element.setIcon(MARKER_ICONS.GROUP);
+                                        element.setZIndex(MARKER_ZINDEX.GROUP);
+                                    });
+                                    //then set the clicked marker to green
+                                    thisMarker.setIcon(MARKER_ICONS.SELECTED);
+                                    thisMarker.setZIndex(MARKER_ZINDEX.SELECTED);
+
+                                    let uncolorColsure = (function (groupId) {
+                                        return function (event) {
+                                            exposureGroups[groupId].markers.forEach(function (element, index) {
+                                                element.setIcon(getMarkerIcon(groupType));
+                                                element.setZIndex(getMarkerZIndex(groupType));
+                                            });
+
+                                            if (groupId == selectedGroupID) {
+                                                selectedGroupID = null;
+                                            }
+
+                                            enableDelete(false, false);
+                                        };
+                                    })(groupId);
+
+                                    selectedGroupID = groupId;
+                                    selectedMarker = thisMarker;
+                                    global_uncolorClosure = uncolorColsure;
+
+                                    enableDelete(exposureGroups[groupId].markers.length > 1, true);
+                                };
+                            })(marker, currentGroupId)
+                        );
+
+                        if (isInitalized(lastLatLng)) {
+                            let polylinePath = new google.maps.Polyline({
+                                path: [lastLatLng, elementLatLng],
+                                strokeColor: "#FF0000",
+                                strokeOpacity: 1.0,
+                                strokeWeight: 2,
+                            });
+                            path.push(polylinePath);
+                            addLine(polylinePath);
+                        }
+
+                        lastLatLng = elementLatLng;
                     });
 
-                    points.push(marker);
+                    // Zoom to see all of the loaded points
+                    zoomToExtent();
 
-                    //create a circle with which to measure a 100' radius from the center of our current bounds
-                    if (
-                        !currentGroupBounds.isEmpty() &&
-                        google.maps.geometry.spherical.computeDistanceBetween(
-                            elementLatLng,
-                            currentGroupBounds.getCenter()
-                        ) > 30.48
-                    ) {
-                        //save off the previous group for later evaluation as recurring or transient
-                        exposureGroups[currentGroupId].bounds = currentGroupBounds;
+                    let groupCount = 0;
+                    let exposureGroupKeys = Object.keys(exposureGroups);
+                    let travelGroupId = null;
+                    let travelGroupMarkers = [];
+                    let travelGroupDurationMilliseconds = 0;
+                    let travelGroupDistanceMeters = 0;
+                    let lastExposureGroup = null;
 
-                        //increment the groupId
-                        ++currentGroupId;
+                    //this method will add the time and distance covered from the last marker to the current marker
+                    //  if the current marker is an array, it will "chain" all the markers in the array together and add their total time and distance covered too
+                    let addTravelGroupTimeAndDistance = function (fromGroup, toGroup) {
+                        let duration = 0;
+                        let distance = 0;
 
-                        //create a new group bound and add current location to that group
-                        currentGroupBounds = new google.maps.LatLngBounds();
-                    }
-                    //just add this location to our group bounds in order to update the center of the group appropriately
-                    currentGroupBounds.extend(elementLatLng);
+                        //add the time from the end of the "from group" to the end of the "to group"
+                        let fromGroupEndTime = 0;
+                        let currentGroupStartTime = toGroup.elements[0].time;
+                        let currentGroupEndTime = toGroup.elements[toGroup.elements.length - 1].time;
 
-                    //create a new object to hold the groups if we don't have one already
-                    if (
-                        exposureGroups[currentGroupId] === undefined ||
-                        exposureGroups[currentGroupId] === null
-                    ) {
-                        exposureGroups[currentGroupId] = {
-                            markers: [],
-                            elements: [],
-                            bounds: currentGroupBounds,
-                        };
-                    }
-                    exposureGroups[currentGroupId].markers.push(marker);
-                    exposureGroups[currentGroupId].elements.push(element);
+                        if (isInitalized(fromGroup)) {
+                            fromGroupEndTime = fromGroup.elements[fromGroup.elements.length - 1].time;
+                            duration += currentGroupStartTime - fromGroupEndTime;
+                        }
 
-                    //set our current JSON element properties with our current group info
-                    element.groupId = currentGroupId;
-                    element.groupType = GROUP_TYPES.UNDEF;
+                        duration += currentGroupEndTime - currentGroupStartTime;
 
-                    //we add the event listener after we determine what group the marker is in
-                    google.maps.event.addListener(
-                        marker,
-                        "click",
-                        (function (thisMarker, groupId) {
-                            return function (event) {
-                                selectNone();
-                                enableDelete(false);
+                        //add the distance from the end of the "from group" to the start of the "to group"
+                        if (isInitalized(fromGroup)) {
+                            let fromGroupEndPosition = fromGroup.markers[
+                                fromGroup.markers.length - 1
+                            ].getPosition();
+                            let toGroupStartPosition = toGroup.markers[0].getPosition();
 
-                                let groupType = exposureGroups[groupId].elements[0].groupType;
-
-                                // when we click a marker set all the markers in that group to purple
-                                exposureGroups[groupId].markers.forEach(function (element, index) {
-                                    element.setIcon(MARKER_ICONS.GROUP);
-                                    element.setZIndex(MARKER_ZINDEX.GROUP);
-                                });
-                                //then set the clicked marker to green
-                                thisMarker.setIcon(MARKER_ICONS.SELECTED);
-                                thisMarker.setZIndex(MARKER_ZINDEX.SELECTED);
-
-                                let uncolorColsure = (function (groupId) {
-                                    return function (event) {
-                                        exposureGroups[groupId].markers.forEach(function (element, index) {
-                                            element.setIcon(getMarkerIcon(groupType));
-                                            element.setZIndex(getMarkerZIndex(groupType));
-                                        });
-
-                                        if (groupId == selectedGroupID) {
-                                            selectedGroupID = null;
-                                        }
-
-                                        enableDelete(false, false);
-                                    };
-                                })(groupId);
-
-                                selectedGroupID = groupId;
-                                selectedMarker = thisMarker;
-                                global_uncolorClosure = uncolorColsure;
-
-                                enableDelete(exposureGroups[groupId].markers.length > 1, true);
-                            };
-                        })(marker, currentGroupId)
-                    );
-
-                    if (isInitalized(lastLatLng)) {
-                        let polylinePath = new google.maps.Polyline({
-                            path: [lastLatLng, elementLatLng],
-                            strokeColor: "#FF0000",
-                            strokeOpacity: 1.0,
-                            strokeWeight: 2,
-                        });
-                        path.push(polylinePath);
-                        addLine(polylinePath);
-                    }
-
-                    lastLatLng = elementLatLng;
-                });
-
-                // Zoom to see all of the loaded points
-                zoomToExtent();
-
-                let groupCount = 0;
-                let exposureGroupKeys = Object.keys(exposureGroups);
-                let travelGroupId = null;
-                let travelGroupMarkers = [];
-                let travelGroupDurationMilliseconds = 0;
-                let travelGroupDistanceMeters = 0;
-                let lastExposureGroup = null;
-
-                //this method will add the time and distance covered from the last marker to the current marker
-                //  if the current marker is an array, it will "chain" all the markers in the array together and add their total time and distance covered too
-                let addTravelGroupTimeAndDistance = function (fromGroup, toGroup) {
-                    let duration = 0;
-                    let distance = 0;
-
-                    //add the time from the end of the "from group" to the end of the "to group"
-                    let fromGroupEndTime = 0;
-                    let currentGroupStartTime = toGroup.elements[0].time;
-                    let currentGroupEndTime = toGroup.elements[toGroup.elements.length - 1].time;
-
-                    if (isInitalized(fromGroup)) {
-                        fromGroupEndTime = fromGroup.elements[fromGroup.elements.length - 1].time;
-                        duration += currentGroupStartTime - fromGroupEndTime;
-                    }
-
-                    duration += currentGroupEndTime - currentGroupStartTime;
-
-                    //add the distance from the end of the "from group" to the start of the "to group"
-                    if (isInitalized(fromGroup)) {
-                        let fromGroupEndPosition = fromGroup.markers[
-                            fromGroup.markers.length - 1
-                        ].getPosition();
-                        let toGroupStartPosition = toGroup.markers[0].getPosition();
-
-                        distance += google.maps.geometry.spherical.computeDistanceBetween(
-                            fromGroupEndPosition,
-                            toGroupStartPosition
-                        );
-                    }
-
-                    //add the distance traveled within the "to group"
-                    toGroup.markers.forEach(function (element, index) {
-                        if (index > 0) {
                             distance += google.maps.geometry.spherical.computeDistanceBetween(
-                                toGroup.markers[index - 1].getPosition(),
-                                element.getPosition()
+                                fromGroupEndPosition,
+                                toGroupStartPosition
                             );
                         }
-                    });
 
-                    travelGroupDurationMilliseconds += duration;
-                    travelGroupDistanceMeters += distance;
-                };
-
-                let updateTravelGroupMarkers = function (
-                    travelGroupMarkers,
-                    travelGroupId,
-                    travelGroupDurationMilliseconds,
-                    travelGroupDistanceMeters
-                ) {
-                    let travelGroupDurationHours = travelGroupDurationMilliseconds / (1000 * 60 * 60); //convert to hours
-                    let travelGroupDistanceKilometers = travelGroupDistanceMeters / 1000;
-                    let travelGroupSpeedKMPH = 0;
-
-                    if (travelGroupDurationHours > 0) {
-                        travelGroupSpeedKMPH = travelGroupDistanceKilometers / travelGroupDurationHours;
-                    }
-
-                    //round to 2 decimal places...soooo ugly in javascript
-                    travelGroupSpeedMPH =
-                        Math.round((travelGroupSpeedKMPH / 1.609 + Number.EPSILON) * 100) / 100;
-                    travelGroupSpeedKMPH = Math.round((travelGroupSpeedKMPH + Number.EPSILON) * 100) / 100;
-
-                    travelGroupMarkers.forEach(function (element, index) {
-                        element.setTitle(
-                            element.getTitle() +
-                                "\nTravel Group " +
-                                travelGroupId +
-                                "\n" +
-                                travelGroupSpeedMPH +
-                                " mph" +
-                                " | " +
-                                travelGroupSpeedKMPH +
-                                " km/h"
-                        );
-                    });
-                };
-
-                for (const key of exposureGroupKeys) {
-                    groupCount++;
-
-                    let foundIntersection = false;
-                    for (var i = groupCount; i < exposureGroups.length; i++) {
-                        //We may need to put some time boundaries on this because travel groups could intersect if you travel a similar route periodically.
-                        if (
-                            exposureGroups[key].bounds.intersects(exposureGroups[exposureGroupKeys[i]].bounds)
-                        ) {
-                            foundInteresection = true;
-                            exposureGroups[key].elements.forEach(function (element, index) {
-                                element.groupType = GROUP_TYPES.RECURRING;
-                            });
-                            exposureGroups[exposureGroupKeys[i]].elements.forEach(function (element, index) {
-                                element.groupType = GROUP_TYPES.RECURRING;
-                            });
-                        }
-                    }
-
-                    //we can only be a travel group if we were previously not found to be a recurring group, and we found no intersections with the groups in front of us
-                    if (
-                        !foundIntersection &&
-                        exposureGroups[key].elements[0].groupType != GROUP_TYPES.RECURRING
-                    ) {
-                        let travelMaxGroupSize = 3;
-                        if (exposureGroups[key].elements.length <= travelMaxGroupSize) {
-                            //groupCount is currently pointing to the item in front of the current group identified by key
-                            //  if we are the first group (no previous group to compare with) OR if the previous group (two back from current groupCount value) was a travel group.
-                            //  If so, we set keep the current travelGroupId and use that value.
-                            //  If not, we increment the travelGroupId and take that value instead.
-                            //  but we only look back if we are not the first group
-                            if (
-                                groupCount == 1 ||
-                                exposureGroups[exposureGroupKeys[groupCount - 2]].elements[0].groupType !=
-                                    GROUP_TYPES.TRAVEL
-                            ) {
-                                if (groupCount == 1 || !isInitalized(travelGroupId)) {
-                                    travelGroupId = 0;
-                                } else {
-                                    travelGroupId++;
-                                }
+                        //add the distance traveled within the "to group"
+                        toGroup.markers.forEach(function (element, index) {
+                            if (index > 0) {
+                                distance += google.maps.geometry.spherical.computeDistanceBetween(
+                                    toGroup.markers[index - 1].getPosition(),
+                                    element.getPosition()
+                                );
                             }
-                            exposureGroups[key].elements.forEach(function (element, index) {
-                                element.groupType = GROUP_TYPES.TRAVEL;
-                                element.travelGroupId = travelGroupId;
-                            });
+                        });
 
-                            //update current travel group's duration and distance
-                            addTravelGroupTimeAndDistance(lastExposureGroup, exposureGroups[key]);
+                        travelGroupDurationMilliseconds += duration;
+                        travelGroupDistanceMeters += distance;
+                    };
 
-                            //add all the travel group markers to the list to be updated
-                            exposureGroups[key].markers.forEach(function (element, index) {
-                                travelGroupMarkers.push(element);
-                            });
-                        } else {
-                            exposureGroups[key].elements.forEach(function (element, index) {
-                                element.groupType = GROUP_TYPES.TRANSIENT;
-                            });
-                        }
-                    }
-
-                    let groupType = exposureGroups[key].elements[0].groupType;
-
-                    //every time we encounter a non-travel group OR we get to the lasst exposureGroup, close out any open travel groups
-                    if (
-                        travelGroupMarkers.length > 0 &&
-                        (groupType != GROUP_TYPES.TRAVEL ||
-                            key == exposureGroupKeys[exposureGroupKeys.length - 1])
+                    let updateTravelGroupMarkers = function (
+                        travelGroupMarkers,
+                        travelGroupId,
+                        travelGroupDurationMilliseconds,
+                        travelGroupDistanceMeters
                     ) {
-                        if (groupType != GROUP_TYPES.TRAVEL) {
-                            //before we close it, update current travel group's duration and distance from its last marker to this non-travel groups first marker
-                            addTravelGroupTimeAndDistance(lastExposureGroup, {
-                                elements: [exposureGroups[key].elements[0]],
-                                markers: [exposureGroups[key].markers[0]],
-                            });
+                        let travelGroupDurationHours = travelGroupDurationMilliseconds / (1000 * 60 * 60); //convert to hours
+                        let travelGroupDistanceKilometers = travelGroupDistanceMeters / 1000;
+                        let travelGroupSpeedKMPH = 0;
+
+                        if (travelGroupDurationHours > 0) {
+                            travelGroupSpeedKMPH = travelGroupDistanceKilometers / travelGroupDurationHours;
                         }
 
-                        updateTravelGroupMarkers(
-                            travelGroupMarkers,
-                            travelGroupId,
-                            travelGroupDurationMilliseconds,
-                            travelGroupDistanceMeters
-                        );
+                        //round to 2 decimal places...soooo ugly in javascript
+                        travelGroupSpeedMPH =
+                            Math.round((travelGroupSpeedKMPH / 1.609 + Number.EPSILON) * 100) / 100;
+                        travelGroupSpeedKMPH = Math.round((travelGroupSpeedKMPH + Number.EPSILON) * 100) / 100;
 
-                        //close out the travel group metrics that we just updated
-                        travelGroupMarkers = [];
-                        travelGroupDurationMilliseconds = 0;
-                        travelGroupDistanceMeters = 0;
+                        travelGroupMarkers.forEach(function (element, index) {
+                            element.setTitle(
+                                element.getTitle() +
+                                    "\nTravel Group " +
+                                    travelGroupId +
+                                    "\n" +
+                                    travelGroupSpeedMPH +
+                                    " mph" +
+                                    " | " +
+                                    travelGroupSpeedKMPH +
+                                    " km/h"
+                            );
+                        });
+                    };
+
+                    for (const key of exposureGroupKeys) {
+                        groupCount++;
+
+                        let foundIntersection = false;
+                        for (var i = groupCount; i < exposureGroups.length; i++) {
+                            //We may need to put some time boundaries on this because travel groups could intersect if you travel a similar route periodically.
+                            if (
+                                exposureGroups[key].bounds.intersects(exposureGroups[exposureGroupKeys[i]].bounds)
+                            ) {
+                                foundInteresection = true;
+                                exposureGroups[key].elements.forEach(function (element, index) {
+                                    element.groupType = GROUP_TYPES.RECURRING;
+                                });
+                                exposureGroups[exposureGroupKeys[i]].elements.forEach(function (element, index) {
+                                    element.groupType = GROUP_TYPES.RECURRING;
+                                });
+                            }
+                        }
+
+                        //we can only be a travel group if we were previously not found to be a recurring group, and we found no intersections with the groups in front of us
+                        if (
+                            !foundIntersection &&
+                            exposureGroups[key].elements[0].groupType != GROUP_TYPES.RECURRING
+                        ) {
+                            let travelMaxGroupSize = 3;
+                            if (exposureGroups[key].elements.length <= travelMaxGroupSize) {
+                                //groupCount is currently pointing to the item in front of the current group identified by key
+                                //  if we are the first group (no previous group to compare with) OR if the previous group (two back from current groupCount value) was a travel group.
+                                //  If so, we set keep the current travelGroupId and use that value.
+                                //  If not, we increment the travelGroupId and take that value instead.
+                                //  but we only look back if we are not the first group
+                                if (
+                                    groupCount == 1 ||
+                                    exposureGroups[exposureGroupKeys[groupCount - 2]].elements[0].groupType !=
+                                        GROUP_TYPES.TRAVEL
+                                ) {
+                                    if (groupCount == 1 || !isInitalized(travelGroupId)) {
+                                        travelGroupId = 0;
+                                    } else {
+                                        travelGroupId++;
+                                    }
+                                }
+                                exposureGroups[key].elements.forEach(function (element, index) {
+                                    element.groupType = GROUP_TYPES.TRAVEL;
+                                    element.travelGroupId = travelGroupId;
+                                });
+
+                                //update current travel group's duration and distance
+                                addTravelGroupTimeAndDistance(lastExposureGroup, exposureGroups[key]);
+
+                                //add all the travel group markers to the list to be updated
+                                exposureGroups[key].markers.forEach(function (element, index) {
+                                    travelGroupMarkers.push(element);
+                                });
+                            } else {
+                                exposureGroups[key].elements.forEach(function (element, index) {
+                                    element.groupType = GROUP_TYPES.TRANSIENT;
+                                });
+                            }
+                        }
+
+                        let groupType = exposureGroups[key].elements[0].groupType;
+
+                        //every time we encounter a non-travel group OR we get to the lasst exposureGroup, close out any open travel groups
+                        if (
+                            travelGroupMarkers.length > 0 &&
+                            (groupType != GROUP_TYPES.TRAVEL ||
+                                key == exposureGroupKeys[exposureGroupKeys.length - 1])
+                        ) {
+                            if (groupType != GROUP_TYPES.TRAVEL) {
+                                //before we close it, update current travel group's duration and distance from its last marker to this non-travel groups first marker
+                                addTravelGroupTimeAndDistance(lastExposureGroup, {
+                                    elements: [exposureGroups[key].elements[0]],
+                                    markers: [exposureGroups[key].markers[0]],
+                                });
+                            }
+
+                            updateTravelGroupMarkers(
+                                travelGroupMarkers,
+                                travelGroupId,
+                                travelGroupDurationMilliseconds,
+                                travelGroupDistanceMeters
+                            );
+
+                            //close out the travel group metrics that we just updated
+                            travelGroupMarkers = [];
+                            travelGroupDurationMilliseconds = 0;
+                            travelGroupDistanceMeters = 0;
+                        }
+
+                        exposureGroups[key].markers.forEach(function (element, index) {
+                            element.setIcon(getMarkerIcon(groupType));
+                            element.setZIndex(getMarkerZIndex(groupType));
+                        });
+
+                        //record the last exposure group so that when we encounter a travel group we can calculate the distance between that group and the last marker of the last group
+                        lastExposureGroup = exposureGroups[key];
                     }
+                    travelGroupMarkers = null; //free memory
 
-                    exposureGroups[key].markers.forEach(function (element, index) {
-                        element.setIcon(getMarkerIcon(groupType));
-                        element.setZIndex(getMarkerZIndex(groupType));
-                    });
-
-                    //record the last exposure group so that when we encounter a travel group we can calculate the distance between that group and the last marker of the last group
-                    lastExposureGroup = exposureGroups[key];
+                    initDateSlider(exposureJSON[0].time, exposureJSON[exposureJSON.length - 1].time);
+                    updateStats();
                 }
-                travelGroupMarkers = null; //free memory
-
-                initDateSlider(exposureJSON[0].time, exposureJSON[exposureJSON.length - 1].time);
-                updateStats();
-            };
+                catch(e){
+                    if (e === ERROR_TYPES.FILE_ERROR) {
+                        alert(ERROR_TYPES.FILE_ERROR.message);
+                    }
+                    else {
+                    alert(e);
+                }
+            }
+        }
         })(map, exposurePoints, exposurePaths);
         fr.readAsText(file);
 
