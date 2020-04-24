@@ -27,7 +27,7 @@ env:
   REGISTRY_HOSTNAME: gcr.io
   DEPLOYMENT_NAME: ${{ secrets.DEPLOYMENT_NAME }}
   CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-  NAMESPACE: ${{ sectets.GKE_NAMESPACE }}
+  NAMESPACE: ${{ secrets.GKE_NAMESPACE }}
 
 jobs:
   setup-build-publish-deploy:
