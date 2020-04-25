@@ -1,13 +1,11 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
-import getEnvVars from "../environment";
 import {
   API_CALL_INFECTIONS_REQUEST,
   API_CALL_INFECTIONS_SUCCESS,
-  API_CALL_INFECTIONS_FAILURE
+  API_CALL_INFECTIONS_FAILURE,
 } from "../constants/ActionTypes";
-const { apiUrl, axiosConfig } = getEnvVars();
 
 function* watcherSaga() {
   yield takeEvery(API_CALL_INFECTIONS_REQUEST, workerSaga);
@@ -19,7 +17,6 @@ function fetchSaga(schoolId) {
   return axios({
     method: "GET",
     url: url,
-    ...axiosConfig
   });
 }
 

@@ -1,12 +1,11 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
-import getEnvVars from "../environment";
+
 import {
   API_CALL_CASE_REQUEST,
   API_CALL_CASE_SUCCESS,
-  API_CALL_CASE_FAILURE
+  API_CALL_CASE_FAILURE,
 } from "../constants/ActionTypes";
-const { apiUrl, axiosConfig } = getEnvVars();
 
 function* watcherSaga() {
   yield takeEvery(API_CALL_CASE_REQUEST, workerSaga);
@@ -21,9 +20,9 @@ function fetchSaga(data) {
     params: {
       lat: data.data.lat,
       lng: data.data.lng,
-      time: data.data.time
+      time: data.data.time,
     },
-    ...axiosConfig
+    ...axiosConfig,
   });
 }
 
