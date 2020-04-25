@@ -1,3 +1,7 @@
-Dockerfile
 .git/
 .cache/
+node_modules
+build
+.dockerignore
+Dockerfile
+Dockerfile.prod
