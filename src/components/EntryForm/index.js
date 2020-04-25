@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
-import { addTrackEntry, editTrackEntry } from "../../reducers/tracks";
+import { addTrackEntry, editTrackEntry } from "../../ducks/tracks";
 import { getTrack, getSelectedTracks } from "../../selectors";
 import { Button, TextArea, TextInput } from "@wfp/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

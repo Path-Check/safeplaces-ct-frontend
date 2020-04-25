@@ -3,7 +3,7 @@ import ReactMapGL from "react-map-gl";
 import Track from "./trackPath";
 import { token } from "../../constants/mapbox";
 import { connect } from "react-redux";
-import { deleteTrackEntry } from "../../reducers/tracks";
+import { deleteTrackEntry } from "../../ducks/tracks";
 import { addSelected } from "../../actions";
 import { getFilteredTrackPath } from "../../selectors";
 import track from "./trackPath";

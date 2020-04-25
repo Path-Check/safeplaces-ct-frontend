@@ -1,5 +1,4 @@
 import React from "react";
-import Login from "./components/Login";
 import "./scss/ui.scss";
 
 import { Router, Route, Redirect, Switch, useLocation } from "react-router-dom";

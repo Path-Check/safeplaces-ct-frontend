@@ -21,7 +21,7 @@ import {
   faTimesCircle,
   faPlusCircle,
 } from "@fortawesome/pro-solid-svg-icons";
-import { addTrackEntry } from "../../reducers/tracks";
+import { addTrackEntry } from "../../ducks/tracks";
 import EntryForm from "../EntryForm";
 import { NavLink } from "react-router-dom";
 import Tippy from "@tippy.js/react";

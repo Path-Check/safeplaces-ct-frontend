@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { addTrack, generateWarnings } from "../../reducers/tracks";
+import { addTrack, generateWarnings } from "../../ducks/tracks";
 //import { getAllTracks } from "../../selectors";
 import { connect } from "react-redux";
 import { Button } from "@wfp/ui";

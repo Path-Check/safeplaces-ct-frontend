@@ -4,7 +4,7 @@ import {
   addTrackEntry,
   editTrackEntry,
   deleteTrackEntry,
-} from "../../reducers/tracks";
+} from "../../ducks/tracks";
 
 import { addSelected } from "../../actions";
 import {

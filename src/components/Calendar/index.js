@@ -11,7 +11,7 @@ import "./calendar.scss";
 import { Button, tooltipStyle } from "@wfp/ui";
 import styles from "./styles.module.scss";
 import Tippy from "@tippy.js/react";
-import { editTrackEntry } from "../../reducers/tracks";
+import { editTrackEntry } from "../../ducks/tracks";
 
 const localizer = momentLocalizer(moment);
 
