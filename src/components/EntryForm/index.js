@@ -34,7 +34,7 @@ Geocode.setRegion("es");
 // Enable or disable logs. Its optional.
 Geocode.enableDebug();
 
-const EntryForm = ({ addTrackEntryTrigger, initialData }) => {
+const EntryForm = ({ initialData, useInline }) => {
   const [load, setLoad] = useState(false);
   const methods = useForm({
     defaultValues: initialData,
@@ -70,7 +70,7 @@ const EntryForm = ({ addTrackEntryTrigger, initialData }) => {
     reset(initialDataManipulated);
   }, [initialData, params.page]);
 
-  if (params.page !== "edit") {
+  if (params.page !== "edit" && !useInline) {
     return null;
   }
 
@@ -136,7 +136,10 @@ const EntryForm = ({ addTrackEntryTrigger, initialData }) => {
 
   if (load) return null;
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={useInline ? styles.inlineForm : styles.form}
+    >
       <div className={styles.header}>
         <div className={styles.headerTitle}>Edit</div>
         <NavLink to="/">

@@ -64,10 +64,7 @@ export default function SidebarContent() {
               wrapperClassName={styles.checkbox}
               name={`checkbox-${e[0]}`}
               onChange={(f) => {
-                console.log("aaaa", f);
-
                 if (f === false) {
-                  console.log("remove", selectedTracks, e[0]);
                   const newSelect = selectedTracks;
                   newSelect.splice(newSelect.indexOf(e[0]), 1);
                   addSelectedTrigger([...newSelect]);

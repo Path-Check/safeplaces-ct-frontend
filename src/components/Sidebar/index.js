@@ -51,7 +51,8 @@ function Sidebar({ addTrackEntryTrigger, track }) {
               interactive
               content={
                 <div className={styles.settingsList}>
-                  <NavLink to="/settings">Settings</NavLink>
+                  <NavLink to="/settings/organization">Organization</NavLink>
+                  <NavLink to="/settings/api">API endpoint</NavLink>
                 </div>
               }
               trigger="click"

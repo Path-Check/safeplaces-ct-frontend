@@ -1,0 +1,34 @@
+@import "../../scss/global";
+
+.settingsPage {
+  max-width: 900px;
+  margin: auto;
+}
+.header {
+  margin: $spacing-2xl 0;
+}
+.wrapper {
+  display: flex;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  margin-top: $spacing-xl;
+  margin-right: 2 * $spacing-3xl;
+  > * {
+    margin-bottom: $spacing-lg;
+    &[class="active"] {
+      color: $text-01;
+      font-weight: 500;
+      text-decoration: none;
+    }
+  }
+}
+.content {
+  flex: 1;
+  form > [class="wfp--form-item"],
+  form > * {
+    margin-bottom: 2rem;
+  }
+}

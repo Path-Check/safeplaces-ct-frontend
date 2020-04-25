@@ -37,9 +37,14 @@
 
 .settingsList {
   padding: $spacing-xs;
-  border-bottom: 1px solid $ui-03;
+  display: flex;
+  flex-direction: column;
   > a {
     text-decoration: none;
+    margin-bottom: $spacing-md;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
