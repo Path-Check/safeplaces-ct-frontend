@@ -19,4 +19,5 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY --from=builder /app .
 RUN touch .env
-CMD ["yarn", "start"]
+RUN yarn global add serve
+CMD [ "serve" , "-s", "build", "-l" , "3000"]
