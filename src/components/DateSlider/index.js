@@ -20,7 +20,7 @@ const handle = (props) => {
 };
 
 function DateSlider({ trackStart, trackEnd }) {
-  const filter = useSelector((state) => getFilter(state));
+  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
   const steps = 30;
   useEffect(() => {

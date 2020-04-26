@@ -5,21 +5,26 @@ import { Blockquote, Button, TextInput, Icon, InlineLoading } from "@wfp/ui";
 import { useHistory } from "react-router-dom";
 import styles from "./login.module.scss";
 import { Link } from "react-router-dom";
-import { requestLogin, getCurrentUser, getLoginState } from "ducks/auth";
+import {
+  requestLogin,
+  getCurrentUser,
+  getLoginState,
+  getToken,
+} from "ducks/auth";
 
 const Login = (props) => {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => getCurrentUser(state));
+  const token = useSelector((state) => getToken(state));
   const { fetching, errorResponse } = useSelector((state) =>
     getLoginState(state)
   );
   const history = useHistory();
 
   useEffect(() => {
-    if (currentUser) {
+    if (token) {
       history.push("");
     }
-  }, [currentUser, history]);
+  }, [token, history]);
 
   const { control, handleSubmit, errors, register } = useForm({});
 

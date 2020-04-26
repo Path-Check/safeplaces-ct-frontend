@@ -6,9 +6,12 @@ import { faSignIn } from "@fortawesome/pro-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSettingsApi, getSettingsApi } from "../../ducks/settingsApi";
 import ButtonRouter from "components/ButtonRouter";
+import { getToken } from "ducks/auth";
 export default function ApiPage() {
+  const token = useSelector(getToken);
+
   const { handleSubmit, register, errors } = useForm({
-    defaultValues: useSelector((state) => getSettingsApi(state)),
+    defaultValues: useSelector(getSettingsApi),
   });
   const dispatch = useDispatch();
   const onSubmit = (values) => {
@@ -19,7 +22,17 @@ export default function ApiPage() {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Blockquote>You are currently not authentificated to a API</Blockquote>
+        {token ? (
+          <Blockquote>
+            You are currently authentificated to a API
+            <br />
+            Token: {token}
+          </Blockquote>
+        ) : (
+          <Blockquote>
+            You are currently not authentificated to a API
+          </Blockquote>
+        )}
         <TextInput name="apiurl" labelText="Api url" inputRef={register} />
         <Button type="submit">Save</Button>{" "}
         <ButtonRouter
