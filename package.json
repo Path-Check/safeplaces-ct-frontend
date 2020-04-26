@@ -49,10 +49,10 @@
     "@fortawesome/react-fontawesome": "^0.1.7"
   },
   "scripts": {
-    "start": "react-scripts start && cra-append-sw --mode dev ./custom-sw.js",
-    "build": "react-scripts build && cra-append-sw ./custom-sw.js",
-    "build:dev": "env-cmd -f .env.dev react-scripts build  && cra-append-sw ./custom-sw.js",
-    "build:qa": "env-cmd  -f .env.qa react-scripts build  && cra-append-sw ./custom-sw.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "build:dev": "env-cmd -f .env.dev react-scripts build",
+    "build:qa": "env-cmd  -f .env.qa react-scripts build",
     "test": "react-scripts test ",
     "test:ci": "CI=true react-scripts test --coverage --reporters=default --reporters=jest-junit  --coverageDirectory=coverage ",
     "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
