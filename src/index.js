@@ -4,12 +4,12 @@ import App from "./App";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
-import Store from "./store";
+import { store, persistor } from "./store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={Store().store}>
-      <PersistGate loading={null} persistor={Store().persistor}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
     </Provider>

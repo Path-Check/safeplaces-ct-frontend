@@ -7,13 +7,17 @@ import selectedTracks from "./selectedTracks";
 import filter from "./filter";
 import tracks from "./tracks";
 import report from "./report";
+import auth from "./auth";
 import caseRed from "./case";
+import settingsApi from "./settingsApi";
 
 const rootReducer = combineReducers({
+  auth,
   caseRed,
   detail,
   positions,
   patients,
+  settingsApi,
   filter,
   tracks,
   selectedTracks,

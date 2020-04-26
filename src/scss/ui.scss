@@ -5,3 +5,14 @@
 .wfp--text-input {
   min-width: 2rem;
 }
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root,
+.App {
+  height: 100%;
+}

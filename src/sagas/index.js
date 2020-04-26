@@ -1,12 +1,6 @@
 import { all, fork } from "redux-saga/effects";
-import watcherReportSaga from "./report";
-import watcherInfectionsSaga from "./infections";
-import watcherCaseSaga from "./case";
+import { loginSaga } from "ducks/auth";
 
 export default function* rootSaga() {
-  yield all([
-    fork(watcherInfectionsSaga),
-    fork(watcherReportSaga),
-    fork(watcherCaseSaga)
-  ]);
+  yield all([fork(loginSaga)]);
 }

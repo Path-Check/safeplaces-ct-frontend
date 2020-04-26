@@ -3,25 +3,32 @@ import { useForm } from "react-hook-form";
 import { Blockquote, Button, TextInput } from "@wfp/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignIn } from "@fortawesome/pro-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { changeSettingsApi, getSettingsApi } from "../../ducks/settingsApi";
+import ButtonRouter from "components/ButtonRouter";
 export default function ApiPage() {
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors } = useForm({
+    defaultValues: useSelector((state) => getSettingsApi(state)),
+  });
+  const dispatch = useDispatch();
   const onSubmit = (values) => {
     console.log(values);
+    dispatch(changeSettingsApi(values));
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Blockquote>You are currently not authentificated to a API</Blockquote>
-        <TextInput name="username" labelText="Api url" />
+        <TextInput name="apiurl" labelText="Api url" inputRef={register} />
         <Button type="submit">Save</Button>{" "}
-        <Button
-          type="submit"
+        <ButtonRouter
           kind="secondary"
           icon={<FontAwesomeIcon icon={faSignIn} />}
+          to={"/login"}
         >
           Go to authentification
-        </Button>
+        </ButtonRouter>
       </form>
     </div>
   );

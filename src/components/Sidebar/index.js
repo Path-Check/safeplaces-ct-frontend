@@ -27,6 +27,7 @@ import { NavLink } from "react-router-dom";
 import Tippy from "@tippy.js/react";
 import { addSelected } from "../../actions";
 import SelectCase from "../SelectCase";
+import SettingsList from "../Settings/SettingsList";
 
 function Sidebar({ addTrackEntryTrigger, track }) {
   const [openNewEntry, setOpenNewEntry] = useState(false);
@@ -51,8 +52,7 @@ function Sidebar({ addTrackEntryTrigger, track }) {
               interactive
               content={
                 <div className={styles.settingsList}>
-                  <NavLink to="/settings/organization">Organization</NavLink>
-                  <NavLink to="/settings/api">API endpoint</NavLink>
+                  <SettingsList />
                 </div>
               }
               trigger="click"
