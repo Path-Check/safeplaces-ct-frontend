@@ -27,6 +27,7 @@ env:
   REGISTRY_HOSTNAME: gcr.io
   DEPLOYMENT_NAME: ${{ secrets.RN_DEPLOYMENT_NAME }}
   CONTAINER_NAME: ${{ secrets.RN_CONTAINER_NAME }}
+  NAMESPACE: ${{ secrets. GKE_NAMESPACE }}
 
 jobs:
   setup-build-publish-deploy:
@@ -76,6 +77,6 @@ jobs:
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         kubectl config set-context --current --namespace=${NAMESPACE}
         ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
-        ./kustomize build . | kubectl apply -f -
+        ./kustomize build . | kubectl apply -f - --namespace=${NAMESPACE}
         kubectl rollout status deployment $DEPLOYMENT_NAME
         kubectl get services -o wide
