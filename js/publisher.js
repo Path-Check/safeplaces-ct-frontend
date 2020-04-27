@@ -310,7 +310,7 @@ function loadPath() {
                 $("#save").removeClass("disabled").addClass("enabled").prop("disabled", false);
             })
             .fail((error) => {
-                console.log("Can't access " + url + " response. Blocked by browser?" + err);
+                console.log(error);
             });
     } else {
         // Load from selected files
