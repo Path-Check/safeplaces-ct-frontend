@@ -34,6 +34,8 @@ function LOG(str) {
 //       });
 //
 
+/*
+
 function get(url, respType, auth) {
     return doXHR("GET", url, respType, auth, null);
 }
@@ -100,6 +102,8 @@ function doXHR(method, url, param, auth, creds) {
         }
     });
 }
+
+*/
 
 function doLogout() {
     localStorage.setItem("token", null);
@@ -251,10 +255,8 @@ function enterAPIKey() {
 }
 
 function doLogin() {
-    $.post(
-        { ...AJAX_OPTIONS, url: `${BACKEND_ROOT}/login` },
-        JSON.stringify({ username: $("#username").val(), password: $("#password").val() })
-    )
+    const payload = JSON.stringify({ username: $("#username").val(), password: $("#password").val() });
+    $.post(getAJAXOptions("/login"), payload)
         .done((data) => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("MAP_API_KEY", data.maps_api_key);
@@ -293,3 +295,13 @@ function showBounds() {
 
     alert("Bounding box copied to the clipboard.");
 }
+
+getAJAXOptions = (url) => {
+    return {
+        ...AJAX_OPTIONS,
+        url: `${BACKEND_ROOT}${url}`,
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        },
+    };
+};

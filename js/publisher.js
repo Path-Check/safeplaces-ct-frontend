@@ -76,6 +76,8 @@ var exposurePoints = [];
 // LatLngBounds objects contained within each group
 //
 
+var exposureJSON;
+
 const GROUP_TYPES = {
     UNDEF: "undefined",
     RECURRING: "recurring",
@@ -255,7 +257,7 @@ function loadPath() {
     if (has_backend) {
         // Load from backend
 
-        const url = BACKEND_ROOT + "/redacted_trails/";
+        // const url = BACKEND_ROOT + "/redacted_trails/";
         // fetch(url)
         //     .then((response) => response.json())
         //     .then(function (content) {
@@ -280,13 +282,7 @@ function loadPath() {
         //     })
         //     .catch((err) => console.log("Can't access " + url + " response. Blocked by browser?" + err));
 
-        $.get({
-            ...AJAX_OPTIONS,
-            url: `${BACKEND_ROOT}/redacted_trail`,
-            headers: {
-                Authorization: localStorage.getItem("token"),
-            },
-        })
+        $.get(getAJAXOptions("/redacted_trails"))
             .done((content) => {
                 var trails = content["data"];
                 console.log(trails);
@@ -299,9 +295,14 @@ function loadPath() {
                 zoomToExtent();
 
                 //auto-classify all points
-                if (dateFirst === null || exposureJSON[0].time < dateFirst) dateFirst = exposureJSON[0].time;
-                if (dateLast === null || exposureJSON[exposureJSON.length - 1].time > dateLast)
-                    dateLast = exposureJSON[exposureJSON.length - 1].time;
+                if (typeof exposureJSON === "array") {
+                    if (dateFirst === null || exposureJSON[0].time < dateFirst) {
+                        dateFirst = exposureJSON[0].time;
+                    }
+                    if (dateLast === null || exposureJSON[exposureJSON.length - 1].time > dateLast) {
+                        dateLast = exposureJSON[exposureJSON.length - 1].time;
+                    }
+                }
                 initDateSlider(dateFirst, dateLast);
 
                 updateStats();
@@ -606,29 +607,38 @@ function saveText() {
     };
 
     if (has_backend) {
-        // POST safe-paths.json data to the backend
+        // request options
+        // const options = {
+        //     method: "POST",
+        //     body: JSON.stringify(complete),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // };
 
+        // const url = BACKEND_ROOT + "/safe_paths/";
+
+        // fetch(url, options)
+        //     .then((response) => response.json())
+        //     .then(function (content) {
+        //         $("#progress").text("Result:" + content);
+        //         setTimeout(function () {
+        //             $("#saving-panel").hide();
+        //         }, 1000);
+        //     });
+
+        // POST safe-paths.json data to the backend
         $("#saving-panel").show();
 
-        // request options
-        const options = {
-            method: "POST",
-            body: JSON.stringify(complete),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-
-        const url = BACKEND_ROOT + "/safe_paths/";
-
-        fetch(url, options)
-            .then((response) => response.json())
-            .then(function (content) {
+        const payload = JSON.stringify(complete);
+        $.post(getAJAXOptions("/safe_paths"), payload)
+            .done((content) => {
                 $("#progress").text("Result:" + content);
                 setTimeout(function () {
                     $("#saving-panel").hide();
                 }, 1000);
-            });
+            })
+            .fail((data) => {});
     } else {
         // Simple save to safe-paths.json
         let text = JSON.stringify(complete);

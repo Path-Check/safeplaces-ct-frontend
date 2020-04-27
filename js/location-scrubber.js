@@ -992,22 +992,13 @@ function saveText() {
 
         $("#saving-panel").show();
 
-        let payload = {
+        let payload = JSON.stringify({
             // identifier: filename,
             orgId: filename,
             trail: out,
-        };
+        });
 
-        var req = $.ajax({
-            ...AJAX_OPTIONS,
-            url: `${BACKEND_ROOT}/redacted_trail`,
-            type: "POST",
-            data: JSON.stringify(payload),
-            // Fetch the stored token from localStorage and set in the header
-            headers: {
-                Authorization: localStorage.getItem("token"),
-            },
-        })
+        $.post(getAJAXOptions("/redacted_trail"), payload)
             .done(function (msg) {
                 $("#progress").text("Result:" + msg);
                 setTimeout(function () {
