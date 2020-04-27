@@ -78,22 +78,6 @@ var exposurePoints = [];
 
 var exposureJSON;
 
-const GROUP_TYPES = {
-    UNDEF: "undefined",
-    RECURRING: "recurring",
-    TRANSIENT: "transient",
-    TRAVEL: "travel",
-};
-
-const MARKER_ICONS = {
-    DEFAULT: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FE7569", //RED
-    GROUP: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|855dfd", //PURPLE
-    SELECTED: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|34ba46", //GREEN
-    RECURRING: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e661ac", //PINK
-    TRANSIENT: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff9900", //ORANGE
-    TRAVEL: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fdf569", //YELLOW
-};
-
 var map;
 //May still have use for geo-coding
 //var infoWindow;
@@ -638,7 +622,9 @@ function saveText() {
                     $("#saving-panel").hide();
                 }, 1000);
             })
-            .fail((data) => {});
+            .fail((error) => {
+                console.log(error);
+            });
     } else {
         // Simple save to safe-paths.json
         let text = JSON.stringify(complete);
