@@ -256,10 +256,40 @@ function loadPath() {
         // Load from backend
 
         const url = BACKEND_ROOT + "/redacted_trails/";
-        fetch(url)
-            .then((response) => response.json())
-            .then(function (content) {
+        // fetch(url)
+        //     .then((response) => response.json())
+        //     .then(function (content) {
+        //         var trails = content["data"];
+        //         for (var i = 0; i < trails.length; i++) {
+        //             exposureJSON = trails[i]["trail"];
+
+        //             loadExposureData(exposureJSON);
+        //         }
+        //         // Zoom to see all of the loaded points
+        //         zoomToExtent();
+
+        //         //auto-classify all points
+        //         if (dateFirst === null || exposureJSON[0].time < dateFirst) dateFirst = exposureJSON[0].time;
+        //         if (dateLast === null || exposureJSON[exposureJSON.length - 1].time > dateLast)
+        //             dateLast = exposureJSON[exposureJSON.length - 1].time;
+        //         initDateSlider(dateFirst, dateLast);
+
+        //         updateStats();
+
+        //         $("#save").removeClass("disabled").addClass("enabled").prop("disabled", false);
+        //     })
+        //     .catch((err) => console.log("Can't access " + url + " response. Blocked by browser?" + err));
+
+        $.get({
+            ...AJAX_OPTIONS,
+            url: `${BACKEND_ROOT}/redacted_trail`,
+            headers: {
+                Authorization: localStorage.getItem("token"),
+            },
+        })
+            .done((content) => {
                 var trails = content["data"];
+                console.log(trails);
                 for (var i = 0; i < trails.length; i++) {
                     exposureJSON = trails[i]["trail"];
 
@@ -278,7 +308,9 @@ function loadPath() {
 
                 $("#save").removeClass("disabled").addClass("enabled").prop("disabled", false);
             })
-            .catch((err) => console.log("Can't access " + url + " response. Blocked by browser?" + err));
+            .fail((error) => {
+                console.log("Can't access " + url + " response. Blocked by browser?" + err);
+            });
     } else {
         // Load from selected files
 

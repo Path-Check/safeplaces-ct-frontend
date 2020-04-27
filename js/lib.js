@@ -251,25 +251,22 @@ function enterAPIKey() {
 }
 
 function doLogin() {
-    var username = $("#username").val();
-    var password = $("#password").val();
-
-    var res = post(
-        BACKEND_ROOT + "/login/",
-        '{ "username": "' + username + '", "password": "' + password + '" }'
-    ).then(
-        function (result) {
-            var data = JSON.parse(result);
-
+    $.post(
+        { ...AJAX_OPTIONS, url: `${BACKEND_ROOT}/login` },
+        JSON.stringify({ username: $("#username").val(), password: $("#password").val() })
+    )
+        .done((data) => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("MAP_API_KEY", data.maps_api_key);
+            if (DEBUG_BACKEND) {
+                localStorage.setItem("MAP_API_KEY", DEBUG_BACKEND_API_KEY);
+            }
             document.cookie = "token=" + data.token;
             location.reload();
-        },
-        function (err) {
+        })
+        .fail((data) => {
             $("#validateTips").text(err);
-        }
-    );
+        });
 }
 
 function showBounds() {

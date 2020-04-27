@@ -993,30 +993,33 @@ function saveText() {
         $("#saving-panel").show();
 
         let payload = {
-            identifier: filename,
+            // identifier: filename,
+            orgId: filename,
             trail: out,
         };
 
         var req = $.ajax({
-            url: "/redacted_trail/",
+            ...AJAX_OPTIONS,
+            url: `${BACKEND_ROOT}/redacted_trail`,
             type: "POST",
             data: JSON.stringify(payload),
             // Fetch the stored token from localStorage and set in the header
             headers: {
                 Authorization: localStorage.getItem("token"),
             },
-        });
-
-        req.done(function (msg) {
-            $("#progress").text("Result:" + msg);
-            setTimeout(function () {
-                $("#saving-panel").hide();
-            }, 1000);
-        });
-
-        req.fail(function (jqXHR, textStatus) {
-            $("#progress").text("Error: " + textStatus);
-        });
+        })
+            .done(function (msg) {
+                $("#progress").text("Result:" + msg);
+                setTimeout(function () {
+                    $("#saving-panel").hide();
+                }, 5000);
+            })
+            .fail(function (jqXHR, textStatus) {
+                $("#progress").text("Error: " + jqXHR.statusText);
+                setTimeout(function () {
+                    $("#saving-panel").hide();
+                }, 5000);
+            });
     } else {
         // Just save as a simple JSON file
 
