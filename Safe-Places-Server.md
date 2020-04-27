@@ -206,3 +206,24 @@ Consumed by the Safe Paths client application. This requires no authentication.
 
 </td></tr>
 </table>
+
+## HTTP headers
+
+### Requests
+
+<table>
+  <tr>
+    <td>Authorization</td><td>`Basic <session_token>`</td>
+  </tr>
+  <tr>
+    <td>Content-Type</td><td>`application/json; charset=utf-8`</td>
+  </tr>
+</table>
+
+### Response
+
+<table>
+  <tr>
+    <td>Content-Type</td><td>`application/json; charset=utf-8`</td>
+  </tr>
+</table>
