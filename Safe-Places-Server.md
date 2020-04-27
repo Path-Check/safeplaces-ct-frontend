@@ -215,8 +215,8 @@ Consumed by the Safe Paths client application. This requires no authentication.
   <tr>
     <td>Authorization</td><td>
 
-```json
-Basic <session_token>`
+```
+Basic <session_token>
 ```
 
 </td>
@@ -224,8 +224,8 @@ Basic <session_token>`
   <tr>
     <td>Content-Type</td><td>
 
-```json
-    application/json; charset=utf-8
+```
+application/json; charset=utf-8
 ```
 
 </td>
@@ -238,7 +238,7 @@ Basic <session_token>`
   <tr>
     <td>Content-Type</td><td>
 
-```json
+```
 application/json; charset=utf-8
 ```
 
