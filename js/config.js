@@ -3,7 +3,7 @@
 ///////////////////////////////////////
 
 var has_backend = true; // When true use standard back API calls
-const BACKEND_ROOT = "http://localhost:3000"; // Specify Backend ROOT if API endpoints not hosted on same domain
+const BACKEND_ROOT = ""; // Specify Backend ROOT if API endpoints not hosted on same domain
 var logo = ""; // Enter a logo for backend
 var logo_text = ""; // Enter name or second graphic
 var logo_destination_url = "";
