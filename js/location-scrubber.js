@@ -968,14 +968,13 @@ function saveText() {
         $("#saving-panel").show();
 
         let payload = JSON.stringify({
-            // identifier: filename,
-            orgId: filename,
+            identifier: filename,
             trail: out,
         });
 
         $.post(getAJAXOptions("/redacted_trail"), payload)
             .done(function (msg) {
-                $("#progress").text("Result:" + msg);
+                $("#progress").text(`Result: ${msg.data.trail.length} point(s) saved`);
                 setTimeout(function () {
                     $("#saving-panel").hide();
                 }, 5000);

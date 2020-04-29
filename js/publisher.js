@@ -580,12 +580,9 @@ function saveText() {
     localStorage.setItem("org_name", $("#org_name").val());
     localStorage.setItem("org_url", $("#org_url").val());
 
-    var nowUTC = new Date().toISOString();
-    var timeNow = Date.parse(nowUTC);
-
     let complete = {
         authority_name: $("#org_name").val(),
-        publish_date_utc: timeNow,
+        publish_date: Math.round(Date.now() / 1000),
         info_website: $("#org_url").val(),
         concern_points: out,
     };
@@ -617,13 +614,20 @@ function saveText() {
         const payload = JSON.stringify(complete);
         $.post(getAJAXOptions("/safe_paths"), payload)
             .done((content) => {
-                $("#progress").text("Result:" + content);
+                $("#progress").text(
+                    `Result:  Published ${moment
+                        .tz(content.safe_path.publish_date * 1000, TZ_STRING)
+                        .format(DATE_FORMAT)}`
+                );
                 setTimeout(function () {
                     $("#saving-panel").hide();
-                }, 1000);
+                }, 5000);
             })
             .fail((error) => {
-                console.log(error);
+                $("#saving-panel").text(`Result:  ${error}`);
+                setTimeout(function () {
+                    $("#saving-panel").hide();
+                }, 5000);
             });
     } else {
         // Simple save to safe-paths.json
