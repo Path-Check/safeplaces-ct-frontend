@@ -76,21 +76,7 @@ var exposurePoints = [];
 // LatLngBounds objects contained within each group
 //
 
-const GROUP_TYPES = {
-    UNDEF: "undefined",
-    RECURRING: "recurring",
-    TRANSIENT: "transient",
-    TRAVEL: "travel",
-};
-
-const MARKER_ICONS = {
-    DEFAULT: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FE7569", //RED
-    GROUP: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|855dfd", //PURPLE
-    SELECTED: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|34ba46", //GREEN
-    RECURRING: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e661ac", //PINK
-    TRANSIENT: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff9900", //ORANGE
-    TRAVEL: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fdf569", //YELLOW
-};
+var exposureJSON;
 
 var map;
 //May still have use for geo-coding
@@ -255,11 +241,35 @@ function loadPath() {
     if (has_backend) {
         // Load from backend
 
-        const url = BACKEND_ROOT + "/redacted_trails/";
-        fetch(url)
-            .then((response) => response.json())
-            .then(function (content) {
+        // const url = BACKEND_ROOT + "/redacted_trails/";
+        // fetch(url)
+        //     .then((response) => response.json())
+        //     .then(function (content) {
+        //         var trails = content["data"];
+        //         for (var i = 0; i < trails.length; i++) {
+        //             exposureJSON = trails[i]["trail"];
+
+        //             loadExposureData(exposureJSON);
+        //         }
+        //         // Zoom to see all of the loaded points
+        //         zoomToExtent();
+
+        //         //auto-classify all points
+        //         if (dateFirst === null || exposureJSON[0].time < dateFirst) dateFirst = exposureJSON[0].time;
+        //         if (dateLast === null || exposureJSON[exposureJSON.length - 1].time > dateLast)
+        //             dateLast = exposureJSON[exposureJSON.length - 1].time;
+        //         initDateSlider(dateFirst, dateLast);
+
+        //         updateStats();
+
+        //         $("#save").removeClass("disabled").addClass("enabled").prop("disabled", false);
+        //     })
+        //     .catch((err) => console.log("Can't access " + url + " response. Blocked by browser?" + err));
+
+        $.get(getAJAXOptions("/redacted_trails"))
+            .done((content) => {
                 var trails = content["data"];
+                console.log(trails);
                 for (var i = 0; i < trails.length; i++) {
                     exposureJSON = trails[i]["trail"];
 
@@ -269,16 +279,23 @@ function loadPath() {
                 zoomToExtent();
 
                 //auto-classify all points
-                if (dateFirst === null || exposureJSON[0].time < dateFirst) dateFirst = exposureJSON[0].time;
-                if (dateLast === null || exposureJSON[exposureJSON.length - 1].time > dateLast)
-                    dateLast = exposureJSON[exposureJSON.length - 1].time;
+                if (typeof exposureJSON === "array") {
+                    if (dateFirst === null || exposureJSON[0].time < dateFirst) {
+                        dateFirst = exposureJSON[0].time;
+                    }
+                    if (dateLast === null || exposureJSON[exposureJSON.length - 1].time > dateLast) {
+                        dateLast = exposureJSON[exposureJSON.length - 1].time;
+                    }
+                }
                 initDateSlider(dateFirst, dateLast);
 
                 updateStats();
 
                 $("#save").removeClass("disabled").addClass("enabled").prop("disabled", false);
             })
-            .catch((err) => console.log("Can't access " + url + " response. Blocked by browser?" + err));
+            .fail((error) => {
+                console.log(error);
+            });
     } else {
         // Load from selected files
 
@@ -563,39 +580,54 @@ function saveText() {
     localStorage.setItem("org_name", $("#org_name").val());
     localStorage.setItem("org_url", $("#org_url").val());
 
-    var nowUTC = new Date().toISOString();
-    var timeNow = Date.parse(nowUTC);
-
     let complete = {
         authority_name: $("#org_name").val(),
-        publish_date_utc: timeNow,
+        publish_date: Math.round(Date.now() / 1000),
         info_website: $("#org_url").val(),
         concern_points: out,
     };
 
     if (has_backend) {
-        // POST safe-paths.json data to the backend
+        // request options
+        // const options = {
+        //     method: "POST",
+        //     body: JSON.stringify(complete),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // };
 
+        // const url = BACKEND_ROOT + "/safe_paths/";
+
+        // fetch(url, options)
+        //     .then((response) => response.json())
+        //     .then(function (content) {
+        //         $("#progress").text("Result:" + content);
+        //         setTimeout(function () {
+        //             $("#saving-panel").hide();
+        //         }, 1000);
+        //     });
+
+        // POST safe-paths.json data to the backend
         $("#saving-panel").show();
 
-        // request options
-        const options = {
-            method: "POST",
-            body: JSON.stringify(complete),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-
-        const url = BACKEND_ROOT + "/safe_paths/";
-
-        fetch(url, options)
-            .then((response) => response.json())
-            .then(function (content) {
-                $("#progress").text("Result:" + content);
+        const payload = JSON.stringify(complete);
+        $.post(getAJAXOptions("/safe_paths"), payload)
+            .done((content) => {
+                $("#progress").text(
+                    `Result:  Published ${moment
+                        .tz(content.safe_path.publish_date * 1000, TZ_STRING)
+                        .format(DATE_FORMAT)}`
+                );
                 setTimeout(function () {
                     $("#saving-panel").hide();
-                }, 1000);
+                }, 5000);
+            })
+            .fail((error) => {
+                $("#saving-panel").text(`Result:  ${error}`);
+                setTimeout(function () {
+                    $("#saving-panel").hide();
+                }, 5000);
             });
     } else {
         // Simple save to safe-paths.json

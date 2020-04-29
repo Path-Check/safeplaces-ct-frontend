@@ -1,3 +1,30 @@
+// constants
+
+const MARKER_ICONS = {
+    DEFAULT: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FE7569", //RED
+    GROUP: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|855dfd", //PURPLE
+    SELECTED: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|34ba46", //GREEN
+    RECURRING: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|e661ac", //PINK
+    TRANSIENT: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff9900", //ORANGE
+    TRAVEL: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|fdf569", //YELLOW
+};
+
+const GROUP_TYPES = {
+    UNDEF: "undefined",
+    RECURRING: "recurring",
+    TRANSIENT: "transient",
+    TRAVEL: "travel",
+};
+
+const MARKER_ZINDEX = {
+    DEFAULT: 0, //ideally would have liked to use google.maps.Marker.MAX_ZINDEX, but it library isn't initalized when this tries to load
+    SELECTED: 4, //selected marker is always on top
+    GROUP: 3, //followed by others in its selected group
+    TRANSIENT: 2, //transients are higher priority than recurring (???)
+    RECURRING: 1, //
+    TRAVEL: 0, //travel should always be on the bottom
+};
+
 ///////////////////////////////////////
 // logging support
 
@@ -33,6 +60,8 @@ function LOG(str) {
 //       function(err){
 //       });
 //
+
+/*
 
 function get(url, respType, auth) {
     return doXHR("GET", url, respType, auth, null);
@@ -100,6 +129,8 @@ function doXHR(method, url, param, auth, creds) {
         }
     });
 }
+
+*/
 
 function doLogout() {
     localStorage.setItem("token", null);
@@ -251,25 +282,20 @@ function enterAPIKey() {
 }
 
 function doLogin() {
-    var username = $("#username").val();
-    var password = $("#password").val();
-
-    var res = post(
-        BACKEND_ROOT + "/login/",
-        '{ "username": "' + username + '", "password": "' + password + '" }'
-    ).then(
-        function (result) {
-            var data = JSON.parse(result);
-
+    const payload = JSON.stringify({ username: $("#username").val(), password: $("#password").val() });
+    $.post(getAJAXOptions("/login"), payload)
+        .done((data) => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("MAP_API_KEY", data.maps_api_key);
+            if (DEBUG_BACKEND) {
+                localStorage.setItem("MAP_API_KEY", DEBUG_BACKEND_API_KEY);
+            }
             document.cookie = "token=" + data.token;
             location.reload();
-        },
-        function (err) {
+        })
+        .fail((data) => {
             $("#validateTips").text(err);
-        }
-    );
+        });
 }
 
 function showBounds() {
@@ -296,3 +322,13 @@ function showBounds() {
 
     alert("Bounding box copied to the clipboard.");
 }
+
+const getAJAXOptions = (url) => {
+    return {
+        ...AJAX_OPTIONS,
+        url: `${BACKEND_ROOT}${url}`,
+        headers: {
+            Authorization: localStorage.getItem("token"),
+        },
+    };
+};
