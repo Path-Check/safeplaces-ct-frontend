@@ -207,7 +207,7 @@ Consumed by the Safe Paths client application. This requires no authentication.
         }
     ],
     "info_website": "https://www.something.gov/path/to/info/website",
-    "publish_date_utc": "1584924583"
+    "publish_date": 1584924583
 }
 ```
 
