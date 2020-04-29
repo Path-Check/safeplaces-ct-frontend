@@ -97,6 +97,12 @@ Used by the publisher tool, all redaction data is loaded.
 
 ```json
 {
+  "organization": {
+    "organization_id" : <organization_id>,
+    "authority_name" : "Fake Organization",
+    "info_website" : "https://www.something.gov/path/to/info/website",
+    "safe_path_json" : "https://www.something.give/safe_path/<organization_id>"
+  },
   "data": [
     {
       "identifier": <identifier>,
@@ -133,8 +139,9 @@ Used by the Publisher tool, all points are published along with extra informatio
 ```json
 {
     "authority_name": "Steve's Fake Testing Organization",
-    "publish_date_utc": "1584924583",
+    "publish_date": 1584924583,
     "info_website": "https://www.who.int/emergencies/diseases/novel-coronavirus-2019",
+    "safe_path_json": "https://www.something.give/safe_path/<organization_id>",
     "concern_points": [
         { "time": 123, "latitude": 12.34, "longitude": 12.34 },
         { "time": 456, "latitude": 12.34, "longitude": 12.34 }
@@ -164,7 +171,7 @@ Used by the Publisher tool, all points are published along with extra informatio
       }
     ],
     "info_website": "https://www.something.gov/path/to/info/website",
-    "publish_date_utc": 1584924583
+    "publish_date": 1584924583
   },
   "user_id": <user_id>
 }
@@ -200,23 +207,23 @@ Consumed by the Safe Paths client application. This requires no authentication.
         }
     ],
     "info_website": "https://www.something.gov/path/to/info/website",
-    "publish_date_utc": "1584924583"
+    "publish_date": 1584924583
 }
 ```
 
 </td></tr>
 </table>
 
-## HTTP headers
+# HTTP headers
 
-### Requests
+## Requests
 
 <table>
   <tr>
     <td>Authorization</td><td>
 
 ```
-Basic <session_token>
+<session_token>
 ```
 
 </td>
@@ -232,7 +239,7 @@ application/json; charset=utf-8
   </tr>
 </table>
 
-### Response
+## Responses
 
 <table>
   <tr>
