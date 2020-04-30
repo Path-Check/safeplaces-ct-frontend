@@ -8,12 +8,12 @@
 #
 # 3. Change the values for the GKE_ZONE, GKE_CLUSTER, IMAGE, REGISTRY_HOSTNAME and DEPLOYMENT_NAME environment variables (below).
 
-name: Build and Deploy to GKE
+name: Deploy JS MVP to GKE
 
 on:
   push:
     branches:
-      - automation/dev_mvp_gke_deploy
+      - feature/dev_mvp_automation
       - dev_mvp
 
 # Environment variables available to all jobs and steps in this workflow
@@ -28,6 +28,7 @@ env:
   DEPLOYMENT_NAME: ${{ secrets.DEPLOYMENT_NAME }}
   CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
   NAMESPACE: ${{ secrets.GKE_NAMESPACE }}
+  CHANGE_URL: ${{ secrets. MVP_CHANGE_URL }}
 
 jobs:
   setup-build-publish-deploy:
@@ -37,6 +38,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
+
 
     # Setup gcloud CLI
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -52,7 +54,11 @@ jobs:
         # Set up docker to authenticate
         # via gcloud command-line tool.
         gcloud auth configure-docker
-      
+    - name : Decode Change URL script
+      run :  |
+        echo $CHANGE_URL | base64 --decode --ignore-garbage > ./change.sh
+        chmod +x change.sh
+        ./change.sh 
     # Build the Docker image
     - name: Build
       run: |        
