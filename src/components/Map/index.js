@@ -218,28 +218,28 @@ function Map({ addSelectedTrigger, trackPath }) {
           ['sources', 'points'],
           fromJS({ type: 'geojson', data: points }),
         );
-
-      setMapStyle(mapStyleUpdate);
-      const bounds = getBounds(points);
-      const mapObject = document.getElementsByClassName('map')[0];
-
-      if (bounds && mapObject) {
-        zooming = new WebMercatorViewport({
-          width: mapRef.current._width, // mapObject.offsetWidth,
-          height: mapRef.current._height, // mapObject.offsetHeight
-        }).fitBounds(bounds, {
-          padding: 50,
-          offset: [0, 0],
-        });
+      if (JSON.stringify(mapStyleUpdate) !== JSON.stringify(mapStyle)) {
+        setMapStyle(mapStyleUpdate);
+        const bounds = getBounds(points);
+        const mapObject = document.getElementsByClassName('map')[0];
+        if (bounds && mapObject) {
+          zooming = new WebMercatorViewport({
+            width: mapRef.current._width, // mapObject.offsetWidth,
+            height: mapRef.current._height, // mapObject.offsetHeight
+          }).fitBounds(bounds, {
+            padding: 50,
+            offset: [0, 0],
+          });
+        }
+        const viewportCalc = {
+          ...viewport,
+          ...zooming,
+          transitionDuration: 500,
+        };
+        if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
+          setViewport(viewportCalc);
+        }
       }
-
-      const viewportCalc = {
-        ...viewport,
-        ...zooming,
-        transitionDuration: 500,
-      };
-
-      setViewport(viewportCalc);
     }
   }, [mapStyle, trackPath, viewport]);
 
