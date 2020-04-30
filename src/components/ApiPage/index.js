@@ -1,20 +1,20 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { Blockquote, Button, TextInput } from "@wfp/ui";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignIn } from "@fortawesome/pro-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { changeSettingsApi, getSettingsApi } from "../../ducks/settingsApi";
-import ButtonRouter from "components/ButtonRouter";
-import { getToken } from "ducks/auth";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Blockquote, Button, TextInput } from '@wfp/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignIn } from '@fortawesome/pro-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeSettingsApi, getSettingsApi } from '../../ducks/settingsApi';
+import ButtonRouter from 'components/ButtonRouter';
+import { getToken } from 'ducks/auth';
 export default function ApiPage() {
   const token = useSelector(getToken);
 
-  const { handleSubmit, register, errors } = useForm({
+  const { handleSubmit, register } = useForm({
     defaultValues: useSelector(getSettingsApi),
   });
   const dispatch = useDispatch();
-  const onSubmit = (values) => {
+  const onSubmit = values => {
     console.log(values);
     dispatch(changeSettingsApi(values));
   };
@@ -34,11 +34,11 @@ export default function ApiPage() {
           </Blockquote>
         )}
         <TextInput name="apiurl" labelText="Api url" inputRef={register} />
-        <Button type="submit">Save</Button>{" "}
+        <Button type="submit">Save</Button>{' '}
         <ButtonRouter
           kind="secondary"
           icon={<FontAwesomeIcon icon={faSignIn} />}
-          to={"/login"}
+          to={'/login'}
         >
           Go to authentification
         </ButtonRouter>

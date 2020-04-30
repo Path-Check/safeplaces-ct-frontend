@@ -1,4 +1,4 @@
-import { SET_DETAIL } from "../constants/ActionTypes";
+import { SET_DETAIL } from '../constants/ActionTypes';
 
 const initialState = [];
 
@@ -11,6 +11,6 @@ export default function detail(state = initialState, action) {
   }
 }
 
-export const setDetail = (data) => ({ type: SET_DETAIL, data });
+export const setDetail = data => ({ type: SET_DETAIL, data });
 
-export const getDetail = (state) => state.detail;
+export const getDetail = state => state.detail;

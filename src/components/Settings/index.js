@@ -1,12 +1,12 @@
-import React from "react";
-import { NavLink, Switch, Route, Redirect } from "react-router-dom";
-import ApiPage from "../ApiPage";
-import OrganizationPage from "../OrganizationPage";
-import styles from "./styles.module.scss";
-import { Button } from "@wfp/ui";
-import { faCaretLeft } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SettingsList from "./SettingsList";
+import React from 'react';
+import { NavLink, Switch, Route, Redirect } from 'react-router-dom';
+import ApiPage from '../ApiPage';
+import OrganizationPage from '../OrganizationPage';
+import styles from './styles.module.scss';
+import { Button } from '@wfp/ui';
+import { faCaretLeft } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SettingsList from './SettingsList';
 
 export default function Settings() {
   return (

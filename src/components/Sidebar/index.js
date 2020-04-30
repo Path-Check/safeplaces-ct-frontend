@@ -1,41 +1,40 @@
-import React, { useState } from "react";
-import { Button, tooltipStyle } from "@wfp/ui";
-import Dropzone from "../PathEditor/Dropzone";
-import SidebarContent from "../SidebarEntry";
-import FileSaver, { saveAs } from "file-saver";
+import React from 'react';
+import { Button, tooltipStyle } from '@wfp/ui';
+import Dropzone from '../PathEditor/Dropzone';
+import SidebarContent from '../SidebarEntry';
+import FileSaver from 'file-saver';
 
 import {
   getTrack,
   getSelectedTracks,
   getFilteredTrackPath,
-} from "../../selectors";
-import styles from "./styles.module.scss";
-import { connect, useDispatch, useSelector } from "react-redux";
-import DateSlider from "../DateSlider";
-import moment from "moment";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '../../selectors';
+import styles from './styles.module.scss';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import DateSlider from '../DateSlider';
+import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSave,
   faCaretDown,
   faCheckCircle,
   faTimesCircle,
   faPlusCircle,
-} from "@fortawesome/pro-solid-svg-icons";
-import { addTrackEntry } from "../../ducks/tracks";
-import EntryForm from "../EntryForm";
-import { NavLink } from "react-router-dom";
-import Tippy from "@tippy.js/react";
-import { addSelected } from "../../actions";
-import SelectCase from "../SelectCase";
-import SettingsList from "../Settings/SettingsList";
+} from '@fortawesome/pro-solid-svg-icons';
+import { addTrackEntry } from '../../ducks/tracks';
+import { NavLink } from 'react-router-dom';
+import Tippy from '@tippy.js/react';
+import { addSelected } from '../../actions';
+import SelectCase from '../SelectCase';
+import SettingsList from '../Settings/SettingsList';
 
 function Sidebar({ addTrackEntryTrigger, track }) {
-  const [openNewEntry, setOpenNewEntry] = useState(false);
+  // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
-  const filteredTrackPath = useSelector((state) => getFilteredTrackPath(state));
+  const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const save = () => {
     var blob = new Blob([JSON.stringify(track)], {
-      type: "text/plain;charset=utf-8",
+      type: 'text/plain;charset=utf-8',
     });
     FileSaver.saveAs(blob, `export-${track.publish_date_utl}.json`);
   };
@@ -77,13 +76,13 @@ function Sidebar({ addTrackEntryTrigger, track }) {
         <div className={styles.title}>
           {track.authority_name ? (
             <>
-              {/*}h2>
+              {/* }h2>
                 <a href={track.info_website}>{track.authority_name}</a>
-          </h2>*/}
+          </h2> */}
               <p>
                 {moment
                   .utc(track.publish_date_utl)
-                  .format("YYYY-MM-DD HH:mm:ss")}
+                  .format('YYYY-MM-DD HH:mm:ss')}
               </p>
             </>
           ) : (
@@ -130,7 +129,7 @@ function Sidebar({ addTrackEntryTrigger, track }) {
           small
           icon={<FontAwesomeIcon icon={faCheckCircle} />}
           onClick={() => {
-            dispatch(addSelected(filteredTrackPath.map((e) => e[0])));
+            dispatch(addSelected(filteredTrackPath.map(e => e[0])));
           }}
         >
           all
@@ -147,11 +146,11 @@ function Sidebar({ addTrackEntryTrigger, track }) {
         </Button>
       </div>
       <div></div>
-      {openNewEntry && (
+      {/* {openNewEntry && (
         <div className={styles.newForm}>
           <EntryForm />
         </div>
-      )}
+      )} */}
       <div className={styles.sidebarContent}>
         <SidebarContent />
       </div>
@@ -159,15 +158,15 @@ function Sidebar({ addTrackEntryTrigger, track }) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     selectedTracks: getSelectedTracks(state),
     track: getTrack(state),
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addTrackEntryTrigger: (data) => dispatch(addTrackEntry(data)),
+const mapDispatchToProps = dispatch => ({
+  addTrackEntryTrigger: data => dispatch(addTrackEntry(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

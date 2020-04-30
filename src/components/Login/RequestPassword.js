@@ -1,70 +1,70 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import PageTitle from "../PageTitle";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PageTitle from '../PageTitle';
 
-//TODO: remove qs
-import qs from "qs";
-import axios from "axios";
-import { iconWfpLogoVerticalEn } from "@wfp/icons";
+// TODO: remove qs
+import qs from 'qs';
+import axios from 'axios';
+import { iconWfpLogoVerticalEn } from '@wfp/icons';
 
-import { ErrorMessage, useForm } from "react-hook-form";
-import { prepareForm } from "helpers/formHelpers";
+import { ErrorMessage, useForm } from 'react-hook-form';
+import { prepareForm } from 'helpers/formHelpers';
 
-import { Blockquote, Button, TextInput, Icon, InlineLoading } from "@wfp/ui";
-import styles from "./login.module.scss";
-import infoIcon from "images/notebook.svg";
+import { Blockquote, Button, TextInput, Icon, InlineLoading } from '@wfp/ui';
+import styles from './login.module.scss';
+import infoIcon from 'images/notebook.svg';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import { faChevronLeft } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Empty from "components/Empty";
-import { NavLink } from "react-router-dom/cjs/react-router-dom";
+import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Empty from 'components/Empty';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom';
 
-const RequestPassword = (props) => {
+const RequestPassword = props => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  //props.disableLogout();
+  // props.disableLogout();
   const methods = useForm({
     defaultValues: prepareForm(),
   });
 
   const { control, handleSubmit, errors, register } = methods;
 
-  const onSubmit = async (values) => {
+  const onSubmit = async values => {
     setLoading(true);
     return axios
       .post(
         `${process.env.REACT_APP_API_URL}/auth/new-password/`,
-        qs.stringify(values)
+        qs.stringify(values),
       )
-      .then((response) => {
+      .then(response => {
         // TODO: improve response
         if (response) {
-          setError("Password reset e-mail has been sent.");
+          setError('Password reset e-mail has been sent.');
           setSuccess(true);
         } else {
           setLoading(false);
-          setError("Unknown email or phone number. Please verify");
+          setError('Unknown email or phone number. Please verify');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.response) {
           if (error.response.status === 400) {
-            //setError("Enter a valid email or phone number");
+            // setError("Enter a valid email or phone number");
 
             setError({
               message: error.response.data.user[0],
             });
 
-            //setError(error.response.data.errors);
+            // setError(error.response.data.errors);
           } else if (error.response.status === 500) {
-            setError("A server error occurred");
-            //setError(error.response.data.errors);f
+            setError('A server error occurred');
+            // setError(error.response.data.errors);f
           } else {
-            setError("You are offline. Please try again when you are online.");
+            setError('You are offline. Please try again when you are online.');
           }
           setLoading(false);
         }
@@ -72,12 +72,12 @@ const RequestPassword = (props) => {
       });
   };
 
-  if (success)
+  if (success) {
     return (
       <Empty
         button={
           <>
-            <NavLink to={`/login`}>
+            <NavLink to={'/login'}>
               <Button kind="secondary">Login again</Button>
             </NavLink>
           </>
@@ -88,13 +88,14 @@ const RequestPassword = (props) => {
           <img
             alt="info illustratation notebook with pen"
             src={infoIcon}
-            style={{ marginLeft: "0.5rem", marginBottom: "1rem" }}
+            style={{ marginLeft: '0.5rem', marginBottom: '1rem' }}
           />
         }
       >
         Please check your emails or SMS
       </Empty>
     );
+  }
 
   return (
     <div className={styles.login}>
@@ -117,7 +118,7 @@ const RequestPassword = (props) => {
             <Empty
               button={
                 <>
-                  <NavLink to={`/login`}>
+                  <NavLink to={'/login'}>
                     <Button kind="secondary">Login again</Button>
                   </NavLink>
                 </>
@@ -128,7 +129,7 @@ const RequestPassword = (props) => {
                 <img
                   alt="info illustratation notebook with pen"
                   src={infoIcon}
-                  style={{ marginLeft: "0.5rem", marginBottom: "1rem" }}
+                  style={{ marginLeft: '0.5rem', marginBottom: '1rem' }}
                 />
               }
             >
@@ -175,7 +176,7 @@ const RequestPassword = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     fetching: state.fetching,
     schools: state.schools,
@@ -183,9 +184,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    disableLogout: () => dispatch({ type: "LOGOUT", data: false }),
+    disableLogout: () => dispatch({ type: 'LOGOUT', data: false }),
   };
 };
 

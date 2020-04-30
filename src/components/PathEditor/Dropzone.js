@@ -1,28 +1,31 @@
-import React, { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
-import { addTrack, generateWarnings } from "../../ducks/tracks";
-//import { getAllTracks } from "../../selectors";
-import { connect } from "react-redux";
-import { Button } from "@wfp/ui";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolderPlus } from "@fortawesome/pro-solid-svg-icons";
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { addTrack } from '../../ducks/tracks';
+// import { getAllTracks } from "../../selectors";
+import { connect } from 'react-redux';
+import { Button } from '@wfp/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolderPlus } from '@fortawesome/pro-solid-svg-icons';
 
 function MyDropzone({ addTrackTrigger }) {
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader();
+  const onDrop = useCallback(
+    acceptedFiles => {
+      acceptedFiles.forEach(file => {
+        const reader = new FileReader();
 
-      reader.onabort = () => console.log("file reading was aborted");
-      reader.onerror = () => console.log("file reading has failed");
-      reader.onload = () => {
-        // Do whatever you want with the file contents
-        const binaryStr = reader.result;
-        addTrackTrigger(JSON.parse(binaryStr));
-        console.log(JSON.parse(binaryStr));
-      };
-      reader.readAsText(file);
-    });
-  }, []);
+        reader.onabort = () => console.log('file reading was aborted');
+        reader.onerror = () => console.log('file reading has failed');
+        reader.onload = () => {
+          // Do whatever you want with the file contents
+          const binaryStr = reader.result;
+          addTrackTrigger(JSON.parse(binaryStr));
+          console.log(JSON.parse(binaryStr));
+        };
+        reader.readAsText(file);
+      });
+    },
+    [addTrackTrigger],
+  );
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
@@ -35,14 +38,14 @@ function MyDropzone({ addTrackTrigger }) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     // track: getAllTracks(state)
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addTrackTrigger: (data) => dispatch(addTrack(data)),
+const mapDispatchToProps = dispatch => ({
+  addTrackTrigger: data => dispatch(addTrack(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDropzone);

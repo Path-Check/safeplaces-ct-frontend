@@ -1,8 +1,8 @@
-import { Redirect } from "react-router";
+import { Redirect } from 'react-router';
 
 // TODO: Use component again
-import React, { Component } from "react";
-import { Button } from "@wfp/ui";
+import React, { Component } from 'react';
+import { Button } from '@wfp/ui';
 
 export default class ButtonRouter extends Component {
   constructor(props) {

@@ -1,4 +1,4 @@
-import { UPDATE_FILTER, UPDATE_FILTER_DATES } from "../constants/ActionTypes";
+import { UPDATE_FILTER, UPDATE_FILTER_DATES } from '../constants/ActionTypes';
 
 const initialState = { dates: [] };
 

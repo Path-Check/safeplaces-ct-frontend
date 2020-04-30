@@ -1,6 +1,4 @@
-import { ADD_SELECTED_ENTRY } from "../constants/ActionTypes";
-
-import arrayMove from "array-move";
+import { ADD_SELECTED_ENTRY } from '../constants/ActionTypes';
 
 const initialState = [];
 

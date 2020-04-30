@@ -1,45 +1,30 @@
-import React, { useState } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
-import {
-  addTrackEntry,
-  editTrackEntry,
-  deleteTrackEntry,
-} from "../../ducks/tracks";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteTrackEntry } from '../../ducks/tracks';
 
-import { addSelected } from "../../actions";
-import {
-  getTrack,
-  getSelectedTracks,
-  getFilteredTrackPath,
-} from "../../selectors";
-import { Button, Checkbox, List, ListItem } from "@wfp/ui";
-import styles from "./styles.module.scss";
+import { addSelected } from '../../actions';
+import { getSelectedTracks, getFilteredTrackPath } from '../../selectors';
+import { Button, Checkbox, List, ListItem } from '@wfp/ui';
+import styles from './styles.module.scss';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTrashAlt,
   faMapMarkerQuestion,
   faEdit,
-} from "@fortawesome/pro-solid-svg-icons";
-import moment from "moment";
-import Empty from "../Empty";
-import EntryForm from "../EntryForm";
-import { CounterComponent } from "../../selectors/indexNew";
-import { NavLink } from "react-router-dom";
+} from '@fortawesome/pro-solid-svg-icons';
+import moment from 'moment';
+import Empty from '../Empty';
+import { NavLink } from 'react-router-dom';
 
 export default function SidebarContent() {
-  const [open, setOpen] = useState(false);
-
-  const selectedTracks = useSelector((state) => getSelectedTracks(state));
-  const filteredTrackPath = useSelector((state) => getFilteredTrackPath(state));
+  const selectedTracks = useSelector(state => getSelectedTracks(state));
+  const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
 
   const dispatch = useDispatch();
-  const addTrackEntryTrigger = (data) => dispatch(addTrackEntry(data));
-  const editTrackEntryTrigger = (data) => dispatch(editTrackEntry(data));
-  const addSelectedTrigger = (data) => dispatch(addSelected(data));
-  const deleteTrackEntryTrigger = (data) => dispatch(deleteTrackEntry(data));
+  const addSelectedTrigger = data => dispatch(addSelected(data));
+  const deleteTrackEntryTrigger = data => dispatch(deleteTrackEntry(data));
 
-  const stringStore = CounterComponent();
   return (
     <>
       {!filteredTrackPath && (
@@ -63,7 +48,7 @@ export default function SidebarContent() {
             <Checkbox
               wrapperClassName={styles.checkbox}
               name={`checkbox-${e[0]}`}
-              onChange={(f) => {
+              onChange={f => {
                 if (f === false) {
                   const newSelect = selectedTracks;
                   newSelect.splice(newSelect.indexOf(e[0]), 1);
@@ -80,9 +65,9 @@ export default function SidebarContent() {
             >
               <div>
                 <h3 className={styles.title}>
-                  {moment.utc(e[1].time).format("YYYY-MM-DD")}
+                  {moment.utc(e[1].time).format('YYYY-MM-DD')}
                   <span className={styles.time}>
-                    {moment.utc(e[1].time).format("HH:mm:ss")}
+                    {moment.utc(e[1].time).format('HH:mm:ss')}
                   </span>
                 </h3>
 
@@ -101,7 +86,6 @@ export default function SidebarContent() {
                   <Button
                     kind="primary"
                     icon={<FontAwesomeIcon icon={faEdit} />}
-                    onClick={() => setOpen(e)}
                   ></Button>
                 </NavLink>
                 <Button

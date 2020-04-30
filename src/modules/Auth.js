@@ -1,13 +1,13 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import Store from "data-handler/store";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import Store from 'data-handler/store';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 export default class Auth {
   static authenticateUser = (userData, password) => {
     Store().store.dispatch({
-      type: "LOGIN",
+      type: 'LOGIN',
       data: userData,
       password: password,
     });
@@ -21,7 +21,7 @@ export default class Auth {
    */
   static isUserAuthenticated = () => {
     const user = Store().store.getState().reducer.auth;
-    //return true;
+    // return true;
     return user !== undefined;
   };
 
@@ -42,15 +42,15 @@ export default class Auth {
    *
    */
   static deauthenticateUser = () => {
-    Store().store.dispatch({ type: "LOGOUT" });
+    Store().store.dispatch({ type: 'LOGOUT' });
   };
 }
 
-export let PrivateRoute = ({ component: Component, logout, ...rest }) => {
+export const PrivateRoute = ({ component: Component, logout, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
+      render={props =>
         Auth.isUserAuthenticated() &&
         Auth.isUserLocalAuthenticated() &&
         logout !== true ? (
@@ -60,14 +60,14 @@ export let PrivateRoute = ({ component: Component, logout, ...rest }) => {
           logout !== true ? (
           <Redirect
             to={{
-              pathname: "/locallogin/",
+              pathname: '/locallogin/',
               state: { from: props.location },
             }}
           />
         ) : (
           <Redirect
             to={{
-              pathname: "/login/",
+              pathname: '/login/',
               state: { from: props.location },
             }}
           />
@@ -77,7 +77,7 @@ export let PrivateRoute = ({ component: Component, logout, ...rest }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.auth,
   };

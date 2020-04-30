@@ -1,46 +1,42 @@
-//import bezierSpline from "@turf/bezier-spline";
-//import { lineString } from "@turf/helpers";
-
-import { getTrackPath } from "../../selectors";
-import { deleteTrackEntry } from "../../actions";
-import { connect } from "react-redux";
+// import bezierSpline from "@turf/bezier-spline";
+// import { lineString } from "@turf/helpers";
 
 const track = ({ trackPath }) => {
   if (!trackPath) return null;
   const points = trackPath.map((point, index) => {
-    //const selected = currentStore && point._id === currentStore.storeId ? [point.gps_lng, point.gps_lat] : [0, 0];
+    // const selected = currentStore && point._id === currentStore.storeId ? [point.gps_lng, point.gps_lat] : [0, 0];
     return {
-      type: "Feature",
+      type: 'Feature',
       properties: {
         time: point.time,
       },
       geometry: {
-        type: "Point",
+        type: 'Point',
         coordinates: [point[1].longitude, point[1].latitude],
       },
     };
   });
 
-  const lines = trackPath.map((point) => {
+  const lines = trackPath.map(point => {
     return [point[1].longitude, point[1].latitude];
   });
 
   return {
     lines: {
-      type: "FeatureCollection",
+      type: 'FeatureCollection',
       features: [
         {
-          type: "Feature",
+          type: 'Feature',
           properties: {},
           geometry: {
-            type: "LineString",
+            type: 'LineString',
             coordinates: lines,
           },
         },
       ],
     },
     points: {
-      type: "FeatureCollection",
+      type: 'FeatureCollection',
       features: points,
     },
   };

@@ -16,7 +16,6 @@
     "file-saver": "^2.0.2",
     "history": "^4.10.1",
     "immutable": "^4.0.0-rc.12",
-    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "rc-slider": "^9.2.4",
@@ -46,7 +45,16 @@
     "@fortawesome/pro-light-svg-icons": "^5.12.1",
     "@fortawesome/pro-regular-svg-icons": "^5.12.1",
     "@fortawesome/pro-solid-svg-icons": "^5.12.1",
-    "@fortawesome/react-fontawesome": "^0.1.7"
+    "@fortawesome/react-fontawesome": "^0.1.7",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "^2.0.5",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -55,10 +63,8 @@
     "build:qa": "env-cmd  -f .env.qa react-scripts build",
     "test": "react-scripts test ",
     "test:ci": "CI=true react-scripts test --coverage --reporters=default --reporters=jest-junit  --coverageDirectory=coverage ",
-    "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
     "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix",
-    "eject": "react-scripts eject"
+    "lint:fix": "eslint ./src --fix"
   },
   "browserslist": [
     ">0.2%",

@@ -1,8 +1,6 @@
-import React from "react";
-import { TextInput } from "@wfp/ui";
+import React from 'react';
 export default function FakeTextInput(props) {
-  console.log("new Props", props);
-  const { min, max, time } = props;
+  console.log('new Props', props);
   return <input {...props} />;
-  //return <TextInput {...props} value={props.value ? "" : "waaaa"} />;
+  // return <TextInput {...props} value={props.value ? "" : "waaaa"} />;
 }

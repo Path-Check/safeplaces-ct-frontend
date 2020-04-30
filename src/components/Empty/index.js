@@ -1,15 +1,15 @@
-import React from "react";
-import "./_empty.scss";
-import classNames from "classnames";
+import React from 'react';
+import './_empty.scss';
+import classNames from 'classnames';
 
 const Empty = ({ button, className, children, icon, kind, title }) => {
   const emptyClasses = classNames(
     {
       empty: true,
-      "empty--large": kind === "large",
-      "empty--section": kind === "section"
+      'empty--large': kind === 'large',
+      'empty--section': kind === 'section',
     },
-    className
+    className,
   );
 
   return (
