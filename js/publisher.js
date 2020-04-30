@@ -86,8 +86,8 @@ var drawingManager;
 var selectedArea;
 var selectedAreaControls;
 var selectedMarker;
-var msVizStart; // all times are in milliseconds;
-var msVizEnd;
+var msVizStart = 0; // all times are in milliseconds;
+var msVizEnd = 4743934953000;
 var fileRegExp = new RegExp(/-REDACTED.*\.json$/);
 var dateFirst = null;
 var dateLast = null;
@@ -569,29 +569,11 @@ function updateStats() {
 }
 
 function saveText() {
-    // Create the export format.  It should be exactly the same as
-    // the import format, just missing the redacted points.
-    let out = [];
-    for (var i = 0; i < exposureLoaded.length; i++) {
-        if (
-            isInitalized(exposureLoaded[i].latitude) &&
-            isInitalized(exposureLoaded[i].longitude) &&
-            isInitalized(exposurePoints[i].getMap())
-        ) {
-            element = {};
-            element.time = exposureLoaded[i].time;
-            element.longitude = exposureLoaded[i].longitude;
-            element.latitude = exposureLoaded[i].latitude;
-            out.push(element);
-        }
-    }
-
     let complete = {
         authority_name: $("#org_name").val(),
         publish_date: Math.round(Date.now() / 1000),
         info_website: $("#org_url").val(),
         safe_path_json: $("#safe_path_json").val(),
-        concern_points: out,
     };
 
     // Remember these for next time we load the Publisher
@@ -623,6 +605,9 @@ function saveText() {
         // POST safe-paths.json data to the backend
         $("#saving-panel").show();
 
+        complete.start_date = Math.round(msVizStart / 1000);
+        complete.end_date = Math.round(msVizEnd / 1000);
+
         const payload = JSON.stringify(complete);
         $.post(getAJAXOptions("/safe_paths"), payload)
             .done((content) => {
@@ -642,6 +627,24 @@ function saveText() {
                 }, 5000);
             });
     } else {
+        // Create the export format.  It should be exactly the same as
+        // the import format, just missing the redacted points.
+
+        complete.concern_points = [];
+        for (var i = 0; i < exposureLoaded.length; i++) {
+            if (
+                isInitalized(exposureLoaded[i].latitude) &&
+                isInitalized(exposureLoaded[i].longitude) &&
+                isInitalized(exposurePoints[i].getMap())
+            ) {
+                element = {};
+                element.time = exposureLoaded[i].time;
+                element.longitude = exposureLoaded[i].longitude;
+                element.latitude = exposureLoaded[i].latitude;
+                complete.concern_points.push(element);
+            }
+        }
+
         // Simple save to safe-paths.json
         let text = JSON.stringify(complete);
         let filename = "safe-paths.json";
