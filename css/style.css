@@ -210,6 +210,7 @@ hr {
 
 .btn_view {
     background-color: orange;
+    color: black;
 }
 
 .btn_view:hover {
@@ -217,7 +218,7 @@ hr {
 }
 
 .disabled {
-    background-color: #777;
+    background-color: #595959;
 }
 
 .disabled:hover {
