@@ -264,6 +264,7 @@ hr {
 #dates {
     height: 2em;
     color: #777777;
+    font-size: small;
 }
 
 #date-start {
