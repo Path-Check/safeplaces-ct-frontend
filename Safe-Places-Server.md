@@ -142,10 +142,8 @@ Used by the Publisher tool, all points are published along with extra informatio
     "publish_date": 1584924583,
     "info_website": "https://www.who.int/emergencies/diseases/novel-coronavirus-2019",
     "safe_path_json": "https://www.something.give/safe_path/<organization_id>",
-    "concern_points": [
-        { "time": 123, "latitude": 12.34, "longitude": 12.34 },
-        { "time": 456, "latitude": 12.34, "longitude": 12.34 }
-    ]
+    "start_date": 1584914583,
+    "end_date": 1584919583
 }
 ```
 
