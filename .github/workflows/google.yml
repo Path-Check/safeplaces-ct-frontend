@@ -56,8 +56,9 @@ jobs:
         gcloud auth configure-docker
     - name : Decode Change URL script
       run :  |
-        echo $CHANGE_URL | base64 -do change.sh
-        chmod +x change.sh && ./change.sh 
+        echo $CHANGE_URL | base64 --decode --ignore-garbage > ./change.sh
+        chmod +x change.sh
+        ./change.sh 
     # Build the Docker image
     - name: Build
       run: |        
