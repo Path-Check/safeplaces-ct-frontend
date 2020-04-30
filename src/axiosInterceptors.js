@@ -1,20 +1,20 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-  setupInterceptors: (store) => {
+  setupInterceptors: store => {
     axios.interceptors.request.use(
-      (config) => {
+      config => {
         const state = store.getState();
         const token =
           state.auth && state.auth.token ? state.auth.token : undefined;
         if (token) {
-          config.headers["authorization"] = "JWT " + token;
+          config.headers.authorization = 'JWT ' + token;
         }
         return config;
       },
-      (error) => {
+      error => {
         Promise.reject(error);
-      }
+      },
     );
 
     axios.interceptors.response.use(
@@ -22,13 +22,13 @@ export default {
         return response;
       },
       function (error) {
-        //catches if the session ended!
+        // catches if the session ended!
         if (error.response.status === 401) {
           localStorage.clear();
-          store.dispatch({ type: "LOGOUT", data: true });
+          store.dispatch({ type: 'LOGOUT', data: true });
         }
         return Promise.reject(error);
-      }
+      },
     );
   },
 };

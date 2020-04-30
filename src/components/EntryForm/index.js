@@ -1,41 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { connect, useDispatch } from "react-redux";
-import { addTrackEntry, editTrackEntry } from "../../ducks/tracks";
-import { getTrack, getSelectedTracks } from "../../selectors";
-import { Button, TextArea, TextInput } from "@wfp/ui";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams, useHistory } from "react-router";
-import Geocode from "react-geocode";
+import React, { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { connect, useDispatch } from 'react-redux';
+import { addTrackEntry, editTrackEntry } from '../../ducks/tracks';
+import { getTrack, getSelectedTracks } from '../../selectors';
+import { Button, TextArea, TextInput } from '@wfp/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useParams, useHistory } from 'react-router';
+import Geocode from 'react-geocode';
 
 import {
-  faPlusCircle,
   faCrosshairs,
   faMapMarkerQuestion,
-  faCross,
   faTimes,
   faLocationCircle,
-} from "@fortawesome/pro-solid-svg-icons";
-import DateInput from "../DateInput";
-import styles from "./styles.module.scss";
-import { NavLink } from "react-router-dom";
-import moment from "moment";
-import FakeTextInput from "../FakeTextInput";
+} from '@fortawesome/pro-solid-svg-icons';
+import DateInput from '../DateInput';
+import styles from './styles.module.scss';
+import { NavLink } from 'react-router-dom';
+import moment from 'moment';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_PLACES_KEY);
 
 // set response language. Defaults to english.
-Geocode.setLanguage("en");
+Geocode.setLanguage('en');
 
 // set response region. Its optional.
 // A Geocoding request with region=es (Spain) will return the Spanish city.
-Geocode.setRegion("es");
+Geocode.setRegion('es');
 
 // Enable or disable logs. Its optional.
 Geocode.enableDebug();
 
 const EntryForm = ({ initialData, useInline }) => {
-  const [load, setLoad] = useState(false);
+  // const [load, setLoad] = useState(false);
   const methods = useForm({
     defaultValues: initialData,
   });
@@ -51,26 +48,26 @@ const EntryForm = ({ initialData, useInline }) => {
   } = methods;
 
   const dispatch = useDispatch();
-  let history = useHistory();
+  const history = useHistory();
 
   const params = useParams();
 
   useEffect(() => {
     var initialDataManipulated = {};
-    if (params.action !== "new" && initialData) {
+    if (params.action !== 'new' && initialData) {
       initialDataManipulated = JSON.parse(JSON.stringify(initialData));
       initialDataManipulated.date = moment(initialDataManipulated.time).format(
-        "YYYY-MM-DD"
+        'YYYY-MM-DD',
       );
       initialDataManipulated.time = moment(initialDataManipulated.time).format(
-        "hh:mm"
+        'hh:mm',
       );
     }
 
     reset(initialDataManipulated);
-  }, [initialData, params.page]);
+  }, [initialData, params.action, params.page, reset]);
 
-  if (params.page !== "edit" && !useInline) {
+  if (params.page !== 'edit' && !useInline) {
     return null;
   }
 
@@ -78,26 +75,26 @@ const EntryForm = ({ initialData, useInline }) => {
   const fromLatLng = () => {
     const values = getValues();
     Geocode.fromLatLng(values.latitude, values.longitude).then(
-      (response) => {
-        const search = (code) => {
-          const find = components.find((e) => e.types.includes(code));
-          return find ? find.long_name : "";
+      response => {
+        const search = code => {
+          const find = components.find(e => e.types.includes(code));
+          return find ? find.long_name : '';
         };
         const components = response.results[0].address_components;
         console.log(response.results[0].address_components);
         setValue([
           {
-            street: `${search("route")} ${search("street_number")}`,
+            street: `${search('route')} ${search('street_number')}`,
           },
           {
-            postal: search("postal_code"),
+            postal: search('postal_code'),
           },
-          { town: search("locality") },
+          { town: search('locality') },
         ]);
       },
-      (error) => {
+      error => {
         console.error(error);
-      }
+      },
     );
   };
 
@@ -105,7 +102,7 @@ const EntryForm = ({ initialData, useInline }) => {
     const values = getValues();
     const address = `${values.street} ${values.other} ${values.town} ${values.postal}`;
     Geocode.fromAddress(address).then(
-      (response) => {
+      response => {
         const { lat, lng } = response.results[0].geometry.location;
         console.log(lat, lng);
 
@@ -119,22 +116,22 @@ const EntryForm = ({ initialData, useInline }) => {
         ]);
       },
 
-      (error) => {
+      error => {
         console.error(error);
-      }
+      },
     );
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = values => {
     console.log(values);
     values.time = moment(`${values.date} ${values.time}`).valueOf();
     values.latitude = parseFloat(values.latitude);
     values.longitude = parseFloat(values.longitude);
     dispatch(editTrackEntry(values, params.action));
-    history.push("/");
+    history.push('/');
   };
 
-  if (load) return null;
+  // if (load) return null;
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -174,7 +171,7 @@ const EntryForm = ({ initialData, useInline }) => {
           invalidText="Invalid latitude"
           invalid={errors.longitude}
           inputRef={register({
-            validate: (value) => {
+            validate: value => {
               const parseValue = parseFloat(value);
               return (
                 !isNaN(parseValue) && parseValue >= -90 && parseValue <= 90
@@ -188,7 +185,7 @@ const EntryForm = ({ initialData, useInline }) => {
           invalidText="Invalid longitude"
           invalid={errors.longitude}
           inputRef={register({
-            validate: (value) => {
+            validate: value => {
               const parseValue = parseFloat(value);
               return (
                 !isNaN(parseValue) && parseValue >= -180 && parseValue <= 180
@@ -235,21 +232,21 @@ const EntryForm = ({ initialData, useInline }) => {
       </div>
 
       <Button type="submit">
-        {params.action !== "new" ? "Update" : "Add to tracks"}
+        {params.action !== 'new' ? 'Update' : 'Add to tracks'}
       </Button>
     </form>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     selectedTracks: getSelectedTracks(state),
     track: getTrack(state),
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addTrackEntryTrigger: (data) => dispatch(addTrackEntry(data)),
+const mapDispatchToProps = dispatch => ({
+  addTrackEntryTrigger: data => dispatch(addTrackEntry(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryForm);

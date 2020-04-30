@@ -1,4 +1,4 @@
-export const SELECT = "safeplaces/settingsApi/SELECT";
+export const SELECT = 'safeplaces/settingsApi/SELECT';
 
 const initialState = {};
 
@@ -11,9 +11,9 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getSettingsApi = (state) => state.settingsApi;
+export const getSettingsApi = state => state.settingsApi;
 
-export const changeSettingsApi = (data) => ({
+export const changeSettingsApi = data => ({
   type: SELECT,
   data,
 });

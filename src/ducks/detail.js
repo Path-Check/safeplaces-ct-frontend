@@ -1,4 +1,4 @@
-import { SET_DETAIL } from "../constants/ActionTypes";
+import { SET_DETAIL } from '../constants/ActionTypes';
 
 const initialState = [];
 

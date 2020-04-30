@@ -1,13 +1,4 @@
-import {
-  ADD_TODO,
-  DELETE_TODO,
-  EDIT_TODO,
-  COMPLETE_TODO,
-  CLEAR_ALL,
-  COMPLETE_ALL_TODOS,
-  CLEAR_COMPLETED,
-  ADD_LOCATION
-} from "../constants/ActionTypes";
+import { CLEAR_ALL, ADD_LOCATION } from '../constants/ActionTypes';
 
 const initialState = [];
 
@@ -18,8 +9,8 @@ export default function todos(state = initialState, action) {
         ...state,
         {
           id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
-          ...action.data
-        }
+          ...action.data,
+        },
       ];
     /*
     case DELETE_TODO:

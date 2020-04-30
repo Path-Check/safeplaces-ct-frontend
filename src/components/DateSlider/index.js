@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Slider, { Range } from "rc-slider";
-import moment from "moment";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { getTrackStart, getTrackEnd, getFilter } from "../../selectors";
-import styles from "./styles.module.scss";
-import { Checkbox } from "@wfp/ui";
-import { updateFilterDates } from "../../actions";
+import React, { useEffect } from 'react';
+import Slider, { Range } from 'rc-slider';
+import moment from 'moment';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { getTrackStart, getTrackEnd, getFilter } from '../../selectors';
+import styles from './styles.module.scss';
+import { Checkbox } from '@wfp/ui';
+import { updateFilterDates } from '../../actions';
 const Handle = Slider.Handle;
 
-const handle = (props) => {
+const handle = props => {
   const { value, dragging, index, ...restProps } = props;
   return (
     <Handle value={value} {...restProps}>
       <div className={styles.handleText}>
-        {moment.utc(value).format("MM-DD HH:mm")}
+        {moment.utc(value).format('MM-DD HH:mm')}
       </div>
     </Handle>
   );
@@ -27,13 +27,13 @@ function DateSlider({ trackStart, trackEnd }) {
     dispatch(updateFilterDates([trackStart, trackEnd]));
   }, [trackStart, trackEnd, dispatch]);
 
-  const handleChange = (value) => {
+  const handleChange = value => {
     dispatch(updateFilterDates(value));
   };
 
   return (
     <div>
-      {/*<div className={styles.sliderDescription}>
+      {/* <div className={styles.sliderDescription}>
         {moment
           .utc(filter ? filter.dates[0] : trackStart)
           .format("YYYY-MM-DD HH:mm")}{" "}
@@ -41,7 +41,7 @@ function DateSlider({ trackStart, trackEnd }) {
         {moment
           .utc(filter ? filter.dates[1] : trackEnd)
           .format("YYYY-MM-DD HH:mm")}
-        </div>*/}
+        </div> */}
 
       <div className={styles.rangeWrapper}>
         <div>
@@ -66,15 +66,15 @@ function DateSlider({ trackStart, trackEnd }) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     trackStart: getTrackStart(state),
     trackEnd: getTrackEnd(state),
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  //addTrackEntryTrigger: data => dispatch(addTrackEntry(data))
+const mapDispatchToProps = dispatch => ({
+  // addTrackEntryTrigger: data => dispatch(addTrackEntry(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DateSlider);

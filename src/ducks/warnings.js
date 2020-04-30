@@ -1,13 +1,9 @@
 import {
   GENERATE_WARNINGS,
-  DELETE_WARNING,
-  EDIT_WARNING,
-  COMPLETE_WARNING,
-  COMPLETE_ALL_WARNINGS,
   CLEAR_ALL,
-  CLEAR_COMPLETED
-} from "../constants/ActionTypes";
-//import calculateWarnings from "../helpers/calculateWarnings";
+  CLEAR_COMPLETED,
+} from '../constants/ActionTypes';
+// import calculateWarnings from "../helpers/calculateWarnings";
 
 const initialState = [];
 

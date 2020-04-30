@@ -1,5 +1,5 @@
-import { v4 } from "uuid";
-export const ADD_PATIENT = "patients/add";
+import { v4 } from 'uuid';
+export const ADD_PATIENT = 'patients/add';
 
 export default function tracks(state = {}, action) {
   switch (action.type) {
@@ -11,11 +11,11 @@ export default function tracks(state = {}, action) {
   }
 }
 
-export const addPatient = (data) => {
+export const addPatient = data => {
   return {
     type: ADD_PATIENT,
     data,
   };
 };
 
-export const showPatients = (state) => state.patients;
+export const showPatients = state => state.patients;

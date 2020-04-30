@@ -1,36 +1,25 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import PageTitle from "../PageTitle";
-import bcryptjs from "bcryptjs";
+import React from 'react';
+import { connect } from 'react-redux';
+import PageTitle from '../PageTitle';
+import bcryptjs from 'bcryptjs';
 
-import { compose } from "redux";
-import { iconWfpLogoVerticalEn } from "@wfp/icons";
-import attendanceIcon from "images/corn-bag.svg";
-import { withRouter } from "react-router-dom";
-import styles from "./login.module.scss";
+import { compose } from 'redux';
+import { iconWfpLogoVerticalEn } from '@wfp/icons';
+import attendanceIcon from 'images/corn-bag.svg';
+import { withRouter, Link } from 'react-router-dom';
+import styles from './login.module.scss';
 
-import { Controller, ErrorMessage, useForm } from "react-hook-form";
-import { prepareForm } from "helpers/formHelpers";
+import { Controller, ErrorMessage, useForm } from 'react-hook-form';
+import { prepareForm } from 'helpers/formHelpers';
 
-import {
-  Blockquote,
-  Button,
-  TextInput,
-  Icon,
-  InlineLoading,
-  Select,
-  SelectItem,
-} from "@wfp/ui";
-import "./login.module.scss";
+import { Button, TextInput, Icon, Select, SelectItem } from '@wfp/ui';
 
-import { Link } from "react-router-dom";
+import Empty from 'components/Empty';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import { faPlus } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Empty from "components/Empty";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-import { faPlus } from "@fortawesome/pro-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-const LocalLogin = (props) => {
+const LocalLogin = props => {
   const {
     auth,
     currentSchool,
@@ -39,19 +28,19 @@ const LocalLogin = (props) => {
     loginLocal,
     logoutLocal,
   } = props;
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
 
   if (auth.user) logoutLocal();
 
-  //props.disableLogout();
+  // props.disableLogout();
   const methods = useForm({
     defaultValues: prepareForm(),
   });
 
   const { control, handleSubmit, errors } = methods;
 
-  const onSubmit = async (values) => {
+  const onSubmit = async values => {
     if (
       bcryptjs.compareSync(values.password, localAuth[values.username].password)
     ) {
@@ -65,7 +54,7 @@ const LocalLogin = (props) => {
       <Empty
         button={
           <>
-            <NavLink to={`/login`}>
+            <NavLink to={'/login'}>
               <Button
                 kind="accent"
                 iconReverse
@@ -83,9 +72,9 @@ const LocalLogin = (props) => {
             alt="attendance empty illustration a bag of rice"
             src={attendanceIcon}
             style={{
-              marginLeft: "1%",
-              marginRight: "3%",
-              marginBottom: "1%",
+              marginLeft: '1%',
+              marginRight: '3%',
+              marginBottom: '1%',
             }}
           />
         }
@@ -102,7 +91,7 @@ const LocalLogin = (props) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            {error && <Blockquote warning>{error}</Blockquote>}
+            {/* {error && <Blockquote warning>{error}</Blockquote>} */}
             <PageTitle>{currentSchool.name}</PageTitle>
             <ErrorMessage errors={errors} name="username" />
 
@@ -114,7 +103,7 @@ const LocalLogin = (props) => {
                   labelText="username"
                   id="username"
                 >
-                  {Object.entries(localAuth).map((e) => (
+                  {Object.entries(localAuth).map(e => (
                     <SelectItem value={e[0]} text={e[0]} />
                   ))}
                 </Select>
@@ -140,7 +129,7 @@ const LocalLogin = (props) => {
             <div className={styles.submitWrapper}>
               <div className={styles.button}>
                 <Button type="submit">Submit data</Button>
-                {loading && <InlineLoading />}
+                {/* {loading && <InlineLoading />} */}
               </div>
               <Link to="/requestpassword" className={styles.password}>
                 Request new password
@@ -163,7 +152,7 @@ const LocalLogin = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     fetching: state.fetching,
     currentSchool: state.currentSchool,
@@ -174,15 +163,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    loginLocal: (value) => dispatch({ type: "LOGIN_LOCAL", data: value }),
-    logoutLocal: () => dispatch({ type: "LOGOUT_LOCAL" }),
-    disableLogout: () => dispatch({ type: "LOGOUT", data: false }),
+    loginLocal: value => dispatch({ type: 'LOGIN_LOCAL', data: value }),
+    logoutLocal: () => dispatch({ type: 'LOGOUT_LOCAL' }),
+    disableLogout: () => dispatch({ type: 'LOGOUT', data: false }),
   };
 };
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(LocalLogin);

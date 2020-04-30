@@ -1,11 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Popup } from "react-map-gl";
-import styles from "./styles.module.scss";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Popup } from 'react-map-gl';
+import styles from './styles.module.scss';
 
-import moment from "moment";
-import { addSelected } from "../../actions";
-import { getSelectedTracksData } from "../../selectors";
+import moment from 'moment';
+import { addSelected } from '../../actions';
+import { getSelectedTracksData } from '../../selectors';
 
 const PopupWrapper = ({ addSelectedTrigger, selectedTracksData }) => {
   if (selectedTracksData && selectedTracksData.length === 1) {
@@ -22,10 +22,10 @@ const PopupWrapper = ({ addSelectedTrigger, selectedTracksData }) => {
       >
         <div className={styles.popup}>
           <h3 className={styles.title}>
-            {moment.utc(selectedTracksData[0][1].time).format("YYYY-MM-DD")}
+            {moment.utc(selectedTracksData[0][1].time).format('YYYY-MM-DD')}
           </h3>
           <p className={styles.time}>
-            {moment.utc(selectedTracksData[0][1].time).format("HH:mm:ss")}
+            {moment.utc(selectedTracksData[0][1].time).format('HH:mm:ss')}
           </p>
         </div>
       </Popup>
@@ -35,14 +35,14 @@ const PopupWrapper = ({ addSelectedTrigger, selectedTracksData }) => {
   return null;
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     selectedTracksData: getSelectedTracksData(state),
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addSelectedTrigger: (data) => dispatch(addSelected(data)),
+const mapDispatchToProps = dispatch => ({
+  addSelectedTrigger: data => dispatch(addSelected(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PopupWrapper);

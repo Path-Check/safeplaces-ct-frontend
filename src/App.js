@@ -1,12 +1,12 @@
-import React from "react";
-import "./scss/ui.scss";
+import React from 'react';
+import './scss/ui.scss';
 
-import { Router, Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import PathEditor from "./components/PathEditor";
-import Calendar from "./components/Calendar";
-import Settings from "./components/Settings";
-import Login from "./components/Login";
+import { Router, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import PathEditor from './components/PathEditor';
+import Calendar from './components/Calendar';
+import Settings from './components/Settings';
+import Login from './components/Login';
 
 const history = createBrowserHistory();
 

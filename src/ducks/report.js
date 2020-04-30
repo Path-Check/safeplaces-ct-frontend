@@ -1,8 +1,8 @@
 import {
   API_CALL_REPORT_REQUEST,
   API_CALL_REPORT_SUCCESS,
-  API_CALL_REPORT_FAILURE
-} from "../constants/ActionTypes";
+  API_CALL_REPORT_FAILURE,
+} from '../constants/ActionTypes';
 
 const initialState = [];
 
@@ -17,7 +17,7 @@ export default function todos(state = initialState, action) {
         ...state,
         fetching: false,
         error: action.error,
-        errorResponse: action.error.response
+        errorResponse: action.error.response,
       };
     default:
       return state;

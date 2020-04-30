@@ -1,10 +1,11 @@
-import { call, put, select, takeEvery } from "redux-saga/effects";
-import axios from "axios";
-import { getSettingsApi } from "ducks/settingsApi";
+/* eslint-disable no-case-declarations */
+import { call, put, select, takeEvery } from 'redux-saga/effects';
+import axios from 'axios';
+import { getSettingsApi } from 'ducks/settingsApi';
 
-export const REQUEST = "schoolconnect/auth/REQUEST_LOGIN";
-export const SUCCESS = "schoolconnect/auth/SUCCESS_LOGIN";
-export const FAILURE = "schoolconnect/auth/FAILURE_LOGIN";
+export const REQUEST = 'schoolconnect/auth/REQUEST_LOGIN';
+export const SUCCESS = 'schoolconnect/auth/SUCCESS_LOGIN';
+export const FAILURE = 'schoolconnect/auth/FAILURE_LOGIN';
 
 const initialState = { token: undefined, currentUser: undefined };
 
@@ -31,31 +32,31 @@ export default function reducer(state = initialState, action) {
       //var salt = bcryptjs.genSaltSync(10);
       //var hash = bcryptjs.hashSync("B4c0//", salt);
       //action.data.password = action.password; */
-    case "LOGIN_LOCAL":
-      let newLogin = state;
+    case 'LOGIN_LOCAL':
+      const newLogin = state;
       newLogin.user = state.localAuth[action.data];
       return {
         newLogin,
       };
-    case "LOGOUT_LOCAL":
-      let newAuth = state;
+    case 'LOGOUT_LOCAL':
+      const newAuth = state;
       delete newAuth.user;
       return newAuth;
-    case "LOGOUT":
+    case 'LOGOUT':
       return initialState;
     default:
       return state;
   }
 }
 
-export const requestLogin = (data) => ({
+export const requestLogin = data => ({
   type: REQUEST,
   data,
 });
 
-export const getToken = (state) => state.auth.token;
-export const getCurrentUser = (state) => state.auth.currentUser;
-export const getLoginState = (state) => {
+export const getToken = state => state.auth.token;
+export const getCurrentUser = state => state.auth.currentUser;
+export const getLoginState = state => {
   return {
     fetching: state.auth.fetching,
     error: state.auth.error,
@@ -70,7 +71,7 @@ export function* loginSaga() {
 function fetchSaga({ data, settingsApi }) {
   const url = `${settingsApi.apiurl}/login/`;
   return axios({
-    method: "POST",
+    method: 'POST',
     url: url,
     data: data,
   });
@@ -78,7 +79,7 @@ function fetchSaga({ data, settingsApi }) {
 
 function* workerSaga({ data }) {
   var response;
-  let settingsApi = yield select(getSettingsApi);
+  const settingsApi = yield select(getSettingsApi);
   try {
     response = yield call(fetchSaga, { data, settingsApi });
     yield put({ type: SUCCESS, data: response.data });

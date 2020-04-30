@@ -1,34 +1,29 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { Blockquote, Button, TextInput, Icon, InlineLoading } from "@wfp/ui";
-import { useHistory } from "react-router-dom";
-import styles from "./login.module.scss";
-import { Link } from "react-router-dom";
-import {
-  requestLogin,
-  getCurrentUser,
-  getLoginState,
-  getToken,
-} from "ducks/auth";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { Blockquote, Button, TextInput, InlineLoading } from '@wfp/ui';
+import { useHistory, Link } from 'react-router-dom';
+import styles from './login.module.scss';
 
-const Login = (props) => {
+import { requestLogin, getLoginState, getToken } from 'ducks/auth';
+
+const Login = props => {
   const dispatch = useDispatch();
-  const token = useSelector((state) => getToken(state));
-  const { fetching, errorResponse } = useSelector((state) =>
-    getLoginState(state)
+  const token = useSelector(state => getToken(state));
+  const { fetching, errorResponse } = useSelector(state =>
+    getLoginState(state),
   );
   const history = useHistory();
 
   useEffect(() => {
     if (token) {
-      history.push("");
+      history.push('');
     }
   }, [token, history]);
 
-  const { control, handleSubmit, errors, register } = useForm({});
+  const { handleSubmit, errors, register } = useForm({});
 
-  const onSubmit = async (values) => {
+  const onSubmit = async values => {
     dispatch(requestLogin(values));
   };
 
@@ -44,7 +39,7 @@ const Login = (props) => {
             autoCapitalize="off"
             labelText="Email"
             inputRef={register({
-              required: "Please enter a email",
+              required: 'Please enter a email',
             })}
             name="username"
             invalid={errors.username}
