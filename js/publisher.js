@@ -51,6 +51,7 @@ if (
     // TODO: Call the backend instead to populate with an saved Name and URL
     $("#org_name").val(localStorage.getItem("org_name"));
     $("#org_url").val(localStorage.getItem("org_url"));
+    $("#safe_path_json").val(localStorage.getItem("safe_path_json"));
 
     $("#floating-panel").show();
     $("#map").show();
@@ -268,8 +269,17 @@ function loadPath() {
 
         $.get(getAJAXOptions("/redacted_trails"))
             .done((content) => {
+                if (content.organization) {
+                    $("#org_name").val(content.organization.authority_name);
+                    localStorage.setItem("org_name", content.organization.authority_name);
+                    $("#org_url").val(content.organization.info_website);
+                    localStorage.setItem("org_url", content.organization.info_website);
+                    $("#safe_path_json").val(content.organization.safe_path_json);
+                    localStorage.setItem("safe_path_json", content.organization.safe_path_json);
+                }
+
                 var trails = content["data"];
-                console.log(trails);
+
                 for (var i = 0; i < trails.length; i++) {
                     exposureJSON = trails[i]["trail"];
 
@@ -576,16 +586,18 @@ function saveText() {
         }
     }
 
-    // Remember these for next time we load the Publisher
-    localStorage.setItem("org_name", $("#org_name").val());
-    localStorage.setItem("org_url", $("#org_url").val());
-
     let complete = {
         authority_name: $("#org_name").val(),
         publish_date: Math.round(Date.now() / 1000),
         info_website: $("#org_url").val(),
+        safe_path_json: $("#safe_path_json").val(),
         concern_points: out,
     };
+
+    // Remember these for next time we load the Publisher
+    localStorage.setItem("org_name", complete.authority_name);
+    localStorage.setItem("org_url", complete.info_website);
+    localStorage.setItem("safe_path_json", complete.safe_path_json);
 
     if (has_backend) {
         // request options
@@ -638,9 +650,5 @@ function saveText() {
         a.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
         a.setAttribute("download", filename);
         a.click();
-
-        // TODO: Use HTML5 saveAs()
-        //var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-        //saveAs(blob, filename);
     }
 }
