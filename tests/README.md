@@ -8,3 +8,4 @@ These are selenium python tests for testing the Safe Places web application.
 *pip install pytest
 
 # Execution
+Change to the tests directory and just run "pytest"

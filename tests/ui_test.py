@@ -20,12 +20,12 @@ class TestRedaction(unittest.TestCase):
         login_page = LoginPage(self.driver)
         login_page.login_if_required()
         redaction_page = RedactionPage(self.driver)
-        redaction_page.load_file(self.home_dir + '/data/privkit31A-synthetic-REDACTED.json')
+        redaction_page.load_file(self.home_dir + '/tests/data/privkit31A-synthetic-REDACTED.json')
         redaction_page.check_start_date_is('1-Mar-2020 1:00pm GMT')
         redaction_page.check_end_date_is('19-Mar-2020 10:00pm GMT')
         redaction_page.check_duration_is('18 days 9 hrs')
         redaction_page.save_file()
-        tools.compare_files('/tmp/privkit31A-synthetic-REDACTED-REDACTED.json', self.home_dir + '/data//expected_results/privkit31A-synthetic-REDACTED-REDACTED.json')
+        tools.compare_files('/tmp/privkit31A-synthetic-REDACTED-REDACTED.json', self.home_dir + '/tests/data/expected_results/privkit31A-synthetic-REDACTED-REDACTED.json')
 
 
     def tearDown(self):
