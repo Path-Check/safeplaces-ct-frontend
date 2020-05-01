@@ -969,7 +969,7 @@ function saveText() {
 
         let payload = JSON.stringify({
             identifier: filename,
-            trail: out,
+            trail: out.map((obj) => ({ ...obj, time: Math.floor(obj.time / 1000) })),
         });
 
         $.post(getAJAXOptions("/redacted_trail"), payload)
