@@ -289,7 +289,7 @@ function loadPath() {
                 zoomToExtent();
 
                 //auto-classify all points
-                if (typeof exposureJSON === "array") {
+                if (typeof exposureJSON === "object") {
                     if (dateFirst === null || exposureJSON[0].time < dateFirst) {
                         dateFirst = exposureJSON[0].time;
                     }
