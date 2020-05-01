@@ -185,11 +185,6 @@ function loadExposureData(exposureJSON) {
     let currentGroupBounds = new google.maps.LatLngBounds();
 
     exposureJSON.forEach(function (element, index) {
-        // API documentation had time as second not ms used in client
-        if (has_backend) {
-            element.time = element.time * 1000;
-        }
-
         if (
             exposureLoaded.findIndex(
                 (t) =>
@@ -287,7 +282,7 @@ function loadPath() {
 
                 for (var i = 0; i < trails.length; i++) {
                     exposureJSON = trails[i]["trail"];
-
+                    exposureJSON = exposureJSON.map((obj) => ({ ...obj, time: obj.time * 1000 }));
                     loadExposureData(exposureJSON);
                 }
                 // Zoom to see all of the loaded points
