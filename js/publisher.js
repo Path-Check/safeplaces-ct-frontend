@@ -185,6 +185,11 @@ function loadExposureData(exposureJSON) {
     let currentGroupBounds = new google.maps.LatLngBounds();
 
     exposureJSON.forEach(function (element, index) {
+        // API documentation had time as second not ms used in client
+        if (has_backend) {
+            element.time = element.time * 1000;
+        }
+
         if (
             exposureLoaded.findIndex(
                 (t) =>
