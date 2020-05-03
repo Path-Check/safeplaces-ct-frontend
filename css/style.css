@@ -86,13 +86,13 @@ select {
 /* control panel */
 #floating-panel {
     display: none;
-    position: absolute;
+    /* position: absolute; */
     top: 10px;
     left: 1%;
     z-index: 5;
     background-color: #fff;
     padding: 5px;
-    border: 1px solid #999;
+    /* border: 1px solid #999; */
     text-align: center;
     font-family: "Roboto", "sans-serif";
     line-height: 30px;
@@ -179,44 +179,6 @@ hr {
     font-size: x-large;
 }
 
-/* Style buttons */
-.btn {
-    background-color: blue;
-    /* Blue background */
-    border: none;
-    /* Remove borders */
-    color: white;
-    /* White text */
-    padding: 12px 16px;
-    /* Some padding */
-    font-size: 16px;
-    /* Set a font size */
-    cursor: pointer;
-    /* Mouse pointer on hover */
-}
-
-/* Darker background on mouse-over */
-.btn:hover {
-    background-color: darkblue;
-}
-
-.btn_delete {
-    background-color: red;
-}
-
-.btn_delete:hover {
-    background-color: darkred;
-}
-
-.btn_view {
-    background-color: orange;
-    color: black;
-}
-
-.btn_view:hover {
-    background-color: darkorange;
-}
-
 .disabled {
     background-color: #595959;
 }
@@ -253,7 +215,6 @@ hr {
 }
 
 .checks {
-    background-color: goldenrod;
     border-radius: 5px;
     margin: 3px;
     padding: 10px;
@@ -321,7 +282,7 @@ hr {
 .checks [type="checkbox"]:not(:checked) + label,
 .checks [type="checkbox"]:checked + label {
     position: relative;
-    padding-left: 1.95em;
+    padding-left: 1.5em;
     cursor: pointer;
 }
 
@@ -444,4 +405,33 @@ label:hover:before {
     width: 80%;
     max-width: 500px;
     /* Could be more or less, depending on screen size */
+}
+
+.fullheight {
+    height: 100%;
+}
+
+.btn-toolbar {
+    display: block;
+}
+
+.btn-toolbar-font {
+    font-size: 10px;
+}
+
+/* Custom Jquery Slider Overide */
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+    border-radius: 100%;
+    background: #fff;
+    border-color: #425bfc;
+    border-width: 2px;
+}
+
+.ui-slider .ui-slider-handle {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.ui-widget-header {
+    background: #ececec;
 }

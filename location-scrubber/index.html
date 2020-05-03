@@ -19,6 +19,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.28/moment-timezone-with-data.min.js"></script>
 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
         <link rel="stylesheet" href="../css/style.css" />
     </head>
 
@@ -110,102 +114,116 @@
         <button class="btn" onclick="doLogout()" id="logout">
             <i class="fas fa-sign-out-alt"></i> Logout
         </button>
+            <div class="row fullheight">
+                <div class="col-md-3">
+                    <div id="floating-panel" class="">
+                            <img src="../img/covidsafepaths-logo.png" />
+                            <h2 style="font-weight: 300;margin-bottom:16px">Redaction Tool</h2>
+                            <input
+                                id="privatekitJSON"
+                                style="display: none;"
+                                type="file"
+                                accept=".json,.null"
+                                onchange="loadPath()"
+                            />
 
-        <div id="floating-panel">
-            <h2>Safe Places - Redaction Tool</h2>
+                            <input
+                                class="btn btn-success"
+                                type="button"
+                                id="loadFileXml"
+                                value="Load"
+                                onclick="$('#privatekitJSON').click();"
+                            />
+                            <button id="save" class="btn disabled" disabled="disabled" onclick="saveText();">
+                                <img id="btn_logo" src="" />
+                                Save
+                            </button>
+                
+                            <div style="display: none;" id="stats">
+                                Visible: <span id="visible">0</span> Hidden: <span id="hidden">0</span> Deleted:
+                                <span id="deleted">0</span> Total: <span id="total">0</span>
+                            </div>
+                
+                            <hr class="fade-edge-hr" />
+                            <div>
 
-            <input
-                id="privatekitJSON"
-                style="display: none;"
-                type="file"
-                accept=".json,.null"
-                onchange="loadPath()"
-            />
+                                <div class="row text-center btn-toolbar mb-4">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button class="btn btn-primary btn-toolbar-font" onclick="selectNone()" id="select-point">
+                                            <i class="fas fa-hand-pointer mr-1"></i> Select Point
+                                        </button>
+    
+                                        <button class="btn btn-primary btn-toolbar-font" onclick="selectArea();" id="select-area">
+                                            <i class="fa fa-object-group mr-1"></i> Select Area
+                                        </button>
+    
+                                        <button class="btn btn-primary btn-toolbar-font" onclick="selectNone();" id="select-none">
+                                            <i class="fa fa-ban mr-1"></i> Select None
+                                        </button>
+                                    </div>
+                                </div>
 
-            <input
-                class="button"
-                type="button"
-                id="loadFileXml"
-                value="Load"
-                onclick="$('#privatekitJSON').click();"
-            />
-            <button id="save" class="button disabled" disabled="disabled" onclick="saveText();">
-                <img id="btn_logo" src="" />
-                Save
-            </button>
+                                <div class="row text-center btn-toolbar mb-4">
+                                    <button class="btn btn_delete disabled" onclick="deleteAll()" id="delete-all-btn">
+                                        <i class="fa fa-trash-alt"></i> Delete All
+                                    </button>
+                                    <button class="btn btn_delete disabled" onclick="deleteSelectedMarker()" id="delete-btn">
+                                        <i class="fa fa-trash-alt"></i> Delete
+                                    </button>
+                                </div>
 
-            <div style="display: none;" id="stats">
-                Visible: <span id="visible">0</span> Hidden: <span id="hidden">0</span> Deleted:
-                <span id="deleted">0</span> Total: <span id="total">0</span>
+                                <button class="btn btn_view btn-outline-primary mb-2" onclick="zoomToExtent()" id="zoomToExtent">
+                                    <i class="fas fa-expand-arrows-alt"></i> Zoom to Area
+                                </button>
+
+                                <hr class="fade-edge-hr" />
+                
+                                <div style="padding: 8px; text-align: left;">
+                                    <h5 class="mb-2">Date Range:</h5>
+                                    <span id="duration-container">
+                                        <span id="duration"></span
+                                        ><input onclick="updateLockIcon()" type="checkbox" id="lock-window" />
+                                        <label for="lock-window"><i id="lock-icon" class="fas fa-lock"></i></label>
+                                    </span>
+                                    <br />
+                                    <div id="dates">
+                                        <div id="date-start">&nbsp;</div>
+                                        <span id="date-sep">&nbsp;</span>
+                                        <div id="date-end">&nbsp;</div>
+                                    </div>
+                                    <div id="slider-range"></div>
+                                </div>
+                                <div style="padding: 8px; text-align: left;">
+                                    <h5 class="mt-4">Hide:</h5>
+                                    <br />
+                                    <span class="checks">
+                                        <input type="checkbox" id="hide-15" onchange="updateExposurePoints()" />
+                                        <label for="hide-15">&lt; 15min</label>
+                                    </span>
+                
+                                    <span class="checks">
+                                        <input type="checkbox" id="hide-30" onchange="updateExposurePoints()" />
+                                        <label for="hide-30">&lt; 30min</label>
+                                    </span>
+                
+                                    <span class="checks">
+                                        <input type="checkbox" id="hide-60" onchange="updateExposurePoints()" />
+                                        <label for="hide-60">&lt; 1hr</label>
+                                    </span>
+                                    <span class="checks">
+                                        <input type="checkbox" id="hide-travel" onchange="updateExposurePoints()" />
+                                        <label for="hide-travel">Travel</label>
+                                    </span>    
+                                </div>
+                            </div>
+                    </div>             
+                </div>  
+                <div class="col-md-9">
+                        <div id="map"></div>
+                        <img id="map_logo" onclick="onLogoClick()" src="" />
+                        <img id="map_logo_name" onclick="onLogoClick()" src="" />
+                </div>              
             </div>
-
-            <hr class="fade-edge-hr2" />
-            <div>
-                <button class="btn" onclick="selectNone()" id="select-point">
-                    <i class="fas fa-hand-pointer"></i> Select Point
-                </button>
-                <button class="btn" onclick="selectArea();" id="select-area">
-                    <i class="fa fa-object-group"></i> Select Area
-                </button>
-                <button class="btn" onclick="selectNone();" id="select-none">
-                    <i class="fa fa-ban"></i> Select None</button
-                >&nbsp;
-
-                <p />
-                <button class="btn btn_delete disabled" onclick="deleteAll()" id="delete-all-btn">
-                    <i class="fa fa-trash-alt"></i> Delete All
-                </button>
-                <button class="btn btn_delete disabled" onclick="deleteSelectedMarker()" id="delete-btn">
-                    <i class="fa fa-trash-alt"></i> Delete
-                </button>
-                <button class="btn btn_view" onclick="zoomToExtent()" id="zoomToExtent">
-                    <i class="fas fa-expand-arrows-alt"></i> Zoom
-                </button>
-
-                <hr class="fade-edge-hr" />
-
-                <div style="padding: 8px; text-align: left;">
-                    Date Range:
-                    <span id="duration-container">
-                        <span id="duration"></span
-                        ><input onclick="updateLockIcon()" type="checkbox" id="lock-window" />
-                        <label for="lock-window"><i id="lock-icon" class="fas fa-lock"></i></label>
-                    </span>
-                    <br />
-                    <div id="dates">
-                        <div id="date-start">&nbsp;</div>
-                        <span id="date-sep">&nbsp;</span>
-                        <div id="date-end">&nbsp;</div>
-                    </div>
-                    <div id="slider-range"></div>
-                </div>
-                <div style="padding: 8px; text-align: left;">
-                    <span>Hide:</span>
-                    <br />
-                    <span class="checks">
-                        <input type="checkbox" id="hide-15" onchange="updateExposurePoints()" />
-                        <label for="hide-15">&lt; 15min</label>
-                    </span>
-
-                    <span class="checks">
-                        <input type="checkbox" id="hide-30" onchange="updateExposurePoints()" />
-                        <label for="hide-30">&lt; 30min</label>
-                    </span>
-
-                    <span class="checks">
-                        <input type="checkbox" id="hide-60" onchange="updateExposurePoints()" />
-                        <label for="hide-60">&lt; 1hr</label>
-                    </span>
-                    <span class="checks">
-                        <input type="checkbox" id="hide-travel" onchange="updateExposurePoints()" />
-                        <label for="hide-travel">Travel</label>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div id="map"></div>
-        <img id="map_logo" onclick="onLogoClick()" src="" />
-        <img id="map_logo_name" onclick="onLogoClick()" src="" />
     </body>
     <script src="../js/config.js"></script>
     <script src="../js/lib.js"></script>
