@@ -1,0 +1,28 @@
+{
+    "name": "safeplaces-frontend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "example": "examples"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "babel js -d js_es5"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Path-Check/safeplaces-frontend.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Path-Check/safeplaces-frontend/issues"
+    },
+    "homepage": "https://github.com/Path-Check/safeplaces-frontend#readme",
+    "devDependencies": {
+        "@babel/cli": "^7.8.4",
+        "@babel/core": "^7.9.6",
+        "@babel/preset-env": "^7.9.6"
+    }
+}
