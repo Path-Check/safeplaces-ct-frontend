@@ -993,9 +993,5 @@ function saveText() {
         a.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(output));
         a.setAttribute("download", filename);
         a.click();
-
-        // TODO: Use HTML5 saveAs()
-        //var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-        //saveAs(blob, filename);
     }
 }

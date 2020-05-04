@@ -582,26 +582,6 @@ function saveText() {
     localStorage.setItem("safe_path_json", complete.safe_path_json);
 
     if (has_backend) {
-        // request options
-        // const options = {
-        //     method: "POST",
-        //     body: JSON.stringify(complete),
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // };
-
-        // const url = BACKEND_ROOT + "/safe_paths/";
-
-        // fetch(url, options)
-        //     .then((response) => response.json())
-        //     .then(function (content) {
-        //         $("#progress").text("Result:" + content);
-        //         setTimeout(function () {
-        //             $("#saving-panel").hide();
-        //         }, 1000);
-        //     });
-
         // POST safe-paths.json data to the backend
         $("#saving-panel").show();
 
