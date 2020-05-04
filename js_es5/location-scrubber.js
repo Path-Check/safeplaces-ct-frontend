@@ -855,7 +855,7 @@ function saveText() {
 
   for (var i = 0; i < exposureJSON.length; i++) {
     if (isInitalized(exposureJSON[i].latitude) && isInitalized(exposureJSON[i].longitude) && isInitalized(exposurePoints[i].getMap())) {
-      element = {};
+      var element = {};
       element.time = exposureJSON[i].time;
       element.longitude = exposureJSON[i].longitude;
       element.latitude = exposureJSON[i].latitude;

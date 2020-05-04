@@ -950,7 +950,7 @@ function saveText() {
             isInitalized(exposureJSON[i].longitude) &&
             isInitalized(exposurePoints[i].getMap())
         ) {
-            element = {};
+            let element = {};
             element.time = exposureJSON[i].time;
             element.longitude = exposureJSON[i].longitude;
             element.latitude = exposureJSON[i].latitude;
