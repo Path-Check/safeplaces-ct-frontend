@@ -183,7 +183,7 @@ function loadExposureData(exposureJSON) {
     } // TODO: Auto-filter based on date (< 14 days is all the further we need to load)
 
 
-    elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
+    var elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
     var marker = new google.maps.Marker({
       position: elementLatLng,
       title: moment.tz(element.time, TZ_STRING).format(DATE_FORMAT),

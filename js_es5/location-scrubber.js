@@ -190,7 +190,7 @@ function normalizeInputData(arr) {
     var result = [];
 
     for (var i = 0; i < arr.length; i++) {
-      elem = arr[i];
+      var elem = arr[i];
 
       if ("time" in elem && "latitude" in elem && "longitude" in elem) {
         result.push({
@@ -221,7 +221,7 @@ function isValidJson(str) {
 }
 
 function loadPath() {
-  file = $("#privatekitJSON").get(0).files[0];
+  var file = $("#privatekitJSON").get(0).files[0];
 
   if (typeof window.FileReader !== "function") {
     alert("The file API isn't supported on this browser yet.");
@@ -233,7 +233,7 @@ function loadPath() {
     exposurePaths = [];
     exposureGroups = [];
     exposureJSON = null;
-    fr = new FileReader();
+    var fr = new FileReader();
 
     fr.onload = function (map, points, path) {
       return function (event) {
@@ -252,7 +252,7 @@ function loadPath() {
             var currentGroupBounds = new google.maps.LatLngBounds();
             exposureJSON = normalizeInputData(JSON.parse(lines));
             exposureJSON.forEach(function (element, index) {
-              elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
+              var elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
               var marker = new google.maps.Marker({
                 position: elementLatLng,
                 title: moment.tz(element.time, TZ_STRING).format(DATE_FORMAT),
@@ -389,7 +389,7 @@ function loadPath() {
               } //round to 2 decimal places...soooo ugly in javascript
 
 
-              travelGroupSpeedMPH = Math.round((travelGroupSpeedKMPH / 1.609 + Number.EPSILON) * 100) / 100;
+              var travelGroupSpeedMPH = Math.round((travelGroupSpeedKMPH / 1.609 + Number.EPSILON) * 100) / 100;
               travelGroupSpeedKMPH = Math.round((travelGroupSpeedKMPH + Number.EPSILON) * 100) / 100;
               travelGroupMarkers.forEach(function (element, index) {
                 element.setTitle(element.getTitle() + "\nTravel Group " + travelGroupId + "\n" + travelGroupSpeedMPH + " mph" + " | " + travelGroupSpeedKMPH + " km/h");
@@ -404,7 +404,7 @@ function loadPath() {
               for (i = groupCount; i < exposureGroups.length; i++) {
                 //We may need to put some time boundaries on this because travel groups could intersect if you travel a similar route periodically.
                 if (exposureGroups[key].bounds.intersects(exposureGroups[exposureGroupKeys[i]].bounds)) {
-                  foundInteresection = true;
+                  foundIntersection = true;
                   exposureGroups[key].elements.forEach(function (element, index) {
                     element.groupType = GROUP_TYPES.RECURRING;
                   });

@@ -199,7 +199,7 @@ function loadExposureData(exposureJSON) {
 
         // TODO: Auto-filter based on date (< 14 days is all the further we need to load)
 
-        elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
+        let elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
 
         let marker = new google.maps.Marker({
             position: elementLatLng,

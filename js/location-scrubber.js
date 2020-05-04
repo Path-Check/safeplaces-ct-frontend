@@ -198,7 +198,7 @@ function normalizeInputData(arr) {
     try {
         var result = [];
         for (var i = 0; i < arr.length; i++) {
-            elem = arr[i];
+            let elem = arr[i];
             if ("time" in elem && "latitude" in elem && "longitude" in elem) {
                 result.push({
                     time: Number(elem.time),
@@ -227,7 +227,7 @@ function isValidJson(str) {
 }
 
 function loadPath() {
-    file = $("#privatekitJSON").get(0).files[0];
+    let file = $("#privatekitJSON").get(0).files[0];
     if (typeof window.FileReader !== "function") {
         alert("The file API isn't supported on this browser yet.");
     } else if (file === undefined || !fileRegExp.test(file.name)) {
@@ -239,7 +239,7 @@ function loadPath() {
         exposureGroups = [];
         exposureJSON = null;
 
-        fr = new FileReader();
+        let fr = new FileReader();
         fr.onload = (function (map, points, path) {
             return function (event) {
                 try {
@@ -253,7 +253,7 @@ function loadPath() {
                     exposureJSON = normalizeInputData(JSON.parse(lines));
 
                     exposureJSON.forEach(function (element, index) {
-                        elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
+                        let elementLatLng = new google.maps.LatLng(element.latitude, element.longitude);
 
                         let marker = new google.maps.Marker({
                             position: elementLatLng,
@@ -434,7 +434,7 @@ function loadPath() {
                         }
 
                         //round to 2 decimal places...soooo ugly in javascript
-                        travelGroupSpeedMPH =
+                        let travelGroupSpeedMPH =
                             Math.round((travelGroupSpeedKMPH / 1.609 + Number.EPSILON) * 100) / 100;
                         travelGroupSpeedKMPH =
                             Math.round((travelGroupSpeedKMPH + Number.EPSILON) * 100) / 100;
@@ -465,7 +465,7 @@ function loadPath() {
                                     exposureGroups[exposureGroupKeys[i]].bounds
                                 )
                             ) {
-                                foundInteresection = true;
+                                foundIntersection = true;
                                 exposureGroups[key].elements.forEach(function (element, index) {
                                     element.groupType = GROUP_TYPES.RECURRING;
                                 });
