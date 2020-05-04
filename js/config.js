@@ -16,7 +16,4 @@ var MAP_API_KEY = localStorage.getItem("MAP_API_KEY");
 const TZ_STRING = moment.tz.guess(true);
 const DATE_FORMAT = "D-MMM-Y h:mma z";
 
-AJAX_OPTIONS = { contentType: "application/json; charset=utf-8" };
-
-DEBUG_BACKEND = false;
-DEBUG_BACKEND_API_KEY = "";
+const AJAX_OPTIONS = { contentType: "application/json; charset=utf-8" };

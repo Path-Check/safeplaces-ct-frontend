@@ -287,9 +287,6 @@ function doLogin() {
         .done((data) => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("MAP_API_KEY", data.maps_api_key);
-            if (DEBUG_BACKEND) {
-                localStorage.setItem("MAP_API_KEY", DEBUG_BACKEND_API_KEY);
-            }
             document.cookie = "token=" + data.token;
             location.reload();
         })
