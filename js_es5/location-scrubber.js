@@ -52,7 +52,7 @@ if (!isInitalized(MAP_API_KEY) || MAP_API_KEY == "" || MAP_API_KEY == null || MA
   var script = document.createElement("script");
   script.async = true;
   script.defer = true;
-  script.src = "https://maps.googleapis.com/maps/api/js?key=" + MAP_API_KEY + "&libraries=drawing,geometry&callback=initMap";
+  script.src = "https://maps.googleapis.com/maps/api/js?key=".concat(MAP_API_KEY, "&libraries=drawing,geometry&callback=initMap");
   document.head.appendChild(script);
 }
 
@@ -895,8 +895,6 @@ function saveText() {
     var a = document.createElement("a");
     a.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(output));
     a.setAttribute("download", filename);
-    a.click(); // TODO: Use HTML5 saveAs()
-    //var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-    //saveAs(blob, filename);
+    a.click();
   }
 }

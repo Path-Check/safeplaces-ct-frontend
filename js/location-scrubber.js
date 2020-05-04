@@ -54,10 +54,7 @@ if (
     var script = document.createElement("script");
     script.async = true;
     script.defer = true;
-    script.src =
-        "https://maps.googleapis.com/maps/api/js?key=" +
-        MAP_API_KEY +
-        "&libraries=drawing,geometry&callback=initMap";
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=drawing,geometry&callback=initMap`;
     document.head.appendChild(script);
 }
 

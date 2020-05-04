@@ -61,7 +61,7 @@ if (!isInitalized(MAP_API_KEY) || MAP_API_KEY == "" || MAP_API_KEY == null || MA
   var script = document.createElement("script");
   script.async = true;
   script.defer = true;
-  script.src = "https://maps.googleapis.com/maps/api/js?key=" + MAP_API_KEY + "&libraries=drawing,geometry&callback=initMap";
+  script.src = "https://maps.googleapis.com/maps/api/js?key=".concat(MAP_API_KEY, "&libraries=drawing,geometry&callback=initMap");
   document.head.appendChild(script);
 }
 
@@ -213,26 +213,6 @@ function loadExposureData(exposureJSON) {
 function loadPath() {
   if (has_backend) {
     // Load from backend
-    // const url = BACKEND_ROOT + "/redacted_trails/";
-    // fetch(url)
-    //     .then((response) => response.json())
-    //     .then(function (content) {
-    //         var trails = content["data"];
-    //         for (var i = 0; i < trails.length; i++) {
-    //             exposureJSON = trails[i]["trail"];
-    //             loadExposureData(exposureJSON);
-    //         }
-    //         // Zoom to see all of the loaded points
-    //         zoomToExtent();
-    //         //auto-classify all points
-    //         if (dateFirst === null || exposureJSON[0].time < dateFirst) dateFirst = exposureJSON[0].time;
-    //         if (dateLast === null || exposureJSON[exposureJSON.length - 1].time > dateLast)
-    //             dateLast = exposureJSON[exposureJSON.length - 1].time;
-    //         initDateSlider(dateFirst, dateLast);
-    //         updateStats();
-    //         $("#save").removeClass("disabled").addClass("enabled").prop("disabled", false);
-    //     })
-    //     .catch((err) => console.log("Can't access " + url + " response. Blocked by browser?" + err));
     $.get(getAJAXOptions("/redacted_trails")).done(function (content) {
       if (content.organization) {
         $("#org_name").val(content.organization.authority_name);
@@ -540,23 +520,6 @@ function saveText() {
   localStorage.setItem("safe_path_json", complete.safe_path_json);
 
   if (has_backend) {
-    // request options
-    // const options = {
-    //     method: "POST",
-    //     body: JSON.stringify(complete),
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    // };
-    // const url = BACKEND_ROOT + "/safe_paths/";
-    // fetch(url, options)
-    //     .then((response) => response.json())
-    //     .then(function (content) {
-    //         $("#progress").text("Result:" + content);
-    //         setTimeout(function () {
-    //             $("#saving-panel").hide();
-    //         }, 1000);
-    //     });
     // POST safe-paths.json data to the backend
     $("#saving-panel").show();
     complete.start_date = Math.round(msVizStart / 1000);
@@ -580,7 +543,7 @@ function saveText() {
 
     for (var i = 0; i < exposureLoaded.length; i++) {
       if (isInitalized(exposureLoaded[i].latitude) && isInitalized(exposureLoaded[i].longitude) && isInitalized(exposurePoints[i].getMap())) {
-        element = {};
+        var element = {};
         element.time = exposureLoaded[i].time;
         element.longitude = exposureLoaded[i].longitude;
         element.latitude = exposureLoaded[i].latitude;

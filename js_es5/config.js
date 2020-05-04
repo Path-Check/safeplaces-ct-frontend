@@ -5,7 +5,7 @@
 ///////////////////////////////////////
 var has_backend = true; // When true use standard back API calls
 
-var BACKEND_ROOT = ""; // Specify Backend ROOT if API endpoints not hosted on same domain
+var BACKEND_ROOT = "https://api.express.safeplaces.extremesolution.com"; // Specify Backend ROOT if API endpoints not hosted on same domain
 
 var logo = ""; // Enter a logo for backend
 
