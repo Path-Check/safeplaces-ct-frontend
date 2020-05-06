@@ -178,7 +178,7 @@ function loadExposureData(exposureJSON) {
     if (exposureLoaded.findIndex(function (t) {
       return t.latitude === element.latitude && t.longitude === element.longitude && t.time == element.time;
     }) != -1) {
-      console.log("Skipping: " + element.latitude + "x" + element.longitude);
+      // console.log("Skipping: " + element.latitude + "x" + element.longitude);
       return; // point/time already exists
     } // TODO: Auto-filter based on date (< 14 days is all the further we need to load)
 
@@ -521,15 +521,23 @@ function saveText() {
 
   if (has_backend) {
     // POST safe-paths.json data to the backend
-    $("#saving-panel").show();
     complete.start_date = Math.round(msVizStart / 1000);
     complete.end_date = Math.round(msVizEnd / 1000);
     var payload = JSON.stringify(complete);
     $.post(getAJAXOptions("/safe_paths"), payload).done(function (content) {
-      $("#progress").text("Result:  Published ".concat(moment.tz(content.safe_path.publish_date * 1000, TZ_STRING).format(DATE_FORMAT)));
-      setTimeout(function () {
-        $("#saving-panel").hide();
-      }, 5000);
+      if (content.organization_id) {
+        var sp_url = "".concat(BACKEND_ROOT, "/safe_path/").concat(content.organization_id);
+        $("#safe-path-json-url-text").val(sp_url);
+        $("#safe-path-json-published-date").text("Published ".concat(moment.tz(content.safe_path.publish_date * 1000, TZ_STRING).format(DATE_FORMAT)));
+        $("#safe-path-json-download").click(function (e) {
+          e.preventDefault();
+          $.get(sp_url).done(function (data) {
+            pushDownload(data, "safe-paths.json");
+          });
+        });
+        $("#safe-path-json-url-wrapper").centerMe();
+        $("#safe-path-json-url-wrapper").css("display", "initial");
+      }
     }).fail(function (error) {
       $("#saving-panel").text("Result:  ".concat(error));
       setTimeout(function () {
