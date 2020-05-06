@@ -9,9 +9,13 @@ import { store, persistor } from './store';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      {process.env.NODE_ENV === 'development' ? (
         <App />
-      </PersistGate>
+      ) : (
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      )}
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
