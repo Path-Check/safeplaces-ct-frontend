@@ -329,3 +329,16 @@ const getAJAXOptions = (url) => {
         },
     };
 };
+
+$.fn.centerMe = function () {
+    this.css("left", $(window).width() / 2 - $(this).width() / 2);
+    this.css("top", $(window).height() / 2 - $(this).height() / 2);
+};
+
+const pushDownload = (data, outFileName) => {
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+    let dlAnchorElem = document.createElement("a");
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", outFileName);
+    dlAnchorElem.click();
+};

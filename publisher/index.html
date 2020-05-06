@@ -211,6 +211,17 @@
                 />
             </div>
         </div>
+        <div id="safe-path-json-url-wrapper">
+            <h3>safe_path.json: <span id="safe-path-json-published-date"></span></h3>
+            <input id="safe-path-json-url-text" />
+            <div style="margin-top: 10px;">
+                <a id="safe-path-json-download" href="">Download json file</a>
+                <a id="some-anchor"></a>
+            </div>
+            <button id="popup-close-button" onclick='$("#safe-path-json-url-wrapper").css("display", "none")'>
+                x
+            </button>
+        </div>
         <div id="map"></div>
         <img id="map_logo" onclick="onLogoClick()" src="" />
         <img id="map_logo_name" onclick="onLogoClick()" src="" />
