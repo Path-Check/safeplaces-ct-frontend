@@ -1,7 +1,7 @@
 import React from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
-import { showPatients } from '../../ducks/patients';
+import { showPatients } from '../../ducks/cases';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
-import { addTrackEntry, editTrackEntry } from '../../ducks/tracks';
-import { getTrack, getSelectedTracks } from '../../selectors';
+import { addPathEntry, editPathEntry } from '../../ducks/path';
+import { getTrack, getselectedPathEntry } from '../../selectors';
 import { Button, TextArea, TextInput } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useHistory } from 'react-router';
@@ -127,7 +127,7 @@ const EntryForm = ({ initialData, useInline }) => {
     values.time = moment(`${values.date} ${values.time}`).valueOf();
     values.latitude = parseFloat(values.latitude);
     values.longitude = parseFloat(values.longitude);
-    dispatch(editTrackEntry(values, params.action));
+    dispatch(editPathEntry(values, params.action));
     history.push('/');
   };
 
@@ -240,13 +240,13 @@ const EntryForm = ({ initialData, useInline }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedTracks: getSelectedTracks(state),
+    selectedPathEntry: getselectedPathEntry(state),
     track: getTrack(state),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  addTrackEntryTrigger: data => dispatch(addTrackEntry(data)),
+  addPathEntryTrigger: data => dispatch(addPathEntry(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryForm);

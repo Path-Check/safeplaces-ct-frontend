@@ -5,15 +5,19 @@ The application is a offline-first PWA. All the functionality should be availabl
 ### Technology used
 - react.js
 - redux (redux-persist with localStorage to store all data on the device, redux-saga)
+- mapbox.gl
 - css modules with scss
 - jest for testing
 
 ### Structure
 - use [ducks](https://github.com/erikras/ducks-modular-redux) scheme for redux implementation
+## Workflow
 
 ## Roadmap
 
 - implement all features from the MVP-version
+- specs for API
+- specs for JSON file
 - calendar
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -68,17 +68,17 @@ export const getAllFilteredWarnings = state => {
   return filteredWarnings;
 };
 
-export const getSelectedTracksData = ({ selectedTracks, tracks }) => {
+export const getselectedPathEntryData = ({ selectedPathEntry, tracks }) => {
   const selectedEntries =
-    tracks && tracks.points && selectedTracks
+    tracks && tracks.points && selectedPathEntry
       ? Object.entries(tracks.points).filter(e => {
-          return e[0] === selectedTracks[0];
+          return e[0] === selectedPathEntry[0];
         })
       : undefined;
   return selectedEntries;
 };
 
-export const getSelectedTracks = state => state.selectedTracks;
+export const getselectedPathEntry = state => state.selectedPathEntry;
 export const countFilteredWarnings = state => {
   const filteredWarnings = state.warnings.filter(
     e => e.matches && e.matches.length >= 1,

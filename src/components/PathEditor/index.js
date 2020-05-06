@@ -3,19 +3,21 @@ import Map from '../Map';
 import Sidebar from '../Sidebar';
 import Wrapper from '../Wrapper';
 import EntryForm from '../EntryForm';
-import { getSelectedTracksData } from '../../selectors';
+import { getselectedPathEntryData } from '../../selectors';
 import { useSelector } from 'react-redux';
 
 export default function PathEditor() {
-  const selectedTracksData = useSelector(state => getSelectedTracksData(state));
+  const selectedPathEntryData = useSelector(state =>
+    getselectedPathEntryData(state),
+  );
   return (
     <Wrapper
       editor={
         <EntryForm
           initialData={
-            selectedTracksData &&
-            selectedTracksData[0] &&
-            selectedTracksData[0][1]
+            selectedPathEntryData &&
+            selectedPathEntryData[0] &&
+            selectedPathEntryData[0][1]
           }
         />
       }

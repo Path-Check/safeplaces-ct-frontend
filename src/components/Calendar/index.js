@@ -10,15 +10,17 @@ import './calendar.scss';
 import { tooltipStyle } from '@wfp/ui';
 import styles from './styles.module.scss';
 import Tippy from '@tippy.js/react';
-import { editTrackEntry } from '../../ducks/tracks';
+import { editPathEntry } from '../../ducks/path';
 
 const localizer = momentLocalizer(moment);
 
 export default function CalendarPage() {
-  const selectedTracksData = useSelector(state => getFilteredTrackPath(state));
+  const selectedPathEntryData = useSelector(state =>
+    getFilteredTrackPath(state),
+  );
   const dispatch = useDispatch();
 
-  const calendarData = selectedTracksData.map(e => {
+  const calendarData = selectedPathEntryData.map(e => {
     console.log('moment', e[1].time, moment.utc(e[1].date));
     return {
       id: e[1].time,
@@ -35,7 +37,7 @@ export default function CalendarPage() {
   const handleSelect = e => {
     console.log('handleSelectaa', e);
     dispatch(
-      editTrackEntry(
+      editPathEntry(
         { latitude: 0, longitude: 0, time: moment(e.start).valueOf() },
         'new',
       ),

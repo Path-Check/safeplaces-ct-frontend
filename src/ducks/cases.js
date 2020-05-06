@@ -18,4 +18,4 @@ export const addPatient = data => {
   };
 };
 
-export const showPatients = state => state.patients;
+export const showPatients = state => state.cases;

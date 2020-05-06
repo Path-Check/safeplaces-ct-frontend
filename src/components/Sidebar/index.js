@@ -6,7 +6,7 @@ import FileSaver from 'file-saver';
 
 import {
   getTrack,
-  getSelectedTracks,
+  getselectedPathEntry,
   getFilteredTrackPath,
 } from '../../selectors';
 import styles from './styles.module.scss';
@@ -21,22 +21,24 @@ import {
   faTimesCircle,
   faPlusCircle,
 } from '@fortawesome/pro-solid-svg-icons';
-import { addTrackEntry } from '../../ducks/tracks';
+import { addPathEntry } from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
 import { addSelected } from '../../actions';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
+import { getPath } from 'selectors/paths';
 
-function Sidebar({ addTrackEntryTrigger, track }) {
+function Sidebar({ addPathEntryTrigger, track }) {
   // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
+  const path = useSelector(state => getPath(state));
   const save = () => {
     var blob = new Blob([JSON.stringify(track)], {
       type: 'text/plain;charset=utf-8',
     });
-    FileSaver.saveAs(blob, `export-${track.publish_date_utl}.json`);
+    FileSaver.saveAs(blob, `export-${path.publish_date_utl}.json`);
   };
   return (
     <>
@@ -74,14 +76,14 @@ function Sidebar({ addTrackEntryTrigger, track }) {
       </div>
       <div className={styles.header}>
         <div className={styles.title}>
-          {track.authority_name ? (
+          {path.authority_name ? (
             <>
               {/* }h2>
                 <a href={track.info_website}>{track.authority_name}</a>
           </h2> */}
               <p>
                 {moment
-                  .utc(track.publish_date_utl)
+                  .utc(path.publish_date_utl)
                   .format('YYYY-MM-DD HH:mm:ss')}
               </p>
             </>
@@ -160,13 +162,13 @@ function Sidebar({ addTrackEntryTrigger, track }) {
 
 const mapStateToProps = state => {
   return {
-    selectedTracks: getSelectedTracks(state),
+    selectedPathEntry: getselectedPathEntry(state),
     track: getTrack(state),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  addTrackEntryTrigger: data => dispatch(addTrackEntry(data)),
+  addPathEntryTrigger: data => dispatch(addPathEntry(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

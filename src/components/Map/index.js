@@ -3,7 +3,7 @@ import ReactMapGL from 'react-map-gl';
 import Track from './trackPath';
 import { token } from '../../constants/mapbox';
 import { connect } from 'react-redux';
-import { deleteTrackEntry } from '../../ducks/tracks';
+import { removePathEntry } from '../../ducks/path';
 import { addSelected } from '../../actions';
 import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
@@ -264,7 +264,6 @@ function Map({ addSelectedTrigger, trackPath }) {
     }
   };
 
-  // mapStyle="mapbox://styles/mapbox/streets-v11"
   return (
     <ReactMapGL
       className="map"
@@ -291,7 +290,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   addSelectedTrigger: data => dispatch(addSelected(data)),
-  deleteTrackEntryTrigger: data => dispatch(deleteTrackEntry(data)),
+  removePathEntryTrigger: data => dispatch(removePathEntry(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

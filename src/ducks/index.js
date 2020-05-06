@@ -1,19 +1,19 @@
 import { combineReducers } from 'redux';
 
-import patients from './patients';
-import selectedTracks from './selectedTracks';
+import cases from './cases';
+import selectedPathEntry from './selectedPathEntry';
 import filter from './filter';
-import tracks from './tracks';
+import path from './path';
 import auth from './auth';
 import settingsApi from './settingsApi';
 
 const rootReducer = combineReducers({
   auth,
-  patients,
+  cases,
   settingsApi,
   filter,
-  tracks,
-  selectedTracks,
+  path,
+  selectedPathEntry,
 });
 
 export default rootReducer;

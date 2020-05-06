@@ -74,7 +74,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  // addTrackEntryTrigger: data => dispatch(addTrackEntry(data))
+  // addPathEntryTrigger: data => dispatch(addPathEntry(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DateSlider);

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTrackEntry } from '../../ducks/tracks';
+import { removePathEntry } from '../../ducks/path';
 
 import { addSelected } from '../../actions';
-import { getSelectedTracks, getFilteredTrackPath } from '../../selectors';
+import { getselectedPathEntry, getFilteredTrackPath } from '../../selectors';
 import { Button, Checkbox, List, ListItem } from '@wfp/ui';
 import styles from './styles.module.scss';
 
@@ -18,12 +18,12 @@ import Empty from '../Empty';
 import { NavLink } from 'react-router-dom';
 
 export default function SidebarContent() {
-  const selectedTracks = useSelector(state => getSelectedTracks(state));
+  const selectedPathEntry = useSelector(state => getselectedPathEntry(state));
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
 
   const dispatch = useDispatch();
   const addSelectedTrigger = data => dispatch(addSelected(data));
-  const deleteTrackEntryTrigger = data => dispatch(deleteTrackEntry(data));
+  const removePathEntryTrigger = data => dispatch(removePathEntry(data));
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function SidebarContent() {
         filteredTrackPath.map((e, i) => (
           <div
             className={`${styles.item} ${
-              selectedTracks.includes(e[0]) && styles.selectedItem
+              selectedPathEntry.includes(e[0]) && styles.selectedItem
             }`}
             key={i}
           >
@@ -50,14 +50,14 @@ export default function SidebarContent() {
               name={`checkbox-${e[0]}`}
               onChange={f => {
                 if (f === false) {
-                  const newSelect = selectedTracks;
+                  const newSelect = selectedPathEntry;
                   newSelect.splice(newSelect.indexOf(e[0]), 1);
                   addSelectedTrigger([...newSelect]);
                 } else {
-                  addSelectedTrigger([...selectedTracks, e[0]]);
+                  addSelectedTrigger([...selectedPathEntry, e[0]]);
                 }
               }}
-              checked={selectedTracks.includes(e[0])}
+              checked={selectedPathEntry.includes(e[0])}
             />
             <div
               className={styles.itemInner}
@@ -91,7 +91,7 @@ export default function SidebarContent() {
                 <Button
                   kind="primary"
                   icon={<FontAwesomeIcon icon={faTrashAlt} />}
-                  onClick={() => deleteTrackEntryTrigger(e.time)}
+                  onClick={() => removePathEntryTrigger(e.time)}
                 ></Button>
               </div>
             </div>
