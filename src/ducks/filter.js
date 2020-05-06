@@ -1,6 +1,6 @@
 import { UPDATE_FILTER, UPDATE_FILTER_DATES } from '../constants/ActionTypes';
 
-const initialState = { dates: [] };
+const initialState = { dates: [] }; // todo: change dates to a object -> startDate, endDate
 
 export default function detail(state = initialState, action) {
   switch (action.type) {
