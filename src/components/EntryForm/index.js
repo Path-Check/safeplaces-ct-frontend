@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
 import { addPathEntry, editPathEntry } from '../../ducks/path';
-import { getTrack, getselectedPathEntry } from '../../selectors';
+import { getTrack, getSelectedPathEntryData } from '../../selectors';
 import { Button, TextArea, TextInput } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useHistory } from 'react-router';
@@ -240,7 +240,7 @@ const EntryForm = ({ initialData, useInline }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedPathEntry: getselectedPathEntry(state),
+    selectedPathEntry: getSelectedPathEntryData(state),
     track: getTrack(state),
   };
 };

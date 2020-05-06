@@ -2,8 +2,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removePathEntry } from '../../ducks/path';
 
-import { addSelected } from '../../actions';
-import { getselectedPathEntry, getFilteredTrackPath } from '../../selectors';
+import { addSelected } from '../../ducks/selectedPathEntry';
+import {
+  getSelectedPathEntryData,
+  getFilteredTrackPath,
+} from '../../selectors';
 import { Button, Checkbox, List, ListItem } from '@wfp/ui';
 import styles from './styles.module.scss';
 
@@ -18,7 +21,9 @@ import Empty from '../Empty';
 import { NavLink } from 'react-router-dom';
 
 export default function SidebarContent() {
-  const selectedPathEntry = useSelector(state => getselectedPathEntry(state));
+  const selectedPathEntry = useSelector(state =>
+    getSelectedPathEntryData(state),
+  );
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
 
   const dispatch = useDispatch();

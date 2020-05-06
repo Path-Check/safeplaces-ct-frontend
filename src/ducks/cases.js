@@ -1,9 +1,9 @@
 import { v4 } from 'uuid';
-export const ADD_PATIENT = 'patients/add';
+export const ADD = 'safeplaces/cases/ADD';
 
 export default function tracks(state = {}, action) {
   switch (action.type) {
-    case ADD_PATIENT:
+    case ADD:
       state[v4()] = action.data;
       return state;
     default:
@@ -13,7 +13,7 @@ export default function tracks(state = {}, action) {
 
 export const addPatient = data => {
   return {
-    type: ADD_PATIENT,
+    type: ADD,
     data,
   };
 };

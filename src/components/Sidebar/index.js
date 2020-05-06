@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, tooltipStyle } from '@wfp/ui';
 import Dropzone from '../PathEditor/Dropzone';
-import SidebarContent from '../SidebarEntry';
+import SidebarContent from '../SidebarPathList';
 import FileSaver from 'file-saver';
 
 import {
   getTrack,
-  getselectedPathEntry,
+  getSelectedPathEntryData,
   getFilteredTrackPath,
 } from '../../selectors';
 import styles from './styles.module.scss';
@@ -24,7 +24,7 @@ import {
 import { addPathEntry } from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
-import { addSelected } from '../../actions';
+import { addSelected } from '../../ducks/selectedPathEntry';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
 import { getPath } from 'selectors/paths';
@@ -162,7 +162,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
 
 const mapStateToProps = state => {
   return {
-    selectedPathEntry: getselectedPathEntry(state),
+    selectedPathEntry: getSelectedPathEntryData(state),
     track: getTrack(state),
   };
 };

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 import Track from './trackPath';
-import { token } from '../../constants/mapbox';
 import { connect } from 'react-redux';
 import { removePathEntry } from '../../ducks/path';
-import { addSelected } from '../../actions';
+import { addSelected } from '../../ducks/selectedPathEntry';
 import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
 import Popup from '../Popup';
@@ -268,7 +267,7 @@ function Map({ addSelectedTrigger, trackPath }) {
     <ReactMapGL
       className="map"
       {...viewport}
-      mapboxApiAccessToken={token()}
+      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
       mapStyle={mapStyle}
       ref={mapRef}
       width="100%"

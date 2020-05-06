@@ -4,8 +4,8 @@ import { Popup } from 'react-map-gl';
 import styles from './styles.module.scss';
 
 import moment from 'moment';
-import { addSelected } from '../../actions';
-import { getselectedPathEntryData } from '../../selectors';
+import { addSelected } from '../../ducks/selectedPathEntry';
+import { getSelectedPathEntryDataData } from '../../selectors';
 
 const PopupWrapper = ({ addSelectedTrigger, selectedPathEntryData }) => {
   if (selectedPathEntryData && selectedPathEntryData.length === 1) {
@@ -37,7 +37,7 @@ const PopupWrapper = ({ addSelectedTrigger, selectedPathEntryData }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedPathEntryData: getselectedPathEntryData(state),
+    selectedPathEntryData: getSelectedPathEntryDataData(state),
   };
 };
 

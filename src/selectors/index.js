@@ -3,18 +3,18 @@ export const getCurrentStore = (state, ownProps) =>
 export const getAllPositions = state => state.positions;
 export const getAllWarnings = state => state.warnings;
 export const getDetail = state => state.detail;
-export const getTrack = state => state.tracks;
+export const getTrack = state => state.path;
 export const getFilter = state => state.filter;
 export const getTrackPath = state =>
-  state.tracks && state.tracks.points
-    ? Object.values(state.tracks.points).sort(function (a, b) {
+  state.path && state.path.points
+    ? Object.values(state.path.points).sort(function (a, b) {
         return a.time - b.time;
       })
     : [];
 
 export const getFilteredTrackPath = state =>
-  state.tracks && state.tracks.points
-    ? Object.entries(state.tracks.points)
+  state.path && state.path.points
+    ? Object.entries(state.path.points)
         .sort(function (a, b) {
           return a[1].time - b[1].time;
         })
@@ -26,21 +26,21 @@ export const getFilteredTrackPath = state =>
     : [];
 
 export const getTrackStart = state =>
-  state.tracks &&
-  state.tracks.points &&
+  state.path &&
+  state.path.points &&
   Math.min.apply(
     Math,
-    Object.values(state.tracks.points).map(function (o) {
+    Object.values(state.path.points).map(function (o) {
       return o.time;
     }),
   );
 
 export const getTrackEnd = state =>
-  state.tracks &&
-  state.tracks.points &&
+  state.path &&
+  state.path.points &&
   Math.max.apply(
     Math,
-    Object.values(state.tracks.points).map(function (o) {
+    Object.values(state.path.points).map(function (o) {
       return o.time;
     }),
   );
@@ -68,7 +68,7 @@ export const getAllFilteredWarnings = state => {
   return filteredWarnings;
 };
 
-export const getselectedPathEntryData = ({ selectedPathEntry, tracks }) => {
+export const getSelectedPathEntryDataData = ({ selectedPathEntry, tracks }) => {
   const selectedEntries =
     tracks && tracks.points && selectedPathEntry
       ? Object.entries(tracks.points).filter(e => {
@@ -78,7 +78,7 @@ export const getselectedPathEntryData = ({ selectedPathEntry, tracks }) => {
   return selectedEntries;
 };
 
-export const getselectedPathEntry = state => state.selectedPathEntry;
+export const getSelectedPathEntryData = state => state.selectedPathEntry;
 export const countFilteredWarnings = state => {
   const filteredWarnings = state.warnings.filter(
     e => e.matches && e.matches.length >= 1,
