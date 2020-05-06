@@ -329,3 +329,16 @@ var getAJAXOptions = function getAJAXOptions(url) {
     }
   });
 };
+
+$.fn.centerMe = function () {
+  this.css("left", $(window).width() / 2 - $(this).width() / 2);
+  this.css("top", $(window).height() / 2 - $(this).height() / 2);
+};
+
+var pushDownload = function pushDownload(data, outFileName) {
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+  var dlAnchorElem = document.createElement("a");
+  dlAnchorElem.setAttribute("href", dataStr);
+  dlAnchorElem.setAttribute("download", outFileName);
+  dlAnchorElem.click();
+};

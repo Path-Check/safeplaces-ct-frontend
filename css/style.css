@@ -445,3 +445,33 @@ label:hover:before {
     max-width: 500px;
     /* Could be more or less, depending on screen size */
 }
+
+#save {
+    display: inline-block;
+}
+
+#safe-path-json-url-wrapper {
+    padding: 20px;
+    display: none;
+    width: 500px;
+    height: 150px;
+    background-color: white;
+    color: black;
+    position: absolute;
+    z-index: 1000;
+    border-color: #000058;
+    border-style: solid;
+}
+
+#safe-path-json-url-text {
+    width: 460px;
+}
+
+#popup-close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border-width: 0px;
+}
