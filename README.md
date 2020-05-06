@@ -1,3 +1,21 @@
+# Safeplaces frontend
+
+The application is a offline-first PWA. All the functionality should be available without having an API so no data is getting shared until you push to an API.
+
+### Technology used
+- react.js
+- redux (redux-persist with localStorage to store all data on the device, redux-saga)
+- css modules with scss
+- jest for testing
+
+### Structure
+- use [ducks](https://github.com/erikras/ducks-modular-redux) scheme for redux implementation
+
+## Roadmap
+
+- implement all features from the MVP-version
+- calendar
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
