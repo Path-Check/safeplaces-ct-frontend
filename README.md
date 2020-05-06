@@ -2,6 +2,13 @@
 
 A toolkit for public health, built on top of data shared by users of [Private Kit](https://github.com/tripleblindmarket/private-kit)
 
+## Project Status
+
+[![Project Status: WIP – The project is still under development and will reach a Minimum Viable Product stage soon.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
+The project is still under development and will reach a Minimum Viable Product (MVP) stage soon.  
+_Note_: There can be breaking changes to the developing code until the MVP is released.
+
 ## Server
 
 A server implementation can be easily built to host these tools. See how in the [Server API documentation](Safe-Places-Server.md).
