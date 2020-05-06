@@ -65,24 +65,24 @@ export default function SidebarContent() {
             >
               <div>
                 <h3 className={styles.title}>
-                  {moment.utc(e[1].time).format('YYYY-MM-DD')}
+                  {moment.utc(e.time).format('YYYY-MM-DD')}
                   <span className={styles.time}>
-                    {moment.utc(e[1].time).format('HH:mm:ss')}
+                    {moment.utc(e.time).format('HH:mm:ss')}
                   </span>
                 </h3>
 
                 <p className={styles.subTitle}>
-                  {e[1].street} {e[1].other} {e[1].postal} {e[1].town}
+                  {e.street} {e.other} {e.postal} {e.town}
                 </p>
 
                 <List kind="simple" colon small>
-                  <ListItem title="Latitude">{e[1].latitude}</ListItem>
-                  <ListItem title="Longitude">{e[1].longitude}</ListItem>
+                  <ListItem title="Latitude">{e.latitude}</ListItem>
+                  <ListItem title="Longitude">{e.longitude}</ListItem>
                 </List>
               </div>
 
               <div className={styles.buttons}>
-                <NavLink to={`/patient/edit/${e[0]}`}>
+                <NavLink to={`/patient/edit/${e}`}>
                   <Button
                     kind="primary"
                     icon={<FontAwesomeIcon icon={faEdit} />}

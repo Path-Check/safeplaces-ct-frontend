@@ -5,7 +5,7 @@ import SidebarContent from '../SidebarEntry';
 import FileSaver from 'file-saver';
 
 import {
-  getTrack,
+  getTrackPoints,
   getSelectedTracks,
   getFilteredTrackPath,
 } from '../../selectors';
@@ -161,7 +161,7 @@ function Sidebar({ addTrackEntryTrigger, track }) {
 const mapStateToProps = state => {
   return {
     selectedTracks: getSelectedTracks(state),
-    track: getTrack(state),
+    track: getTrackPoints(state),
   };
 };
 

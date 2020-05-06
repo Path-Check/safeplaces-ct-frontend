@@ -3,7 +3,7 @@ export const getCurrentStore = (state, ownProps) =>
 export const getAllPositions = state => state.positions;
 export const getAllWarnings = state => state.warnings;
 export const getDetail = state => state.detail;
-export const getTrack = state => state.tracks;
+export const getTrackPoints = state => state.tracks.points;
 export const getFilter = state => state.filter;
 export const getTrackPath = state =>
   state.tracks && state.tracks.points
@@ -14,14 +14,13 @@ export const getTrackPath = state =>
 
 export const getFilteredTrackPath = state =>
   state.tracks && state.tracks.points
-    ? Object.entries(state.tracks.points)
+    ? state.tracks.points
         .sort(function (a, b) {
-          return a[1].time - b[1].time;
+          return a.time - b.time;
         })
         .filter(
           e =>
-            e[1].time >= state.filter.dates[0] &&
-            e[1].time <= state.filter.dates[1],
+            e.time >= state.filter.dates[0] && e.time <= state.filter.dates[1],
         )
     : [];
 
@@ -30,7 +29,7 @@ export const getTrackStart = state =>
   state.tracks.points &&
   Math.min.apply(
     Math,
-    Object.values(state.tracks.points).map(function (o) {
+    state.tracks.points.map(function (o) {
       return o.time;
     }),
   );
@@ -40,7 +39,7 @@ export const getTrackEnd = state =>
   state.tracks.points &&
   Math.max.apply(
     Math,
-    Object.values(state.tracks.points).map(function (o) {
+    state.tracks.points.map(function (o) {
       return o.time;
     }),
   );
