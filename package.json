@@ -63,7 +63,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:dev": "NODE_ENV=dev react-scripts start",
     "build": "react-scripts build",
     "build:dev": "env-cmd -f .env.dev react-scripts build",
     "build:qa": "env-cmd  -f .env.qa react-scripts build",
