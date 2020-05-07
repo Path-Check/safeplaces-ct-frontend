@@ -1,4 +1,5 @@
-import { UPDATE_FILTER, UPDATE_FILTER_DATES } from '../constants/ActionTypes';
+export const UPDATE_FILTER = 'safeplaces/filter/UPDATE_FILTER';
+export const UPDATE_FILTER_DATES = 'safeplaces/filter/UPDATE_FILTER_DATES';
 
 const initialState = { dates: [] }; // todo: change dates to a object -> startDate, endDate
 
@@ -12,3 +13,17 @@ export default function detail(state = initialState, action) {
       return state;
   }
 }
+
+export const updateFilter = data => {
+  return {
+    type: UPDATE_FILTER,
+    data,
+  };
+};
+
+export const updateFilterDates = data => {
+  return {
+    type: UPDATE_FILTER_DATES,
+    data,
+  };
+};

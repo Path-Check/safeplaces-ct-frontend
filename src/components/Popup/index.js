@@ -4,17 +4,17 @@ import { Popup } from 'react-map-gl';
 import styles from './styles.module.scss';
 
 import moment from 'moment';
-import { addSelected } from '../../actions';
-import { getSelectedTracksData } from '../../selectors';
+import { addSelected } from '../../ducks/selectedPathEntry';
+import { getSelectedPathEntryDataData } from '../../selectors';
 
-const PopupWrapper = ({ addSelectedTrigger, selectedTracksData }) => {
-  if (selectedTracksData && selectedTracksData.length === 1) {
+const PopupWrapper = ({ addSelectedTrigger, selectedPathEntryData }) => {
+  if (selectedPathEntryData && selectedPathEntryData.length === 1) {
     return (
       <Popup
         tipSize={8}
         anchor="bottom"
-        longitude={selectedTracksData[0][1].longitude}
-        latitude={selectedTracksData[0][1].latitude}
+        longitude={selectedPathEntryData[0][1].longitude}
+        latitude={selectedPathEntryData[0][1].latitude}
         closeOnClick={false}
         closeButton={false}
         offsetTop={-10}
@@ -22,10 +22,10 @@ const PopupWrapper = ({ addSelectedTrigger, selectedTracksData }) => {
       >
         <div className={styles.popup}>
           <h3 className={styles.title}>
-            {moment.utc(selectedTracksData[0][1].time).format('YYYY-MM-DD')}
+            {moment.utc(selectedPathEntryData[0][1].time).format('YYYY-MM-DD')}
           </h3>
           <p className={styles.time}>
-            {moment.utc(selectedTracksData[0][1].time).format('HH:mm:ss')}
+            {moment.utc(selectedPathEntryData[0][1].time).format('HH:mm:ss')}
           </p>
         </div>
       </Popup>
@@ -37,7 +37,7 @@ const PopupWrapper = ({ addSelectedTrigger, selectedTracksData }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedTracksData: getSelectedTracksData(state),
+    selectedPathEntryData: getSelectedPathEntryDataData(state),
   };
 };
 

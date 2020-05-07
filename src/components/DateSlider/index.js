@@ -5,7 +5,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { getTrackStart, getTrackEnd, getFilter } from '../../selectors';
 import styles from './styles.module.scss';
 import { Checkbox } from '@wfp/ui';
-import { updateFilterDates } from '../../actions';
+import { updateFilterDates } from '../../ducks/filter';
 const Handle = Slider.Handle;
 
 const handle = props => {
@@ -74,7 +74,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  // addTrackEntryTrigger: data => dispatch(addTrackEntry(data))
+  // addPathEntryTrigger: data => dispatch(addPathEntry(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DateSlider);

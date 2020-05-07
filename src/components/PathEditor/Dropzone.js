@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { addTrack } from '../../ducks/tracks';
+import { importPath } from '../../ducks/path';
 // import { getAllTracks } from "../../selectors";
 import { connect } from 'react-redux';
 import { Button } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderPlus } from '@fortawesome/pro-solid-svg-icons';
 
-function MyDropzone({ addTrackTrigger }) {
+function MyDropzone({ importPathTrigger }) {
   const onDrop = useCallback(
     acceptedFiles => {
       acceptedFiles.forEach(file => {
@@ -18,13 +18,13 @@ function MyDropzone({ addTrackTrigger }) {
         reader.onload = () => {
           // Do whatever you want with the file contents
           const binaryStr = reader.result;
-          addTrackTrigger(JSON.parse(binaryStr));
+          importPathTrigger(JSON.parse(binaryStr));
           console.log(JSON.parse(binaryStr));
         };
         reader.readAsText(file);
       });
     },
-    [addTrackTrigger],
+    [importPathTrigger],
   );
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addTrackTrigger: data => dispatch(addTrack(data)),
+  importPathTrigger: data => dispatch(importPath(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDropzone);

@@ -1,4 +1,4 @@
-@import "../../scss/global";
+@import '../../scss/global';
 
 .settingsPageWrapper {
   background: $ui-02;
@@ -12,6 +12,14 @@
 }
 .header {
   margin: $spacing-2xl 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerConfiguration {
+  > * {
+    margin-left: $spacing-xs;
+  }
 }
 .wrapper {
   display: flex;
@@ -25,7 +33,7 @@
   > * {
     margin-bottom: $spacing-xl;
     text-decoration: none;
-    &[class="active"] {
+    &[class='active'] {
       color: $text-01;
       font-weight: 600;
       text-decoration: none;
@@ -38,7 +46,7 @@
   border-radius: 5px;
   flex: 1;
   box-shadow: 0px 5px 10px rgba(#000, 0.03);
-  form > [class="wfp--form-item"],
+  form > [class='wfp--form-item'],
   form > * {
     margin-bottom: 2rem;
   }
