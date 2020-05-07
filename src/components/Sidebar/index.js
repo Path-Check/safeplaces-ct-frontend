@@ -11,7 +11,7 @@ import {
 } from '../../selectors';
 import styles from './styles.module.scss';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import DateSlider from '../DateSlider';
+import DateSlider from '../Filter';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

@@ -1,4 +1,4 @@
-@import "../../scss/global";
+@import 'scss/global';
 
 .sidebarContent {
   flex: 1;
@@ -50,7 +50,7 @@
   background: $ui-03;
   border-bottom: 1px solid $ui-04;
   h2 {
-    @include typescale("gamma");
+    @include typescale('gamma');
     a {
       text-decoration: none;
       &:hover {

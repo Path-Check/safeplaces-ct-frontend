@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Slider, { Range } from 'rc-slider';
 import moment from 'moment';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getTrackStart, getTrackEnd, getFilter } from '../../selectors';
 import styles from './styles.module.scss';
 import { Checkbox } from '@wfp/ui';
@@ -19,8 +19,10 @@ const handle = props => {
   );
 };
 
-function DateSlider({ trackStart, trackEnd }) {
+export default function Filter() {
   const filter = useSelector(getFilter);
+  const trackStart = useSelector(getTrackStart);
+  const trackEnd = useSelector(getTrackEnd);
   const dispatch = useDispatch();
   const steps = 30;
   useEffect(() => {
@@ -65,16 +67,3 @@ function DateSlider({ trackStart, trackEnd }) {
     </div>
   );
 }
-
-const mapStateToProps = state => {
-  return {
-    trackStart: getTrackStart(state),
-    trackEnd: getTrackEnd(state),
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  // addPathEntryTrigger: data => dispatch(addPathEntry(data))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DateSlider);

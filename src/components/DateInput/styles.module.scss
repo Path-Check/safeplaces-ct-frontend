@@ -1,11 +1,11 @@
-@import "../../scss/global";
+@import 'scss/global';
 
 .dateInput {
   position: relative;
   max-width: 200px;
 
-  input[type="date"],
-  input[type="time"] {
+  input[type='date'],
+  input[type='time'] {
     padding-left: 2rem;
     display: flex;
     align-items: center;

@@ -20,12 +20,11 @@ import moment from 'moment';
 import Empty from '../Empty';
 import { NavLink } from 'react-router-dom';
 
-export default function SidebarContent() {
+export default function SidebarPathList() {
   const selectedPathEntry = useSelector(state =>
     getSelectedPathEntryData(state),
   );
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
-
   const dispatch = useDispatch();
   const addSelectedTrigger = data => dispatch(addSelected(data));
   const removePathEntryTrigger = data => dispatch(removePathEntry(data));
