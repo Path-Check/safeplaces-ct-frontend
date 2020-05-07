@@ -6,7 +6,7 @@ class Page(object):
     """
     Base class that all page models can inherit from
     """
-    def __init__(self, selenium_driver, base_url='http://localhost:8080/'):
+    def __init__(self, selenium_driver, base_url='http://localhost:80/'):
         self.base_url = base_url
         self.driver = selenium_driver
         self.timeout = 30
@@ -30,7 +30,7 @@ class EntryPage(Page):
 
     def open_page(self):
         self.open("")
-        assert "Safe Places" in self.driver.title
+        assert "Safe Places" in self.driver.title, self.driver.title
 
     def open_redactor(self):
         self.find_element(self.loc_scrubber).click()
