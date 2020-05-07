@@ -25,11 +25,15 @@ class TestRedaction(unittest.TestCase):
             self.base_url = os.environ['BASE_TEST_URL']
         else:
             self.base_url = 'https://safeplaces.extremesolution.com/'
+        if 'SELENIUM_URL' in os.environ.copy():
+            self.sel_url = os.environ['SELENIUM_URL']
+        else:
+            self.sel_url = 'http://172.17.0.2:4444/wd/hub'
 
         chrome_options = webdriver.ChromeOptions()
         prefs = {'download.default_directory': '/tmp'}
         chrome_options.add_experimental_option('prefs', prefs)
-        self.driver = webdriver.Remote(command_executor='http://172.17.0.2:4444/wd/hub', options=chrome_options)
+        self.driver = webdriver.Remote(command_executor=self.sel_url, options=chrome_options)
 
 
     def test_redaction(self):

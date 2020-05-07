@@ -11,9 +11,18 @@ These are selenium python tests for testing the Safe Places web application.
 * Just run "pytest" from the repo root.
 
 # CI Execution
-* Preparation:
-** Configure the Dockerfile under tests/docker/testhost to add appropriate environment variables (e.g. base url)
-* Start a standalone server:  docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome
+
+## Preparation
+
+* Configure the Dockerfile under tests/docker/testhost to add appropriate environment variables
+  * the BASE_URL should be the ULR of the frontend server being tested
+  * the SELENIUM_URL should refer to the selenium standalone server started in docker
+
+## Execution
+WARNING - THIS SHOULD NOT YET BE INTEGRATED WITH CORE CI FLOWS UNTIL TESTED
+
+* Start a selenium standalone server:  docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome
 * Start a test host:
   * docker build -t testhost .
   * docker run testhost
+* Start a frontend server without back-end
