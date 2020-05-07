@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { useParams } from 'react-router';
 
-// type AppProps = { children: any; editor: any; sidebar: any };
-
 export default function Wrapper({ children, editor, sidebar }) {
   const params = useParams();
   return (

@@ -1,14 +1,14 @@
-@import "../../scss/global";
+@import 'scss/global';
 
 .select {
-    font-size: 1.4rem;
+  font-size: 1.4rem;
 }
 
 .title {
-    @include typescale("epsilon");
+  @include typescale('epsilon');
 }
 
 .subTitle {
-    color: $text-02;
-    @include typescale("caption");
+  color: $text-02;
+  @include typescale('caption');
 }

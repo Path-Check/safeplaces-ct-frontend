@@ -6,8 +6,12 @@ import styles from './styles.module.scss';
 import moment from 'moment';
 import { addSelected } from '../../ducks/selectedPathEntry';
 import { getSelectedPathEntryDataData } from '../../selectors';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux/lib/hooks/useDispatch';
 
-const PopupWrapper = ({ addSelectedTrigger, selectedPathEntryData }) => {
+export default function PopupWrapper() {
+  const selectedPathEntryData = useSelector(getSelectedPathEntryDataData);
+  const dispatch = useDispatch();
   if (selectedPathEntryData && selectedPathEntryData.length === 1) {
     return (
       <Popup
@@ -18,7 +22,7 @@ const PopupWrapper = ({ addSelectedTrigger, selectedPathEntryData }) => {
         closeOnClick={false}
         closeButton={false}
         offsetTop={-10}
-        onClose={() => addSelectedTrigger([])}
+        onClose={() => dispatch(addSelected([]))}
       >
         <div className={styles.popup}>
           <h3 className={styles.title}>
@@ -33,16 +37,4 @@ const PopupWrapper = ({ addSelectedTrigger, selectedPathEntryData }) => {
   }
 
   return null;
-};
-
-const mapStateToProps = state => {
-  return {
-    selectedPathEntryData: getSelectedPathEntryDataData(state),
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  addSelectedTrigger: data => dispatch(addSelected(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PopupWrapper);
+}

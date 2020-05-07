@@ -22,11 +22,7 @@ import moment from 'moment';
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_PLACES_KEY);
 
 // set response language. Defaults to english.
-Geocode.setLanguage('en');
-
-// set response region. Its optional.
-// A Geocoding request with region=es (Spain) will return the Spanish city.
-Geocode.setRegion('es');
+Geocode.setLanguage(process.env.REACT_APP_GOOGLE_PLACES_LANGUAGE);
 
 // Enable or disable logs. Its optional.
 Geocode.enableDebug();
@@ -81,7 +77,6 @@ const EntryForm = ({ initialData, useInline }) => {
           return find ? find.long_name : '';
         };
         const components = response.results[0].address_components;
-        console.log(response.results[0].address_components);
         setValue([
           {
             street: `${search('route')} ${search('street_number')}`,
@@ -123,7 +118,6 @@ const EntryForm = ({ initialData, useInline }) => {
   };
 
   const onSubmit = values => {
-    console.log(values);
     values.time = moment(`${values.date} ${values.time}`).valueOf();
     values.latitude = parseFloat(values.latitude);
     values.longitude = parseFloat(values.longitude);
@@ -131,7 +125,6 @@ const EntryForm = ({ initialData, useInline }) => {
     history.push('/');
   };
 
-  // if (load) return null;
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

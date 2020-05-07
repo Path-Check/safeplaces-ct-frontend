@@ -1,4 +1,4 @@
-@import "../../scss/global";
+@import 'scss/global';
 
 .newForm {
   padding: $spacing-md;
@@ -33,11 +33,11 @@
 }
 
 .title {
-  @include typescale("delta");
+  @include typescale('delta');
 }
 
 .subTitle {
-  @include typescale("zeta");
+  @include typescale('zeta');
   margin-bottom: $spacing-xs;
 }
 

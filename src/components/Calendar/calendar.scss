@@ -1,4 +1,4 @@
-@import "../../scss/global";
+@import 'scss/global';
 
 $out-of-range-color: lighten(#333, 40%) !default;
 $out-of-range-bg-color: lighten(#333, 70%) !default;
@@ -32,8 +32,8 @@ $rbc-css-prefix: rbc-i !default;
 
 $today-highlight-bg: #eaf6ff !default;
 
-@import "react-big-calendar/lib/sass/styles";
-@import "react-big-calendar/lib/addons/dragAndDrop/styles";
+@import 'react-big-calendar/lib/sass/styles';
+@import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
 .rbc-header {
   background: $ui-01;
