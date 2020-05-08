@@ -1,21 +1,24 @@
 import { v4 } from 'uuid';
-export const ADD = 'safeplaces/cases/ADD';
+export const CREATE = 'safeplaces/cases/CREATE';
 
-export default function tracks(state = {}, action) {
+const initialState = {};
+
+export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case ADD:
-      state[v4()] = action.data;
+    case CREATE:
+      state[action.id] = { hallo: 'du' };
       return state;
     default:
       return state;
   }
 }
 
-export const addPatient = data => {
+export const createCase = data => {
   return {
-    type: ADD,
+    type: CREATE,
     data,
+    id: v4(),
   };
 };
 
-export const showPatients = state => state.cases;
+export const showCases = state => state.cases;

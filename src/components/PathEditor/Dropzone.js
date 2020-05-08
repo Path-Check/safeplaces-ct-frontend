@@ -32,7 +32,7 @@ function MyDropzone({ importPathTrigger }) {
     <div {...getRootProps()}>
       <input {...getInputProps()} />
       <Button iconReverse icon={<FontAwesomeIcon icon={faFolderPlus} />}>
-        Load
+        Import
       </Button>
     </div>
   );

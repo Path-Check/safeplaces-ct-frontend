@@ -1,9 +1,12 @@
 import React from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
-import { showPatients } from '../../ducks/cases';
+import { showCases, createCase } from '../../ducks/cases';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
+import { useDispatch } from 'react-redux';
 
 const SingleValue = ({ children, ...props }) => (
   <components.SingleValue {...props}>
@@ -11,6 +14,43 @@ const SingleValue = ({ children, ...props }) => (
     <p className={styles.subTitle}>2020-04-11 23:03:25</p>
   </components.SingleValue>
 );
+
+const Option = props => {
+  const { data } = props;
+  if (data.value === 'all') {
+    return (
+      <components.Option {...props}>
+        <h2 className={styles.title}>Patient overview</h2>
+      </components.Option>
+    );
+  }
+  if (data.value === 'new') {
+    return (
+      <components.Option {...props}>
+        <h2 className={styles.title}>
+          <FontAwesomeIcon icon={faPlusCircle} /> Add new case
+        </h2>
+      </components.Option>
+    );
+  }
+
+  return (
+    <components.Option {...props}>
+      <div
+        className={
+          props.isSelected
+            ? `${styles.optionWrapper} ${styles.optionWrapperSelected}`
+            : styles.optionWrapper
+        }
+      >
+        <div>
+          <h2 className={styles.title}>{data.label}</h2>
+          <p className={styles.subTitle}>Subtitle</p>
+        </div>
+      </div>
+    </components.Option>
+  );
+};
 
 const customStyles = {
   control: base => ({
@@ -21,21 +61,30 @@ const customStyles = {
 };
 
 export default function SelectCase() {
-  const patients = useSelector(state => showPatients(state));
+  const patients = useSelector(state => showCases(state));
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const options = Object.entries(patients).map(e => {
     return { value: e[0], label: e[0] };
   });
 
-  options.push({ value: 'all', label: 'all cases' });
+  options.unshift({ value: 'all', label: 'all cases' });
+  options.push({ value: 'new', label: 'add new case' });
   return (
     <Select
       className={styles.select}
       options={options}
       styles={customStyles}
-      components={{ SingleValue }}
-      onChange={e => history.push(`/${e.value}`)}
+      components={{ SingleValue, Option }}
+      onChange={e => {
+        var id = e.value;
+        if (id === 'new') {
+          id = dispatch(createCase()).id;
+        }
+        console.log(id);
+        history.push(`/${id}`);
+      }}
     />
   );
 }
