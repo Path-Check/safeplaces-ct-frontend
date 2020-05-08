@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function PopupWrapper() {
   const selectedPathEntryData = useSelector(getSelectedPathEntryDataData);
-  console.log(selectedPathEntryData);
   const dispatch = useDispatch();
   if (selectedPathEntryData && selectedPathEntryData.length === 1) {
     return (
