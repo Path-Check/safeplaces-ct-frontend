@@ -10,17 +10,20 @@ export default function tracks(state = initialState, action) {
   switch (action.type) {
     case IMPORT:
       action.data.points = {};
-      action.data.concern_points.forEach(element => {
+      action.data.forEach((element, index) => {
+        // todo: check sanity here of time, verify it
+        element.time = Number(element.time);
+        element.id = index;
         action.data.points[v4()] = element;
       });
       delete action.data.concern_points;
-      return action.data;
+      return { ...state, points: action.data };
 
-    case REMOVE_ENTRY:
-      const concernPoints = state.points.filter(e => e.time !== action.data);
-      return { ...state, concern_points: concernPoints };
-
-    case EDIT_ENTRY:
+    case REMOVE_ENTRY: {
+      const points = state.points.filter(e => e.time !== action.data);
+      return { ...state, points: points };
+    }
+    case EDIT_ENTRY: {
       const newPoints = state.points;
       if (action.id !== 'new') {
         newPoints[action.id] = action.data;
@@ -29,12 +32,12 @@ export default function tracks(state = initialState, action) {
       }
 
       return { ...state, points: newPoints };
-
-    case ADD_ENTRY:
+    }
+    case ADD_ENTRY: {
       const pointsAdd = state.points;
       pointsAdd.push({ latitude: 0, longitude: 0, time: 2132321 });
-      return { ...state, concern_points: pointsAdd };
-
+      return { ...state, points: pointsAdd };
+    }
     default:
       return state;
   }
