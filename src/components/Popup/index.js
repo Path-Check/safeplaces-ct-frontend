@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Popup } from 'react-map-gl';
 import styles from './styles.module.scss';
 
