@@ -19,6 +19,7 @@ import {
 import moment from 'moment';
 import Empty from '../Empty';
 import { NavLink } from 'react-router-dom';
+import ButtonRouter from 'components/ButtonRouter';
 
 export default function SidebarPathList() {
   const selectedPathEntry = useSelector(state =>
@@ -86,17 +87,18 @@ export default function SidebarPathList() {
               </div>
 
               <div className={styles.buttons}>
-                <NavLink to={`/patient/edit/${e[0]}`}>
-                  <Button
-                    kind="primary"
-                    icon={<FontAwesomeIcon icon={faEdit} />}
-                  ></Button>
-                </NavLink>
+                <ButtonRouter
+                  kind="tertiary"
+                  small
+                  to={`/patient/edit/${e[0]}`}
+                  icon={<FontAwesomeIcon icon={faEdit} />}
+                />
                 <Button
-                  kind="primary"
+                  kind="tertiary"
+                  small
                   icon={<FontAwesomeIcon icon={faTrashAlt} />}
                   onClick={() => removePathEntryTrigger(e.time)}
-                ></Button>
+                />
               </div>
             </div>
           </div>

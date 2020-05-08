@@ -26,6 +26,7 @@
   flex: 1;
   width: 100%;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .selectedItem {
@@ -47,8 +48,16 @@
 }
 .buttons {
   opacity: 0;
+  border: 1px solid $ui-05;
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px rgba(#000, 0.2);
+  transition: all 0.05s;
   > * {
-    margin-left: $spacing-xs;
+    margin: $spacing-3xs;
+    padding: 0 0.5rem !important;
+    /*&:first-child  {
+      margin-left: 0;
+    }*/
   }
   @media print {
     display: none;

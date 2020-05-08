@@ -2,8 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import rootReducer from './ducks';
-import watcherSaga from './sagas/index';
+import rootReducer from 'ducks';
+import watcherSaga from 'sagas';
 import axiosInterceptors from './axiosInterceptors';
 import { createBlacklistFilter } from 'redux-persist-transform-filter';
 const saveSubsetBlacklistFilter = createBlacklistFilter('auth', [

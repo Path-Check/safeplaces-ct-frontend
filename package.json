@@ -12,7 +12,7 @@
     "@fortawesome/react-fontawesome": "^0.1.7",
     "@tippy.js/react": "^3.1.1",
     "@wfp/icons": "^0.0.82",
-    "@wfp/ui": "^1.4.1-alpha.36",
+    "@wfp/ui": "^1.4.1-alpha.45",
     "array-move": "^2.2.1",
     "axios": "^0.19.2",
     "env-cmd": "^10.1.0",
