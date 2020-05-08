@@ -45,27 +45,27 @@ export default function SidebarPathList() {
         filteredTrackPath.map((e, i) => (
           <div
             className={`${styles.item} ${
-              selectedPathEntry.includes(e[0]) && styles.selectedItem
+              selectedPathEntry.includes(e) && styles.selectedItem
             }`}
             key={i}
           >
             <Checkbox
               wrapperClassName={styles.checkbox}
-              name={`checkbox-${e[0]}`}
+              name={`checkbox-${e.id}`}
               onChange={f => {
                 if (f === false) {
                   const newSelect = selectedPathEntry;
-                  newSelect.splice(newSelect.indexOf(e[0]), 1);
+                  newSelect.splice(newSelect.indexOf(e), 1);
                   addSelectedTrigger([...newSelect]);
                 } else {
-                  addSelectedTrigger([...selectedPathEntry, e[0]]);
+                  addSelectedTrigger([...selectedPathEntry, e]);
                 }
               }}
-              checked={selectedPathEntry.includes(e[0])}
+              checked={selectedPathEntry.includes(e)}
             />
             <div
               className={styles.itemInner}
-              onClick={() => addSelectedTrigger([e[0]])}
+              onClick={() => addSelectedTrigger([e])}
             >
               <div>
                 <h3 className={styles.title}>
@@ -86,7 +86,7 @@ export default function SidebarPathList() {
               </div>
 
               <div className={styles.buttons}>
-                <NavLink to={`/patient/edit/${e}`}>
+                <NavLink to={`/patient/edit/${e.id}`}>
                   <Button
                     kind="primary"
                     icon={<FontAwesomeIcon icon={faEdit} />}

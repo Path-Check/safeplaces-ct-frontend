@@ -67,11 +67,11 @@ export const getAllFilteredWarnings = state => {
   return filteredWarnings;
 };
 
-export const getSelectedPathEntryDataData = ({ selectedPathEntry, tracks }) => {
+export const getSelectedPathEntryDataData = ({ selectedPathEntry, path }) => {
   const selectedEntries =
-    tracks && tracks.points && selectedPathEntry
-      ? Object.entries(tracks.points).filter(e => {
-          return e[0] === selectedPathEntry[0];
+    path && path.points && selectedPathEntry
+      ? path.points.filter(e => {
+          return e.id !== selectedPathEntry.id;
         })
       : undefined;
   return selectedEntries;

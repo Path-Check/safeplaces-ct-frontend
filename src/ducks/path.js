@@ -10,9 +10,10 @@ export default function tracks(state = initialState, action) {
   switch (action.type) {
     case IMPORT:
       action.data.points = {};
-      action.data.forEach(element => {
+      action.data.forEach((element, index) => {
         // todo: check sanity here of time, verify it
         element.time = Number(element.time);
+        element.id = index;
         action.data.points[v4()] = element;
       });
       delete action.data.concern_points;
