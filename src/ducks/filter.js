@@ -1,7 +1,7 @@
 export const UPDATE_FILTER = 'safeplaces/filter/UPDATE_FILTER';
 export const UPDATE_FILTER_DATES = 'safeplaces/filter/UPDATE_FILTER_DATES';
 
-const initialState = { dates: [] };
+const initialState = { dates: [] }; // todo: change dates to a object -> startDate, endDate
 
 export default function detail(state = initialState, action) {
   switch (action.type) {

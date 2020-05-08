@@ -45,48 +45,48 @@ export default function SidebarPathList() {
         filteredTrackPath.map((e, i) => (
           <div
             className={`${styles.item} ${
-              selectedPathEntry.includes(e[0]) && styles.selectedItem
+              selectedPathEntry.includes(e) && styles.selectedItem
             }`}
             key={i}
           >
             <Checkbox
               wrapperClassName={styles.checkbox}
-              name={`checkbox-${e[0]}`}
+              name={`checkbox-${e.id}`}
               onChange={f => {
                 if (f === false) {
                   const newSelect = selectedPathEntry;
-                  newSelect.splice(newSelect.indexOf(e[0]), 1);
+                  newSelect.splice(newSelect.indexOf(e), 1);
                   addSelectedTrigger([...newSelect]);
                 } else {
-                  addSelectedTrigger([...selectedPathEntry, e[0]]);
+                  addSelectedTrigger([...selectedPathEntry, e]);
                 }
               }}
-              checked={selectedPathEntry.includes(e[0])}
+              checked={selectedPathEntry.includes(e)}
             />
             <div
               className={styles.itemInner}
-              onClick={() => addSelectedTrigger([e[0]])}
+              onClick={() => addSelectedTrigger([e])}
             >
               <div>
                 <h3 className={styles.title}>
-                  {moment.utc(e[1].time).format('YYYY-MM-DD')}
+                  {moment.utc(e.time).format('YYYY-MM-DD')}
                   <span className={styles.time}>
-                    {moment.utc(e[1].time).format('HH:mm:ss')}
+                    {moment.utc(e.time).format('HH:mm:ss')}
                   </span>
                 </h3>
 
                 <p className={styles.subTitle}>
-                  {e[1].street} {e[1].other} {e[1].postal} {e[1].town}
+                  {e.street} {e.other} {e.postal} {e.town}
                 </p>
 
                 <List kind="simple" colon small>
-                  <ListItem title="Latitude">{e[1].latitude}</ListItem>
-                  <ListItem title="Longitude">{e[1].longitude}</ListItem>
+                  <ListItem title="Latitude">{e.latitude}</ListItem>
+                  <ListItem title="Longitude">{e.longitude}</ListItem>
                 </List>
               </div>
 
               <div className={styles.buttons}>
-                <NavLink to={`/patient/edit/${e[0]}`}>
+                <NavLink to={`/patient/edit/${e.id}`}>
                   <Button
                     kind="primary"
                     icon={<FontAwesomeIcon icon={faEdit} />}

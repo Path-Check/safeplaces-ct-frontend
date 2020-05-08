@@ -131,7 +131,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
           small
           icon={<FontAwesomeIcon icon={faCheckCircle} />}
           onClick={() => {
-            dispatch(addSelected(filteredTrackPath.map(e => e[0])));
+            dispatch(addSelected(filteredTrackPath));
           }}
         >
           all

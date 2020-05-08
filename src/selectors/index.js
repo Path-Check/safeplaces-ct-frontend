@@ -14,14 +14,13 @@ export const getTrackPath = state =>
 
 export const getFilteredTrackPath = state =>
   state.path && state.path.points
-    ? Object.entries(state.path.points)
+    ? state.path.points
         .sort(function (a, b) {
-          return a[1].time - b[1].time;
+          return a.time - b.time;
         })
         .filter(
           e =>
-            e[1].time >= state.filter.dates[0] &&
-            e[1].time <= state.filter.dates[1],
+            e.time >= state.filter.dates[0] && e.time <= state.filter.dates[1],
         )
     : [];
 
@@ -30,7 +29,7 @@ export const getTrackStart = state =>
   state.path.points &&
   Math.min.apply(
     Math,
-    Object.values(state.path.points).map(function (o) {
+    state.path.points.map(function (o) {
       return o.time;
     }),
   );
@@ -40,7 +39,7 @@ export const getTrackEnd = state =>
   state.path.points &&
   Math.max.apply(
     Math,
-    Object.values(state.path.points).map(function (o) {
+    state.path.points.map(function (o) {
       return o.time;
     }),
   );
@@ -68,11 +67,11 @@ export const getAllFilteredWarnings = state => {
   return filteredWarnings;
 };
 
-export const getSelectedPathEntryDataData = ({ selectedPathEntry, tracks }) => {
+export const getSelectedPathEntryDataData = ({ selectedPathEntry, path }) => {
   const selectedEntries =
-    tracks && tracks.points && selectedPathEntry
-      ? Object.entries(tracks.points).filter(e => {
-          return e[0] === selectedPathEntry[0];
+    path && path.points && selectedPathEntry
+      ? path.points.filter(e => {
+          return e.id !== selectedPathEntry.id;
         })
       : undefined;
   return selectedEntries;

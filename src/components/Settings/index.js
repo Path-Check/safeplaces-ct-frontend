@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import ApiPage from '../ApiPage';
 import OrganizationPage from '../OrganizationPage';
 import styles from './styles.module.scss';

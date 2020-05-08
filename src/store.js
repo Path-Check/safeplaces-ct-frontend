@@ -29,8 +29,8 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
-
 const storeEntry = createStore(persistedReducer, enhancer);
+
 axiosInterceptors.setupInterceptors(storeEntry);
 sagaMiddleware.run(watcherSaga);
 
