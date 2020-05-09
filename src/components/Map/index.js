@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import Track from './trackPath';
 import { addSelected } from '../../ducks/selectedPathEntry';
 import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
 import Popup from '../Popup';
-
 import defaultMapStyleJson from './style.json';
+import hereMapStyleJson from './herestyle.json';
 import WebMercatorViewport from 'viewport-mercator-project';
 import getBounds from './getBounds';
 import {
@@ -53,7 +53,7 @@ defaultMapStyle = defaultMapStyle
   )
   .setIn(['sources', 'points'], fromJS(emptyFeature));
 
-export default function Map() {
+export default function Map({ setMap }) {
   const [mapStyle, setMapStyle] = useState(defaultMapStyle);
   const [viewport, setViewport] = useState({
     width: 400,
@@ -63,7 +63,6 @@ export default function Map() {
     zoom: 8,
   });
   const mapRef = useRef();
-
   const trackPath = useSelector(getFilteredTrackPath);
   const dispatch = useDispatch();
 
@@ -111,7 +110,10 @@ export default function Map() {
       }
     }
   }, [mapStyle, trackPath, viewport]);
-
+  const onMapLoad = e => {
+    const map = mapRef.current.getMap();
+    setMap(map);
+  };
   const onMapClick = e => {
     console.log(e);
     var bbox = [
@@ -138,13 +140,19 @@ export default function Map() {
       className="map"
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-      mapStyle={mapStyle}
+      mapStyle={hereMapStyleJson}
       ref={mapRef}
       width="100%"
       height="100vh"
       onClick={onMapClick}
+      onLoad={onMapLoad}
       onViewportChange={viewportInternal => setViewport(viewportInternal)}
     >
+      <NavigationControl
+        showCompass={true}
+        className="mapboxgl-ctrl-top-left"
+      />
+
       <Popup />
       <Track />
     </ReactMapGL>
