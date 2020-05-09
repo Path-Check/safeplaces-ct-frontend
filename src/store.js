@@ -15,7 +15,7 @@ const persistConfig = {
   key: 'root',
   storage,
   timeout: 500,
-  // transforms: [saveSubsetBlacklistFilter],
+  transforms: [saveSubsetBlacklistFilter],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -30,7 +30,7 @@ export default function Filter() {
   }, [trackStart, trackEnd, dispatch]);
 
   const handleChange = value => {
-    dispatch(updateFilterDates(value));
+    dispatch(updateFilterDates({ start: value[0], end: value[1] }));
   };
 
   return (
@@ -51,7 +51,7 @@ export default function Filter() {
             min={trackStart}
             max={trackEnd}
             steps={steps}
-            value={filter.dates}
+            value={Object.values(filter.dates)}
             handle={handle}
             onChange={handleChange}
           />

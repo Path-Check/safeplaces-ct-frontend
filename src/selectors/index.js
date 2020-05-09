@@ -18,10 +18,15 @@ export const getFilteredTrackPath = state =>
         .sort(function (a, b) {
           return a.time - b.time;
         })
-        .filter(
-          e =>
-            e.time >= state.filter.dates[0] && e.time <= state.filter.dates[1],
-        )
+        .filter(e => {
+          if (state.filter.dates) {
+            return (
+              e.time >= state.filter.dates.start &&
+              e.time <= state.filter.dates.end
+            );
+          }
+          return true;
+        })
     : [];
 
 export const getTrackStart = state =>
