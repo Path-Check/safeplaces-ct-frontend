@@ -28,69 +28,19 @@ import { addSelected } from '../../ducks/selectedPathEntry';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
 import { getPath } from 'selectors/paths';
-import hereStyle from '../Map/herestyle.json';
-let mapBoxMap = null;
-function Sidebar({ addPathEntryTrigger, track, map }) {
+function Sidebar({ addPathEntryTrigger, track }) {
   // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const path = useSelector(state => getPath(state));
-  if (map !== null) {
-    mapBoxMap = map;
-  }
   const save = () => {
     var blob = new Blob([JSON.stringify(track)], {
       type: 'text/plain;charset=utf-8',
     });
     FileSaver.saveAs(blob, `export-${path.publish_date_utl}.json`);
   };
-  const toggleLayer = e => {
-    // console.log(e.currentTarget.value);
-    hereStyle.layers.forEach(layer => {
-      mapBoxMap.setLayoutProperty(layer.id, 'visibility', 'none');
-    });
-    mapBoxMap.setLayoutProperty(e.currentTarget.value, 'visibility', 'visible');
-  };
-  const renderLayers = () => {
-    return hereStyle.layers.map(layer => {
-      if (layer.layout.visibility === 'visible') {
-        return (
-          <label className={styles.folderSubTitle}>
-            <input
-              type="radio"
-              checked
-              name="layers"
-              onChange={e => {
-                toggleLayer(e);
-              }}
-              value={layer.id}
-            ></input>{' '}
-            {layer.title}
-          </label>
-        );
-      } else {
-        return (
-          <label className={styles.folderSubTitle}>
-            <input
-              type="radio"
-              name="layers"
-              onChange={e => {
-                toggleLayer(e);
-              }}
-              value={layer.id}
-            ></input>{' '}
-            {layer.title}
-          </label>
-        );
-      }
-    });
-  };
   return (
     <>
-      <div className={styles.folder}>
-        <h2 className={styles.folderTitle}>Select BaseMap</h2>
-        {renderLayers()}
-      </div>
       <div className={styles.folder}>
         <div>
           <h2 className={styles.folderTitle}>Sample organization local data</h2>

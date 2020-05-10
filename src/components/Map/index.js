@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import { MapboxLayerSwitcherControl } from 'mapbox-layer-switcher';
+import 'mapbox-layer-switcher/styles.css';
 import Track from './trackPath';
 import { addSelected } from '../../ducks/selectedPathEntry';
 import { getFilteredTrackPath } from '../../selectors';
@@ -112,7 +114,17 @@ export default function Map({ setMap }) {
   }, [mapStyle, trackPath, viewport]);
   const onMapLoad = e => {
     const map = mapRef.current.getMap();
-    setMap(map);
+    // setMap(map);
+    const styles: MapboxStyleDefinition[] = [];
+    hereMapStyleJson.layers.forEach(element => {
+      styles.push({
+        id: element.id,
+        title: element.title,
+        type: 'base',
+        visibility: element.layout.visibility,
+      });
+    });
+    map.addControl(new MapboxLayerSwitcherControl(styles));
   };
   const onMapClick = e => {
     console.log(e);
