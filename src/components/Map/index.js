@@ -164,7 +164,6 @@ export default function Map({ setMap }) {
         showCompass={true}
         className="mapboxgl-ctrl-top-left"
       />
-
       <Popup />
       <Track />
     </ReactMapGL>

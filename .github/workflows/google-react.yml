@@ -28,7 +28,7 @@ env:
   DEPLOYMENT_NAME: ${{ secrets.RN_DEPLOYMENT_NAME }}
   CONTAINER_NAME: ${{ secrets.RN_CONTAINER_NAME }}
   NAMESPACE: ${{ secrets.GKE_NAMESPACE }}
-
+  REACT_ENV: ${{ secrets.RN_ENV }}
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
@@ -52,6 +52,8 @@ jobs:
         # Set up docker to authenticate
         # via gcloud command-line tool.
         gcloud auth configure-docker
+    - run: |
+        echo $REACT_ENV | base64 --decode --ignore-garbage > .env
       
     # Build the Docker image
     - name: Build

@@ -28,6 +28,7 @@ import { addSelected } from '../../ducks/selectedPathEntry';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
 import { getPath } from 'selectors/paths';
+
 function Sidebar({ addPathEntryTrigger, track }) {
   // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
@@ -46,7 +47,6 @@ function Sidebar({ addPathEntryTrigger, track }) {
           <h2 className={styles.folderTitle}>Sample organization local data</h2>
           <p className={styles.folderSubTitle}>Data for lorem ipsum</p>
         </div>
-
         <div className={styles.settingsButtons}>
           <div>
             <Tippy
