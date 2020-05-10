@@ -18,7 +18,6 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import moment from 'moment';
 import Empty from '../Empty';
-import { NavLink } from 'react-router-dom';
 import ButtonRouter from 'components/ButtonRouter';
 
 export default function SidebarPathList() {

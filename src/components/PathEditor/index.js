@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Map from '../Map';
 import Sidebar from '../Sidebar';
 import Wrapper from '../Wrapper';
@@ -7,9 +7,13 @@ import { getSelectedPathEntryDataData } from '../../selectors';
 import { useSelector } from 'react-redux';
 
 export default function PathEditor() {
+  const [map, setMap] = useState(null);
   const selectedPathEntryData = useSelector(state =>
     getSelectedPathEntryDataData(state),
   );
+  const updateMap = map => {
+    setMap(map);
+  };
   return (
     <Wrapper
       editor={
@@ -17,9 +21,13 @@ export default function PathEditor() {
           initialData={selectedPathEntryData && selectedPathEntryData[0]}
         />
       }
-      sidebar={<Sidebar />}
+      sidebar={<Sidebar map={map} />}
     >
-      <Map />
+      <Map
+        setMap={map => {
+          updateMap(map);
+        }}
+      />
     </Wrapper>
   );
 }

@@ -2,11 +2,10 @@ import React from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
 import { showCases, createCase } from '../../ducks/cases';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
-import { useDispatch } from 'react-redux';
 
 const SingleValue = ({ children, ...props }) => (
   <components.SingleValue {...props}>

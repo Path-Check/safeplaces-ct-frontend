@@ -5,11 +5,6 @@ import storage from 'redux-persist/lib/storage';
 import rootReducer from 'ducks';
 import watcherSaga from 'sagas';
 import axiosInterceptors from './axiosInterceptors';
-import { createBlacklistFilter } from 'redux-persist-transform-filter';
-const saveSubsetBlacklistFilter = createBlacklistFilter('auth', [
-  'error',
-  'errorResponse',
-]);
 
 const persistConfig = {
   key: 'root',
