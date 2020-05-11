@@ -11,27 +11,36 @@ export default function tracks(state = initialState, action) {
     case IMPORT:
       action.data.points = {};
       action.data.forEach((element, index) => {
+        const id = v4();
         // todo: check sanity here of time, verify it
-        element.time = Number(element.time);
-        element.id = index;
-        action.data.points[v4()] = element;
+        //element.time = Number(element.time);
+        element.id = id;
+        action.data.points[id] = element;
       });
       delete action.data.concern_points;
-      return { ...state, points: action.data };
+      return { ...state, points: action.data.points };
 
     case REMOVE_ENTRY: {
+      state.points[action.payload] = {
+        ...state.points[action.payload],
+        trash: true,
+      };
+      return { ...state };
+    }
+    /*case REMOVE_ENTRY: {
       const points = state.points.filter(e => e.time !== action.data);
       return { ...state, points: points };
-    }
+    }*/
     case EDIT_ENTRY: {
-      const newPoints = state.points;
+      /*const newPoints = state.points;
       if (action.id !== 'new') {
         newPoints[action.id] = action.data;
       } else {
         newPoints[v4()] = action.data;
-      }
+      }*/
+      state.points[action.payload.id] = action.payload;
 
-      return { ...state, points: newPoints };
+      return { ...state };
     }
     case ADD_ENTRY: {
       const pointsAdd = state.points;
@@ -46,15 +55,14 @@ export default function tracks(state = initialState, action) {
 export const editPathEntry = (data, id) => {
   return {
     type: EDIT_ENTRY,
-    data,
-    id,
+    payload: data,
   };
 };
 
-export const removePathEntry = data => {
+export const removePathEntry = payload => {
   return {
     type: REMOVE_ENTRY,
-    data,
+    payload,
   };
 };
 

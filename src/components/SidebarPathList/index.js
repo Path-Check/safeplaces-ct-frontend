@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removePathEntry } from '../../ducks/path';
+import { editPathEntry, removePathEntry } from '../../ducks/path';
 
 import { addSelected } from '../../ducks/selectedPathEntry';
 import {
@@ -28,7 +28,7 @@ export default function SidebarPathList() {
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const dispatch = useDispatch();
   const addSelectedTrigger = data => dispatch(addSelected(data));
-  const removePathEntryTrigger = data => dispatch(removePathEntry(data));
+  //const removePathEntryTrigger = data => dispatch(removePathEntry(data));
 
   return (
     <>
@@ -50,57 +50,74 @@ export default function SidebarPathList() {
             }`}
             key={i}
           >
-            <Checkbox
-              wrapperClassName={styles.checkbox}
-              name={`checkbox-${e.id}`}
-              onChange={f => {
-                if (f === false) {
-                  const newSelect = selectedPathEntry;
-                  newSelect.splice(newSelect.indexOf(e), 1);
-                  addSelectedTrigger([...newSelect]);
-                } else {
-                  addSelectedTrigger([...selectedPathEntry, e]);
-                }
-              }}
-              checked={selectedPathEntry.includes(e)}
-            />
-            <div
-              className={styles.itemInner}
-              onClick={() => addSelectedTrigger([e])}
-            >
-              <div>
-                <h3 className={styles.title}>
-                  {moment.utc(e.time).format('YYYY-MM-DD')}
-                  <span className={styles.time}>
-                    {moment.utc(e.time).format('HH:mm:ss')}
-                  </span>
-                </h3>
-
-                <p className={styles.subTitle}>
-                  {e.street} {e.other} {e.postal} {e.town}
-                </p>
-
-                <List kind="simple" colon small>
-                  <ListItem title="Latitude">{e.latitude}</ListItem>
-                  <ListItem title="Longitude">{e.longitude}</ListItem>
-                </List>
-              </div>
-
-              <div className={styles.buttons}>
-                <ButtonRouter
-                  kind="tertiary"
-                  small
-                  to={`/patient/edit/${e.id}`}
-                  icon={<FontAwesomeIcon icon={faEdit} />}
-                />
+            {e.trash === true ? (
+              <div className={styles.deletedEntry}>
+                Entry deleted{' '}
                 <Button
-                  kind="tertiary"
+                  kind="secondary"
                   small
-                  icon={<FontAwesomeIcon icon={faTrashAlt} />}
-                  onClick={() => removePathEntryTrigger(e.time)}
-                />
+                  onClick={() => {
+                    dispatch(editPathEntry({ ...e, trash: false }), e.id);
+                  }}
+                >
+                  undo
+                </Button>
               </div>
-            </div>
+            ) : (
+              <>
+                <Checkbox
+                  wrapperClassName={styles.checkbox}
+                  name={`checkbox-${e.id}`}
+                  onChange={f => {
+                    if (f === false) {
+                      const newSelect = selectedPathEntry;
+                      newSelect.splice(newSelect.indexOf(e), 1);
+                      addSelectedTrigger([...newSelect]);
+                    } else {
+                      addSelectedTrigger([...selectedPathEntry, e]);
+                    }
+                  }}
+                  checked={selectedPathEntry.includes(e)}
+                />
+                <div
+                  className={styles.itemInner}
+                  onClick={() => addSelectedTrigger([e])}
+                >
+                  <div>
+                    <h3 className={styles.title}>
+                      {moment.utc(e.time).format('YYYY-MM-DD')}
+                      <span className={styles.time}>
+                        {moment.utc(e.time).format('HH:mm:ss')}
+                      </span>
+                    </h3>
+
+                    <p className={styles.subTitle}>
+                      {e.street} {e.other} {e.postal} {e.town}
+                    </p>
+
+                    <List kind="simple" colon small>
+                      <ListItem title="Latitude">{e.latitude}</ListItem>
+                      <ListItem title="Longitude">{e.longitude}</ListItem>
+                    </List>
+                  </div>
+
+                  <div className={styles.buttons}>
+                    <ButtonRouter
+                      kind="tertiary"
+                      small
+                      to={`/patient/edit/${e.id}`}
+                      icon={<FontAwesomeIcon icon={faEdit} />}
+                    />
+                    <Button
+                      kind="tertiary"
+                      small
+                      icon={<FontAwesomeIcon icon={faTrashAlt} />}
+                      onClick={() => dispatch(removePathEntry(e.id))}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         ))}
     </>
