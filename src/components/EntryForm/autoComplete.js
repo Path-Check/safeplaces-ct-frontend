@@ -7,12 +7,22 @@ import styles from './styles.module.scss';
 class LocationSearchInput extends Component {
   constructor(props) {
     super(props);
-    this.state = { address: '', googledata: {} };
+    this.state = { address: '', googledata: {}, gmapsLoaded: false };
   }
 
   handleChange = address => {
     this.setState({ address });
   };
+
+  componentDidMount() {
+    // const gmapScriptEl = document.createElement('script');
+    // gmapScriptEl.src = 'https://maps.googleapis.com/maps/api/js?key=' + process.env.REACT_APP_GOOGLE_PLACES_KEY + '&libraries=places&callback=initMap';
+    // gmapScriptEl.setAttribute('type', 'text/javascript');
+    // document.querySelector('body').insertAdjacentElement('beforeend', gmapScriptEl);
+    this.setState({
+      gmapsLoaded: true,
+    });
+  }
 
   handleSelect = address => {
     console.log('Selected Address ', address);
@@ -93,8 +103,12 @@ class LocationSearchInput extends Component {
   };
 
   render() {
+    if (!this.state.gmapsLoaded) {
+      return <div></div>;
+    }
     return (
       <PlacesAutocomplete
+        key={process.env.REACT_APP_GOOGLE_PLACES_KEY}
         value={this.state.address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
