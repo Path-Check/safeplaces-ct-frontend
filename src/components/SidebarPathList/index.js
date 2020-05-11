@@ -28,7 +28,6 @@ export default function SidebarPathList() {
   const dispatch = useDispatch();
   const addSelectedTrigger = data => dispatch(addSelected(data));
   const removePathEntryTrigger = data => dispatch(removePathEntry(data));
-
   return (
     <>
       {!filteredTrackPath && (

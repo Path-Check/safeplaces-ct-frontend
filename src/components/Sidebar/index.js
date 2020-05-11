@@ -8,7 +8,6 @@ import {
   getTrack,
   getSelectedPathEntryData,
   getFilteredTrackPath,
-  getSelectedTracks,
 } from '../../selectors';
 import styles from './styles.module.scss';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -22,7 +21,7 @@ import {
   faTimesCircle,
   faPlusCircle,
 } from '@fortawesome/pro-solid-svg-icons';
-import { addPathEntry } from '../../ducks/path';
+import { addPathEntry, removeSelectedPathEntry } from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
 import { addSelected, deleteSelected } from '../../ducks/selectedPathEntry';
@@ -34,7 +33,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
   // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
-  const selectedPath = useSelector(state => getSelectedTracks(state));
+  const selectedPath = useSelector(state => getSelectedPathEntryData(state));
   const path = useSelector(state => getPath(state));
   const save = () => {
     const newArray = {};
@@ -94,11 +93,11 @@ function Sidebar({ addPathEntryTrigger, track }) {
               </p>
             </>
           ) : (
-              <>
-                <h2>Open a file</h2>
-                <p>No file opened</p>
-              </>
-            )}
+            <>
+              <h2>Open a file</h2>
+              <p>No file opened</p>
+            </>
+          )}
         </div>
         <div className={styles.buttons}>
           <Dropzone />
@@ -130,6 +129,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
           small
           icon={<FontAwesomeIcon icon={faPlusCircle} />}
           onClick={() => {
+            dispatch(removeSelectedPathEntry(selectedPath));
             dispatch(deleteSelected(selectedPath));
           }}
         >
@@ -178,7 +178,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   addPathEntryTrigger: data => dispatch(addPathEntry(data)),
-  deleteSelectedTrigger: data => dispatch(deleteSelected(data))
+  deleteSelectedTrigger: data => dispatch(deleteSelected(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

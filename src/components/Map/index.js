@@ -8,7 +8,6 @@ import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
 import Popup from '../Popup';
 import defaultMapStyleJson from './style.json';
-import hereMapStyleJson from './herestyle.json';
 import WebMercatorViewport from 'viewport-mercator-project';
 import getBounds from './getBounds';
 import {
@@ -60,9 +59,9 @@ export default function Map({ setMap }) {
   const [viewport, setViewport] = useState({
     width: 400,
     height: 300,
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 8,
+    latitude: 13.4443,
+    longitude: 144.7937,
+    zoom: 10,
   });
   const mapRef = useRef();
   const trackPath = useSelector(getFilteredTrackPath);
@@ -115,14 +114,16 @@ export default function Map({ setMap }) {
   const onMapLoad = e => {
     const map = mapRef.current.getMap();
     // setMap(map);
-    const styles: MapboxStyleDefinition[] = [];
-    hereMapStyleJson.layers.forEach(element => {
-      styles.push({
-        id: element.id,
-        title: element.title,
-        type: 'base',
-        visibility: element.layout.visibility,
-      });
+    const styles = [];
+    defaultMapStyleJson.layers.forEach(element => {
+      if (element.base === 'true') {
+        styles.push({
+          id: element.id,
+          title: element.title,
+          type: 'base',
+          visibility: element.layout.visibility,
+        });
+      }
     });
     map.addControl(new MapboxLayerSwitcherControl(styles));
   };
@@ -152,7 +153,7 @@ export default function Map({ setMap }) {
       className="map"
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-      mapStyle={hereMapStyleJson}
+      mapStyle={mapStyle}
       ref={mapRef}
       width="100%"
       height="100vh"

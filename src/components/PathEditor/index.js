@@ -6,10 +6,10 @@ import EntryForm from '../EntryForm';
 import { getSelectedPathEntryDataData } from '../../selectors';
 import { useSelector } from 'react-redux';
 
-export default function PathEditor() {
+export default function PathEditor({ location, match }) {
   const [map, setMap] = useState(null);
   const selectedPathEntryData = useSelector(state =>
-    getSelectedPathEntryDataData(state),
+    getSelectedPathEntryDataData(state, match.params.action),
   );
   const updateMap = map => {
     setMap(map);
