@@ -8,20 +8,20 @@ export const getFilter = state => state.filter;
 export const getTrackPath = state =>
   state.path && state.path.points
     ? Object.values(state.path.points).sort(function (a, b) {
-        return a.time - b.time;
-      })
+      return a.time - b.time;
+    })
     : [];
 
 export const getFilteredTrackPath = state =>
   state.path && state.path.points
     ? state.path.points
-        .sort(function (a, b) {
-          return a.time - b.time;
-        })
-        .filter(
-          e =>
-            e.time >= state.filter.dates[0] && e.time <= state.filter.dates[1],
-        )
+      .sort(function (a, b) {
+        return a.time - b.time;
+      })
+      .filter(
+        e =>
+          e.time >= state.filter.dates[0] && e.time <= state.filter.dates[1],
+      )
     : [];
 
 export const getTrackStart = state =>
@@ -71,13 +71,14 @@ export const getSelectedPathEntryDataData = ({ selectedPathEntry, path }) => {
   const selectedEntries =
     path && path.points && selectedPathEntry
       ? path.points.filter(e => {
-          return e.id !== selectedPathEntry.id;
-        })
+        return e.id !== selectedPathEntry.id;
+      })
       : undefined;
   return selectedEntries;
 };
 
 export const getSelectedPathEntryData = state => state.selectedPathEntry;
+export const getSelectedTracks = state => state.selectedTracks;
 export const countFilteredWarnings = state => {
   const filteredWarnings = state.warnings.filter(
     e => e.matches && e.matches.length >= 1,

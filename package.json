@@ -21,6 +21,7 @@
     "immutable": "^4.0.0-rc.12",
     "mapbox-gl-style-switcher": "^1.0.4",
     "mapbox-layer-switcher": "0.0.2",
+    "react-places-autocomplete": "^7.2.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "rc-slider": "^9.2.4",

@@ -8,6 +8,7 @@ import {
   getTrack,
   getSelectedPathEntryData,
   getFilteredTrackPath,
+  getSelectedTracks,
 } from '../../selectors';
 import styles from './styles.module.scss';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -24,7 +25,7 @@ import {
 import { addPathEntry } from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
-import { addSelected } from '../../ducks/selectedPathEntry';
+import { addSelected, deleteSelected } from '../../ducks/selectedPathEntry';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
 import { getPath } from 'selectors/paths';
@@ -33,8 +34,13 @@ function Sidebar({ addPathEntryTrigger, track }) {
   // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
+  const selectedPath = useSelector(state => getSelectedTracks(state));
   const path = useSelector(state => getPath(state));
   const save = () => {
+    const newArray = {};
+    filteredTrackPath.forEach(element => {
+      newArray[element[0]] = element[1];
+    });
     var blob = new Blob([JSON.stringify(track)], {
       type: 'text/plain;charset=utf-8',
     });
@@ -88,11 +94,11 @@ function Sidebar({ addPathEntryTrigger, track }) {
               </p>
             </>
           ) : (
-            <>
-              <h2>Open a file</h2>
-              <p>No file opened</p>
-            </>
-          )}
+              <>
+                <h2>Open a file</h2>
+                <p>No file opened</p>
+              </>
+            )}
         </div>
         <div className={styles.buttons}>
           <Dropzone />
@@ -123,6 +129,9 @@ function Sidebar({ addPathEntryTrigger, track }) {
           iconReverse
           small
           icon={<FontAwesomeIcon icon={faPlusCircle} />}
+          onClick={() => {
+            dispatch(deleteSelected(selectedPath));
+          }}
         >
           Delete selected
         </Button>
@@ -169,6 +178,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   addPathEntryTrigger: data => dispatch(addPathEntry(data)),
+  deleteSelectedTrigger: data => dispatch(deleteSelected(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

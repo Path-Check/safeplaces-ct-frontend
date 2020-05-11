@@ -7,6 +7,7 @@ import { Button, TextArea, TextInput } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useHistory } from 'react-router';
 import Geocode from 'react-geocode';
+import LocationSearchInput from './autoComplete';
 
 import {
   faCrosshairs,
@@ -125,6 +126,37 @@ const EntryForm = ({ initialData, useInline }) => {
     history.push('/');
   };
 
+  const onAddressReceived = results => {
+    const search = code => {
+      const find = components.find(e => e.types.includes(code));
+      return find ? find.long_name : '';
+    };
+    const components = results[0].address_components;
+    console.log(results[0].address_components);
+    setValue([
+      {
+        street: `${search('route')} ${search('street_number')}`,
+      },
+      {
+        postal: search('postal_code'),
+      },
+      { town: search('locality') },
+    ]);
+  };
+
+  const onLatLongReceived = values => {
+    console.log('Hiren Got this latLng ', values);
+
+    setValue([
+      {
+        latitude: values.lat,
+      },
+      {
+        longitude: values.lng,
+      },
+    ]);
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -156,7 +188,12 @@ const EntryForm = ({ initialData, useInline }) => {
           control={control}
         />
       </div>
-
+      <div>
+        <LocationSearchInput
+          latlongReceived={onLatLongReceived}
+          addressReceived={onAddressReceived}
+        />
+      </div>
       <div className={styles.position}>
         <TextInput
           labelText="Latitude"
