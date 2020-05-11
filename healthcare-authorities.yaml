@@ -7,5 +7,5 @@ Authorities:
 - Mairie de PAP/MSSP:
   - {url: "https://vault.tripleblind.app/safe_path/5673742378205184/"}
 
-- Example Health Authority for Testing:
+- Test Authority:
   - {url: "https://raw.githack.com/tripleblindmarket/safe-places/develop/examples/safe-paths.json"}

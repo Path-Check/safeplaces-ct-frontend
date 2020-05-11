@@ -1,3 +1,0 @@
-{
-  "extends": ["react-app", "standard", "plugin:prettier/recommended"]
-}
