@@ -7,6 +7,7 @@ import { Button, TextArea, TextInput } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useHistory } from 'react-router';
 import Geocode from 'react-geocode';
+import Tooltip from '@tippy.js/react';
 
 import {
   faCrosshairs,
@@ -188,15 +189,24 @@ const EntryForm = ({ initialData, useInline }) => {
           })}
         />
 
-        <Button
-          className={styles.pickButton}
-          onClick={fromLatLng}
-          icon={<FontAwesomeIcon icon={faCrosshairs} />}
-        ></Button>
-        <Button
-          onClick={fromLatLng}
-          icon={<FontAwesomeIcon icon={faLocationCircle} />}
-        ></Button>
+        <Tooltip content="Pick location">
+          <span tabIndex={0}>
+            <Button
+              className={styles.pickButton}
+              onClick={fromLatLng}
+              icon={<FontAwesomeIcon icon={faCrosshairs} />}
+            ></Button>
+          </span>
+        </Tooltip>
+
+        <Tooltip content="Get location from coordinates">
+          <span tabIndex={0}>
+            <Button
+              onClick={fromLatLng}
+              icon={<FontAwesomeIcon icon={faLocationCircle} />}
+            ></Button>
+          </span>
+        </Tooltip>
       </div>
 
       <div className={styles.address}>
@@ -211,10 +221,14 @@ const EntryForm = ({ initialData, useInline }) => {
             name="postal"
             inputRef={register}
           />
-          <Button
-            onClick={fromAddress}
-            icon={<FontAwesomeIcon icon={faMapMarkerQuestion} />}
-          ></Button>
+          <Tooltip content="Get location from address">
+            <span tabIndex={0}>
+              <Button
+                onClick={fromAddress}
+                icon={<FontAwesomeIcon icon={faMapMarkerQuestion} />}
+              ></Button>
+            </span>
+          </Tooltip>
         </div>
       </div>
       <div className={styles.commentWrapper}>
