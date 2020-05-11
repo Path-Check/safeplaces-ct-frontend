@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTrackStart, getTrackEnd, getFilter } from '../../selectors';
 import styles from './styles.module.scss';
 import { Checkbox } from '@wfp/ui';
-import { updateFilterDates } from '../../ducks/filter';
+import filter from '../../ducks/filter';
+console.log('filter', filter);
 const Handle = Slider.Handle;
 
 const handle = props => {
@@ -20,17 +21,19 @@ const handle = props => {
 };
 
 export default function Filter() {
-  const filter = useSelector(getFilter);
+  const currentFilter = useSelector(getFilter);
   const trackStart = useSelector(getTrackStart);
   const trackEnd = useSelector(getTrackEnd);
   const dispatch = useDispatch();
   const steps = 30;
   useEffect(() => {
-    dispatch(updateFilterDates([trackStart, trackEnd]));
+    dispatch(filter.actions.updateFilterDates([trackStart, trackEnd]));
   }, [trackStart, trackEnd, dispatch]);
 
   const handleChange = value => {
-    dispatch(updateFilterDates({ start: value[0], end: value[1] }));
+    dispatch(
+      filter.actions.updateFilterDates({ start: value[0], end: value[1] }),
+    );
   };
 
   return (
@@ -51,7 +54,7 @@ export default function Filter() {
             min={trackStart}
             max={trackEnd}
             steps={steps}
-            value={Object.values(filter.dates)}
+            value={currentFilter && Object.values(currentFilter.dates)}
             handle={handle}
             onChange={handleChange}
           />

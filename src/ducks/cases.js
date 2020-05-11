@@ -6,7 +6,7 @@ const initialState = { entries: {} };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case CREATE:
-      state.entries[action.id] = { name: 'du' };
+      state.entries[action.id] = { id: action.id, name: 'lorem' };
       return { ...state, entries: state.entries };
     default:
       return state;

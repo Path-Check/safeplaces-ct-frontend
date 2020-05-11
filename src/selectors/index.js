@@ -19,7 +19,7 @@ export const getFilteredTrackPath = state =>
           return a.time - b.time;
         })
         .filter(e => {
-          if (state.filter.dates) {
+          if (state.filter.dates.start) {
             return (
               e.time >= state.filter.dates.start &&
               e.time <= state.filter.dates.end

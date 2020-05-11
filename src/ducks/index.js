@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   auth,
   cases,
   settingsApi,
-  filter,
+  filter: filter.reducer,
   path,
   selectedPathEntry,
 });

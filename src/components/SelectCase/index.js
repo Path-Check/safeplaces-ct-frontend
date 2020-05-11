@@ -68,7 +68,7 @@ export default function SelectCase() {
   const dispatch = useDispatch();
 
   const options = Object.entries(patients).map(e => {
-    return { value: e[0], label: e[0] };
+    return { value: e[0], label: e[1].name };
   });
 
   const currentCase = useSelector(state =>
@@ -76,7 +76,7 @@ export default function SelectCase() {
   );
 
   const formatedCurrentCase = currentCase
-    ? { value: currentCase.value, label: currentCase.value }
+    ? { value: currentCase.id, label: currentCase.name }
     : undefined;
 
   //options.unshift({ value: 'all', label: 'all cases' });
