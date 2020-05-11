@@ -6,7 +6,7 @@ import FileSaver from 'file-saver';
 
 import {
   getTrack,
-  getSelectedPathEntryData,
+  getselectedPointsData,
   getFilteredTrackPath,
 } from '../../selectors';
 import styles from './styles.module.scss';
@@ -21,18 +21,20 @@ import {
   faTimesCircle,
   faPlusCircle,
 } from '@fortawesome/pro-solid-svg-icons';
-import { addPathEntry } from '../../ducks/path';
+import { addPathEntry, removePathEntries } from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
-import { addSelected } from '../../ducks/selectedPathEntry';
+import { addSelected } from '../../ducks/selectedPoints';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
 import { getPath } from 'selectors/paths';
+import { getselectedPoints } from 'selectors/selectedPoints';
 
 function Sidebar({ addPathEntryTrigger, track }) {
   // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
+  const selectedPathEntries = useSelector(getselectedPoints);
   const path = useSelector(state => getPath(state));
   const save = () => {
     var blob = new Blob([JSON.stringify(track)], {
@@ -123,6 +125,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
           iconReverse
           small
           icon={<FontAwesomeIcon icon={faPlusCircle} />}
+          onClick={() => dispatch(removePathEntries(selectedPathEntries))}
         >
           Delete selected
         </Button>
@@ -131,7 +134,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
           small
           icon={<FontAwesomeIcon icon={faCheckCircle} />}
           onClick={() => {
-            dispatch(addSelected(filteredTrackPath));
+            dispatch(addSelected(filteredTrackPath.map(e => e.id)));
           }}
         >
           all
@@ -162,7 +165,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
 
 const mapStateToProps = state => {
   return {
-    selectedPathEntry: getSelectedPathEntryData(state),
+    selectedPoints: getselectedPointsData(state),
     track: getTrack(state),
   };
 };

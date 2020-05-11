@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 export const IMPORT = 'safeplaces/path/IMPORT';
 export const REMOVE_ENTRY = 'safeplaces/path/REMOVE_ENTRY';
+export const REMOVE_ENTRIES = 'safeplaces/path/REMOVE_ENTRIES';
 export const EDIT_ENTRY = 'safeplaces/path/EDIT_ENTRY';
 export const ADD_ENTRY = 'safeplaces/path/ADD_ENTRY';
 
@@ -21,6 +22,19 @@ export default function tracks(state = initialState, action) {
       return { ...state, points: action.data.points };
 
     case REMOVE_ENTRY: {
+      state.points[action.payload] = {
+        ...state.points[action.payload],
+        trash: true,
+      };
+      return { ...state };
+    }
+    case REMOVE_ENTRIES: {
+      action.payload.map(e => {
+        state.points[e] = {
+          ...state.points[e],
+          trash: true,
+        };
+      });
       state.points[action.payload] = {
         ...state.points[action.payload],
         trash: true,
@@ -62,6 +76,13 @@ export const editPathEntry = (data, id) => {
 export const removePathEntry = payload => {
   return {
     type: REMOVE_ENTRY,
+    payload,
+  };
+};
+
+export const removePathEntries = payload => {
+  return {
+    type: REMOVE_ENTRIES,
     payload,
   };
 };

@@ -15,12 +15,10 @@ import { editPathEntry } from '../../ducks/path';
 const localizer = momentLocalizer(moment);
 
 export default function CalendarPage() {
-  const selectedPathEntryData = useSelector(state =>
-    getFilteredTrackPath(state),
-  );
+  const selectedPointsData = useSelector(state => getFilteredTrackPath(state));
   const dispatch = useDispatch();
 
-  const calendarData = selectedPathEntryData.map(e => {
+  const calendarData = selectedPointsData.map(e => {
     console.log('moment', e[1].time, moment.utc(e[1].date));
     return {
       id: e[1].time,

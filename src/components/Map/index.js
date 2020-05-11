@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 import Track from './trackPath';
-import { addSelected } from '../../ducks/selectedPathEntry';
+import { addSelected } from '../../ducks/selectedPoints';
 import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
 import Popup from '../Popup';
@@ -127,8 +127,7 @@ export default function Map() {
 
     if (features.length >= 1) {
       if (features[0].layer.id === 'pointLayer') {
-        console.log(features[0].properties.time);
-        dispatch(addSelected([features[0].properties.time]));
+        dispatch(addSelected([features[0].properties.id]));
       }
     }
   };

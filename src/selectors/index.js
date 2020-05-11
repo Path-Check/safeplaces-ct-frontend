@@ -76,17 +76,17 @@ const pointObjectToArray = points => {
   return Object.values(points);
 };
 
-export const getSelectedPathEntryDataData = ({ selectedPathEntry, path }) => {
+export const getselectedPointsDataData = ({ selectedPoints, path }) => {
   const selectedEntries =
-    path && path.points && selectedPathEntry
+    path && path.points && selectedPoints
       ? pointObjectToArray(path.points).filter(e => {
-          return e.id !== selectedPathEntry.id;
+          return e.id !== selectedPoints.id;
         })
       : undefined;
   return selectedEntries;
 };
 
-export const getSelectedPathEntryData = state => state.selectedPathEntry;
+export const getselectedPointsData = state => state.selectedPoints;
 export const countFilteredWarnings = state => {
   const filteredWarnings = state.warnings.filter(
     e => e.matches && e.matches.length >= 1,

@@ -2,11 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { editPathEntry, removePathEntry } from '../../ducks/path';
 
-import { addSelected } from '../../ducks/selectedPathEntry';
-import {
-  getSelectedPathEntryData,
-  getFilteredTrackPath,
-} from '../../selectors';
+import { addSelected } from '../../ducks/selectedPoints';
+import { getselectedPointsData, getFilteredTrackPath } from '../../selectors';
 import { Button, Checkbox, List, ListItem } from '@wfp/ui';
 import styles from './styles.module.scss';
 
@@ -18,16 +15,13 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import moment from 'moment';
 import Empty from '../Empty';
-import { NavLink } from 'react-router-dom';
 import ButtonRouter from 'components/ButtonRouter';
+import { faUndo } from '@fortawesome/pro-solid-svg-icons';
 
 export default function SidebarPathList() {
-  const selectedPathEntry = useSelector(state =>
-    getSelectedPathEntryData(state),
-  );
+  const selectedPoints = useSelector(state => getselectedPointsData(state));
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const dispatch = useDispatch();
-  const addSelectedTrigger = data => dispatch(addSelected(data));
   //const removePathEntryTrigger = data => dispatch(removePathEntry(data));
 
   return (
@@ -46,16 +40,18 @@ export default function SidebarPathList() {
         filteredTrackPath.map((e, i) => (
           <div
             className={`${styles.item} ${
-              selectedPathEntry.includes(e) && styles.selectedItem
+              selectedPoints.includes(e.id) && styles.selectedItem
             }`}
             key={i}
           >
             {e.trash === true ? (
               <div className={styles.deletedEntry}>
-                Entry deleted{' '}
+                <span>Entry deleted</span>
                 <Button
                   kind="secondary"
                   small
+                  icon={<FontAwesomeIcon icon={faUndo} />}
+                  iconReverse
                   onClick={() => {
                     dispatch(editPathEntry({ ...e, trash: false }), e.id);
                   }}
@@ -70,18 +66,18 @@ export default function SidebarPathList() {
                   name={`checkbox-${e.id}`}
                   onChange={f => {
                     if (f === false) {
-                      const newSelect = selectedPathEntry;
-                      newSelect.splice(newSelect.indexOf(e), 1);
-                      addSelectedTrigger([...newSelect]);
+                      const newSelect = selectedPoints;
+                      newSelect.splice(newSelect.indexOf(e.id), 1);
+                      dispatch(addSelected([...newSelect]));
                     } else {
-                      addSelectedTrigger([...selectedPathEntry, e]);
+                      dispatch(addSelected([...selectedPoints, e.id]));
                     }
                   }}
-                  checked={selectedPathEntry.includes(e)}
+                  checked={selectedPoints.includes(e.id)}
                 />
                 <div
                   className={styles.itemInner}
-                  onClick={() => addSelectedTrigger([e])}
+                  onClick={() => dispatch(addSelected([e.id]))}
                 >
                   <div>
                     <h3 className={styles.title}>
