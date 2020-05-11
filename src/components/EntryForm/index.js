@@ -18,6 +18,7 @@ import DateInput from '../DateInput';
 import styles from './styles.module.scss';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
+import TimeInput from 'components/TimeInput';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_PLACES_KEY);
 
@@ -149,7 +150,7 @@ const EntryForm = ({ initialData, useInline }) => {
           control={control}
         />
         <Controller
-          as={<DateInput time labelText="Time" type="time" />}
+          as={<TimeInput time labelText="Time" type="time" />}
           name="time"
           min={null}
           max={null}
