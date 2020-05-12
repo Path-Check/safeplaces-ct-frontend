@@ -3,7 +3,6 @@
 .form {
   background: $ui-01;
   height: 100%;
-  padding: $spacing-md;
   border-radius: 10px;
   box-shadow: 0px 4px 12px -2px rgba(#000, 0.2);
   [class='wfp--form-item'] {
@@ -19,11 +18,21 @@
 .header {
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid $ui-04;
+  padding: $spacing-xs $spacing-md;
+  background: $ui-02;
+  border-radius: 10px 10px 0 0;
+}
+
+.content {
+  padding: $spacing-md;
 }
 
 .headerTitle {
   font-weight: 600;
+  line-height: 1;
 }
 
 .closeButton {
@@ -31,15 +40,13 @@
   height: 2rem;
   display: flex;
   background: none;
-  font-size: 1.2rem;
-  color: $interactive-01;
+  color: $text-01;
   padding: 0 !important;
   border-radius: 30px;
   position: relative;
-  top: -0.5em;
   right: -0.5em;
   &:hover {
-    background: none;
+    background: $ui-03;
   }
 }
 

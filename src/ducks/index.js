@@ -9,10 +9,10 @@ import settingsApi from './settingsApi';
 
 const rootReducer = combineReducers({
   auth,
-  cases,
+  cases: cases.reducer,
   settingsApi,
   filter: filter.reducer,
-  path,
+  path: path.reducer,
   selectedPoints,
 });
 

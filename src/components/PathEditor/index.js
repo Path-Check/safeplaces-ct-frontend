@@ -5,11 +5,10 @@ import Wrapper from '../Wrapper';
 import EntryForm from '../EntryForm';
 import { getselectedPointsDataData } from '../../selectors';
 import { useSelector } from 'react-redux';
+import { getselectedPointsData } from 'selectors/selectedPoints';
 
 export default function PathEditor() {
-  const selectedPointsData = useSelector(state =>
-    getselectedPointsDataData(state),
-  );
+  const selectedPointsData = useSelector(getselectedPointsData);
   return (
     <Wrapper
       editor={

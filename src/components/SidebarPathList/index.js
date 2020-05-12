@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editPathEntry, removePathEntry } from '../../ducks/path';
+import path from '../../ducks/path';
 
 import { addSelected } from '../../ducks/selectedPoints';
 import { getselectedPointsData, getFilteredTrackPath } from '../../selectors';
@@ -17,8 +17,10 @@ import moment from 'moment';
 import Empty from '../Empty';
 import ButtonRouter from 'components/ButtonRouter';
 import { faUndo } from '@fortawesome/pro-solid-svg-icons';
+import { useParams } from 'react-router';
 
 export default function SidebarPathList() {
+  const params = useParams();
   const selectedPoints = useSelector(state => getselectedPointsData(state));
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const dispatch = useDispatch();
@@ -53,7 +55,12 @@ export default function SidebarPathList() {
                   icon={<FontAwesomeIcon icon={faUndo} />}
                   iconReverse
                   onClick={() => {
-                    dispatch(editPathEntry({ ...e, trash: false }), e.id);
+                    dispatch(
+                      path.actions.editEntry({
+                        id: e.id,
+                        values: { ...e, trash: false },
+                      }),
+                    );
                   }}
                 >
                   undo
@@ -101,14 +108,14 @@ export default function SidebarPathList() {
                     <ButtonRouter
                       kind="tertiary"
                       small
-                      to={`/patient/edit/${e.id}`}
+                      to={`/${params.patient}/edit/${e.id}`}
                       icon={<FontAwesomeIcon icon={faEdit} />}
                     />
                     <Button
                       kind="tertiary"
                       small
                       icon={<FontAwesomeIcon icon={faTrashAlt} />}
-                      onClick={() => dispatch(removePathEntry(e.id))}
+                      onClick={() => dispatch(path.actions.removeEntry(e.id))}
                     />
                   </div>
                 </div>

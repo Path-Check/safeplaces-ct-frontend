@@ -11,13 +11,9 @@ import { getselectedPointsData } from 'selectors/selectedPoints';
 
 export default function PopupWrapper() {
   const selectedPointsData = useSelector(getselectedPointsData);
-  console.log(
-    'selectedPointsData',
-    selectedPointsData.longitude,
-    selectedPointsData.latitude,
-  );
+  console.log('selectedPointsData', selectedPointsData);
   const dispatch = useDispatch();
-  if (selectedPointsData && selectedPointsData.length === 1) {
+  if (selectedPointsData.length === 1) {
     return (
       <Popup
         tipSize={8}

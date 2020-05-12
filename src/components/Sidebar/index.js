@@ -21,21 +21,23 @@ import {
   faTimesCircle,
   faPlusCircle,
 } from '@fortawesome/pro-solid-svg-icons';
-import { addPathEntry, removePathEntries } from '../../ducks/path';
+import path from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
 import { addSelected } from '../../ducks/selectedPoints';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
-import { getPath } from 'selectors/paths';
+import { getPath } from 'ducks/path';
 import { getselectedPoints } from 'selectors/selectedPoints';
+import { useParams } from 'react-router';
 
 function Sidebar({ addPathEntryTrigger, track }) {
   // const [openNewEntry, setOpenNewEntry] = useState(false);
   const dispatch = useDispatch();
+  const params = useParams();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const selectedPathEntries = useSelector(getselectedPoints);
-  const path = useSelector(state => getPath(state));
+  const currentPath = useSelector(state => getPath(state));
   const save = () => {
     var blob = new Blob([JSON.stringify(track)], {
       type: 'text/plain;charset=utf-8',
@@ -78,14 +80,14 @@ function Sidebar({ addPathEntryTrigger, track }) {
       </div>
       <div className={styles.header}>
         <div className={styles.title}>
-          {path.authority_name ? (
+          {currentPath.authority_name ? (
             <>
               {/* }h2>
                 <a href={track.info_website}>{track.authority_name}</a>
           </h2> */}
               <p>
                 {moment
-                  .utc(path.publish_date_utl)
+                  .utc(currentPath.publish_date_utl)
                   .format('YYYY-MM-DD HH:mm:ss')}
               </p>
             </>
@@ -112,7 +114,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
         <DateSlider />
       </div>
       <div className={styles.toolbar}>
-        <NavLink to="/patient/edit/new">
+        <NavLink to={`/${params.patient}/edit/new`}>
           <Button
             iconReverse
             small
@@ -125,7 +127,9 @@ function Sidebar({ addPathEntryTrigger, track }) {
           iconReverse
           small
           icon={<FontAwesomeIcon icon={faPlusCircle} />}
-          onClick={() => dispatch(removePathEntries(selectedPathEntries))}
+          onClick={() =>
+            dispatch(path.actions.removeEntries(selectedPathEntries))
+          }
         >
           Delete selected
         </Button>
@@ -171,7 +175,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addPathEntryTrigger: data => dispatch(addPathEntry(data)),
+  addPathEntryTrigger: data => dispatch(path.actions.addPathEntry(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

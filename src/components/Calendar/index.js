@@ -10,7 +10,7 @@ import './calendar.scss';
 import { tooltipStyle } from '@wfp/ui';
 import styles from './styles.module.scss';
 import Tippy from '@tippy.js/react';
-import { editPathEntry } from '../../ducks/path';
+import path from '../../ducks/path';
 
 const localizer = momentLocalizer(moment);
 
@@ -33,9 +33,8 @@ export default function CalendarPage() {
     console.log('handleSelect', e);
   };
   const handleSelect = e => {
-    console.log('handleSelectaa', e);
     dispatch(
-      editPathEntry(
+      path.actions.editEntry(
         { latitude: 0, longitude: 0, time: moment(e.start).valueOf() },
         'new',
       ),

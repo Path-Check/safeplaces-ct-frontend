@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
-import { showCases, createCase, showCurrentCase } from '../../ducks/cases';
+import cases from '../../ducks/cases';
+import { getCases, showCurrentCase } from '../../ducks/cases';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import path from 'ducks/path';
+import { getPath } from 'ducks/path';
+import { v4 } from 'uuid';
 
 const SingleValue = ({ children, ...props }) => (
   <components.SingleValue {...props}>
@@ -62,12 +66,13 @@ const customStyles = {
 };
 
 export default function SelectCase() {
-  const patients = useSelector(state => showCases(state));
+  const currentCases = useSelector(getCases);
+  const path = useSelector(state => getPath(state));
   const history = useHistory();
   const params = useParams();
   const dispatch = useDispatch();
 
-  const options = Object.entries(patients).map(e => {
+  const options = Object.entries(currentCases).map(e => {
     return { value: e[0], label: e[1].name };
   });
 
@@ -79,21 +84,31 @@ export default function SelectCase() {
     ? { value: currentCase.id, label: currentCase.name }
     : undefined;
 
+  /*useEffect(() => {
+    console.log('cases', cases);
+    if (cases.actions) {
+      dispatch(cases.actions.save({ id: params.patient, path }));
+      dispatch(cases.actions.save({ id: params.patient, path }));
+    }
+    //path.actions.selectCase(currentCase);
+  }, [cases, currentCase, params.patient]);*/
+
   //options.unshift({ value: 'all', label: 'all cases' });
   options.push({ value: 'new', label: 'add new case' });
   return (
     <Select
-      className={styles.select}
       options={options}
+      className={styles.select}
+      classNamePrefix="react-select"
       styles={customStyles}
       defaultValue={formatedCurrentCase}
       components={{ SingleValue, Option }}
       onChange={e => {
         var id = e.value;
         if (id === 'new') {
-          id = dispatch(createCase()).id;
+          id = v4();
+          dispatch(cases.actions.create(id));
         }
-        console.log(id);
         history.push(`/${id}`);
       }}
     />
