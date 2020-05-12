@@ -10,8 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 
 import { useParams } from 'react-router';
-import path from 'ducks/path';
-import { getPath } from 'ducks/path';
+import { getCurrentPath } from 'selectors';
 import { v4 } from 'uuid';
 
 const SingleValue = ({ children, ...props }) => (
@@ -68,7 +67,7 @@ const customStyles = {
 
 export default function SelectCase() {
   const currentCases = useSelector(getCases);
-  const path = useSelector(state => getPath(state));
+  const path = useSelector(state => getCurrentPath(state));
   const history = useHistory();
   const params = useParams();
   const dispatch = useDispatch();

@@ -10,7 +10,8 @@ import './calendar.scss';
 import { tooltipStyle } from '@wfp/ui';
 import styles from './styles.module.scss';
 import Tippy from '@tippy.js/react';
-import path from '../../ducks/path';
+import { useParams } from 'react-router';
+import cases from 'ducks/cases';
 
 const localizer = momentLocalizer(moment);
 
@@ -32,12 +33,14 @@ export default function CalendarPage() {
   const showSelect = e => {
     console.log('handleSelect', e);
   };
+
+  const params = useParams();
   const handleSelect = e => {
     dispatch(
-      path.actions.editEntry(
-        { latitude: 0, longitude: 0, time: moment(e.start).valueOf() },
-        'new',
-      ),
+      cases.actions.editEntry({
+        case: params.patient,
+        values: { latitude: 0, longitude: 0, time: moment(e.start).valueOf() },
+      }),
     );
   };
 

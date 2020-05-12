@@ -3,11 +3,10 @@ import styles from './styles.module.scss';
 import { useParams } from 'react-router';
 import cases, { getCasesArray, showCurrentCase } from 'ducks/cases';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPath } from 'ducks/path';
-import path from 'ducks/path';
 import { useHistory } from 'react-router';
 import { Button } from '@wfp/ui';
 import { v4 } from 'uuid';
+import { getCurrentPath } from 'selectors';
 
 export default function Wrapper({ children, editor, sidebar }) {
   const params = useParams();
@@ -15,7 +14,7 @@ export default function Wrapper({ children, editor, sidebar }) {
 
   const history = useHistory();
 
-  const currentPath = useSelector(getPath);
+  const currentPath = useSelector(getCurrentPath);
   const casesList = useSelector(getCasesArray);
   const [currentCaseId, setCurrentCaseId] = useState();
 
@@ -24,15 +23,15 @@ export default function Wrapper({ children, editor, sidebar }) {
   );
 
   useEffect(() => {
-    console.log('currentCase', currentCaseId, params.patient, currentCase);
-    if (currentCaseId !== params.patient) {
-      dispatch(cases.actions.save(currentPath));
+    // console.log('currentCase', currentCaseId, params.patient, currentCase);
+    //if (currentCaseId !== params.patient) {
+    dispatch(cases.actions.setCurrentCase(params.patient));
 
-      if (currentCase) dispatch(path.actions.load(currentCase));
+    //if (currentCase) dispatch(path.actions.load(currentCase));
 
-      setCurrentCaseId(params.patient);
-    }
-  }, [cases, currentCase, params.patient]);
+    // setCurrentCaseId(params.patient);
+    //}
+  }, [params.patient]);
 
   const newCase = () => {
     const id = v4();

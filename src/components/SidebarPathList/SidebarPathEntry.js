@@ -1,9 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import path from '../../ducks/path';
 
 import { addSelected } from '../../ducks/selectedPoints';
-import { getselectedPointsData } from '../../selectors';
+import { getSelectedPointsData } from '../../selectors';
 import { Button, Checkbox, List, ListItem } from '@wfp/ui';
 import styles from './styles.module.scss';
 
@@ -13,10 +12,11 @@ import moment from 'moment';
 import ButtonRouter from 'components/ButtonRouter';
 import { faUndo } from '@fortawesome/pro-solid-svg-icons';
 import { useParams } from 'react-router';
+import cases from 'ducks/cases';
 
 export default function SidebarPathEntry({ entry, key }) {
   const params = useParams();
-  const selectedPoints = useSelector(state => getselectedPointsData(state));
+  const selectedPoints = useSelector(state => getSelectedPointsData(state));
   const dispatch = useDispatch();
 
   return (
@@ -36,7 +36,7 @@ export default function SidebarPathEntry({ entry, key }) {
             iconReverse
             onClick={() => {
               dispatch(
-                path.actions.editEntry({
+                cases.actions.editEntry({
                   id: entry.id,
                   values: { ...entry, trash: false },
                 }),
@@ -101,7 +101,7 @@ export default function SidebarPathEntry({ entry, key }) {
                 kind="tertiary"
                 small
                 icon={<FontAwesomeIcon icon={faTrashAlt} />}
-                onClick={() => dispatch(path.actions.removeEntry(entry.id))}
+                onClick={() => dispatch(cases.actions.removeEntry(entry.id))}
               />
             </div>
           </div>

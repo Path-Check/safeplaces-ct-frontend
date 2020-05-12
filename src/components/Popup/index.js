@@ -6,10 +6,10 @@ import moment from 'moment';
 import { addSelected } from 'ducks/selectedPoints';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getselectedPointsData } from 'selectors/selectedPoints';
+import { getSelectedPointsData } from 'selectors/selectedPoints';
 
 export default function PopupWrapper() {
-  const selectedPointsData = useSelector(getselectedPointsData);
+  const selectedPointsData = useSelector(getSelectedPointsData);
   console.log('selectedPointsData', selectedPointsData);
   const dispatch = useDispatch();
   if (selectedPointsData.length === 1) {

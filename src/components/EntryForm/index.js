@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
-import path from '../../ducks/path';
-import { getTrack, getselectedPointsData } from '../../selectors';
+import { getCurrentPath, getSelectedPointsData } from '../../selectors';
 import { Button, TextArea, TextInput } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useHistory } from 'react-router';
@@ -24,6 +23,7 @@ import moment from 'moment';
 import TimeInput from 'components/TimeInput';
 import { v4 } from 'uuid';
 import ButtonRouter from 'components/ButtonRouter';
+import cases from 'ducks/cases';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_PLACES_KEY);
 
@@ -128,7 +128,7 @@ const EntryForm = ({ initialData, useInline }) => {
     values.latitude = parseFloat(values.latitude);
     values.longitude = parseFloat(values.longitude);
     dispatch(
-      path.actions.editEntry({
+      cases.actions.editEntry({
         values,
         id: params.action === 'new' ? v4() : params.action,
       }),
@@ -292,13 +292,13 @@ const EntryForm = ({ initialData, useInline }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedPoints: getselectedPointsData(state),
-    track: getTrack(state),
+    selectedPoints: getSelectedPointsData(state),
+    track: getCurrentPath(state),
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  addPathEntryTrigger: data => dispatch(path.actions.addPathEntry(data)),
+  addPathEntryTrigger: data => dispatch(cases.actions.addPathEntry(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryForm);

@@ -4,8 +4,8 @@ import Dropzone from '../PathEditor/Dropzone';
 import SidebarContent from '../SidebarPathList';
 
 import {
-  getTrack,
-  getselectedPointsData,
+  getCurrentPath,
+  getSelectedPointsData,
   getFilteredTrackPath,
 } from '../../selectors';
 import styles from './styles.module.scss';
@@ -20,21 +20,20 @@ import {
   faTimesCircle,
   faPlusCircle,
 } from '@fortawesome/pro-solid-svg-icons';
-import path from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
 import { addSelected } from '../../ducks/selectedPoints';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
-import { getPath } from 'ducks/path';
 import { getselectedPoints } from 'selectors/selectedPoints';
 import { useParams } from 'react-router';
 import { TextInput } from '@wfp/ui';
 import { saveAsJson } from 'helpers/export';
+import cases from 'ducks/cases';
 
 function Sidebar({ addPathEntryTrigger, track }) {
-  const currentPath = useSelector(state => getPath(state));
-  const [name, setName] = useState(currentPath.name);
+  const currentPath = useSelector(state => getCurrentPath(state));
+  const [name, setName] = useState(currentPath && currentPath.name);
   const dispatch = useDispatch();
   const params = useParams();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
@@ -42,7 +41,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
   const save = () => {
     saveAsJson({
       data: track,
-      filename: `export-${path.publish_date_utl}.json`,
+      filename: `export-${currentPath.publish_date_utl}.json`,
     });
   };
   return (
@@ -81,14 +80,14 @@ function Sidebar({ addPathEntryTrigger, track }) {
       </div>
       <div className={styles.header}>
         <div className={styles.title}>
-          {currentPath.authority_name ? (
+          {currentPath && currentPath.authority_name ? (
             <>
               {/* }h2>
                 <a href={track.info_website}>{track.authority_name}</a>
           </h2> */}
               <p>
                 {moment
-                  .utc(currentPath.publish_date_utl)
+                  .utc(currentPath && currentPath.publish_date_utl)
                   .format('YYYY-MM-DD HH:mm:ss')}
               </p>
             </>
@@ -101,7 +100,9 @@ function Sidebar({ addPathEntryTrigger, track }) {
                 onChange={e => setName(e.target.value)}
               />
               <Button
-                onClick={e => dispatch(path.actions.editMeta({ name: name }))}
+                onClick={e =>
+                  dispatch(currentPath.actions.editMeta({ name: name }))
+                }
               >
                 Save
               </Button>
@@ -140,7 +141,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
           small
           icon={<FontAwesomeIcon icon={faPlusCircle} />}
           onClick={() =>
-            dispatch(path.actions.removeEntries(selectedPathEntries))
+            dispatch(cases.actions.removeEntries(selectedPathEntries))
           }
         >
           Delete selected
@@ -181,13 +182,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
 
 const mapStateToProps = state => {
   return {
-    selectedPoints: getselectedPointsData(state),
-    track: getTrack(state),
+    selectedPoints: getSelectedPointsData(state),
   };
 };
-
-const mapDispatchToProps = dispatch => ({
-  addPathEntryTrigger: data => dispatch(path.actions.addPathEntry(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps)(Sidebar);

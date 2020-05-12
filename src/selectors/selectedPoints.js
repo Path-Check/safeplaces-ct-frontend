@@ -1,15 +1,19 @@
+import { getCurrentPath } from 'selectors';
+
 export const getselectedPoints = state => state.selectedPoints;
 
-export const getselectedPointsData = state => {
-  var flattened = state.selectedPoints.reduce(function (
-    accumulator,
-    currentValue,
-  ) {
-    console.log('state', state);
-    if (state.path.points[currentValue])
-      accumulator.push(state.path.points[currentValue]);
-    return accumulator;
-  },
-  []);
+export const getSelectedPointsData = state => {
+  const path = getCurrentPath(state);
+  var flattened = [];
+  if (path)
+    flattened = state.selectedPoints.reduce(function (
+      accumulator,
+      currentValue,
+    ) {
+      if (path.points[currentValue])
+        accumulator.push(path.points[currentValue]);
+      return accumulator;
+    },
+    []);
   return flattened;
 };

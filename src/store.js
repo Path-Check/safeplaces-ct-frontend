@@ -4,6 +4,8 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from 'ducks';
 import watcherSaga from 'sagas';
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import axiosInterceptors from './axiosInterceptors';
 import { createBlacklistFilter } from 'redux-persist-transform-filter';
 const saveSubsetBlacklistFilter = createBlacklistFilter('auth', [
@@ -18,7 +20,8 @@ const persistConfig = {
   transforms: [saveSubsetBlacklistFilter],
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+export const history = createBrowserHistory();
+const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -28,7 +31,9 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware));
+const enhancer = composeEnhancers(
+  applyMiddleware(sagaMiddleware, routerMiddleware(history)),
+);
 const storeEntry = createStore(persistedReducer, enhancer);
 
 axiosInterceptors.setupInterceptors(storeEntry);

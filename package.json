@@ -16,6 +16,7 @@
     "@wfp/ui": "^1.4.1-alpha.45",
     "array-move": "^2.2.1",
     "axios": "^0.19.2",
+    "connected-react-router": "^6.8.0",
     "env-cmd": "^10.1.0",
     "file-saver": "^2.0.2",
     "history": "^4.10.1",

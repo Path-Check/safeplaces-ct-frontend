@@ -1,20 +1,24 @@
-export const getCurrentStore = (state, ownProps) =>
-  state.stores.find(e => e.client_id === ownProps.route.item);
-export const getAllPositions = state => state.positions;
-export const getAllWarnings = state => state.warnings;
-export const getDetail = state => state.detail;
-export const getTrack = state => state.path;
 export const getFilter = state => state.filter;
-export const getTrackPath = state =>
-  state.path && state.path.points
+
+export const getTrackPath = state => {
+  const path = getCurrentPath(state);
+  return path && path.points
     ? Object.values(state.path.points).sort(function (a, b) {
         return a.time - b.time;
       })
     : [];
+};
 
-export const getFilteredTrackPath = state =>
-  state.path && state.path.points
-    ? pointObjectToArray(state.path.points)
+export const getCurrentPath = state =>
+  state.cases.entries[state.cases.currentCase] &&
+  state.cases.entries[state.cases.currentCase].points
+    ? state.cases.entries[state.cases.currentCase]
+    : undefined;
+
+export const getFilteredTrackPath = state => {
+  const path = getCurrentPath(state);
+  return path
+    ? pointObjectToArray(path.points)
         .sort(function (a, b) {
           return a.time - b.time;
         })
@@ -28,55 +32,37 @@ export const getFilteredTrackPath = state =>
           return true;
         })
     : [];
-
-export const getTrackStart = state =>
-  state.path &&
-  state.path.points &&
-  Math.min.apply(
-    Math,
-    pointObjectToArray(state.path.points).map(function (o) {
-      return o.time;
-    }),
-  );
-
-export const getTrackEnd = state =>
-  state.path &&
-  state.path.points &&
-  Math.max.apply(
-    Math,
-    pointObjectToArray(state.path.points).map(function (o) {
-      return o.time;
-    }),
-  );
-
-export const countTracks = state => state.infections.length;
-export const countPositions = state => state.positions.length;
-export const countWarnings = state => state.warnings.length;
-export const getCase = state => state.caseRed;
-
-// TODO: Clean up
-export const getWarning = state => {
-  if (state.detail.position === undefined) return null;
-  return state.warnings.find(e => {
-    return (
-      e.position.lat === state.detail.position.lat &&
-      e.position.lng === state.detail.position.lng
-    );
-  });
 };
 
-export const getAllFilteredWarnings = state => {
-  const filteredWarnings = state.warnings.filter(
-    e => e.matches && e.matches.length >= 1,
+export const getTrackStart = state => {
+  const path = getCurrentPath(state);
+  return (
+    path &&
+    Math.min.apply(
+      Math,
+      pointObjectToArray(path.points).map(function (o) {
+        return o.time;
+      }),
+    )
   );
-  return filteredWarnings;
+};
+
+export const getTrackEnd = state => {
+  const path = getCurrentPath(state);
+  if (path)
+    return Math.max.apply(
+      Math,
+      pointObjectToArray(path.points).map(function (o) {
+        return o.time;
+      }),
+    );
 };
 
 const pointObjectToArray = points => {
-  return Object.values(points);
+  return Object.entries(points).map(e => ({ ...e[1], id: e[0] }));
 };
 
-export const getselectedPointsDataData = ({ selectedPoints, path }) => {
+export const getSelectedPointsDataData = ({ selectedPoints, path }) => {
   const selectedEntries =
     path && path.points && selectedPoints
       ? pointObjectToArray(path.points).filter(e => {
@@ -86,10 +72,4 @@ export const getselectedPointsDataData = ({ selectedPoints, path }) => {
   return selectedEntries;
 };
 
-export const getselectedPointsData = state => state.selectedPoints;
-export const countFilteredWarnings = state => {
-  const filteredWarnings = state.warnings.filter(
-    e => e.matches && e.matches.length >= 1,
-  );
-  return filteredWarnings.length;
-};
+export const getSelectedPointsData = state => state.selectedPoints;

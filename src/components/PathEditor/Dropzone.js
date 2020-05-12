@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import path from '../../ducks/path';
+import cases from '../../ducks/cases';
 // import { getAllTracks } from "../../selectors";
 import { connect } from 'react-redux';
 import { Button } from '@wfp/ui';
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  importPathTrigger: data => dispatch(path.actions.import(data)),
+  importPathTrigger: data => dispatch(cases.actions.import(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDropzone);
