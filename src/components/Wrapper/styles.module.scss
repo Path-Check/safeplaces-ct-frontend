@@ -11,10 +11,12 @@
 .editor {
   position: absolute;
   z-index: 3;
-  width: 25vw;
+  width: 35vw;
+  max-width: 350px;
   margin-top: $spacing-md;
   margin-left: $spacing-md;
   transition: all 0.15s;
+  max-height: 100%;
 }
 
 .wrapperEdit {
