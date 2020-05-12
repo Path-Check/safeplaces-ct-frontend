@@ -7,6 +7,7 @@ import { addSelected } from '../../ducks/selectedPoints';
 import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
 import Popup from '../Popup';
+import styles from './styles.module.scss';
 
 import defaultMapStyleJson from './style.json';
 import WebMercatorViewport from 'viewport-mercator-project';
@@ -176,7 +177,7 @@ export default function Map({ setMap }) {
     >
       <NavigationControl
         showCompass={true}
-        className="mapboxgl-ctrl-top-left"
+        className={`mapboxgl-ctrl-bottom-left ${styles.mapCtrl}`}
       />
       <Popup />
       <Track />

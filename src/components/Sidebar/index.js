@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, tooltipStyle } from '@wfp/ui';
 import Dropzone from '../PathEditor/Dropzone';
 import SidebarContent from '../SidebarPathList';
-import FileSaver from 'file-saver';
 
 import {
   getTrack,
@@ -31,6 +30,7 @@ import { getPath } from 'ducks/path';
 import { getselectedPoints } from 'selectors/selectedPoints';
 import { useParams } from 'react-router';
 import { TextInput } from '@wfp/ui';
+import { saveAsJson } from 'helpers/export';
 
 function Sidebar({ addPathEntryTrigger, track }) {
   const currentPath = useSelector(state => getPath(state));
@@ -40,10 +40,10 @@ function Sidebar({ addPathEntryTrigger, track }) {
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const selectedPathEntries = useSelector(getselectedPoints);
   const save = () => {
-    var blob = new Blob([JSON.stringify(track)], {
-      type: 'text/plain;charset=utf-8',
+    saveAsJson({
+      data: track,
+      filename: `export-${path.publish_date_utl}.json`,
     });
-    FileSaver.saveAs(blob, `export-${path.publish_date_utl}.json`);
   };
   return (
     <>

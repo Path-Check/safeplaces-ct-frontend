@@ -12,8 +12,19 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SettingsList from './SettingsList';
 import ButtonRouter from 'components/ButtonRouter';
+import { useSelector } from 'react-redux';
+import { getCases } from 'ducks/cases';
+import { saveAsJson } from 'helpers/export';
 
 export default function Settings() {
+  const cases = useSelector(getCases);
+  const save = () => {
+    saveAsJson({
+      data: cases,
+      filename: `organization-exp`,
+    });
+  };
+
   return (
     <div className={styles.settingsPageWrapper}>
       <div className={styles.settingsPage}>
@@ -37,6 +48,7 @@ export default function Settings() {
               kind="ghost"
               iconReverse
               icon={<FontAwesomeIcon icon={faFileDownload} />}
+              onClick={save}
             >
               Export configuration
             </Button>

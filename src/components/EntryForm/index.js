@@ -23,6 +23,7 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import TimeInput from 'components/TimeInput';
 import { v4 } from 'uuid';
+import ButtonRouter from 'components/ButtonRouter';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_PLACES_KEY);
 
@@ -173,12 +174,11 @@ const EntryForm = ({ initialData, useInline }) => {
         <div className={styles.headerTitle}>
           {params.action !== 'new' ? 'Edit point' : 'New point'}
         </div>
-        <NavLink to="/">
-          <Button
-            icon={<FontAwesomeIcon icon={faTimes} />}
-            className={styles.closeButton}
-          ></Button>
-        </NavLink>
+        <ButtonRouter
+          to={`/${params.patient}`}
+          icon={<FontAwesomeIcon icon={faTimes} />}
+          className={styles.closeButton}
+        />
       </div>
       <div className={styles.content}>
         <div className={styles.dateWrapper}>
