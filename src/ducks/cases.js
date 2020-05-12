@@ -1,18 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 } from 'uuid';
-export const CREATE = 'safeplaces/cases/CREATE';
-
-/*const initialState = { entries: {} };
-
-export default function reducer(state = initialState, action) {
-  switch (action.type) {
-    case CREATE:
-      state.entries[action.id] = { id: action.id, name: 'lorem' };
-      return { ...state, entries: state.entries };
-    default:
-      return state;
-  }
-}*/
 
 export default createSlice({
   name: 'cases',
@@ -34,5 +20,4 @@ export default createSlice({
 
 export const getCases = state => state.cases.entries;
 export const getCasesArray = state => Object.values(state.cases.entries);
-
 export const showCurrentCase = (state, id) => state.cases.entries[id];

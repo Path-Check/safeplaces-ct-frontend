@@ -69,7 +69,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
                   kind="secondary"
                   icon={<FontAwesomeIcon icon={faCaretDown} />}
                 >
-                  Actions
+                  Settings
                 </Button>
               </div>
             </Tippy>

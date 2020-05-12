@@ -1,16 +1,13 @@
 import { v4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';
-import cases from './cases';
 export default createSlice({
   name: 'path',
   initialState: { id: undefined, points: {} },
   reducers: {
     import: (state, action) => {
       var points = {};
-      action.payload.forEach((element, index) => {
+      action.payload.forEach(element => {
         const id = v4();
-        // todo: check sanity here of time, verify it
-        // element.time = Number(element.time);
         element.id = id;
         points[id] = element;
       });
@@ -20,21 +17,6 @@ export default createSlice({
     load: (state, action) => {
       const { id = v4(), points = {}, name = 'unnamed' } = action.payload;
       return { id, points, name };
-    },
-    /*load: {
-      reducer: (state, action) => {
-        const { id = v4(), points = {}, name = 'unnamed' } = action.payload;
-        return { id, points, name };
-      },
-      prepare: value => {
-        return { payload: value };
-      },
-    },*/
-    addEntry: (state, action) => {
-      const pointsAdd = state.points;
-      const id = v4();
-      pointsAdd[id] = { id, latitude: 0, longitude: 0, time: 2132321 };
-      state.points = pointsAdd;
     },
     editEntry: (state, action) => {
       state.points[action.payload.id] = {
@@ -51,12 +33,13 @@ export default createSlice({
         };
     },
     removeEntries: (state, action) => {
-      action.payload.map(e => {
-        return (state.points[e] = {
-          ...state.points[e],
-          trash: true,
-        });
-      });
+      action.payload.map(
+        e =>
+          (state.points[e] = {
+            ...state.points[e],
+            trash: true,
+          }),
+      );
       state.points[action.payload] = {
         ...state.points[action.payload],
         trash: true,
