@@ -2,11 +2,11 @@ import React from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
 import { showCases, createCase, showCurrentCase } from '../../ducks/cases';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
-import { useDispatch } from 'react-redux';
+
 import { useParams } from 'react-router';
 
 const SingleValue = ({ children, ...props }) => (
@@ -79,7 +79,7 @@ export default function SelectCase() {
     ? { value: currentCase.id, label: currentCase.name }
     : undefined;
 
-  //options.unshift({ value: 'all', label: 'all cases' });
+  // options.unshift({ value: 'all', label: 'all cases' });
   options.push({ value: 'new', label: 'add new case' });
   return (
     <Select

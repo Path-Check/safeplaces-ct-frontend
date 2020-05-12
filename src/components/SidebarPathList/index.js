@@ -12,17 +12,17 @@ import {
   faTrashAlt,
   faMapMarkerQuestion,
   faEdit,
+  faUndo,
 } from '@fortawesome/pro-solid-svg-icons';
 import moment from 'moment';
 import Empty from '../Empty';
 import ButtonRouter from 'components/ButtonRouter';
-import { faUndo } from '@fortawesome/pro-solid-svg-icons';
 
 export default function SidebarPathList() {
   const selectedPoints = useSelector(state => getselectedPointsData(state));
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const dispatch = useDispatch();
-  //const removePathEntryTrigger = data => dispatch(removePathEntry(data));
+  // const removePathEntryTrigger = data => dispatch(removePathEntry(data));
 
   return (
     <>

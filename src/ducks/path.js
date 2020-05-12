@@ -14,7 +14,7 @@ export default function tracks(state = initialState, action) {
       action.data.forEach((element, index) => {
         const id = v4();
         // todo: check sanity here of time, verify it
-        //element.time = Number(element.time);
+        // element.time = Number(element.time);
         element.id = id;
         action.data.points[id] = element;
       });
@@ -30,10 +30,10 @@ export default function tracks(state = initialState, action) {
     }
     case REMOVE_ENTRIES: {
       action.payload.map(e => {
-        state.points[e] = {
+        return (state.points[e] = {
           ...state.points[e],
           trash: true,
-        };
+        });
       });
       state.points[action.payload] = {
         ...state.points[action.payload],
@@ -41,17 +41,17 @@ export default function tracks(state = initialState, action) {
       };
       return { ...state };
     }
-    /*case REMOVE_ENTRY: {
+    /* case REMOVE_ENTRY: {
       const points = state.points.filter(e => e.time !== action.data);
       return { ...state, points: points };
-    }*/
+    } */
     case EDIT_ENTRY: {
-      /*const newPoints = state.points;
+      /* const newPoints = state.points;
       if (action.id !== 'new') {
         newPoints[action.id] = action.data;
       } else {
         newPoints[v4()] = action.data;
-      }*/
+      } */
       state.points[action.payload.id] = action.payload;
 
       return { ...state };
