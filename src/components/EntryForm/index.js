@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
 import { addPathEntry, editPathEntry } from '../../ducks/path';
-import { getTrack, getSelectedPathEntryData } from '../../selectors';
+import { getTrack, getselectedPointsData } from '../../selectors';
 import { Button, TextArea, TextInput } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, useHistory } from 'react-router';
@@ -19,6 +19,7 @@ import DateInput from '../DateInput';
 import styles from './styles.module.scss';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
+import TimeInput from 'components/TimeInput';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_PLACES_KEY);
 
@@ -145,8 +146,6 @@ const EntryForm = ({ initialData, useInline }) => {
   };
 
   const onLatLongReceived = values => {
-    console.log('Hiren Got this latLng ', values);
-
     setValue([
       {
         latitude: values.lat,
@@ -181,7 +180,7 @@ const EntryForm = ({ initialData, useInline }) => {
           control={control}
         />
         <Controller
-          as={<DateInput time labelText="Time" type="time" />}
+          as={<TimeInput time labelText="Time" type="time" />}
           name="time"
           min={null}
           max={null}
@@ -270,7 +269,7 @@ const EntryForm = ({ initialData, useInline }) => {
 
 const mapStateToProps = state => {
   return {
-    selectedPathEntry: getSelectedPathEntryData(state),
+    selectedPoints: getselectedPointsData(state),
     track: getTrack(state),
   };
 };

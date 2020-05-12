@@ -5,12 +5,17 @@ import storage from 'redux-persist/lib/storage';
 import rootReducer from 'ducks';
 import watcherSaga from 'sagas';
 import axiosInterceptors from './axiosInterceptors';
+import { createBlacklistFilter } from 'redux-persist-transform-filter';
+const saveSubsetBlacklistFilter = createBlacklistFilter('auth', [
+  'error',
+  'errorResponse',
+]);
 
 const persistConfig = {
   key: 'root',
   storage,
   timeout: 500,
-  // transforms: [saveSubsetBlacklistFilter],
+  transforms: [saveSubsetBlacklistFilter],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

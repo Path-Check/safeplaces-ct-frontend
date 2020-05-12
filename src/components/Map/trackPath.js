@@ -8,7 +8,7 @@ const track = ({ trackPath }) => {
     return {
       type: 'Feature',
       properties: {
-        time: point.time,
+        id: point.id,
       },
       geometry: {
         type: 'Point',

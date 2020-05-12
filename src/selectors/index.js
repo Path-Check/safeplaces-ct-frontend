@@ -14,14 +14,19 @@ export const getTrackPath = state =>
 
 export const getFilteredTrackPath = state =>
   state.path && state.path.points
-    ? state.path.points
+    ? pointObjectToArray(state.path.points)
         .sort(function (a, b) {
           return a.time - b.time;
         })
-        .filter(
-          e =>
-            e.time >= state.filter.dates[0] && e.time <= state.filter.dates[1],
-        )
+        .filter(e => {
+          if (state.filter.dates.start) {
+            return (
+              e.time >= state.filter.dates.start &&
+              e.time <= state.filter.dates.end
+            );
+          }
+          return true;
+        })
     : [];
 
 export const getTrackStart = state =>
@@ -29,7 +34,7 @@ export const getTrackStart = state =>
   state.path.points &&
   Math.min.apply(
     Math,
-    state.path.points.map(function (o) {
+    pointObjectToArray(state.path.points).map(function (o) {
       return o.time;
     }),
   );
@@ -39,7 +44,7 @@ export const getTrackEnd = state =>
   state.path.points &&
   Math.max.apply(
     Math,
-    state.path.points.map(function (o) {
+    pointObjectToArray(state.path.points).map(function (o) {
       return o.time;
     }),
   );
@@ -67,21 +72,21 @@ export const getAllFilteredWarnings = state => {
   return filteredWarnings;
 };
 
-export const getSelectedPathEntryDataData = (
-  { selectedPathEntry, path },
-  id,
-) => {
+const pointObjectToArray = points => {
+  return Object.values(points);
+};
+
+export const getselectedPointsDataData = ({ selectedPoints, path }) => {
   const selectedEntries =
-    path && path.points && selectedPathEntry
-      ? path.points.filter(e => {
-          return e.id === id;
+    path && path.points && selectedPoints
+      ? pointObjectToArray(path.points).filter(e => {
+          return e.id !== selectedPoints.id;
         })
       : undefined;
   return selectedEntries;
 };
 
-export const getSelectedPathEntryData = state => state.selectedPathEntry;
-export const getSelectedTracks = state => state.selectedTracks;
+export const getselectedPointsData = state => state.selectedPoints;
 export const countFilteredWarnings = state => {
   const filteredWarnings = state.warnings.filter(
     e => e.matches && e.matches.length >= 1,

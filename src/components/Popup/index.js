@@ -3,21 +3,30 @@ import { Popup } from 'react-map-gl';
 import styles from './styles.module.scss';
 
 import moment from 'moment';
-import { addSelected } from 'ducks/selectedPathEntry';
-import { getSelectedPathEntryData } from 'selectors';
+import { addSelected } from 'ducks/selectedPoints';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { getselectedPointsData } from 'selectors/selectedPoints';
 
 export default function PopupWrapper() {
-  const selectedPathEntryData = useSelector(getSelectedPathEntryData);
+  const selectedPointsData = useSelector(getselectedPointsData);
+  console.log(
+    'selectedPointsData',
+    selectedPointsData.longitude,
+    selectedPointsData.latitude,
+  );
   const dispatch = useDispatch();
-  if (selectedPathEntryData && selectedPathEntryData.length === 1) {
+  if (
+    selectedPointsData &&
+    selectedPointsData.length === 1 &&
+    selectedPointsData[0] !== undefined
+  ) {
     return (
       <Popup
         tipSize={8}
         anchor="bottom"
-        longitude={selectedPathEntryData[0].longitude}
-        latitude={selectedPathEntryData[0].latitude}
+        longitude={selectedPointsData[0].longitude}
+        latitude={selectedPointsData[0].latitude}
         closeOnClick={false}
         closeButton={false}
         offsetTop={-10}
@@ -25,10 +34,10 @@ export default function PopupWrapper() {
       >
         <div className={styles.popup}>
           <h3 className={styles.title}>
-            {moment.utc(selectedPathEntryData[0].time).format('YYYY-MM-DD')}
+            {moment.utc(selectedPointsData[0].time).format('YYYY-MM-DD')}
           </h3>
           <p className={styles.time}>
-            {moment.utc(selectedPathEntryData[0].time).format('HH:mm:ss')}
+            {moment.utc(selectedPointsData[0].time).format('HH:mm:ss')}
           </p>
         </div>
       </Popup>

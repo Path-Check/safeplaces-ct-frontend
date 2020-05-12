@@ -1,11 +1,13 @@
 import React from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
-import { showCases, createCase } from '../../ducks/cases';
+import { showCases, createCase, showCurrentCase } from '../../ducks/cases';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
+
+import { useParams } from 'react-router';
 
 const SingleValue = ({ children, ...props }) => (
   <components.SingleValue {...props}>
@@ -62,19 +64,29 @@ const customStyles = {
 export default function SelectCase() {
   const patients = useSelector(state => showCases(state));
   const history = useHistory();
+  const params = useParams();
   const dispatch = useDispatch();
 
   const options = Object.entries(patients).map(e => {
-    return { value: e[0], label: e[0] };
+    return { value: e[0], label: e[1].name };
   });
 
-  options.unshift({ value: 'all', label: 'all cases' });
+  const currentCase = useSelector(state =>
+    showCurrentCase(state, params.patient),
+  );
+
+  const formatedCurrentCase = currentCase
+    ? { value: currentCase.id, label: currentCase.name }
+    : undefined;
+
+  // options.unshift({ value: 'all', label: 'all cases' });
   options.push({ value: 'new', label: 'add new case' });
   return (
     <Select
       className={styles.select}
       options={options}
       styles={customStyles}
+      defaultValue={formatedCurrentCase}
       components={{ SingleValue, Option }}
       onChange={e => {
         var id = e.value;

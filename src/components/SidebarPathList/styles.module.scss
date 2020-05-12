@@ -42,6 +42,16 @@
   margin-bottom: $spacing-xs;
 }
 
+.deletedEntry {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  > span {
+    font-weight: 600;
+  }
+}
+
 .editForm {
   border-top: 1px solid $ui-04;
   padding-top: 1em;

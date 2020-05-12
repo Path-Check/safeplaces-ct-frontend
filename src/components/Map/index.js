@@ -3,10 +3,11 @@ import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import { MapboxLayerSwitcherControl } from 'mapbox-layer-switcher';
 import 'mapbox-layer-switcher/styles.css';
 import Track from './trackPath';
-import { addSelected } from '../../ducks/selectedPathEntry';
+import { addSelected } from '../../ducks/selectedPoints';
 import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
 import Popup from '../Popup';
+
 import defaultMapStyleJson from './style.json';
 import WebMercatorViewport from 'viewport-mercator-project';
 import getBounds from './getBounds';
@@ -59,11 +60,12 @@ export default function Map({ setMap }) {
   const [viewport, setViewport] = useState({
     width: 400,
     height: 300,
-    latitude: 13.4443,
-    longitude: 144.7937,
-    zoom: 10,
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 8,
   });
   const mapRef = useRef();
+
   const trackPath = useSelector(getFilteredTrackPath);
   const dispatch = useDispatch();
 
@@ -142,8 +144,7 @@ export default function Map({ setMap }) {
 
     if (features.length >= 1) {
       if (features[0].layer.id === 'pointLayer') {
-        console.log(features[0].properties.time);
-        dispatch(addSelected([features[0].properties.time]));
+        dispatch(addSelected([features[0].properties.id]));
       }
     }
   };

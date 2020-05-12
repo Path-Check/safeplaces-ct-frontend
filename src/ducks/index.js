@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import cases from './cases';
-import selectedPathEntry from './selectedPathEntry';
+import selectedPoints from './selectedPoints';
 import filter from './filter';
 import path from './path';
 import auth from './auth';
@@ -11,9 +11,9 @@ const rootReducer = combineReducers({
   auth,
   cases,
   settingsApi,
-  filter,
+  filter: filter.reducer,
   path,
-  selectedPathEntry,
+  selectedPoints,
 });
 
 export default rootReducer;
