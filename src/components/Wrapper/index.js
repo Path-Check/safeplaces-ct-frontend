@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import cases, { getCasesArray, showCurrentCase } from 'ducks/cases';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPath } from 'ducks/path';
-import path from 'ducks/path';
-import { useHistory } from 'react-router';
+import path, { getPath } from 'ducks/path';
+
 import { Button } from '@wfp/ui';
 import { v4 } from 'uuid';
 
@@ -32,7 +31,7 @@ export default function Wrapper({ children, editor, sidebar }) {
 
       setCurrentCaseId(params.patient);
     }
-  }, [cases, currentCase, params.patient]);
+  }, [currentCase, currentCaseId, currentPath, dispatch, params.patient]);
 
   const newCase = () => {
     const id = v4();

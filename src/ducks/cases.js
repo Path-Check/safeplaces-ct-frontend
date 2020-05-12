@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 } from 'uuid';
 export const CREATE = 'safeplaces/cases/CREATE';
 
-/*const initialState = { entries: {} };
+/* const initialState = { entries: {} };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -12,7 +11,7 @@ export default function reducer(state = initialState, action) {
     default:
       return state;
   }
-}*/
+} */
 
 export default createSlice({
   name: 'cases',

@@ -19,7 +19,6 @@ import {
 import { faTimes } from '@fortawesome/pro-regular-svg-icons';
 import DateInput from '../DateInput';
 import styles from './styles.module.scss';
-import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import TimeInput from 'components/TimeInput';
 import { v4 } from 'uuid';

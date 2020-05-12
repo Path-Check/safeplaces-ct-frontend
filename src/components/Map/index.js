@@ -130,6 +130,13 @@ export default function Map({ setMap }) {
     const map = mapRef.current.getMap();
     // setMap(map);
     const styles = [];
+    // Add Mapbox baselayer first.
+    styles.push({
+      id: 'composite',
+      title: 'MapBox',
+      type: 'base',
+      visibility: 'none',
+    });
     defaultMapStyleJson.layers.forEach(element => {
       if (element.base === 'true') {
         styles.push({

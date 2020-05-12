@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, tooltipStyle } from '@wfp/ui';
+import { Button, tooltipStyle, TextInput } from '@wfp/ui';
 import Dropzone from '../PathEditor/Dropzone';
 import SidebarContent from '../SidebarPathList';
 
@@ -29,7 +29,7 @@ import SettingsList from '../Settings/SettingsList';
 import { getPath } from 'ducks/path';
 import { getselectedPoints } from 'selectors/selectedPoints';
 import { useParams } from 'react-router';
-import { TextInput } from '@wfp/ui';
+
 import { saveAsJson } from 'helpers/export';
 
 function Sidebar({ addPathEntryTrigger, track }) {

@@ -1,6 +1,5 @@
 import { v4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';
-import cases from './cases';
 export default createSlice({
   name: 'path',
   initialState: { id: undefined, points: {} },
@@ -21,7 +20,7 @@ export default createSlice({
       const { id = v4(), points = {}, name = 'unnamed' } = action.payload;
       return { id, points, name };
     },
-    /*load: {
+    /* load: {
       reducer: (state, action) => {
         const { id = v4(), points = {}, name = 'unnamed' } = action.payload;
         return { id, points, name };
@@ -29,7 +28,7 @@ export default createSlice({
       prepare: value => {
         return { payload: value };
       },
-    },*/
+    }, */
     addEntry: (state, action) => {
       const pointsAdd = state.points;
       const id = v4();

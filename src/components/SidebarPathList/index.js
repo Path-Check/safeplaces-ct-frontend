@@ -1,9 +1,7 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import path from '../../ducks/path';
+import { useSelector } from 'react-redux';
 
-import { addSelected } from '../../ducks/selectedPoints';
-import { getselectedPointsData, getFilteredTrackPath } from '../../selectors';
+import { getFilteredTrackPath } from '../../selectors';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerQuestion } from '@fortawesome/pro-solid-svg-icons';

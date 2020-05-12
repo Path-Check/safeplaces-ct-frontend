@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
 
-import cases from '../../ducks/cases';
-import { getCases, showCurrentCase } from '../../ducks/cases';
+import cases, { getCases, showCurrentCase } from '../../ducks/cases';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
-
 import { useParams } from 'react-router';
-import path from 'ducks/path';
-import { getPath } from 'ducks/path';
 import { v4 } from 'uuid';
 
 const SingleValue = ({ children, ...props }) => (
@@ -68,7 +65,6 @@ const customStyles = {
 
 export default function SelectCase() {
   const currentCases = useSelector(getCases);
-  const path = useSelector(state => getPath(state));
   const history = useHistory();
   const params = useParams();
   const dispatch = useDispatch();
@@ -85,16 +81,16 @@ export default function SelectCase() {
     ? { value: currentCase.id, label: currentCase.name }
     : undefined;
 
-  /*useEffect(() => {
+  /* useEffect(() => {
     console.log('cases', cases);
     if (cases.actions) {
       dispatch(cases.actions.save({ id: params.patient, path }));
       dispatch(cases.actions.save({ id: params.patient, path }));
     }
     //path.actions.selectCase(currentCase);
-  }, [cases, currentCase, params.patient]);*/
+  }, [cases, currentCase, params.patient]); */
 
-  //options.unshift({ value: 'all', label: 'all cases' });
+  // options.unshift({ value: 'all', label: 'all cases' });
 
   options.push({ value: 'new', label: 'add new case' });
   return (
