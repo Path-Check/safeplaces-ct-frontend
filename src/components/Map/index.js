@@ -22,7 +22,19 @@ import {
   emptyFeature,
 } from 'components/Map/layers';
 import { useSelector, useDispatch } from 'react-redux';
-var defaultMapStyle = fromJS(defaultMapStyleJson);
+
+let jsonStyle = JSON.stringify(defaultMapStyleJson).replace(
+  /{REACT_APP_HERE_APP_ID}/g,
+  process.env.REACT_APP_HERE_APP_ID,
+);
+jsonStyle = JSON.parse(
+  jsonStyle.replace(
+    /{REACT_APP_HERE_APP_CODE}/g,
+    process.env.REACT_APP_HERE_APP_CODE,
+  ),
+);
+
+var defaultMapStyle = fromJS(jsonStyle);
 
 defaultMapStyle = defaultMapStyle
   .updateIn(['layers'], arr =>

@@ -124,7 +124,7 @@
     "here": {
       "type": "raster",
       "tiles": [
-        "https://4.aerial.maps.cit.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png?app_id=%REACT_APP_HERE_APP_ID%&app_code=%REACT_APP_HERE_APP_CODE%"
+        "https://4.aerial.maps.cit.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png?app_id={REACT_APP_HERE_APP_ID}&app_code={REACT_APP_HERE_APP_CODE}"
       ],
       "tileSize": 256,
       "attribution": "Here Map"
@@ -132,7 +132,7 @@
     "here-road": {
       "type": "raster",
       "tiles": [
-        "https://4.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png?app_id=%REACT_APP_HERE_APP_ID%&app_code=%REACT_APP_HERE_APP_CODE%"
+        "https://4.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png?app_id={REACT_APP_HERE_APP_ID}&app_code={REACT_APP_HERE_APP_CODE}"
       ],
       "tileSize": 256,
       "attribution": "Here Map"
