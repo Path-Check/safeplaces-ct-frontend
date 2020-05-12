@@ -23,14 +23,7 @@ export default function Wrapper({ children, editor, sidebar }) {
   );
 
   useEffect(() => {
-    // console.log('currentCase', currentCaseId, params.patient, currentCase);
-    //if (currentCaseId !== params.patient) {
     dispatch(cases.actions.setCurrentCase(params.patient));
-
-    //if (currentCase) dispatch(path.actions.load(currentCase));
-
-    // setCurrentCaseId(params.patient);
-    //}
   }, [params.patient]);
 
   const newCase = () => {

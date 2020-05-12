@@ -69,31 +69,15 @@ export default function SelectCase() {
   const currentCases = useSelector(getCases);
   const path = useSelector(state => getCurrentPath(state));
   const history = useHistory();
-  const params = useParams();
   const dispatch = useDispatch();
 
   const options = Object.entries(currentCases).map(e => {
     return { value: e[0], label: e[1].name };
   });
 
-  const currentCase = useSelector(state =>
-    showCurrentCase(state, params.patient),
-  );
-
-  const formatedCurrentCase = currentCase
-    ? { value: currentCase.id, label: currentCase.name }
+  const formatedCurrentCase = path
+    ? { value: path.id, label: path.name }
     : undefined;
-
-  /*useEffect(() => {
-    console.log('cases', cases);
-    if (cases.actions) {
-      dispatch(cases.actions.save({ id: params.patient, path }));
-      dispatch(cases.actions.save({ id: params.patient, path }));
-    }
-    //path.actions.selectCase(currentCase);
-  }, [cases, currentCase, params.patient]);*/
-
-  //options.unshift({ value: 'all', label: 'all cases' });
 
   options.push({ value: 'new', label: 'add new case' });
   return (
@@ -102,7 +86,7 @@ export default function SelectCase() {
       className={styles.select}
       classNamePrefix="react-select"
       styles={customStyles}
-      defaultValue={formatedCurrentCase}
+      value={formatedCurrentCase}
       components={{ SingleValue, Option }}
       onChange={e => {
         var id = e.value;

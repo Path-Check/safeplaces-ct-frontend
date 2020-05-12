@@ -33,7 +33,13 @@ export default createSlice({
       ...state,
       currentCase: action.payload,
     }),
-    editMeta: (state, action) => ({ ...state, ...action.payload }),
+    editMeta: (state, action) => {
+      state.entries[state.currentCase] = {
+        ...state.entries[state.currentCase],
+        ...action.payload,
+      };
+      return state;
+    },
     removeEntry: (state, action) => {
       if (state.entries[state.currentCase].points[action.payload])
         state.entries[state.currentCase].points[action.payload] = {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, tooltipStyle } from '@wfp/ui';
 import Dropzone from '../PathEditor/Dropzone';
 import SidebarContent from '../SidebarPathList';
@@ -38,6 +38,11 @@ function Sidebar({ addPathEntryTrigger, track }) {
   const params = useParams();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const selectedPathEntries = useSelector(getselectedPoints);
+
+  useEffect(() => {
+    setName(currentPath && currentPath.name);
+  }, [currentPath.name]);
+
   const save = () => {
     saveAsJson({
       data: track,
@@ -100,9 +105,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
                 onChange={e => setName(e.target.value)}
               />
               <Button
-                onClick={e =>
-                  dispatch(currentPath.actions.editMeta({ name: name }))
-                }
+                onClick={e => dispatch(cases.actions.editMeta({ name: name }))}
               >
                 Save
               </Button>
