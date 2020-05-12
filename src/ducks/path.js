@@ -40,6 +40,7 @@ export default createSlice({
         ...action.payload.values,
       };
     },
+    editMeta: (state, action) => ({ ...state, ...action.payload }),
     removeEntry: (state, action) => {
       if (state.points[action.payload])
         state.points[action.payload] = {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, tooltipStyle } from '@wfp/ui';
 import Dropzone from '../PathEditor/Dropzone';
 import SidebarContent from '../SidebarPathList';
@@ -30,14 +30,15 @@ import SettingsList from '../Settings/SettingsList';
 import { getPath } from 'ducks/path';
 import { getselectedPoints } from 'selectors/selectedPoints';
 import { useParams } from 'react-router';
+import { TextInput } from '@wfp/ui';
 
 function Sidebar({ addPathEntryTrigger, track }) {
-  // const [openNewEntry, setOpenNewEntry] = useState(false);
+  const currentPath = useSelector(state => getPath(state));
+  const [name, setName] = useState(currentPath.name);
   const dispatch = useDispatch();
   const params = useParams();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const selectedPathEntries = useSelector(getselectedPoints);
-  const currentPath = useSelector(state => getPath(state));
   const save = () => {
     var blob = new Blob([JSON.stringify(track)], {
       type: 'text/plain;charset=utf-8',
@@ -93,6 +94,17 @@ function Sidebar({ addPathEntryTrigger, track }) {
             </>
           ) : (
             <>
+              <TextInput
+                name="path-name"
+                placeholder="Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+              <Button
+                onClick={e => dispatch(path.actions.editMeta({ name: name }))}
+              >
+                Save
+              </Button>
               <h2>Open a file</h2>
               <p>No file opened</p>
             </>
