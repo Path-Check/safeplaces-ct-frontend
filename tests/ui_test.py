@@ -24,13 +24,13 @@ class TestRedaction(unittest.TestCase):
         if 'BASE_TEST_URL' in os.environ.copy():
             self.base_url = os.environ['BASE_TEST_URL']
         else:
-            self.base_url = 'https://safeplaces.extremesolution.com/'
+            self.base_url = 'https://react.safeplaces.extremesolution.com/'
         if 'SELENIUM_URL' in os.environ.copy():
             self.sel_url = os.environ['SELENIUM_URL']
         else:
             self.sel_url = 'http://172.17.0.2:4444/wd/hub'
 
-        print("DATA_DIR: " + self.data_dir)
+
         chrome_options = webdriver.ChromeOptions()
         prefs = {'download.default_directory': '/tmp'}
         chrome_options.add_experimental_option('prefs', prefs)
@@ -41,6 +41,7 @@ class TestRedaction(unittest.TestCase):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
+        entry_page.setup_case()
         entry_page.open_redactor()
         login_page = LoginPage(self.driver)
         login_page.login_if_required()

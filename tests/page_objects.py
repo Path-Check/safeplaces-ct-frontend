@@ -26,11 +26,16 @@ class Page(object):
 
 
 class EntryPage(Page):
+    btn_setup_case = (By.CSS_SELECTOR, '#root > div > div > button')
     loc_scrubber = (By.XPATH, '//a[@href="./location-scrubber/index.html"]')
 
     def open_page(self):
         self.open("")
-        assert "Safe Places" in self.driver.title, self.driver.title
+        #Workaround for https://github.com/Path-Check/safeplaces-frontend/issues/86
+        #assert "Safe Places" in self.driver.title, self.driver.title
+
+    def setup_case(self):
+        self.find_element(self.btn_setup_case).click()
 
     def open_redactor(self):
         self.find_element(self.loc_scrubber).click()
