@@ -9,6 +9,8 @@ export default createSlice({
       var points = {};
       action.payload.forEach((element, index) => {
         const id = v4();
+        // todo: check sanity here of time, verify it
+        // element.time = Number(element.time);
         element.id = id;
         points[id] = element;
       });
@@ -50,10 +52,10 @@ export default createSlice({
     },
     removeEntries: (state, action) => {
       action.payload.map(e => {
-        state.points[e] = {
+        return (state.points[e] = {
           ...state.points[e],
           trash: true,
-        };
+        });
       });
       state.points[action.payload] = {
         ...state.points[action.payload],
@@ -62,5 +64,4 @@ export default createSlice({
     },
   },
 });
-
 export const getPath = state => state.path;

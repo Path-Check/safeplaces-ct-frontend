@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import { MapboxLayerSwitcherControl } from 'mapbox-layer-switcher';
+import 'mapbox-layer-switcher/styles.css';
 import Track from './trackPath';
 import { addSelected } from '../../ducks/selectedPoints';
 import { getFilteredTrackPath } from '../../selectors';
@@ -20,7 +22,19 @@ import {
   emptyFeature,
 } from 'components/Map/layers';
 import { useSelector, useDispatch } from 'react-redux';
-var defaultMapStyle = fromJS(defaultMapStyleJson);
+
+let jsonStyle = JSON.stringify(defaultMapStyleJson).replace(
+  /{REACT_APP_HERE_APP_ID}/g,
+  process.env.REACT_APP_HERE_APP_ID,
+);
+jsonStyle = JSON.parse(
+  jsonStyle.replace(
+    /{REACT_APP_HERE_APP_CODE}/g,
+    process.env.REACT_APP_HERE_APP_CODE,
+  ),
+);
+
+var defaultMapStyle = fromJS(jsonStyle);
 
 defaultMapStyle = defaultMapStyle
   .updateIn(['layers'], arr =>
@@ -53,7 +67,7 @@ defaultMapStyle = defaultMapStyle
   )
   .setIn(['sources', 'points'], fromJS(emptyFeature));
 
-export default function Map() {
+export default function Map({ setMap }) {
   const [mapStyle, setMapStyle] = useState(defaultMapStyle);
   const [viewport, setViewport] = useState({
     width: 400,
@@ -111,7 +125,22 @@ export default function Map() {
       }
     }
   }, [mapStyle, trackPath, viewport]);
-
+  const onMapLoad = e => {
+    const map = mapRef.current.getMap();
+    // setMap(map);
+    const styles = [];
+    defaultMapStyleJson.layers.forEach(element => {
+      if (element.base === 'true') {
+        styles.push({
+          id: element.id,
+          title: element.title,
+          type: 'base',
+          visibility: element.layout.visibility,
+        });
+      }
+    });
+    map.addControl(new MapboxLayerSwitcherControl(styles));
+  };
   const onMapClick = e => {
     console.log(e);
     var bbox = [
@@ -142,8 +171,13 @@ export default function Map() {
       width="100%"
       height="100vh"
       onClick={onMapClick}
+      onLoad={onMapLoad}
       onViewportChange={viewportInternal => setViewport(viewportInternal)}
     >
+      <NavigationControl
+        showCompass={true}
+        className="mapboxgl-ctrl-top-left"
+      />
       <Popup />
       <Track />
     </ReactMapGL>

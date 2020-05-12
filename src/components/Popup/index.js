@@ -4,7 +4,6 @@ import styles from './styles.module.scss';
 
 import moment from 'moment';
 import { addSelected } from 'ducks/selectedPoints';
-import { getselectedPointsDataData } from 'selectors';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getselectedPointsData } from 'selectors/selectedPoints';
@@ -27,10 +26,10 @@ export default function PopupWrapper() {
       >
         <div className={styles.popup}>
           <h3 className={styles.title}>
-            {moment.utc(selectedPointsData.time).format('YYYY-MM-DD')}
+            {moment.utc(selectedPointsData[0].time).format('YYYY-MM-DD')}
           </h3>
           <p className={styles.time}>
-            {moment.utc(selectedPointsData.time).format('HH:mm:ss')}
+            {moment.utc(selectedPointsData[0].time).format('HH:mm:ss')}
           </p>
         </div>
       </Popup>
