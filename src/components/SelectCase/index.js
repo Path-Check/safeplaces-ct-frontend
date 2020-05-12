@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
+
 import cases from '../../ducks/cases';
 import { getCases, showCurrentCase } from '../../ducks/cases';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
-import { useDispatch } from 'react-redux';
+
 import { useParams } from 'react-router';
 import path from 'ducks/path';
 import { getPath } from 'ducks/path';
@@ -94,6 +95,7 @@ export default function SelectCase() {
   }, [cases, currentCase, params.patient]);*/
 
   //options.unshift({ value: 'all', label: 'all cases' });
+
   options.push({ value: 'new', label: 'add new case' });
   return (
     <Select

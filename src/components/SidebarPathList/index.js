@@ -24,7 +24,7 @@ export default function SidebarPathList() {
   const selectedPoints = useSelector(state => getselectedPointsData(state));
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
   const dispatch = useDispatch();
-  //const removePathEntryTrigger = data => dispatch(removePathEntry(data));
+  // const removePathEntryTrigger = data => dispatch(removePathEntry(data));
 
   return (
     <>
