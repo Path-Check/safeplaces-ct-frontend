@@ -44,18 +44,19 @@ class LoginPage(Page):
 
     def login_if_required(self):
         self.driver.implicitly_wait(3)
+
         try:
             self.find_element(self.username).send_keys("admin")
             self.find_element(self.password).send_keys("admin")
             self.find_element(self.login_btn).click()
-        except ElementNotInteractableException as e:
+        except Exception as e:
             pass
 
         try:
             self.find_element(self.api_key).click()
             self.find_element(self.api_key).send_keys('AIzaSyBvm-T7hqlAtAcQqPy0nOS1CSmXJQeZSPI')
             self.find_element(self.submit).click()
-        except ElementNotInteractableException as e:
+        except Exception as e:
             pass
 
         self.driver.implicitly_wait(30)

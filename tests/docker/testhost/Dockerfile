@@ -10,7 +10,7 @@ WORKDIR ${home}
 ENV HOME_DIR=${home}
 ENV TMP_DIR=/tmp
 ENV DATA_DIR=$datadir
-ENV BASE_URL=http//ipoffrontenddockerimage
+ENV BASE_URL=https://safeplaces.extremesolution.com/
 
 # install python
 RUN apk add python3 pytest py-pip
