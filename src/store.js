@@ -18,6 +18,7 @@ const persistConfig = {
   storage,
   timeout: 500,
   transforms: [saveSubsetBlacklistFilter],
+  blacklist: ['router'],
 };
 
 export const history = createBrowserHistory();

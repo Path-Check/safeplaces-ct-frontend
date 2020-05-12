@@ -42,16 +42,15 @@ export default createSlice({
         };
     },
     removeEntries: (state, action) => {
-      action.payload.map(
+      const newState = action.payload.map(
         e =>
           (state.entries[state.currentCase].points[e] = {
             ...state.entries[state.currentCase].points[e],
             trash: true,
           }),
       );
-      state.entries[state.currentCase].points[action.payload] = {
-        ...state.entries[state.currentCase].points[action.payload],
-        trash: true,
+      state.entries[state.currentCase].points = {
+        ...newState,
       };
     },
   },
