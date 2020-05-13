@@ -15,7 +15,7 @@ on:
     branches:
       - feature/dev_mvp_automation
       - dev_mvp
-
+      - master
 # Environment variables available to all jobs and steps in this workflow
 env:
   GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
