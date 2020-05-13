@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const Empty = ({ button, className, children, icon, kind, title }) => {
   const emptyClasses = classNames(
     {
-      empty: true,
+      [`${styles.empty}`]: true,
       [`${styles.emptyLarge}`]: kind === 'large',
       [`${styles.emptySection}`]: kind === 'section',
     },

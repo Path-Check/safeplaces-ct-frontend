@@ -33,17 +33,6 @@ export default function Wrapper({ children, editor, sidebar }) {
     history.push(`/${id}`);
   };
 
-  if (currentCase === undefined) {
-    if (casesList && casesList[0]) history.push(`/${casesList[0].id}`);
-
-    return (
-      <div>
-        Case does not exist
-        <Button onClick={newCase}>Setup case</Button>
-      </div>
-    );
-  }
-
   return (
     <div
       className={`${styles.wrapper} ${
