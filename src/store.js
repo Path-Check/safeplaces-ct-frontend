@@ -12,7 +12,7 @@ const persistConfig = {
   key: 'root',
   storage,
   timeout: 500,
-  transforms: [saveSubsetBlacklistFilter],
+  // transforms: [saveSubsetBlacklistFilter],
   blacklist: ['router'],
 };
 
