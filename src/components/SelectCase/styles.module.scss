@@ -12,3 +12,10 @@
   color: $text-02;
   @include typescale('caption');
 }
+
+:global {
+  .react-select__control--is-focused {
+    border-color: $interactive-01 !important;
+    box-shadow: 0 0 0 1px $interactive-01 !important;
+  }
+}

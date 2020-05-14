@@ -1,29 +1,29 @@
-export const UPDATE_FILTER = 'safeplaces/filter/UPDATE_FILTER';
-export const UPDATE_FILTER_DATES = 'safeplaces/filter/UPDATE_FILTER_DATES';
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { dates: [] }; // todo: change dates to a object -> startDate, endDate
+export default createSlice({
+  name: 'filter',
+  initialState: { dates: {} },
+  reducers: {
+    updateFilter: (state, action) => action.payload,
+    updateFilterDates: (state, action) => {
+      return { ...state, dates: action.payload };
+    },
+  },
+});
 
-export default function detail(state = initialState, action) {
-  switch (action.type) {
-    case UPDATE_FILTER:
-      return action.data;
-    case UPDATE_FILTER_DATES:
-      return { ...state, dates: action.data };
-    default:
-      return state;
-  }
-}
+/*
+export const updateFilter = createAction('safeplaces/filter/UPDATE_FILTER');
+export const updateFilterDates = createAction(
+  'safeplaces/filter/UPDATE_FILTER_DATES',
+);
 
-export const updateFilter = data => {
-  return {
-    type: UPDATE_FILTER,
-    data,
-  };
-};
-
-export const updateFilterDates = data => {
-  return {
-    type: UPDATE_FILTER_DATES,
-    data,
-  };
-};
+export default createReducer(
+  { dates: {} },
+  {
+    [updateFilter]: (state, action) => action.payload,
+    [updateFilterDates]: (state, action) => {
+      return { ...state, dates: action.payload };
+    },
+  },
+);
+*/

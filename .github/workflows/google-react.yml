@@ -15,6 +15,7 @@ on:
     branches:
       - dev_react_automation
       - dev_react
+      - dev
 
 # Environment variables available to all jobs and steps in this workflow
 env:

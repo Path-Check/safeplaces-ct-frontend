@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
-import { showCases, createCase } from '../../ducks/cases';
+
+import cases from '../../ducks/cases';
+import { getCases, showCurrentCase } from '../../ducks/cases';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
+
+import { useParams } from 'react-router';
+import { getCurrentPath } from 'selectors';
+import { v4 } from 'uuid';
 
 const SingleValue = ({ children, ...props }) => (
   <components.SingleValue {...props}>
@@ -60,28 +66,34 @@ const customStyles = {
 };
 
 export default function SelectCase() {
-  const patients = useSelector(state => showCases(state));
+  const currentCases = useSelector(getCases);
+  const path = useSelector(state => getCurrentPath(state));
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const options = Object.entries(patients).map(e => {
-    return { value: e[0], label: e[0] };
+  const options = Object.entries(currentCases).map(e => {
+    return { value: e[0], label: e[1].name };
   });
 
-  options.unshift({ value: 'all', label: 'all cases' });
+  const formatedCurrentCase = path
+    ? { value: path.id, label: path.name }
+    : undefined;
+
   options.push({ value: 'new', label: 'add new case' });
   return (
     <Select
-      className={styles.select}
       options={options}
+      className={styles.select}
+      classNamePrefix="react-select"
       styles={customStyles}
+      value={formatedCurrentCase}
       components={{ SingleValue, Option }}
       onChange={e => {
         var id = e.value;
         if (id === 'new') {
-          id = dispatch(createCase()).id;
+          id = v4();
+          dispatch(cases.actions.create(id));
         }
-        console.log(id);
         history.push(`/${id}`);
       }}
     />

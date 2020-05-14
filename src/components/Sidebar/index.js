@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, tooltipStyle } from '@wfp/ui';
 import Dropzone from '../PathEditor/Dropzone';
 import SidebarContent from '../SidebarPathList';
-import FileSaver from 'file-saver';
 
 import {
-  getTrack,
-  getSelectedPathEntryData,
+  getCurrentPath,
+  getSelectedPointsData,
   getFilteredTrackPath,
 } from '../../selectors';
 import styles from './styles.module.scss';
@@ -21,25 +20,61 @@ import {
   faTimesCircle,
   faPlusCircle,
 } from '@fortawesome/pro-solid-svg-icons';
-import { addPathEntry } from '../../ducks/path';
 import { NavLink } from 'react-router-dom';
 import Tippy from '@tippy.js/react';
-import { addSelected } from '../../ducks/selectedPathEntry';
+import { addSelected } from '../../ducks/selectedPoints';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
-import { getPath } from 'selectors/paths';
+import { getselectedPoints } from 'selectors/selectedPoints';
+import { useParams } from 'react-router';
+import { TextInput } from '@wfp/ui';
+import { saveAsJson } from 'helpers/export';
+import cases, { showCurrentCase, getCasesArray } from 'ducks/cases';
+import { useHistory } from 'react-router';
+import { v4 } from 'uuid';
+import Empty from 'components/Empty';
+import {
+  faPrescriptionBottleAlt,
+  faHeartRate,
+} from '@fortawesome/pro-light-svg-icons';
 
 function Sidebar({ addPathEntryTrigger, track }) {
-  // const [openNewEntry, setOpenNewEntry] = useState(false);
+  const currentPath = useSelector(state => getCurrentPath(state));
+  const [name, setName] = useState(currentPath && currentPath.name);
   const dispatch = useDispatch();
+  const params = useParams();
+  const history = useHistory();
   const filteredTrackPath = useSelector(state => getFilteredTrackPath(state));
-  const path = useSelector(state => getPath(state));
+  const selectedPathEntries = useSelector(getselectedPoints);
+
+  useEffect(() => {
+    setName(currentPath && currentPath.name);
+  }, [currentPath]);
+
   const save = () => {
-    var blob = new Blob([JSON.stringify(track)], {
-      type: 'text/plain;charset=utf-8',
+    saveAsJson({
+      data: track,
+      filename: `export-${currentPath.publish_date_utl}.json`,
     });
-    FileSaver.saveAs(blob, `export-${path.publish_date_utl}.json`);
   };
+
+  const casesList = useSelector(getCasesArray);
+  const [currentCaseId, setCurrentCaseId] = useState();
+
+  const newCase = () => {
+    const id = v4();
+    dispatch(cases.actions.create(id));
+    console.log(id);
+    history.push(`/${id}`);
+  };
+
+  const currentCase = useSelector(state =>
+    showCurrentCase(state, params.patient),
+  );
+  if (currentCase === undefined) {
+    if (casesList && casesList[0]) history.push(`/${casesList[0].id}`);
+  }
+
   return (
     <>
       <div className={styles.folder}>
@@ -64,89 +99,118 @@ function Sidebar({ addPathEntryTrigger, track }) {
                   kind="secondary"
                   icon={<FontAwesomeIcon icon={faCaretDown} />}
                 >
-                  Actions
+                  Settings
                 </Button>
               </div>
             </Tippy>
           </div>
         </div>
       </div>
-      <div className={styles.selectCase}>
-        <SelectCase />
-      </div>
-      <div className={styles.header}>
-        <div className={styles.title}>
-          {path.authority_name ? (
-            <>
-              {/* }h2>
+      {currentCase === undefined ? (
+        <Empty
+          kind="large"
+          title="No case exists"
+          icon={<FontAwesomeIcon icon={faHeartRate} />}
+          button={<Button onClick={newCase}>Setup case</Button>}
+        >
+          Create a first case
+        </Empty>
+      ) : (
+        <>
+          <div className={styles.selectCase}>
+            <SelectCase />
+          </div>
+          <div className={styles.header}>
+            <div className={styles.title}>
+              {currentPath && currentPath.authority_name ? (
+                <>
+                  {/* }h2>
                 <a href={track.info_website}>{track.authority_name}</a>
           </h2> */}
-              <p>
-                {moment
-                  .utc(path.publish_date_utl)
-                  .format('YYYY-MM-DD HH:mm:ss')}
-              </p>
-            </>
-          ) : (
-            <>
-              <h2>Open a file</h2>
-              <p>No file opened</p>
-            </>
-          )}
-        </div>
-        <div className={styles.buttons}>
-          <Dropzone />
+                  <p>
+                    {moment
+                      .utc(currentPath && currentPath.publish_date_utl)
+                      .format('YYYY-MM-DD HH:mm:ss')}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <TextInput
+                    name="path-name"
+                    placeholder="Name"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                  />
+                  <Button
+                    onClick={e =>
+                      dispatch(cases.actions.editMeta({ name: name }))
+                    }
+                  >
+                    Save
+                  </Button>
+                  <h2>Open a file</h2>
+                  <p>No file opened</p>
+                </>
+              )}
+            </div>
+            <div className={styles.buttons}>
+              <Dropzone />
 
-          <Button
-            onClick={save}
-            iconReverse
-            icon={<FontAwesomeIcon icon={faSave} />}
-          >
-            Save
-          </Button>
-        </div>
-      </div>
-      <div className={styles.filter}>
-        <DateSlider />
-      </div>
-      <div className={styles.toolbar}>
-        <NavLink to="/patient/edit/new">
-          <Button
-            iconReverse
-            small
-            icon={<FontAwesomeIcon icon={faPlusCircle} />}
-          >
-            Add Entry
-          </Button>
-        </NavLink>
-        <Button
-          iconReverse
-          small
-          icon={<FontAwesomeIcon icon={faPlusCircle} />}
-        >
-          Delete selected
-        </Button>
-        <Button
-          iconReverse
-          small
-          icon={<FontAwesomeIcon icon={faCheckCircle} />}
-          onClick={() => {
-            dispatch(addSelected(filteredTrackPath));
-          }}
-        >
-          all
-        </Button>
-        <Button
-          iconReverse
-          small
-          icon={<FontAwesomeIcon icon={faTimesCircle} />}
-          onClick={() => {
-            dispatch(addSelected([]));
-          }}
-        >
-          none
-        </Button>
-      </div>
+              <Button
+                onClick={save}
+                iconReverse
+                icon={<FontAwesomeIcon icon={faSave} />}
+              >
+                Save
+              </Button>
+            </div>
+          </div>
+          <div className={styles.filter}>
+            <DateSlider />
+          </div>
+          <div className={styles.toolbar}>
+            <NavLink to={`/${params.patient}/edit/new`}>
+              <Button
+                iconReverse
+                small
+                icon={<FontAwesomeIcon icon={faPlusCircle} />}
+              >
+                Add Entry
+              </Button>
+            </NavLink>
+            <Button
+              iconReverse
+              small
+              icon={<FontAwesomeIcon icon={faPlusCircle} />}
+              onClick={() =>
+                dispatch(cases.actions.removeEntries(selectedPathEntries))
+              }
+            >
+              Delete selected
+            </Button>
+            <Button
+              iconReverse
+              small
+              icon={<FontAwesomeIcon icon={faCheckCircle} />}
+              onClick={() => {
+                dispatch(addSelected(filteredTrackPath.map(e => e.id)));
+              }}
+            >
+              all
+            </Button>
+            <Button
+              iconReverse
+              small
+              icon={<FontAwesomeIcon icon={faTimesCircle} />}
+              onClick={() => {
+                dispatch(addSelected([]));
+              }}
+            >
+              none
+            </Button>
+          </div>
+        </>
+      )}
       <div></div>
       {/* {openNewEntry && (
         <div className={styles.newForm}>
@@ -162,13 +226,7 @@ function Sidebar({ addPathEntryTrigger, track }) {
 
 const mapStateToProps = state => {
   return {
-    selectedPathEntry: getSelectedPathEntryData(state),
-    track: getTrack(state),
+    selectedPoints: getSelectedPointsData(state),
   };
 };
-
-const mapDispatchToProps = dispatch => ({
-  addPathEntryTrigger: data => dispatch(addPathEntry(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps)(Sidebar);
