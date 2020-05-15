@@ -1,3 +1,3 @@
-#!/usr/bin/bash
+#!/bin/bash
 cp -r ../../data .
 cp ../../*.py .
