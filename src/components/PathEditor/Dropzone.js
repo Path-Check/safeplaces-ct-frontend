@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { importPath } from '../../ducks/path';
+import cases from '../../ducks/cases';
 // import { getAllTracks } from "../../selectors";
 import { connect } from 'react-redux';
 import { Button } from '@wfp/ui';
@@ -32,7 +32,7 @@ function MyDropzone({ importPathTrigger }) {
     <div {...getRootProps()}>
       <input {...getInputProps()} />
       <Button iconReverse icon={<FontAwesomeIcon icon={faFolderPlus} />}>
-        Load
+        Import
       </Button>
     </div>
   );
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  importPathTrigger: data => dispatch(importPath(data)),
+  importPathTrigger: data => dispatch(cases.actions.import(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDropzone);

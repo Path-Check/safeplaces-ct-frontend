@@ -8,17 +8,17 @@ const track = ({ trackPath }) => {
     return {
       type: 'Feature',
       properties: {
-        time: point.time,
+        id: point.id,
       },
       geometry: {
         type: 'Point',
-        coordinates: [point[1].longitude, point[1].latitude],
+        coordinates: [point.longitude, point.latitude],
       },
     };
   });
 
   const lines = trackPath.map(point => {
-    return [point[1].longitude, point[1].latitude];
+    return [point.longitude, point.latitude];
   });
 
   return {

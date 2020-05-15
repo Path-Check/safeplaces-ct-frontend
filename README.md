@@ -3,6 +3,7 @@
 The application is a offline-first PWA. All the functionality should be available without having an API so no data is getting shared until you push to an API.
 
 ### Technology used
+
 - react.js
 - redux (redux-persist with localStorage to store all data on the device, redux-saga)
 - mapbox.gl
@@ -10,7 +11,9 @@ The application is a offline-first PWA. All the functionality should be availabl
 - jest for testing
 
 ### Structure
+
 - use [ducks](https://github.com/erikras/ducks-modular-redux) scheme for redux implementation
+
 ## Workflow
 
 ## Roadmap
@@ -21,6 +24,18 @@ The application is a offline-first PWA. All the functionality should be availabl
 - calendar
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Install
+
+clone the repository using the `dev_react` branch
+
+Copy the `.env.template` file in the parent directory and rename it to `.env` file in the parent directory. In order to make the application work correctly you have to enter API keys for Mapbox and Google places. If you don't want to register new ones feel free to ask for working credentials in the Slack channel.
+
+```
+REACT_APP_GOOGLE_PLACES_KEY=GOOGLE_API_KEY_WITH_PLACES_ENABLED
+REACT_APP_GOOGLE_PLACES_LANGUAGE=en
+REACT_APP_MAPBOX_KEY=MAPBOX_API_KEY
+```
 
 ## Available Scripts
 

@@ -7,7 +7,6 @@ export default function OrganizationPage() {
   const { handleSubmit } = useForm();
   const [status, setStatus] = useState(false);
   const onSubmit = values => {
-    console.log(values);
     setStatus('saved');
   };
 

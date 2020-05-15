@@ -1,29 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Map from '../Map';
 import Sidebar from '../Sidebar';
 import Wrapper from '../Wrapper';
 import EntryForm from '../EntryForm';
-import { getSelectedPathEntryDataData } from '../../selectors';
 import { useSelector } from 'react-redux';
+import { getSelectedPointsData } from 'selectors/selectedPoints';
 
 export default function PathEditor() {
-  const selectedPathEntryData = useSelector(state =>
-    getSelectedPathEntryDataData(state),
-  );
+  const [map, setMap] = useState(null);
+  const selectedPointsData = useSelector(getSelectedPointsData);
+  const updateMap = map => {
+    setMap(map);
+  };
+
   return (
     <Wrapper
       editor={
-        <EntryForm
-          initialData={
-            selectedPathEntryData &&
-            selectedPathEntryData[0] &&
-            selectedPathEntryData[0][1]
-          }
-        />
+        <EntryForm initialData={selectedPointsData && selectedPointsData[0]} />
       }
-      sidebar={<Sidebar />}
+      sidebar={<Sidebar map={map} />}
     >
-      <Map />
+      <Map
+        setMap={map => {
+          updateMap(map);
+        }}
+      />
     </Wrapper>
   );
 }
