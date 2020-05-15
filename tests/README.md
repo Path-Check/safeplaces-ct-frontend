@@ -17,7 +17,7 @@ These are selenium python tests for testing the Safe Places web application.
 ### Dockerized Setup
 * Configure the Dockerfile under tests/docker/testhost to add appropriate environment variables
   * the BASE_URL should be the URL of the frontend server being tested
-  * the SELENIUM_URL should refer to the selenium standalone server started in docker
+  * the SELENIUM_URL should refer to the selenium standalone server started in docker in the for http://URL:4444/wd/hub
 
 ### Local setup
 * In the ui_test.py code, set self.local_mode to True

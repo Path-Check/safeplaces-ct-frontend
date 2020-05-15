@@ -33,6 +33,7 @@ class EntryPage(Page):
         self.open("")
         #Workaround for https://github.com/Path-Check/safeplaces-frontend/issues/86
         #assert "Safe Places" in self.driver.title, self.driver.title
+        assert "React" in self.driver.title, self.driver.title
 
     def setup_case(self):
         self.find_element(self.btn_setup_case).click()
