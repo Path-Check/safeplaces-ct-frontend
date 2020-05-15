@@ -68,7 +68,7 @@ class LoginPage(Page):
 
 
 class RedactionPage(Page):
-    load_file_btn = (By.XPATH, '//*[@id="privatekitJSON"]')
+    load_file_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_header__hJUf6 > div.styles_buttons__xEkBq > div > button')
     save_file_btn = (By.ID, 'save')
     delete = (By.ID, 'delete-btn')
     date_start = (By.ID, 'date-start')

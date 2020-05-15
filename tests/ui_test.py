@@ -8,7 +8,10 @@ import os
 class TestRedaction(unittest.TestCase):
 
     def setUp(self):
-        #setup environment
+        #Change this to TRUE if you don't want to use a dockerised stack
+        self.local_mode = True
+
+        #setup environment based on environment variables
         if 'HOME_DIR' in os.environ.copy():
             self.home_dir = os.environ['HOME_DIR']
         else:
@@ -34,7 +37,10 @@ class TestRedaction(unittest.TestCase):
         chrome_options = webdriver.ChromeOptions()
         prefs = {'download.default_directory': '/tmp'}
         chrome_options.add_experimental_option('prefs', prefs)
-        self.driver = webdriver.Remote(command_executor=self.sel_url, options=chrome_options)
+        if self.local_mode:
+            self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        else:
+            self.driver = webdriver.Remote(command_executor=self.sel_url, options=chrome_options)
 
 
     def test_redaction(self):
