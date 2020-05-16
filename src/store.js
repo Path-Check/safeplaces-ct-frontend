@@ -7,17 +7,12 @@ import watcherSaga from 'sagas';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import axiosInterceptors from './axiosInterceptors';
-import { createBlacklistFilter } from 'redux-persist-transform-filter';
-const saveSubsetBlacklistFilter = createBlacklistFilter('auth', [
-  'error',
-  'errorResponse',
-]);
 
 const persistConfig = {
   key: 'root',
   storage,
   timeout: 500,
-  transforms: [saveSubsetBlacklistFilter],
+  // transforms: [saveSubsetBlacklistFilter],
   blacklist: ['router'],
 };
 

@@ -30,7 +30,6 @@ env:
   CONTAINER_NAME: ${{ secrets.RN_CONTAINER_NAME }}
   NAMESPACE: ${{ secrets.GKE_NAMESPACE }}
   REACT_ENV: ${{ secrets.RN_ENV }}
-
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
