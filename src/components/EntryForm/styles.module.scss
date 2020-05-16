@@ -58,6 +58,10 @@
 .position {
   display: flex;
   align-items: flex-end;
+}
+.positionHelp {
+  display: flex;
+  font-size: 10px;
   margin-bottom: $spacing-md;
 }
 

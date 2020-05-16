@@ -14159,7 +14159,7 @@
       "minzoom": 0,
       "maxzoom": 22,
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       }
     },
     {

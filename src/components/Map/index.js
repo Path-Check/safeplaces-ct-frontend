@@ -10,9 +10,9 @@ import { fromJS } from 'immutable';
 import Popup from '../Popup';
 import styles from './styles.module.scss';
 import defaultMapStyleJson from './style.json';
-import hereMapStyleJson from './herestyle.json';
 import WebMercatorViewport from 'viewport-mercator-project';
 import getBounds from './getBounds';
+import { setMapCoordinate } from '../../ducks/map';
 import {
   lineLayer,
   currentPointLayerAccuracy,
@@ -90,6 +90,7 @@ export default function Map({ setMap }) {
     const historyMapData = Track({
       trackPath: trackPath,
     });
+    console.log('style updated');
     var zooming = {};
 
     if (trackPath) {
@@ -132,6 +133,12 @@ export default function Map({ setMap }) {
     const map = mapRef.current.getMap();
     // setMap(map);
     const styles = [];
+    styles.push({
+      id: 'composite',
+      title: 'MapBox',
+      type: 'base',
+      visibility: 'none',
+    });
     defaultMapStyleJson.layers.forEach(element => {
       if (element.base === 'true') {
         styles.push({
@@ -157,7 +164,7 @@ export default function Map({ setMap }) {
       [e.point[0] - 1, e.point[1] - 1],
       [e.point[0] + 1, e.point[1] + 1],
     ];
-
+    dispatch(setMapCoordinate(e.lngLat));
     var features = mapRef.current.queryRenderedFeatures(bbox, {
       layers: ['pointLayer'],
     });
@@ -176,7 +183,7 @@ export default function Map({ setMap }) {
       className="map"
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-      mapStyle={hereMapStyleJson}
+      mapStyle={mapStyle}
       ref={mapRef}
       width="100%"
       height="100vh"

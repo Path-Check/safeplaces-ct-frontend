@@ -8,6 +8,7 @@ import {
   getSelectedPointsData,
   getFilteredTrackPath,
 } from '../../selectors';
+import { setMapCoordinate } from '../../ducks/map';
 import styles from './styles.module.scss';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import DateSlider from '../Filter';
@@ -174,6 +175,10 @@ function Sidebar({ addPathEntryTrigger, track }) {
                 iconReverse
                 small
                 icon={<FontAwesomeIcon icon={faPlusCircle} />}
+                onClick={() => {
+                  dispatch(addSelected([]));
+                  dispatch(setMapCoordinate([]));
+                }}
               >
                 Add Entry
               </Button>
