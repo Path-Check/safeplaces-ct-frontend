@@ -30,6 +30,22 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
+
+    
+    - name: Prepare Testhost
+      working-directory: ./tests/docker/testhost
+      run: |
+        ./prepare.sh
+
+    - name: Build Testhost Container
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: pathcheck/safeplaces-testhost
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: "${{ github.sha }} ,latest"
+        workdir: tests/docker/testhost
+
     - name: Pull Latest SafePlaces Image.
       run: docker pull pathcheck/safeplaces-frontend:latest 
     
@@ -41,20 +57,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "${{ github.sha }} ,latest"
-    
-    - name: Prepare Testhost
-      working-directory: ./tests/docker/testhost
-      run: |
-        prepare.sh
-
-    - name: Build Testhost Container
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: pathcheck/safeplaces-testhost
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        tags: "${{ github.sha }} ,latest"
-        workdir: tests/docker/testhost
 
   run-ui-tests:
     name: Run UI Tests
