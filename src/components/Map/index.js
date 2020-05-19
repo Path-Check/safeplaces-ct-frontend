@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import mapboxgl from 'mapbox-gl';
 import { MapboxLayerSwitcherControl } from 'mapbox-layer-switcher';
 import 'mapbox-layer-switcher/styles.css';
 import Track from './trackPath';
@@ -8,10 +9,10 @@ import { getFilteredTrackPath } from '../../selectors';
 import { fromJS } from 'immutable';
 import Popup from '../Popup';
 import styles from './styles.module.scss';
-
 import defaultMapStyleJson from './style.json';
 import WebMercatorViewport from 'viewport-mercator-project';
 import getBounds from './getBounds';
+import { setMapCoordinate } from '../../ducks/map';
 import {
   lineLayer,
   currentPointLayerAccuracy,
@@ -23,6 +24,8 @@ import {
   emptyFeature,
 } from 'components/Map/layers';
 import { useSelector, useDispatch } from 'react-redux';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 let jsonStyle = JSON.stringify(defaultMapStyleJson).replace(
   /{REACT_APP_HERE_APP_ID}/g,
@@ -69,6 +72,7 @@ defaultMapStyle = defaultMapStyle
   .setIn(['sources', 'points'], fromJS(emptyFeature));
 
 export default function Map({ setMap }) {
+  mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
   const [mapStyle, setMapStyle] = useState(defaultMapStyle);
   const [viewport, setViewport] = useState({
     width: 400,
@@ -78,16 +82,15 @@ export default function Map({ setMap }) {
     zoom: 8,
   });
   const mapRef = useRef();
-
   const trackPath = useSelector(getFilteredTrackPath);
   const dispatch = useDispatch();
-
   // boundsSource = historyMapData.points;
 
   useEffect(() => {
     const historyMapData = Track({
       trackPath: trackPath,
     });
+    console.log('style updated');
     var zooming = {};
 
     if (trackPath) {
@@ -130,6 +133,12 @@ export default function Map({ setMap }) {
     const map = mapRef.current.getMap();
     // setMap(map);
     const styles = [];
+    styles.push({
+      id: 'composite',
+      title: 'MapBox',
+      type: 'base',
+      visibility: 'none',
+    });
     defaultMapStyleJson.layers.forEach(element => {
       if (element.base === 'true') {
         styles.push({
@@ -141,6 +150,13 @@ export default function Map({ setMap }) {
       }
     });
     map.addControl(new MapboxLayerSwitcherControl(styles));
+    const geocoder = new MapboxGeocoder({
+      marker: true,
+      mapboxgl: mapboxgl,
+      accessToken: mapboxgl.accessToken,
+    });
+    geocoder.onAdd(map);
+    geocoder.addTo('#geocoder');
   };
   const onMapClick = e => {
     console.log(e);
@@ -148,7 +164,7 @@ export default function Map({ setMap }) {
       [e.point[0] - 1, e.point[1] - 1],
       [e.point[0] + 1, e.point[1] + 1],
     ];
-
+    dispatch(setMapCoordinate(e.lngLat));
     var features = mapRef.current.queryRenderedFeatures(bbox, {
       layers: ['pointLayer'],
     });
@@ -179,6 +195,10 @@ export default function Map({ setMap }) {
         showCompass={true}
         className={`mapboxgl-ctrl-bottom-left ${styles.mapCtrl}`}
       />
+      <div
+        id="geocoder"
+        className={`${styles.geocoder} ${styles.mapboxglctrlgeocoder}`}
+      ></div>
       <Popup />
       <Track />
     </ReactMapGL>
