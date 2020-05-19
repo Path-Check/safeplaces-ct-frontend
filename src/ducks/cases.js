@@ -15,12 +15,12 @@ export default createSlice({
     },
     import: (state, action) => {
       var points = {};
-      action.payload.forEach(element => {
+      action.payload.points.forEach(element => {
         const id = v4();
         element.id = id;
         points[id] = element;
       });
-      state.entries[action.payload.id].points = points;
+      state.entries[action.payload.currentCase].points = points;
       return state;
     },
     editEntry: (state, action) => {
