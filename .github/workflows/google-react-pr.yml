@@ -41,6 +41,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "${{ github.sha }} ,latest"
+    
+    - name: Prepare Testhost
+      working-directory: ./tests/docker/testhost
+      run: |
+        prepare.sh
 
     - name: Build Testhost Container
       uses: elgohr/Publish-Docker-Github-Action@master
