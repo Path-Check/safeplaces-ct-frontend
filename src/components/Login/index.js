@@ -78,8 +78,8 @@ const Login = () => {
                 />
               </div>
               <p className={styles.disclaimer}>
-                If you are a Health Autority member but you still don’t have an
-                account, please contact yout HA admin.
+                If you are a Health Authority member but you still don’t have an
+                account, please contact your HA admin.
               </p>
             </div>
           </form>

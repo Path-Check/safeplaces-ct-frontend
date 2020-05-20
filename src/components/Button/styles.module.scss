@@ -8,13 +8,13 @@
   background-color: $interactive-01;
   color: white;
   cursor: pointer;
+  border: none;
 
   &:hover {
     background-color: $hover-primary;
   }
 
   &:disabled {
-    border: 1px solid #999999;
     background-color: #cccccc;
     color: #666666;
   }
