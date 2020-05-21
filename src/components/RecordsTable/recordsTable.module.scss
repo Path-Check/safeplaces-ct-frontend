@@ -14,6 +14,12 @@
   thead {
     background-color: $bgA;
     width: 100%;
+
+    td,
+    th {
+      text-align: left;
+      padding: 15px 20px;
+    }
   }
 
   thead {
@@ -27,18 +33,19 @@
   th {
     font-size: 20px;
   }
-
-  td,
-  th {
-    padding: 20px;
-    text-align: left;
-  }
 }
 
 .tableMain {
   box-shadow: inset 0 10px 5px -8px rgba(0, 0, 0, 0.25),
     inset 0 -10px 5px -10px rgba(0, 0, 0, 0.25);
   background-color: $white;
-  max-height: 400px;
+  height: 400px;
+  max-height: calc(80vh - 140px);
   overflow: auto;
+
+  td,
+  th {
+    padding: 20px;
+    text-align: left;
+  }
 }
