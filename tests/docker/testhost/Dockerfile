@@ -10,7 +10,8 @@ WORKDIR ${home}
 ENV HOME_DIR=${home}
 ENV TMP_DIR=/tmp
 ENV DATA_DIR=$datadir
-ENV BASE_URL=https://safeplaces.extremesolution.com/
+ENV BASE_URL=http://172.17.0.3
+ENV SELENIUM_URL=SELENIUM_URL
 
 # install python
 RUN apk add python3 pytest py-pip
