@@ -17,12 +17,12 @@ const Record = ({ id, updatedAt, status, expiresIn }) => {
 
   return (
     <tr className={recordClasses}>
-      <td>{staged ? id : <Link to={`${id}`}>{id}</Link>}</td>
-      <td>
+      <td colspan="1">{staged ? id : <Link to={`${id}`}>{id}</Link>}</td>
+      <td colspan="2">
         <time datetime={updatedAt}>{updatedAt}</time>
       </td>
-      <td>{status}</td>
-      <td>{expiresIn}</td>
+      <td colspan="2">{status}</td>
+      <td colspan="1">{expiresIn}</td>
     </tr>
   );
 };

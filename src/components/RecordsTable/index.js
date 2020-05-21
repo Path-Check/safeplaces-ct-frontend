@@ -21,23 +21,29 @@ const RecordsTable = ({ records }) => {
         <table className={table}>
           <thead>
             <tr>
-              <th>Record ID</th>
-              <th>Last Saved</th>
-              <th>Status</th>
-              <th>Expires In</th>
+              <th colspan="1">Record ID</th>
+              <th colspan="2">Last Saved</th>
+              <th colspan="2">Status</th>
+              <th colspan="1">Expires In</th>
             </tr>
           </thead>
-          <tbody>
-            {records.map(r => (
-              <Record {...r} />
-            ))}
-          </tbody>
+        </table>
+        <div style={{ maxHeight: '400px', overflow: 'auto' }}>
+          <table className={table}>
+            <tbody>
+              {records.map(r => (
+                <Record {...r} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <table className={table}>
           <tfoot>
             <tr>
               <td colspan="4">
                 <Button
                   onClick={() => console.log('add new case')}
-                  iconReverse
                   icon={<FontAwesomeIcon icon={faPlus} />}
                 >
                   Add New Case
