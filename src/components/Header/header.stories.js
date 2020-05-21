@@ -6,5 +6,4 @@ export default {
   title: 'Header',
 };
 
-export const Default = () => <Header />;
 export const Authenticated = () => <Header isAuthenticated />;
