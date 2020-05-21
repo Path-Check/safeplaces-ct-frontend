@@ -5,43 +5,41 @@ import { NavLink } from 'react-router-dom';
 
 import styles from './navigation.module.scss';
 
-const Navigation = ({ isAdmin }) => {
-  return (
-    <nav>
-      <ul className={styles.navMenu}>
-        <li>
-          {isAdmin ? (
-            <NavLink
-              className={styles.navMenuItem}
-              activeClassName={styles.active}
-              to="/publish"
-            >
-              Publish Data
-            </NavLink>
-          ) : (
-            <NavLink
-              className={styles.navMenuItem}
-              activeClassName={styles.active}
-              to="/contact-trace"
-            >
-              Contact Trace
-            </NavLink>
-          )}
-        </li>
-        <li>
+const Navigation = ({ isAdmin }) => (
+  <nav>
+    <ul className={styles.navMenu}>
+      <li>
+        {isAdmin ? (
           <NavLink
             className={styles.navMenuItem}
             activeClassName={styles.active}
-            strict
-            to="/settings/"
+            to="/"
           >
-            Settings
+            Publish Data
           </NavLink>
-        </li>
-      </ul>
-    </nav>
-  );
-};
+        ) : (
+          <NavLink
+            className={styles.navMenuItem}
+            activeClassName={styles.active}
+            to="/"
+          >
+            Contact Trace
+          </NavLink>
+        )}
+      </li>
+      <li>
+        <NavLink
+          className={styles.navMenuItem}
+          activeClassName={styles.active}
+          strict
+          to="/settings/"
+        >
+          Settings
+        </NavLink>
+      </li>
+    </ul>
+  </nav>
+);
 
 Navigation.propTypes = {
   isAdmin: PropTypes.bool,
