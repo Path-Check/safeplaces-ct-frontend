@@ -3,7 +3,7 @@ import { faPlus } from '@fortawesome/pro-solid-svg-icons';
 
 import PropTypes from 'prop-types';
 
-import { tableWrapper, table } from './recordsTable.module.scss';
+import { tableWrapper, table, tableMain } from './recordsTable.module.scss';
 
 import Button from '@wfp/ui/lib/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,7 +28,7 @@ const RecordsTable = ({ records }) => {
             </tr>
           </thead>
         </table>
-        <div style={{ maxHeight: '400px', overflow: 'auto' }}>
+        <div className={tableMain}>
           <table className={table}>
             <tbody>
               {records.map(r => (
