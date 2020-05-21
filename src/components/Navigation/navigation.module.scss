@@ -1,0 +1,15 @@
+.navMenu {
+  display: flex;
+}
+
+.navMenuItem {
+  color: #fff;
+  margin-left: 20px;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.active {
+  font-weight: 700;
+  border-bottom: 4px solid white;
+}
