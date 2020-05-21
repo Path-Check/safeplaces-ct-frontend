@@ -10,16 +10,6 @@
   table-layout: fixed;
   width: 100%;
 
-  th {
-    font-size: 20px;
-  }
-
-  td,
-  th {
-    padding: 20px;
-    text-align: left;
-  }
-
   tfoot,
   thead {
     background-color: $bgA;
@@ -32,6 +22,16 @@
 
   tbody {
     overflow: auto;
+  }
+
+  th {
+    font-size: 20px;
+  }
+
+  td,
+  th {
+    padding: 20px;
+    text-align: left;
   }
 }
 
