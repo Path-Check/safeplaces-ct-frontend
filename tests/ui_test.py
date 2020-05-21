@@ -9,7 +9,7 @@ class TestRedaction(unittest.TestCase):
 
     def setUp(self):
         #Change this to TRUE if you don't want to use a dockerised stack
-        self.local_mode = True
+        self.local_mode = False
 
         #setup environment based on environment variables
         if 'HOME_DIR' in os.environ.copy():
@@ -46,7 +46,7 @@ class TestRedaction(unittest.TestCase):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
-        
+
 
     #def test_redaction(self): <--- removed test_ from the method name until the SUT works!
     def redaction(self):
