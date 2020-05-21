@@ -5,9 +5,11 @@
   padding: 20px 30px;
   position: fixed;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .loggedIn {
   position: relative;
+  width: 100%;
   background-color: #1f2c9b;
 }
