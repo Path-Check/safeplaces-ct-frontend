@@ -6,6 +6,7 @@ import selectedPoints from './selectedPoints';
 import filter from './filter';
 import auth from './auth';
 import settingsApi from './settingsApi';
+import map from './map';
 
 const rootReducer = history =>
   combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = history =>
     filter: filter.reducer,
     selectedPoints,
     router: connectRouter(history),
+    map,
   });
 
 export default rootReducer;

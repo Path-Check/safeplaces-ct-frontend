@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import Select, { components } from 'react-select';
 import styles from './styles.module.scss';
 
-import cases from '../../ducks/cases';
-import { getCases, showCurrentCase } from '../../ducks/cases';
+import cases, { getCases, showCurrentCase } from '../../ducks/cases';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

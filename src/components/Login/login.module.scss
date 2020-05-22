@@ -3,31 +3,40 @@
 .login {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
-.password {
-  margin-left: $spacing-xs;
+.title {
+  font-weight: 500;
+  font-size: 52px;
+  line-height: 48px;
+  text-align: center;
+  letter-spacing: -2px;
+  color: #000000;
+  margin-bottom: 56px;
+}
+
+.loginFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
 }
 
 .loginForm {
   display: flex;
-
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  @include breakpointMax(bp--md--major) {
+  width: 100%;
+  flex: 1;
+  max-width: 350px;
+
+  form {
     width: 100%;
-    padding: 5vw;
   }
 
-  @include breakpoint(bp--md--major) {
-    width: 38vw;
-    padding: 7vw;
-
-    form {
-      width: 100%;
-      flex-grow: 1;
-      margin-top: 12vh;
-    }
-  }
   [class="page-title"] {
     font-size: 1.3rem;
     font-weight: 600;
@@ -36,19 +45,35 @@
       margin-bottom: $spacing-md;
     }
   }
+
   [class="wfp--form-item"] {
-    margin-bottom: $spacing-lg;
+    margin-bottom: 24px;
+
+    input {
+      height: 45px;
+    }
   }
 }
 
-.button {
+.buttonContainer {
   display: flex;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.rememberMeContainer {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .submitWrapper {
   display: flex;
   align-items: center;
+  flex-direction: column;
+  margin-top: 24px;
 }
+
 .backLink {
   margin-bottom: 2rem;
 }
@@ -65,6 +90,7 @@
     width: 8vmin;
     height: auto;
   }
+
   path {
     fill: $brand-01;
   }
@@ -74,29 +100,24 @@
   @include breakpointMax(bp--md--major) {
     display: none;
   }
-  color: $ui-01;
-  background: $brand-01;
-  width: 62vw;
+  flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  overflow: hidden;
+  position: relative;
+
   img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+    right: -5%;
+    overflow: hidden;
+    width: 140vh;
+    position: absolute;
+    height: 140vh;
+    top: -22%;
   }
-  h2 {
-    width: 60%;
-    font-size: 3rem;
-    font-weight: 800;
-  }
-  p {
-    font-size: 1.2rem;
-    margin-top: 1.4rem;
-    padding-right: 5rem;
-    line-height: 2rem;
-    width: 60%;
-  }
+}
+
+.disclaimer {
+  text-align: center;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 16px;
+  margin-top: 56px;
 }

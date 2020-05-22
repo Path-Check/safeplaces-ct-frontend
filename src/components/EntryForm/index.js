@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
 import { getCurrentPath, getSelectedPointsData } from '../../selectors';
@@ -24,6 +24,7 @@ import TimeInput from 'components/TimeInput';
 import { v4 } from 'uuid';
 import ButtonRouter from 'components/ButtonRouter';
 import cases from 'ducks/cases';
+import Value from '@wfp/ui/lib/components/Value';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_PLACES_KEY);
 
@@ -33,12 +34,18 @@ Geocode.setLanguage(process.env.REACT_APP_GOOGLE_PLACES_LANGUAGE);
 // Enable or disable logs. Its optional.
 Geocode.enableDebug();
 
-const EntryForm = ({ initialData, useInline }) => {
+const EntryForm = ({ initialData, useInline, clickedCoordinate }) => {
   // const [load, setLoad] = useState(false);
   const methods = useForm({
     defaultValues: initialData,
   });
-
+  const usePrevious = value => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  };
   const {
     control,
     errors,
@@ -53,28 +60,9 @@ const EntryForm = ({ initialData, useInline }) => {
   const history = useHistory();
 
   const params = useParams();
-
-  useEffect(() => {
-    var initialDataManipulated = {};
-    if (params.action !== 'new' && initialData) {
-      initialDataManipulated = JSON.parse(JSON.stringify(initialData));
-      initialDataManipulated.date = moment(initialDataManipulated.time).format(
-        'YYYY-MM-DD',
-      );
-      initialDataManipulated.time = moment(initialDataManipulated.time).format(
-        'hh:mm',
-      );
-    }
-
-    reset(initialDataManipulated);
-  }, [initialData, params.action, params.page, reset]);
-
-  if (params.page !== 'edit' && !useInline) {
-    return null;
-  }
-
+  const prevData = usePrevious({ initialData, clickedCoordinate });
   // Get address from latidude & longitude.
-  const fromLatLng = () => {
+  const fromLatLng = useCallback(() => {
     const values = getValues();
     Geocode.fromLatLng(values.latitude, values.longitude).then(
       response => {
@@ -97,7 +85,65 @@ const EntryForm = ({ initialData, useInline }) => {
         console.error(error);
       },
     );
-  };
+  });
+  useEffect(() => {
+    var initialDataManipulated = {};
+
+    if (params.action !== 'new' && initialData) {
+      initialDataManipulated = JSON.parse(JSON.stringify(initialData));
+      initialDataManipulated.date = moment(initialDataManipulated.time).format(
+        'YYYY-MM-DD',
+      );
+      initialDataManipulated.time = moment(initialDataManipulated.time).format(
+        'hh:mm',
+      );
+    }
+    if (
+      clickedCoordinate !== undefined &&
+      clickedCoordinate.length > 0 &&
+      prevData !== undefined &&
+      prevData.clickedCoordinate !== clickedCoordinate
+    ) {
+      const value = getValues();
+      if (clickedCoordinate !== [value.longitude, value.latitude]) {
+        setValue([
+          { longitude: clickedCoordinate[0] },
+          { latitude: clickedCoordinate[1] },
+          {
+            street: ``,
+          },
+          {
+            postal: '',
+          },
+          { town: '' },
+        ]);
+        if (fromLatLng !== undefined) {
+          fromLatLng();
+        }
+      }
+    }
+    if (prevData !== undefined && prevData.initialData !== initialData) {
+      console.log('prev');
+      console.log(prevData.initialData);
+      console.log('current');
+      console.log(initialData);
+      reset(initialDataManipulated);
+    }
+  }, [
+    initialData,
+    params.action,
+    params.page,
+    reset,
+    clickedCoordinate,
+    prevData,
+    getValues,
+    setValue,
+    fromLatLng,
+  ]);
+
+  if (params.page !== 'edit' && !useInline) {
+    return null;
+  }
 
   const fromAddress = () => {
     const values = getValues();
@@ -251,7 +297,9 @@ const EntryForm = ({ initialData, useInline }) => {
             </span>
           </Tooltip>
         </div>
-
+        <div className={styles.positionHelp}>
+          Click on map to select coordinates
+        </div>
         <div className={styles.address}>
           <div className={styles.streetWrapper}>
             <TextInput labelText="Street" name="street" inputRef={register} />
@@ -294,6 +342,7 @@ const mapStateToProps = state => {
   return {
     selectedPoints: getSelectedPointsData(state),
     track: getCurrentPath(state),
+    clickedCoordinate: state.map.coordinate,
   };
 };
 
