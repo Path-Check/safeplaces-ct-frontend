@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, tooltipStyle } from '@wfp/ui';
+import { Button, tooltipStyle, TextInput } from '@wfp/ui';
 import Dropzone from '../PathEditor/Dropzone';
 import SidebarContent from '../SidebarPathList';
 
@@ -8,6 +8,7 @@ import {
   getSelectedPointsData,
   getFilteredTrackPath,
 } from '../../selectors';
+import { setMapCoordinate } from '../../ducks/map';
 import styles from './styles.module.scss';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import DateSlider from '../Filter';
@@ -26,11 +27,11 @@ import { addSelected } from '../../ducks/selectedPoints';
 import SelectCase from '../SelectCase';
 import SettingsList from '../Settings/SettingsList';
 import { getselectedPoints } from 'selectors/selectedPoints';
-import { useParams } from 'react-router';
-import { TextInput } from '@wfp/ui';
+import { useParams, useHistory } from 'react-router';
+
 import { saveAsJson } from 'helpers/export';
 import cases, { showCurrentCase, getCasesArray } from 'ducks/cases';
-import { useHistory } from 'react-router';
+
 import { v4 } from 'uuid';
 import Empty from 'components/Empty';
 import {
@@ -174,6 +175,10 @@ function Sidebar({ addPathEntryTrigger, track }) {
                 iconReverse
                 small
                 icon={<FontAwesomeIcon icon={faPlusCircle} />}
+                onClick={() => {
+                  dispatch(addSelected([]));
+                  dispatch(setMapCoordinate([]));
+                }}
               >
                 Add Entry
               </Button>
