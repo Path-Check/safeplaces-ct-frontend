@@ -7,10 +7,10 @@ import { Button, Checkbox, List, ListItem } from '@wfp/ui';
 import styles from './styles.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit } from '@fortawesome/pro-solid-svg-icons';
+import { faTrashAlt, faEdit, faUndo } from '@fortawesome/pro-solid-svg-icons';
 import moment from 'moment';
 import ButtonRouter from 'components/ButtonRouter';
-import { faUndo } from '@fortawesome/pro-solid-svg-icons';
+
 import { useParams } from 'react-router';
 import cases from 'ducks/cases';
 
