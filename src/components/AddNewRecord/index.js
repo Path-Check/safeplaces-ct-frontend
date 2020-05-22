@@ -14,7 +14,7 @@ import {
 
 import Button from 'components/Button';
 
-const AddNewRecord = ({ currentRecord }) => {
+const AddNewRecord = ({ currentRecord, accessCode }) => {
   return (
     <Modal>
       <Dialog width="650px">
@@ -25,7 +25,7 @@ const AddNewRecord = ({ currentRecord }) => {
             location data for contact tracing.
           </p>
         </header>
-        <p className={AddNewRecordCode}>869869</p>
+        <p className={AddNewRecordCode}>{accessCode}</p>
         <div>or</div>
         <div className={AddNewRecordActions}>
           {currentRecord && (
@@ -44,6 +44,7 @@ const AddNewRecord = ({ currentRecord }) => {
 };
 
 AddNewRecord.propTypes = {
+  accessCode: PropTypes.string,
   currentRecord: PropTypes.string,
 };
 
