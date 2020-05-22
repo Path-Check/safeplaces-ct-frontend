@@ -7,7 +7,7 @@ import { Button } from '@wfp/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderPlus } from '@fortawesome/pro-solid-svg-icons';
 
-function MyDropzone({ importPathTrigger }) {
+function MyDropzone({ importPathTrigger, currentCase }) {
   const onDrop = useCallback(
     acceptedFiles => {
       acceptedFiles.forEach(file => {
@@ -18,13 +18,13 @@ function MyDropzone({ importPathTrigger }) {
         reader.onload = () => {
           // Do whatever you want with the file contents
           const binaryStr = reader.result;
-          importPathTrigger(JSON.parse(binaryStr));
+          importPathTrigger(JSON.parse(binaryStr), currentCase);
           console.log(JSON.parse(binaryStr));
         };
         reader.readAsText(file);
       });
     },
-    [importPathTrigger],
+    [importPathTrigger, currentCase],
   );
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
@@ -40,12 +40,14 @@ function MyDropzone({ importPathTrigger }) {
 
 const mapStateToProps = state => {
   return {
-    // track: getAllTracks(state)
+    currentCase: state.cases.currentCase,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  importPathTrigger: data => dispatch(cases.actions.import(data)),
+  importPathTrigger: (points, currentCase) => {
+    dispatch(cases.actions.import({ points, currentCase }));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyDropzone);
