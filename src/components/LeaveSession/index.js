@@ -14,7 +14,7 @@ import {
 
 import Button from 'components/Button';
 
-const LeaveSession = ({ currentRecord }) => {
+const LeaveSession = () => {
   return (
     <Modal>
       <Dialog width="650px">
@@ -44,8 +44,6 @@ const LeaveSession = ({ currentRecord }) => {
   );
 };
 
-LeaveSession.propTypes = {
-  currentRecord: PropTypes.string,
-};
+LeaveSession.propTypes = {};
 
 export default LeaveSession;
