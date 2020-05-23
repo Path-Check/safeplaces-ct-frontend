@@ -1,21 +1,44 @@
 @import 'scss/global';
 
 .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 500;
   font-size: 20px;
   line-height: 40px;
-  border-radius: .8rem;
+  border-radius: 8px;
+  border: 2px solid $interactive-01;
   background-color: $interactive-01;
+  padding: 0 10px;
   color: white;
+  text-align: center;
   cursor: pointer;
-  border: none;
+  text-decoration: none;
+  outline: none;
+  transition: all 300ms ease;
 
   &:hover {
     background-color: $hover-primary;
+    border-color: $hover-primary;
   }
 
   &:disabled {
     background-color: #cccccc;
     color: #666666;
+  }
+}
+
+.buttonLarge {
+  min-width: 325px;
+  min-height: 72px;
+}
+
+.buttonSecondary {
+  color: $interactive-01;
+  background-color: transparent;
+
+  &:hover {
+    color: #fff;
   }
 }
