@@ -22,7 +22,7 @@ const Button = ({
 
   return to ? (
     <Link className={btnClasses} to={to} style={{ width, height }}>
-      Create Record Manually
+      {text}
     </Link>
   ) : (
     <button
