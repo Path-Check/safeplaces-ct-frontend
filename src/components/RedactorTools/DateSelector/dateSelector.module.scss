@@ -1,61 +1,45 @@
 @import 'scss/global';
 
-.handleText {
-  color: $ui-01;
-  background: $text-01;
-  white-space: nowrap;
-  position: absolute;
-  font-size: 0.6rem;
-  top: -2rem;
-  left: -10px;
-  padding: 0.3rem;
-  border-radius: 5px;
+.dateSelector {
+  width: 375px;
+}
+
+.dateSelectorSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.toggleWrapper {
+  display: flex;
+  align-items: center;
+
+  input {
+    display: none;
+  }
+}
+
+.toggle {
+  display: flex;
+  background: #d6d6da;
+  box-shadow: inset 0px 2px 2px rgba(0, 0, 0, 0.1);
+  width: 48px;
+  height: 30px;
+  border-radius: 48px;
+
   &:after {
     content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 10px;
-    transform: rotate(45deg);
-    width: 8px;
-    height: 8px;
-    background: $text-01;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(180deg, #ffffff 0%, #ececff 100%);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.18);
+    border-radius: 100%;
   }
 }
-
-.rangeWrapper {
-  margin-left: $spacing-md;
-  margin-top: $spacing-md;
-  margin-bottom: $spacing-md;
-}
-
-.showFilter {
-  display: flex;
-  white-space: nowrap;
-  margin-top: $spacing-md;
-  > * {
-    margin-right: 1rem;
-  }
-}
-
-/*[class="rc-slider-handle-2"] {
-  background: green;
-  .handleText {
-    right: 0;
-    background: blue;
-  }
-}*/
 
 :global {
-  .rc-slider-handle-2 {
-    > * {
-      left: initial;
-      right: -10px;
-      &:after {
-        left: initial;
-        right: 10px;
-      }
-    }
-  }
   $prefixClass: rc-slider;
 
   $disabledColor: #ccc;
@@ -91,8 +75,8 @@
 
   .#{$prefixClass} {
     position: relative;
-    height: 14px;
-    padding: 5px 0;
+    height: 24px;
+    padding: 8px 0;
     width: 100%;
     border-radius: $border-radius-base;
     touch-action: none;
@@ -101,30 +85,29 @@
     &-rail {
       position: absolute;
       width: 100%;
+      height: 8px;
       background-color: $primary-color;
-      height: 4px;
       border-radius: $border-radius-base;
     }
 
     &-track {
       position: absolute;
       left: 0;
-      height: 4px;
+      height: 8px;
       border-radius: $border-radius-base;
       background-color: $primary-color;
     }
 
     &-handle {
       position: absolute;
-      margin-left: -7px;
-      margin-top: -5px;
-      width: 14px;
-      height: 14px;
+      width: 24px;
+      height: 24px;
+      margin-top: -10px;
+      transform: translateY(-50%);
       cursor: pointer;
       cursor: -webkit-grab;
       cursor: grab;
       border-radius: 50%;
-      border: solid 2px $primary-color;
       background-color: $primary-color;
       touch-action: pan-x;
 
@@ -186,6 +169,7 @@
       width: 8px;
       height: 8px;
       border: 2px solid #e9e9e9;
+      background-color: #fff;
       cursor: pointer;
       border-radius: 50%;
       vertical-align: middle;
