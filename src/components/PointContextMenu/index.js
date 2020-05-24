@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -22,8 +22,28 @@ const PointContextMenu = ({
   editAction,
   deselectAction,
 }) => {
+  const containerRef = useRef();
+
+  const handleClick = e => {
+    const _Target = e.target;
+
+    if (!containerRef.current) return;
+
+    if (!containerRef.current.contains(_Target)) {
+      closeAction();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
+
   return (
-    <div className={pointContextMenu}>
+    <div className={pointContextMenu} ref={containerRef}>
       <button
         className={pointContextMenuClose}
         type="button"
