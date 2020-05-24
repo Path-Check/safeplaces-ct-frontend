@@ -34,17 +34,18 @@ const SelectedDataList = ({ items, visible, total }) => {
             <FontAwesomeIcon icon={faEllipsisV} />
           </button>
         </div>
+
+        {showContentMenu && (
+          <SelectedDataContextMenu
+            closeAction={() => setShowContentMenu(false)}
+          />
+        )}
       </div>
       <ul className={selectedDataList}>
         {items.map(i => (
           <SelectedDataItem {...i} />
         ))}
       </ul>
-      {showContentMenu && (
-        <SelectedDataContextMenu
-          closeAction={() => setShowContentMenu(false)}
-        />
-      )}
     </div>
   );
 };
