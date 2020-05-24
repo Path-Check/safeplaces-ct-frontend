@@ -11,7 +11,8 @@ import {
 } from './dateSelector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
-import { useHistory } from 'react-router';
+
+import SingleDateToggle from 'components/RedactorTools/DateSelector/SingleDateToggle';
 
 const DateSelector = ({ steps, minDate, maxDate }) => {
   const [isSingleDate, setIsSingleDate] = useState(false);
@@ -34,22 +35,7 @@ const DateSelector = ({ steps, minDate, maxDate }) => {
         <h5>
           <FontAwesomeIcon icon={faCalendarDay} /> Date Selection
         </h5>
-        <div className={toggleWrapper}>
-          <label>Single Day</label>
-          <label>
-            <input
-              type="checkbox"
-              name="singleDayToggle"
-              id="singleDayToggle"
-              onChange={() => setIsSingleDate(!isSingleDate)}
-            />
-            <label
-              htmlFor="singleDayToggle"
-              className={toggle}
-              role="presentation"
-            />
-          </label>
-        </div>
+        <SingleDateToggle onChange={setIsSingleDate} isChecked={isSingleDate} />
       </div>
       <div className={dateSelectorSection}>
         {isSingleDate ? (
