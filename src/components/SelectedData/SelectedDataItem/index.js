@@ -13,6 +13,8 @@ import {
   selectedDataMenuAction,
 } from './SelectedDataItem.module.scss';
 
+import PointContextMenu from 'components/PointContextMenu';
+
 const SelectedDataItem = ({
   id,
   latLng,
@@ -54,6 +56,12 @@ const SelectedDataItem = ({
       >
         <FontAwesomeIcon icon={faEllipsisV} />
       </button>
+      {showContentMenu && (
+        <PointContextMenu
+          id={id}
+          closeAction={() => setShowContentMenu(false)}
+        />
+      )}
     </div>
   );
 };
