@@ -36,6 +36,7 @@ const DurationFilter = () => {
       <Checkbox
         onChange={setChecked}
         label="Hide data less than duration"
+        id="durationFilter"
         align="left"
       />
       <div className={sliderClasses}>
