@@ -12,9 +12,12 @@ import {
   filterBody,
   filterBodyActive,
   filterBodyAction,
+  filterBodyMain,
+  filterBodyActions,
 } from './FilterData.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from 'components/Button';
 
 const FilterData = ({ children }) => {
   const [filtersVisible, setFiltersVisible] = useState(false);
@@ -38,7 +41,10 @@ const FilterData = ({ children }) => {
           filtersVisible ? `${filterBody} ${filterBodyActive}` : filterBody
         }
       >
-        {children}
+        <div className={filterBodyMain}>{children}</div>
+        <div className={filterBodyActions}>
+          <Button text="Apply" small />
+        </div>
       </div>
     </div>
   );
