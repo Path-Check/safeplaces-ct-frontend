@@ -51,6 +51,7 @@ const DurationFilter = () => {
     </div>
   );
 };
+
 DurationFilter.propTypes = {};
 
 export default DurationFilter;
