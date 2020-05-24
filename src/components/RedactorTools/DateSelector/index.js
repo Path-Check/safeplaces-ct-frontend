@@ -6,8 +6,8 @@ import Slider, { Range } from 'rc-slider';
 import {
   dateSelector,
   dateSelectorSection,
-  toggleWrapper,
-  toggle,
+  dateSelectorTitle,
+  sliderValue,
 } from './dateSelector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
@@ -32,12 +32,12 @@ const DateSelector = ({ steps, minDate, maxDate }) => {
   return (
     <div className={dateSelector}>
       <div className={dateSelectorSection}>
-        <h5>
+        <h5 className={dateSelectorTitle}>
           <FontAwesomeIcon icon={faCalendarDay} /> Date Selection
         </h5>
         <SingleDateToggle onChange={setIsSingleDate} isChecked={isSingleDate} />
       </div>
-      <div className={dateSelectorSection}>
+      <div>
         {isSingleDate ? (
           <Slider
             min={minDate}
@@ -57,11 +57,11 @@ const DateSelector = ({ steps, minDate, maxDate }) => {
       </div>
       <div className={dateSelectorSection}>
         {isSingleDate ? (
-          <span>{singleDate}</span>
+          <span className={sliderValue}>{singleDate}</span>
         ) : (
           <>
-            <span>{dateRange[0]}</span>
-            <span>{dateRange[1]}</span>
+            <span className={sliderValue}>{dateRange[0]}</span>
+            <span className={sliderValue}>{dateRange[1]}</span>
           </>
         )}
       </div>
@@ -69,6 +69,10 @@ const DateSelector = ({ steps, minDate, maxDate }) => {
   );
 };
 
-DateSelector.propTypes = {};
+DateSelector.propTypes = {
+  steps: PropTypes.number,
+  minDate: PropTypes.number,
+  maxDate: PropTypes.number,
+};
 
 export default DateSelector;
