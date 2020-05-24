@@ -1,10 +1,15 @@
-@import "scss/global";
+@import 'scss/global';
 
 .checkboxContainer {
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
+}
+
+.alignLeft {
+  justify-content: flex-start;
 }
 
 .inputTitle {
@@ -30,29 +35,28 @@
   left: 0;
   height: 24px;
   width: 24px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 6px;
   transition: all 0.3s ease-out;
-  border: 2px solid #41DCA4;
+  border: 2px solid #41dca4;
 }
 
 .checkboxLabel input:checked ~ .checkboxCustom {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 4px;
   transform: rotate(0deg) scale(1);
   opacity: 1;
 }
 
-
 .checkboxLabel .checkboxCustom::after {
   position: absolute;
-  content: "";
+  content: '';
   left: 12px;
   top: 12px;
   height: 0;
   width: 0;
   border-radius: 4px;
-  border: solid #41DCA4;
+  border: solid #41dca4;
   border-width: 0 3px 3px 0;
   transform: scale(0);
   opacity: 1;
@@ -66,20 +70,20 @@
   top: 1px;
   width: 6px;
   height: 12px;
-  border: solid #41DCA4;
+  border: solid #41dca4;
   border-width: 0 4px 4px 0;
   border-radius: 0;
 }
 
 .checkboxLabel .checkboxCustom::before {
   position: absolute;
-  content: "";
+  content: '';
   left: 1px;
   top: 1px;
   width: 0;
   height: 0;
   border-radius: 4px;
-  border: 2px solid #FFFFFF;
+  border: 2px solid #ffffff;
   transform: scale(0);
 }
 
