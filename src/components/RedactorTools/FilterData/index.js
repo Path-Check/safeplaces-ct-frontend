@@ -16,7 +16,7 @@ import {
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const FilterData = () => {
+const FilterData = ({ children }) => {
   const [filtersVisible, setFiltersVisible] = useState(false);
 
   return (
@@ -37,7 +37,9 @@ const FilterData = () => {
         className={
           filtersVisible ? `${filterBody} ${filterBodyActive}` : filterBody
         }
-      ></div>
+      >
+        {children}
+      </div>
     </div>
   );
 };
