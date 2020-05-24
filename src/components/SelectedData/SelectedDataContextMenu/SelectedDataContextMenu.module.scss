@@ -1,7 +1,7 @@
 .selectedDataContextMenu {
   position: absolute;
   top: 0;
-  right: 0;
+  right: 10px;
   min-width: 240px;
   padding: 25px 10px 10px;
   background-color: #fff;
@@ -11,6 +11,11 @@
 
   li {
     margin-bottom: 10px;
+
+    svg {
+      min-width: 30px;
+      margin-right: 5px;
+    }
   }
 
   button {
@@ -20,11 +25,6 @@
     outline: none;
     border: none;
     font-size: 18px;
-
-    svg {
-      min-width: 30px;
-      margin-right: 5px;
-    }
   }
 }
 
