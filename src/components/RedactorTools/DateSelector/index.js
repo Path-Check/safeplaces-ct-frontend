@@ -13,10 +13,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
 import { useHistory } from 'react-router';
 
-const DateSelector = () => {
+const DateSelector = ({ steps, minDate, maxDate }) => {
   const [isSingleDate, setIsSingleDate] = useState(false);
-  const [dateRange, setDateRange] = useState([]);
-  const [singleDate, setSingleRange] = useState('');
+  const [dateRange, setDateRange] = useState([minDate, maxDate]);
+  const [singleDate, setSingleDate] = useState(minDate);
 
   useEffect(() => {}, [isSingleDate]);
 
@@ -53,9 +53,20 @@ const DateSelector = () => {
       </div>
       <div className={dateSelectorSection}>
         {isSingleDate ? (
-          <Slider steps={5} />
+          <Slider
+            min={minDate}
+            max={maxDate}
+            steps={steps}
+            onChange={value => setSingleDate(value)}
+          />
         ) : (
-          <Range min={0} allowCross={false} max={0} steps={0} />
+          <Range
+            min={minDate}
+            max={maxDate}
+            steps={steps}
+            allowCross={false}
+            onChange={value => setDateRange(value)}
+          />
         )}
       </div>
       <div className={dateSelectorSection}>
