@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import SelectedDataItem from 'components/SelectedData/SelectedDataItem';
 
@@ -13,8 +13,11 @@ import {
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
+import SelectedDataContextMenu from 'components/SelectedData/SelectedDataContextMenu';
 
 const SelectedDataList = ({ items, visible, total }) => {
+  const [showContentMenu, setShowContentMenu] = useState(false);
+
   return (
     <div className={selectedDataWrapper}>
       <div className={selectedDataHeader}>
@@ -23,7 +26,11 @@ const SelectedDataList = ({ items, visible, total }) => {
           <p className={selectedDataSelection}>
             {visible} of {total}
           </p>
-          <button className={selectedDataAction} type="button">
+          <button
+            className={selectedDataAction}
+            onClick={() => setShowContentMenu(!showContentMenu)}
+            type="button"
+          >
             <FontAwesomeIcon icon={faEllipsisV} />
           </button>
         </div>
@@ -33,6 +40,11 @@ const SelectedDataList = ({ items, visible, total }) => {
           <SelectedDataItem {...i} />
         ))}
       </ul>
+      {showContentMenu && (
+        <SelectedDataContextMenu
+          closeAction={() => setShowContentMenu(false)}
+        />
+      )}
     </div>
   );
 };
