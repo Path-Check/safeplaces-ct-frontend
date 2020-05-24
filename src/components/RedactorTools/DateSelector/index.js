@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Slider, { Range } from 'rc-slider';
@@ -11,9 +11,22 @@ import {
 } from './dateSelector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
+import { useHistory } from 'react-router';
 
 const DateSelector = () => {
-  const [singleDay, setSingleDay] = useState(false);
+  const [isSingleDate, setIsSingleDate] = useState(false);
+  const [dateRange, setDateRange] = useState([]);
+  const [singleDate, setSingleRange] = useState('');
+
+  useEffect(() => {}, [isSingleDate]);
+
+  useEffect(() => {
+    // Update the store with single date for filtering
+  }, [singleDate]);
+
+  useEffect(() => {
+    // Update the store with date range for filtering
+  }, [dateRange]);
 
   return (
     <div className={dateSelector}>
@@ -28,7 +41,7 @@ const DateSelector = () => {
               type="checkbox"
               name="singleDayToggle"
               id="singleDayToggle"
-              onChange={() => setSingleDay(!singleDay)}
+              onChange={() => setIsSingleDate(!isSingleDate)}
             />
             <label
               htmlFor="singleDayToggle"
@@ -39,15 +52,21 @@ const DateSelector = () => {
         </div>
       </div>
       <div className={dateSelectorSection}>
-        {singleDay ? (
+        {isSingleDate ? (
           <Slider steps={5} />
         ) : (
           <Range min={0} allowCross={false} max={0} steps={0} />
         )}
       </div>
       <div className={dateSelectorSection}>
-        <span>Sat, May 9, 2020</span>
-        {!singleDay && <span>Sat, May 24, 2020</span>}
+        {isSingleDate ? (
+          <span>{singleDate}</span>
+        ) : (
+          <>
+            <span>{dateRange[0]}</span>
+            <span>{dateRange[1]}</span>
+          </>
+        )}
       </div>
     </div>
   );
