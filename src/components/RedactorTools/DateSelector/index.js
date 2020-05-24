@@ -14,10 +14,13 @@ import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
 
 import SingleDateToggle from 'components/RedactorTools/DateSelector/SingleDateToggle';
 
-const DateSelector = ({ steps, minDate, maxDate }) => {
+const DateSelector = ({ dates }) => {
   const [isSingleDate, setIsSingleDate] = useState(false);
-  const [dateRange, setDateRange] = useState([minDate, maxDate]);
-  const [singleDate, setSingleDate] = useState(minDate);
+  const [dateRange, setDateRange] = useState([
+    dates[0],
+    dates[dates.length - 1],
+  ]);
+  const [singleDate, setSingleDate] = useState(dates[0]);
 
   useEffect(() => {}, [isSingleDate]);
 
@@ -28,6 +31,21 @@ const DateSelector = ({ steps, minDate, maxDate }) => {
   useEffect(() => {
     // Update the store with date range for filtering
   }, [dateRange]);
+
+  if (!dates || dates.length < 1) {
+    return null;
+  }
+
+  const handleChange = value => {
+    console.log(value);
+
+    if (isSingleDate) {
+      console.log(dates[value]);
+      setSingleDate(dates[value]);
+    } else {
+      setDateRange([dates[value[0]], dates[value[1]]]);
+    }
+  };
 
   return (
     <div className={dateSelector}>
@@ -40,18 +58,18 @@ const DateSelector = ({ steps, minDate, maxDate }) => {
       <div>
         {isSingleDate ? (
           <Slider
-            min={minDate}
-            max={maxDate}
-            steps={steps}
-            onChange={value => setSingleDate(value)}
+            min={0}
+            max={dates.length - 1}
+            steps={dates.length}
+            onChange={handleChange}
           />
         ) : (
           <Range
-            min={minDate}
-            max={maxDate}
-            steps={steps}
+            min={0}
+            max={dates.length - 1}
+            steps={dates.length}
             allowCross={false}
-            onChange={value => setDateRange(value)}
+            onChange={handleChange}
           />
         )}
       </div>
@@ -70,9 +88,7 @@ const DateSelector = ({ steps, minDate, maxDate }) => {
 };
 
 DateSelector.propTypes = {
-  steps: PropTypes.number,
-  minDate: PropTypes.number,
-  maxDate: PropTypes.number,
+  dates: PropTypes.array.isRequired,
 };
 
 export default DateSelector;
