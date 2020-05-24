@@ -16,3 +16,9 @@ export const Default = () => (
     />
   </SidebarWrapper>
 );
+
+export const SingleDate = () => (
+  <SidebarWrapper>
+    <DateSelector dates={['Sat, May 9, 2020']} />
+  </SidebarWrapper>
+);

@@ -15,7 +15,8 @@ import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
 import SingleDateToggle from 'components/RedactorTools/DateSelector/SingleDateToggle';
 
 const DateSelector = ({ dates }) => {
-  const [isSingleDate, setIsSingleDate] = useState(false);
+  const checkSingleDate = dates.length === 1;
+  const [isSingleDate, setIsSingleDate] = useState(checkSingleDate);
   const [dateRange, setDateRange] = useState([
     dates[0],
     dates[dates.length - 1],
@@ -37,8 +38,6 @@ const DateSelector = ({ dates }) => {
   }
 
   const handleChange = value => {
-    console.log(value);
-
     if (isSingleDate) {
       console.log(dates[value]);
       setSingleDate(dates[value]);
@@ -46,6 +45,10 @@ const DateSelector = ({ dates }) => {
       setDateRange([dates[value[0]], dates[value[1]]]);
     }
   };
+
+  if (!dates || dates.length < 1) {
+    return null;
+  }
 
   return (
     <div className={dateSelector}>
