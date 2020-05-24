@@ -1,2 +1,23 @@
+@import 'scss/global';
+
 .durationFilter {
+}
+
+.durationFilterSlider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  span {
+    margin-left: 20px;
+    color: #ccc;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+}
+
+.durationFilterSliderActive {
+  span {
+    color: $interactive-01;
+  }
 }
