@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -24,6 +24,7 @@ const SelectedDataItem = ({
   travelling,
   hightlightedItem,
 }) => {
+  const itemRef = useRef();
   const isHighlighted = hightlightedItem === id;
   const [showContentMenu, setShowContentMenu] = useState(false);
 
@@ -39,8 +40,17 @@ const SelectedDataItem = ({
     setShowContentMenu(!showContentMenu);
   };
 
+  useEffect(() => {
+    if (showContentMenu) {
+      itemRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, [showContentMenu]);
+
   return (
-    <div className={classes}>
+    <div className={classes} ref={itemRef}>
       <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
       <div className={selectedDataContent}>
         <h6>{date}</h6>
