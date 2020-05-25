@@ -101,7 +101,7 @@
     &-rail {
       position: absolute;
       width: 100%;
-      background-color: #e9e9e9;
+      background-color: $primary-color;
       height: 4px;
       border-radius: $border-radius-base;
     }
@@ -125,7 +125,7 @@
       cursor: grab;
       border-radius: 50%;
       border: solid 2px $primary-color;
-      background-color: #fff;
+      background-color: $primary-color;
       touch-action: pan-x;
 
       &:focus {
@@ -186,7 +186,6 @@
       width: 8px;
       height: 8px;
       border: 2px solid #e9e9e9;
-      background-color: #fff;
       cursor: pointer;
       border-radius: 50%;
       vertical-align: middle;

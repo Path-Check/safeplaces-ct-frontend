@@ -74,6 +74,7 @@ const Login = () => {
               <div className={styles.rememberMeContainer}>
                 <Checkbox
                   label="Remember Me"
+                  id="rememberMe"
                   onChange={test => console.log(test)}
                 />
               </div>
