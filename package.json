@@ -35,6 +35,7 @@
     "react-geocode": "^0.2.1",
     "react-hook-form": "^5.2.0",
     "react-map-gl": "^5.2.3",
+    "react-map-gl-geocoder": "^2.0.11",
     "react-places-autocomplete": "^7.2.1",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
