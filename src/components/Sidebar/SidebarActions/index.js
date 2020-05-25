@@ -17,7 +17,7 @@ const SidebarActions = ({ isAdmin }) => {
         </Button>
       )}
 
-      <Button secondary>Load Data from Database</Button>
+      <Button secondary>Load Data for Publishing</Button>
     </div>
   );
 };
