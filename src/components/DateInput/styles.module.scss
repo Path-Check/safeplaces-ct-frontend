@@ -2,6 +2,7 @@
 
 .dateInput {
   position: relative;
+  width: 100%;
 
   input[type='date'],
   input[type='time'] {
@@ -20,9 +21,15 @@
   }
 }
 
+:global .SingleDatePicker,
+:global .DateInput,
+:global .SingleDatePickerInput {
+  width: 100%; // need to change
+}
+
 .icon {
   position: absolute;
-  left: 3px;
+  left: 13px;
   bottom: 0;
   height: 39px;
   width: 35px;
@@ -31,4 +38,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
