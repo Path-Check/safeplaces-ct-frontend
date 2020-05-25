@@ -1,9 +1,22 @@
 import * as React from 'react';
 import { useState } from 'react';
-import styles from './styles.module.scss';
+import {
+  checkboxContainer,
+  checkboxLabel,
+  checkboxCustom,
+  alignLeft,
+  inputTitle,
+} from './styles.module.scss';
 
-const Checkbox = ({ label, onChange }) => {
+import classNames from 'classnames';
+
+const Checkbox = ({ label, onChange, align, id }) => {
   const [checked, setChecked] = useState(false);
+
+  const containerClasses = classNames({
+    [`${checkboxContainer}`]: true,
+    [`${alignLeft}`]: align === 'left',
+  });
 
   const onCheck = () => {
     setChecked(!checked);
@@ -11,19 +24,19 @@ const Checkbox = ({ label, onChange }) => {
   };
 
   return (
-    <div className={styles.checkboxContainer}>
-      <label className={styles.checkboxLabel} htmlFor="remember-me">
+    <div className={containerClasses}>
+      <label className={checkboxLabel} htmlFor={id}>
         <input
           type="checkbox"
-          id="remember-me"
+          id={id}
           onChange={onCheck}
           checked={checked}
           className="input"
         />
-        <span className={styles.checkboxCustom} />
+        <span className={checkboxCustom} />
       </label>
       <span
-        className={styles.inputTitle}
+        className={inputTitle}
         onClick={onCheck}
         onKeyPress={onCheck}
         role="button"

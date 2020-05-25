@@ -3,13 +3,14 @@
 }
 
 .navMenuItem {
-  color: #fff;
   margin-left: 40px;
   font-size: 20px;
   text-decoration: none;
+
+  color: rgba(248, 248, 255, 0.75);
 }
 
 .active {
-  font-weight: 700;
   border-bottom: 4px solid white;
+  color: #fff;
 }
