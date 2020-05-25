@@ -26,18 +26,15 @@ const LeaveSession = () => {
           </p>
         </header>
         <div className={LeaveSessionActions}>
-          <Button
-            large
-            onClick={() => console.log('Save Session')}
-            text="Yes, Save Session"
-          />
-          <Button large secondary to="/" text="No, Leave without Saving" />
-          <Button
-            large
-            secondary
-            onClick={() => console.log('Cancel')}
-            text="Cancel"
-          />
+          <Button large onClick={() => console.log('Save Session')}>
+            Yes, Save Session
+          </Button>
+          <Button large secondary to="/">
+            No, Leave without Saving
+          </Button>
+          <Button large secondary onClick={() => console.log('Cancel')}>
+            Cancel
+          </Button>
         </div>
       </Dialog>
     </Modal>

@@ -63,12 +63,9 @@ const Login = () => {
             </Link>
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
-                <Button
-                  text="Log in"
-                  onClick={onSubmit}
-                  width="100%"
-                  height="72px"
-                />
+                <Button onClick={onSubmit} width="100%" height="72px">
+                  Log in
+                </Button>
                 {fetching && <InlineLoading />}
               </div>
               <div className={styles.rememberMeContainer}>

@@ -29,14 +29,13 @@ const AddNewRecord = ({ currentRecord, accessCode }) => {
         <div>or</div>
         <div className={AddNewRecordActions}>
           {currentRecord && (
-            <Button large to={currentRecord} text="Create Record Manually" />
+            <Button large to={currentRecord}>
+              Create Record Manually
+            </Button>
           )}
-          <Button
-            secondary
-            large
-            onClick={() => console.log('Delete Case')}
-            text="Cancel"
-          />
+          <Button secondary large onClick={() => console.log('Delete Case')}>
+            Cancel
+          </Button>
         </div>
       </Dialog>
     </Modal>

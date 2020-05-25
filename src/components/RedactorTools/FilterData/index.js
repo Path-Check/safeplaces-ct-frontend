@@ -43,7 +43,7 @@ const FilterData = ({ children }) => {
       >
         <div className={filterBodyMain}>{children}</div>
         <div className={filterBodyActions}>
-          <Button text="Apply" small />
+          <Button small>Apply</Button>
         </div>
       </div>
     </div>

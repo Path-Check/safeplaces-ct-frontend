@@ -33,17 +33,12 @@ const StageForPublishing = () => {
           </p>
         </header>
         <div className={StageForPublishingActions}>
-          <Button
-            large
-            onClick={() => console.log('Pubish')}
-            text="Yes, I received consent"
-          />
-          <Button
-            large
-            secondary
-            onClick={() => console.log('Cancel')}
-            text="No, I did not receive consent"
-          />
+          <Button large onClick={() => console.log('Pubish')}>
+            Yes, I received consent
+          </Button>
+          <Button large secondary onClick={() => console.log('Cancel')}>
+            No, I did not receive consent
+          </Button>
         </div>
       </Dialog>
     </Modal>

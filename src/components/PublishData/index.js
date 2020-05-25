@@ -32,17 +32,12 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
           </p>
         </header>
         <div className={PublishDataActions}>
-          <Button
-            large
-            onClick={() => console.log('Publish')}
-            text="Yes, Publish"
-          />
-          <Button
-            large
-            secondary
-            onClick={() => console.log('Cancel')}
-            text="Cancel"
-          />
+          <Button large onClick={() => console.log('Publish')}>
+            Yes, Publish
+          </Button>
+          <Button large secondary onClick={() => console.log('Cancel')}>
+            Cancel
+          </Button>
         </div>
       </Dialog>
     </Modal>
