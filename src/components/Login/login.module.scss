@@ -121,3 +121,12 @@
   line-height: 16px;
   margin-top: 56px;
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+}
+
+[class="wfp--loading__svg"] {
+  stroke: white !important;
+}

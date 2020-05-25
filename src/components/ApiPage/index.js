@@ -6,9 +6,10 @@ import { faSignIn } from '@fortawesome/pro-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeSettingsApi, getSettingsApi } from '../../ducks/settingsApi';
 import ButtonRouter from 'components/ButtonRouter';
-import { getToken } from 'ducks/auth';
+import authSelectors from 'ducks/auth/selectors';
+
 export default function ApiPage() {
-  const token = useSelector(getToken);
+  const token = useSelector(authSelectors.getToken);
 
   const { handleSubmit, register } = useForm({
     defaultValues: useSelector(getSettingsApi),
