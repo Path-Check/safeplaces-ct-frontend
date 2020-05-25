@@ -1,25 +1,26 @@
-.RecordAddedHeader {
+.LeaveSessionHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.RecordAddedTitle {
+.LeaveSessionTitle {
   font-size: 26px;
   margin-bottom: 30px;
 }
 
-.RecordAddedCode {
+.LeaveSessionCode {
   font-size: 52px;
   font-weight: 600;
 }
 
-.RecordAddedActions {
+.LeaveSessionActions {
   display: flex;
   flex-direction: column;
   margin-top: 30px;
 
+  a,
   button {
     font-size: 20px;
     margin-bottom: 15px;
