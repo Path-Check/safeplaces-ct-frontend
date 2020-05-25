@@ -5,15 +5,16 @@ import { Blockquote, InlineLoading, TextInput } from '@wfp/ui';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './login.module.scss';
 import loginImage from '../../assets/images/home-page-graphic.png';
-import { getLoginState, getToken, requestLogin } from 'ducks/auth';
+import authSelectors from 'ducks/auth/selectors';
 import Button from '../Button';
 import Checkbox from '../Checkbox/Checkbox';
+import authActions from '../../ducks/auth/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const token = useSelector(state => getToken(state));
+  const token = useSelector(state => authSelectors.getToken(state));
   const { fetching, errorResponse } = useSelector(state =>
-    getLoginState(state),
+    authSelectors.getLoginState(state),
   );
   const history = useHistory();
 
@@ -26,7 +27,7 @@ const Login = () => {
   const { handleSubmit, errors, register } = useForm({});
 
   const onSubmit = async values => {
-    dispatch(requestLogin(values));
+    dispatch(authActions.requestLogin(values));
   };
 
   return (
