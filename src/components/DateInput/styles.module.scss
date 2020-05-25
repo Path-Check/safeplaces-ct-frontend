@@ -2,12 +2,12 @@
 
 .dateInput {
   position: relative;
-  max-width: 200px;
 
   input[type='date'],
   input[type='time'] {
     display: flex;
     align-items: center;
+    padding-left: 35px;
   }
 
   input[type='date']::-webkit-inner-spin-button,
@@ -22,7 +22,7 @@
 
 .icon {
   position: absolute;
-  right: 3px;
+  left: 3px;
   bottom: 0;
   height: 39px;
   width: 35px;

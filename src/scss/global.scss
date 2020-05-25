@@ -1,7 +1,7 @@
-@import "~@wfp/ui/source/globals/scss/colors";
-@import "~@wfp/ui/source/globals/scss/vars";
-@import "~@wfp/ui/source/globals/scss/layout";
-@import "~@wfp/ui/source/globals/scss/_typography";
+@import '~@wfp/ui/source/globals/scss/colors';
+@import '~@wfp/ui/source/globals/scss/vars';
+@import '~@wfp/ui/source/globals/scss/layout';
+@import '~@wfp/ui/source/globals/scss/_typography';
 
 $interactive-01: #6979f8;
 $hover-secondary: $interactive-01;
@@ -16,3 +16,9 @@ $mobile-detail-header-height: 60px;
 $mobile-header-height: 70px;
 $mobile-bottom-height: 60px;
 $mobile-bottom-swipe-height: 75px;
+
+input {
+  border-radius: 4px !important; // 😞
+  border: 2px solid rgba(0, 0, 0, 0.1) !important; // 😞
+  background: #f8f8ff !important; // 😞
+}

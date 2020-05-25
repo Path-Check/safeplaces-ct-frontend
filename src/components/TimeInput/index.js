@@ -6,20 +6,18 @@ import { faClock } from '@fortawesome/pro-regular-svg-icons';
 
 export default function TimeInput(props) {
   return (
-    <div>
-      <TextInput
-        additional={
-          <div className={styles.icon}>
-            <FontAwesomeIcon icon={faClock} />
-          </div>
-        }
-        type="time"
-        {...props}
-        value={props.value}
-        formItemClassName={styles.dateInput}
-        /* placeholder=""
+    <TextInput
+      additional={
+        <div className={styles.icon}>
+          <FontAwesomeIcon icon={faClock} />
+        </div>
+      }
+      type="time"
+      {...props}
+      value={props.value}
+      formItemClassName={styles.dateInput}
+      /* placeholder=""
     defaultValue="" */
-      />
-    </div>
+    />
   );
 }

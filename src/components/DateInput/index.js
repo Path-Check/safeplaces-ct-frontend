@@ -13,26 +13,12 @@ export default function DateInput(props) {
     <TextInput
       additional={
         <div className={styles.icon}>
-          <FontAwesomeIcon icon={time ? faClock : faCalendarAlt} />
+          <FontAwesomeIcon icon={faCalendarAlt} />
         </div>
       }
       type="date"
       {...props}
       formItemClassName={styles.dateInput}
-      max={
-        max !== undefined
-          ? max
-          : time
-          ? undefined
-          : moment().format('YYYY-MM-DD')
-      }
-      min={
-        min !== undefined
-          ? min
-          : time
-          ? undefined
-          : moment().format('YYYY-MM-DD')
-      }
       placeholder=""
       defaultValue=""
     />
