@@ -1,7 +1,15 @@
 import React from 'react';
 import styles from './styles.module.scss';
 
-const Button = ({ text, width, height, disabled = false, onClick }) => {
+const Button = ({
+  text,
+  width,
+  height,
+  disabled = false,
+  onClick,
+  children,
+  icon,
+}) => {
   return (
     <button
       className={styles.button}
@@ -10,7 +18,7 @@ const Button = ({ text, width, height, disabled = false, onClick }) => {
       type="button"
       onClick={onClick}
     >
-      {text}
+      {children} {text}
     </button>
   );
 };
