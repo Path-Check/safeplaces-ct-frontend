@@ -1,6 +1,9 @@
 import authTypes from './types';
 
-const initialState = { token: undefined, currentUser: undefined };
+const initialState = {
+  token: undefined,
+  currentUser: undefined,
+};
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
