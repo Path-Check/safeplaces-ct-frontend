@@ -6,6 +6,7 @@ import Slider, { Range } from 'rc-slider';
 import {
   dateSelector,
   dateSelectorSection,
+  dateSelectorDates,
   dateSelectorTitle,
   sliderValue,
 } from './dateSelector.module.scss';
@@ -76,7 +77,7 @@ const DateSelector = ({ dates }) => {
           />
         )}
       </div>
-      <div className={dateSelectorSection}>
+      <div className={dateSelectorDates}>
         {isSingleDate ? (
           <span className={sliderValue}>{singleDate}</span>
         ) : (
