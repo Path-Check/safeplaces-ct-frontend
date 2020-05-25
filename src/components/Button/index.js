@@ -20,15 +20,17 @@ const Button = ({
   fullWidth,
   to,
   children,
+  className,
 }) => {
-  const btnClasses = classNames({
-    [`${button}`]: true,
-    [`${buttonLarge}`]: large,
-    [`${buttonSecondary}`]: secondary,
-    [`${buttonFullWidth}`]: fullWidth,
-  });
-
-  console.log(children);
+  const btnClasses = classNames(
+    {
+      [`${button}`]: true,
+      [`${buttonLarge}`]: large,
+      [`${buttonSecondary}`]: secondary,
+      [`${buttonFullWidth}`]: fullWidth,
+    },
+    [`${className}`],
+  );
 
   return to ? (
     <Link className={btnClasses} to={to} style={{ width, height }}>

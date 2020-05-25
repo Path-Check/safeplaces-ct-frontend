@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
-import Map from '../../Map';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
+import Map from 'components/HAConfig/Map';
 
 const MapModal = ({ open }) => {
   const [isOpen, setIsOpen] = useState(open);
