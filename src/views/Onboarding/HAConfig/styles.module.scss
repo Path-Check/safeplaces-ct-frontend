@@ -1,0 +1,82 @@
+@import 'scss/global';
+
+body {
+  overflow: auto;
+}
+
+.container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ellipse {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 510px;
+  background: url('../../../assets/images/ellipse.png') no-repeat center -90px;
+  background-size: cover;
+  z-index: -1;
+}
+
+img {
+  object-fit: contain;
+}
+
+.welcomeContainer {
+  margin-top: 64px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  color: #ffffff;
+  height: 300px;
+}
+
+.title {
+  margin-top: 48px;
+  font-weight: 500;
+  font-size: 52px;
+  line-height: 48px;
+  text-align: center;
+  letter-spacing: -2px;
+}
+
+.subtitle {
+  margin-top: 24px;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 32px;
+  text-align: center;
+  max-width: 590px;
+}
+
+.infoInputsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 712px;
+  margin-top: 190px;
+}
+
+.openMap {
+  background-color: white;
+  color: $interactive-01;
+  border: 2px solid $interactive-01;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  transition: font-size 300ms ease-in;
+
+  &:hover {
+    background-color: white;
+    font-size: 15px;
+  }
+}
