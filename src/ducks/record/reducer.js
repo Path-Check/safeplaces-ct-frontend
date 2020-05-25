@@ -1,4 +1,4 @@
-import { ADD, LOAD, SUCCESS, FAILURE } from 'ducks/records/types';
+import recordTypes from 'ducks/record/types';
 
 const initialState = {
   loading: false,
@@ -9,26 +9,31 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case LOAD:
+    case recordTypes.LOADING:
       return { ...state, loading: true };
-    case ADD:
+    case recordTypes.ADD:
       return {
         ...state,
-        record: {
-          ...action.data,
-        },
+        record: action.data,
       };
-    case SUCCESS:
+    case recordTypes.SUCCESS:
+      return {
+        ...state,
+        code: action.data.code,
+        loading: false,
+      };
+    case recordTypes.ENRICH: {
       return {
         ...state,
         record: {
           ...state.record,
           points: action.data,
         },
-        code: action.data.accessCode,
+        code: null,
         loading: false,
       };
-    case FAILURE:
+    }
+    case recordTypes.FAILURE:
       return {
         ...state,
         fetching: false,

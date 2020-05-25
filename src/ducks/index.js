@@ -7,10 +7,12 @@ import filter from './filter';
 import auth from './auth';
 import settingsApi from './settingsApi';
 import map from './map';
+import records from './addRecord/reducer';
 
 const rootReducer = history =>
   combineReducers({
     auth,
+    records,
     cases: cases.reducer,
     settingsApi,
     filter: filter.reducer,
