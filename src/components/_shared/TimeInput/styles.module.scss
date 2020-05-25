@@ -1,0 +1,31 @@
+@import 'scss/global';
+
+.dateInput {
+  position: relative;
+  max-width: 200px;
+
+  input[type='time'] {
+    display: flex;
+    align-items: center;
+  }
+  input[type='time']::-webkit-inner-spin-button,
+  input[type='time']::-webkit-calendar-picker-indicator {
+    //display: none;
+    //-webkit-appearance: none;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.icon {
+  position: absolute;
+  bottom: 0;
+  right: 3px;
+  height: 39px;
+  width: 35px;
+  color: $interactive-01;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
