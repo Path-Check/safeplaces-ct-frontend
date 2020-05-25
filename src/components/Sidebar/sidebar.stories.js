@@ -8,6 +8,7 @@ import FilterData from 'components/RedactorTools/FilterData';
 import DurationFilter from 'components/RedactorTools/FilterData/DurationFilter';
 import SelectedDataList from 'components/SelectedData';
 import RedactorToolsHeader from 'components/RedactorTools/Header';
+import TravellingFilter from 'components/RedactorTools/FilterData/TravellingFilter';
 
 export default {
   title: 'Sidebars',
@@ -96,6 +97,7 @@ export const Tools = () => (
     />
     <FilterData>
       <DurationFilter />
+      <TravellingFilter />
     </FilterData>
     <SelectedDataList items={items} visible={24} total={500} />
   </SidebarWrapper>
