@@ -7,6 +7,8 @@ import DateSelector from 'components/RedactorTools/DateSelector';
 import FilterData from 'components/RedactorTools/FilterData';
 import DurationFilter from 'components/RedactorTools/FilterData/DurationFilter';
 import SelectedDataList from 'components/SelectedData';
+import RedactorToolsHeader from 'components/RedactorTools/Header';
+
 export default {
   title: 'Sidebars',
 };
@@ -82,6 +84,7 @@ const items = [
 
 export const Tools = () => (
   <SidebarWrapper>
+    <RedactorToolsHeader currentRecord="532523423" />
     <DateSelector
       dates={[
         'Sat, May 9, 2020',
@@ -94,7 +97,6 @@ export const Tools = () => (
     <FilterData>
       <DurationFilter />
     </FilterData>
-
     <SelectedDataList items={items} visible={24} total={500} />
   </SidebarWrapper>
 );

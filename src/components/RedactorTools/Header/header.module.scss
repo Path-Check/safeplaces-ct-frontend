@@ -1,5 +1,6 @@
 .redactorToolsHeader {
   display: flex;
+  margin-bottom: 20px;
 
   button {
     border: none;
@@ -8,5 +9,6 @@
     cursor: pointer;
     margin-right: 15px;
     font-size: 20px;
+    padding: 0;
   }
 }
