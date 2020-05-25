@@ -5,27 +5,24 @@ import { NavLink } from 'react-router-dom';
 
 import styles from './navigation.module.scss';
 
-const Navigation = ({ isAdmin }) => (
+const Navigation = () => (
   <nav>
     <ul className={styles.navMenu}>
       <li>
-        {isAdmin ? (
-          <NavLink
-            className={styles.navMenuItem}
-            activeClassName={styles.active}
-            to="/"
-          >
-            Publish Data
-          </NavLink>
-        ) : (
-          <NavLink
-            className={styles.navMenuItem}
-            activeClassName={styles.active}
-            to="/"
-          >
-            Contact Trace
-          </NavLink>
-        )}
+        <NavLink
+          className={styles.navMenuItem}
+          activeClassName={styles.active}
+          to="/trace"
+        >
+          Publish Data
+        </NavLink>
+        <NavLink
+          className={styles.navMenuItem}
+          activeClassName={styles.active}
+          to="/publish"
+        >
+          Contact Trace
+        </NavLink>
       </li>
       <li>
         <NavLink
@@ -41,8 +38,6 @@ const Navigation = ({ isAdmin }) => (
   </nav>
 );
 
-Navigation.propTypes = {
-  isAdmin: PropTypes.bool,
-};
+Navigation.propTypes = {};
 
 export default Navigation;
