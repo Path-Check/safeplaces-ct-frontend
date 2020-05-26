@@ -25,8 +25,8 @@ function App() {
       <ConnectedRouter history={history}>
         <Header isAuthenticated={token} />
         <Switch>
-          {!token && <Redirect to="/login" />}
           <Route path="/login/:action?" component={Authentication} />
+          {!token && <Redirect to="/login" />}
           <Route path="/onboarding/:action?" component={Onboarding} />
           <Route path="/settings/:action?" component={Settings} />
           <Route path="/trace" component={Trace} />
