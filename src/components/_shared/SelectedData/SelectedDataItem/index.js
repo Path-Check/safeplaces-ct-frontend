@@ -13,7 +13,7 @@ import {
   selectedDataMenuAction,
 } from './SelectedDataItem.module.scss';
 
-import PointContextMenu from 'components/PointContextMenu';
+import PointContextMenu from 'components/_shared/PointContextMenu';
 
 const SelectedDataItem = ({
   id,

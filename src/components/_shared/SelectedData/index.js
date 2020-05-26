@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import SelectedDataItem from 'components/SelectedData/SelectedDataItem';
+import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataItem';
 
 import {
   selectedDataWrapper,
@@ -13,7 +13,7 @@ import {
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
-import SelectedDataContextMenu from 'components/SelectedData/SelectedDataContextMenu';
+import SelectedDataContextMenu from 'components/_shared/SelectedData/SelectedDataContextMenu';
 
 const SelectedDataList = ({ items, visible, total }) => {
   const [showContentMenu, setShowContentMenu] = useState(false);
@@ -41,11 +41,13 @@ const SelectedDataList = ({ items, visible, total }) => {
           />
         )}
       </div>
-      <ul className={selectedDataList}>
-        {items.map(i => (
-          <SelectedDataItem {...i} />
-        ))}
-      </ul>
+      {items?.length > 0 && (
+        <ul className={selectedDataList}>
+          {items.map(i => (
+            <SelectedDataItem {...i} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
