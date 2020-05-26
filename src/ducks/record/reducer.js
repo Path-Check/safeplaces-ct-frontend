@@ -1,7 +1,7 @@
 import recordTypes from 'ducks/record/types';
 
 const initialState = {
-  loading: false,
+  status: '',
   error: null,
   accessCode: null,
   record: {},
@@ -9,8 +9,8 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case recordTypes.LOADING:
-      return { ...state, loading: true };
+    case recordTypes.STATUS:
+      return { ...state, status: action.status };
     case recordTypes.ADD:
       return {
         ...state,
@@ -37,7 +37,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         fetching: false,
-        loading: false,
+        status: '',
         error: action.error,
       };
     default:

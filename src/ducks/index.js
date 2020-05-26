@@ -7,7 +7,7 @@ import filter from './filter';
 import auth from './auth';
 import settingsApi from './settingsApi';
 import map from './map';
-import records from './addRecord/reducer';
+import records from './record/reducer';
 
 const rootReducer = history =>
   combineReducers({
