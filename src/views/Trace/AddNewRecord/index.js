@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Link } from 'react-router-dom';
-import Modal from 'components/Modal';
-import Dialog from 'components/Dialog';
+import Modal from 'components/_global/Modal';
+import Dialog from 'components/_shared/Dialog';
 
 import {
   AddNewRecordHeader,
@@ -12,27 +12,38 @@ import {
   AddNewRecordTitle,
 } from './AddNewRecord.module.scss';
 
-import Button from 'components/Button';
+import Button from 'components/_shared/Button';
+import recordsSelectors from 'ducks/record/selectors';
 
-const AddNewRecord = ({ currentRecord, accessCode }) => {
+const AddNewRecord = () => {
+  const status = useSelector(state => recordsSelectors.getStatus(state));
+  const record = useSelector(state => recordsSelectors.getRecord(state));
+  const accessCode = useSelector(state =>
+    recordsSelectors.getAccessCode(state),
+  );
+
+  if (status !== 'RECORD ADDED') {
+    return null;
+  }
+
   return (
     <Modal>
       <Dialog width="650px">
         <header className={AddNewRecordHeader}>
           <h3 className={AddNewRecordTitle}>Add New Record</h3>
-          <p>
-            Share the access code below with a patient in order to load their
-            location data for contact tracing.
-          </p>
         </header>
-        <p className={AddNewRecordCode}>{accessCode}</p>
-        <div>or</div>
+        {accessCode && (
+          <>
+            <p>
+              Share the access code below with a patient in order to load their
+              location data for contact tracing.
+            </p>
+            <p className={AddNewRecordCode}>{accessCode}</p>
+            <div>or</div>
+          </>
+        )}
         <div className={AddNewRecordActions}>
-          {currentRecord && (
-            <Button large to={currentRecord}>
-              Create Record Manually
-            </Button>
-          )}
+          {record.id && <Button large>Create Record Manually</Button>}
           <Button secondary large onClick={() => console.log('Delete Case')}>
             Cancel
           </Button>
@@ -40,11 +51,6 @@ const AddNewRecord = ({ currentRecord, accessCode }) => {
       </Dialog>
     </Modal>
   );
-};
-
-AddNewRecord.propTypes = {
-  accessCode: PropTypes.string,
-  currentRecord: PropTypes.string,
 };
 
 export default AddNewRecord;

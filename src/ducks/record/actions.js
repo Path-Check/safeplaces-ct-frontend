@@ -1,8 +1,13 @@
 import recordTypes from 'ducks/record/types';
 
-export const addRecord = data => {
-  return {
+const recordActions = {
+  addRecord: data => ({
     type: recordTypes.ADD,
-    data,
-  };
+  }),
+  clearNotification: () => ({
+    type: recordTypes.NOTIFICATION,
+    data: {},
+  }),
 };
+
+export default recordActions;

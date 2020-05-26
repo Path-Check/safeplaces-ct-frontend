@@ -1,6 +1,7 @@
 const recordTypes = {
+  STATUS: 'safeplaces/record/STATUS',
   ADD: 'safeplaces/record/ADD',
-  LOAD: 'safeplaces/record/LOAD',
+  DELETE: 'safeplaces/record/DELETE',
   ENRICH: 'safeplaces/record/ENRICH',
   SUCCESS: 'safeplaces/record/SUCCESS',
   FAILURE: 'safeplaces/record/FAILURE',

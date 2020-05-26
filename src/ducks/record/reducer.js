@@ -4,10 +4,11 @@ const initialState = {
   status: '',
   error: null,
   accessCode: null,
-  record: {},
+  record: null,
 };
 
 export default function reducer(state = initialState, action) {
+  console.log(action.type);
   switch (action.type) {
     case recordTypes.STATUS:
       return { ...state, status: action.status };
@@ -16,9 +17,15 @@ export default function reducer(state = initialState, action) {
         ...state,
         record: action.data,
       };
+    case recordTypes.DELETE:
+      return {
+        ...state,
+        record: null,
+      };
     case recordTypes.SUCCESS:
       return {
         ...state,
+        record: action.data,
         code: action.data.code,
         loading: false,
       };
@@ -33,13 +40,6 @@ export default function reducer(state = initialState, action) {
         loading: false,
       };
     }
-    case recordTypes.FAILURE:
-      return {
-        ...state,
-        fetching: false,
-        status: '',
-        error: action.error,
-      };
     default:
       return state;
   }

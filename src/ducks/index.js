@@ -8,9 +8,11 @@ import auth from './auth/reducer';
 import settingsApi from './settingsApi';
 import map from './map';
 import records from './record/reducer';
+import application from './application/reducer';
 
 const rootReducer = history =>
   combineReducers({
+    application,
     auth,
     records,
     cases: cases.reducer,

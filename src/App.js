@@ -6,7 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import { history } from './store';
 import { useSelector } from 'react-redux';
-import authSelectors from './ducks/auth/selectors';
+import authSelectors from 'ducks/auth/selectors';
 
 import Header from 'components/_global/Header';
 
@@ -17,9 +17,11 @@ import Trace from 'views/Trace';
 import Publish from 'views/Publish';
 import Onboarding from 'views/Onboarding';
 import Settings from 'views/Settings';
+import Loader from 'components/_shared/Loader';
 
 function App() {
   const token = useSelector(state => authSelectors.getToken(state));
+
   return (
     <div className="App">
       <ConnectedRouter history={history}>
@@ -33,6 +35,7 @@ function App() {
           <Route path="/publish" component={Publish} />
         </Switch>
       </ConnectedRouter>
+      <Loader />
     </div>
   );
 }

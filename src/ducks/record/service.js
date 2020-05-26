@@ -1,14 +1,26 @@
 import axios from 'axios';
-import { getSettingsApi } from 'ducks/settingsApi';
 
-export function fetch({ data, endpoint }) {
-  const settingsApi = getSettingsApi;
+const { REACT_APP_API_URL } = process.env;
 
-  const url = `${settingsApi.apiurl}/${endpoint}/`;
+const recordsService = {
+  addNew: ({ data, orgID }) => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}/organization/case`,
+      data: {
+        orgID,
+      },
+    });
+  },
+  deleteNew: ({ data, caseId }) => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}/case`,
+      data: {
+        caseId,
+      },
+    });
+  },
+};
 
-  return axios({
-    method: 'POST',
-    url,
-    data,
-  });
-}
+export default recordsService;
