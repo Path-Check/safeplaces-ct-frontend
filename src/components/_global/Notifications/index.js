@@ -15,9 +15,10 @@ const Notifications = () => {
   );
 
   useEffect(() => {
-    console.log(notification);
     if (notification && notification.title) {
-      addToast(notification.title, { appearance: 'error' });
+      addToast([notification.title, notification.text], {
+        appearance: 'error',
+      });
     }
   }, [addToast, notification]);
 
@@ -30,7 +31,7 @@ export const Notification = ({ appearance, children, ...props }) => {
   return (
     <div className={notification}>
       <FontAwesomeIcon icon={faInfoCircle} />
-      {children}
+      {children[0]} {children[1]}
       <button
         onClick={() => {
           dispatch(applicationActions.removeNotification());

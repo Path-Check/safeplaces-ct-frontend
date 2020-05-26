@@ -23,7 +23,10 @@ function* handleAdd({ data }) {
     yield put({ type: recordTypes.STATUS, status: 'RECORD NOT ADDED' });
     yield put({
       type: applicationTypes.NOTIFICATION,
-      data: { title: 'RECORD NOT ADDED', text: 'something went wrong' },
+      data: {
+        title: 'Record could not be created.',
+        text: 'Please contact technical support for assistance.',
+      },
     });
   }
 }
