@@ -1,7 +1,8 @@
 import React from 'react';
+import Onboarding from 'views/Onboarding';
 
 const Settings = () => {
-  return <>Setting</>;
+  return <Onboarding />;
 };
 
 export default Settings;
