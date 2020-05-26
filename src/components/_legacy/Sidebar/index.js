@@ -65,7 +65,6 @@ function Sidebar({ addPathEntryTrigger, track }) {
   const newCase = () => {
     const id = v4();
     dispatch(cases.actions.create(id));
-    console.log(id);
     history.push(`/${id}`);
   };
 
