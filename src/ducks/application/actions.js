@@ -5,6 +5,10 @@ const applicationActions = {
     type: applicationTypes.STATUS,
     status,
   }),
+  removeNotification: () => ({
+    type: applicationTypes.NOTIFICATION,
+    data: null,
+  }),
 };
 
 export default applicationActions;

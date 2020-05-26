@@ -4,7 +4,7 @@ import { setMapCoordinate } from 'ducks/map';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
-
+import Notifications from 'components/_global/Notifications';
 import Track from './trackPath';
 
 import { addSelected } from '../../../ducks/selectedPoints';
@@ -125,6 +125,7 @@ export default function Map({ setMap }) {
       /> */}
       <Popup />
       <Track />
+      <Notifications />
     </ReactMapGL>
   );
 }
