@@ -14,14 +14,14 @@ const Navigation = () => (
           activeClassName={styles.active}
           to="/trace"
         >
-          Publish Data
+          Contact Trace
         </NavLink>
         <NavLink
           className={styles.navMenuItem}
           activeClassName={styles.active}
           to="/publish"
         >
-          Contact Trace
+          Publish Data
         </NavLink>
       </li>
       <li>
