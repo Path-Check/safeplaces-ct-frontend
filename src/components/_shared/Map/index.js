@@ -105,12 +105,6 @@ export default function Map({ setMap }) {
     });
 
     console.log('map clicked', mapRef.current, features);
-
-    if (features.length >= 1) {
-      if (features[0].layer.id === 'pointLayer') {
-        dispatch(addSelected([features[0].properties.id]));
-      }
-    }
   };
 
   return (
@@ -126,10 +120,9 @@ export default function Map({ setMap }) {
       onLoad={onMapLoad}
       onViewportChange={viewportInternal => setViewport(viewportInternal)}
     >
-      <NavigationControl
-        showCompass={true}
+      {/* <NavigationControl
         className={`mapboxgl-ctrl-bottom-left ${styles.mapCtrl}`}
-      />
+      /> */}
       <Popup />
       <Track />
     </ReactMapGL>
