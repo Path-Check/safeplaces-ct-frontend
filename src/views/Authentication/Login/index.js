@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      history.push('');
+      history.push('/trace');
     }
   }, [token, history]);
 
@@ -52,7 +52,7 @@ const Login = () => {
         <div className={styles.loginForm}>
           <div className={styles.title}>Login</div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {errorResponse && <Blockquote warning>{errorResponse}</Blockquote>}
+            {/* {errorResponse && <Blockquote warning>{errorResponse}</Blockquote>} */}
             <TextInput
               id="email-input"
               onChange={onEmail}
