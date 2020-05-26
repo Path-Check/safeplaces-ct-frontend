@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from 'components/_global/Modal';
@@ -14,8 +13,10 @@ import {
 
 import Button from 'components/_shared/Button';
 import recordsSelectors from 'ducks/record/selectors';
+import recordActions from 'ducks/record/actions';
 
 const AddNewRecord = () => {
+  const dispatch = useDispatch();
   const status = useSelector(state => recordsSelectors.getStatus(state));
   const record = useSelector(state => recordsSelectors.getRecord(state));
   const accessCode = useSelector(state =>
@@ -43,8 +44,12 @@ const AddNewRecord = () => {
           </>
         )}
         <div className={AddNewRecordActions}>
-          {record.id && <Button large>Create Record Manually</Button>}
-          <Button secondary large onClick={() => console.log('Delete Case')}>
+          {record.id && (
+            <Button large onClick={() => dispatch(recordActions.clearStatus())}>
+              Create Record Manually
+            </Button>
+          )}
+          <Button secondary large>
             Cancel
           </Button>
         </div>

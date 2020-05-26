@@ -13,6 +13,7 @@ import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import AddNewRecord from 'views/Trace/AddNewRecord';
 
 import recordsSelectors from 'ducks/record/selectors';
+import RecordAdded from 'views/Trace/RecordAdded';
 
 const Trace = () => {
   const record = useSelector(state => recordsSelectors.getRecord(state));
@@ -38,6 +39,7 @@ const Trace = () => {
         <Map />
       </div>
       <AddNewRecord />
+      <RecordAdded />
     </>
   );
 };
