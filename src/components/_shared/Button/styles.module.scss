@@ -24,7 +24,9 @@
   }
 
   &:disabled {
+    cursor: not-allowed;
     background-color: #cccccc;
+    border-color: #cccccc;
     color: #666666;
   }
 
