@@ -4,15 +4,15 @@ import mapboxgl from 'mapbox-gl';
 import { MapboxLayerSwitcherControl } from 'mapbox-layer-switcher';
 import 'mapbox-layer-switcher/styles.css';
 import Track from './trackPath';
-import { addSelected } from '../../ducks/selectedPoints';
-import { getFilteredTrackPath } from '../../selectors';
+import { addSelected } from '../../../ducks/selectedPoints';
+import { getFilteredTrackPath } from '../../../selectors';
 import { fromJS } from 'immutable';
-import Popup from '../Popup';
+import Popup from './Popup';
 import styles from './styles.module.scss';
 import defaultMapStyleJson from './style.json';
 import WebMercatorViewport from 'viewport-mercator-project';
 import getBounds from './getBounds';
-import { setMapCoordinate } from '../../ducks/map';
+import { setMapCoordinate } from 'ducks/map';
 import {
   lineLayer,
   currentPointLayerAccuracy,
@@ -22,7 +22,7 @@ import {
   currentPointLayerShadow,
   currentPointLayer,
   emptyFeature,
-} from 'components/Map/layers';
+} from 'components/_shared/Map/layers';
 import { useSelector, useDispatch } from 'react-redux';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
@@ -150,13 +150,6 @@ export default function Map({ setMap }) {
       }
     });
     map.addControl(new MapboxLayerSwitcherControl(styles));
-    const geocoder = new MapboxGeocoder({
-      marker: true,
-      mapboxgl: mapboxgl,
-      accessToken: mapboxgl.accessToken,
-    });
-    geocoder.onAdd(map);
-    geocoder.addTo('#geocoder');
   };
   const onMapClick = e => {
     console.log(e);
@@ -186,7 +179,7 @@ export default function Map({ setMap }) {
       mapStyle={mapStyle}
       ref={mapRef}
       width="100%"
-      height="100vh"
+      height="100%"
       onClick={onMapClick}
       onLoad={onMapLoad}
       onViewportChange={viewportInternal => setViewport(viewportInternal)}
@@ -195,10 +188,6 @@ export default function Map({ setMap }) {
         showCompass={true}
         className={`mapboxgl-ctrl-bottom-left ${styles.mapCtrl}`}
       />
-      <div
-        id="geocoder"
-        className={`${styles.geocoder} ${styles.mapboxglctrlgeocoder}`}
-      ></div>
       <Popup />
       <Track />
     </ReactMapGL>
