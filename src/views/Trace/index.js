@@ -20,7 +20,7 @@ const Trace = () => {
 
   return (
     <>
-      <div class={tracer}>
+      <div className={tracer}>
         <SidebarWrapper>
           {record?.id ? (
             <>
