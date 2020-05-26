@@ -21,6 +21,7 @@ const Button = ({
   to,
   children,
   className,
+  type = 'button',
 }) => {
   const btnClasses = classNames(
     {
@@ -41,7 +42,7 @@ const Button = ({
       className={btnClasses}
       style={{ width, height }}
       disabled={disabled}
-      type="button"
+      type={type}
       onClick={onClick}
     >
       {children}
