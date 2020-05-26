@@ -14,18 +14,23 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
 import SelectedDataContextMenu from 'components/_shared/SelectedData/SelectedDataContextMenu';
+import { useSelector } from 'react-redux';
+import recordsSelectors from 'ducks/record/selectors';
 
 const SelectedDataList = ({ items, visible, total }) => {
   const [showContentMenu, setShowContentMenu] = useState(false);
+  const record = useSelector(state => recordsSelectors.getRecord(state));
 
   return (
     <div className={selectedDataWrapper}>
       <div className={selectedDataHeader}>
         <h5>Selected Data</h5>
         <div className={selectedDataHeaderInfo}>
-          <p className={selectedDataSelection}>
-            {visible} of {total}
-          </p>
+          {record.points && (
+            <p className={selectedDataSelection}>
+              {visible} of {total}
+            </p>
+          )}
           <button
             className={selectedDataAction}
             onClick={() => setShowContentMenu(!showContentMenu)}

@@ -9,19 +9,8 @@ export default createSlice({
     create: (state, action) => {
       state.entries[action.payload] = {
         id: action.payload,
-        name: 'unnamed case',
         points: {},
       };
-    },
-    import: (state, action) => {
-      var points = {};
-      action.payload.points.forEach(element => {
-        const id = v4();
-        element.id = id;
-        points[id] = element;
-      });
-      state.entries[action.payload.currentCase].points = points;
-      return state;
     },
     editEntry: (state, action) => {
       state.entries[state.currentCase].points[action.payload.id] = {

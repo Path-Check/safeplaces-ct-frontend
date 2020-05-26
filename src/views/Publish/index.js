@@ -11,7 +11,7 @@ import PublishLoadActions from 'views/Publish/Actions/LoadActions';
 
 const Publish = ({ record }) => {
   return (
-    <div class={publish}>
+    <div className={publish}>
       <SidebarWrapper>
         {record ? (
           <>
