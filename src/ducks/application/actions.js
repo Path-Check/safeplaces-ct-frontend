@@ -5,6 +5,10 @@ const applicationActions = {
     type: applicationTypes.STATUS,
     status,
   }),
+  notification: data => ({
+    type: applicationTypes.NOTIFICATION,
+    data,
+  }),
   removeNotification: () => ({
     type: applicationTypes.NOTIFICATION,
     data: null,
