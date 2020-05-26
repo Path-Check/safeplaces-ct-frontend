@@ -16,11 +16,13 @@ export default function reducer(state = initialState, action) {
         ...state,
         record: action.data,
       };
-    case recordTypes.DELETE:
+    case recordTypes.UPDATE:
       return {
         ...state,
-        record: null,
+        record: action.data,
       };
+    case recordTypes.DELETE:
+      return state;
     case recordTypes.SUCCESS:
       return {
         ...state,

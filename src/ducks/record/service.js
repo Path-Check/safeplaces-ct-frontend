@@ -6,7 +6,7 @@ const recordsService = {
   addNew: ({ data, orgID }) => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/organization/${orgID}/case`,
+      url: `${REACT_APP_API_URL}organization/${orgID}/case`,
       data: {
         orgID,
       },
@@ -14,11 +14,8 @@ const recordsService = {
   },
   deleteNew: ({ data, caseId }) => {
     return axios({
-      method: 'POST',
-      url: `${REACT_APP_API_URL}/case`,
-      data: {
-        caseId,
-      },
+      method: 'DELETE',
+      url: `${REACT_APP_API_URL}case/${caseId}`,
     });
   },
 };

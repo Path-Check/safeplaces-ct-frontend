@@ -44,12 +44,16 @@ const AddNewRecord = () => {
           </>
         )}
         <div className={AddNewRecordActions}>
-          {record.id && (
+          {record?.id && (
             <Button large onClick={() => dispatch(recordActions.clearStatus())}>
               Create Record Manually
             </Button>
           )}
-          <Button secondary large>
+          <Button
+            secondary
+            large
+            onClick={() => dispatch(recordActions.delete())}
+          >
             Cancel
           </Button>
         </div>

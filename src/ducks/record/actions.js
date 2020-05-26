@@ -8,6 +8,13 @@ const recordActions = {
     type: recordTypes.SUCCESS,
     data,
   }),
+  updateRecord: data => ({
+    type: recordTypes.UPDATE,
+    data,
+  }),
+  delete: () => ({
+    type: recordTypes.DELETE,
+  }),
   previewRecord: () => ({
     type: recordTypes.STATUS,
     status: 'PREVIEW_RECORD',

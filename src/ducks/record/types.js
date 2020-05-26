@@ -5,6 +5,7 @@ const recordTypes = {
   ENRICH: 'safeplaces/record/ENRICH',
   SUCCESS: 'safeplaces/record/SUCCESS',
   FAILURE: 'safeplaces/record/FAILURE',
+  UPDATE: 'safeplaces/record/UPDATE',
 };
 
 export default recordTypes;

@@ -1,10 +1,10 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery, select } from 'redux-saga/effects';
 
+import applicationActions from 'ducks/application/actions';
 import recordTypes from 'ducks/record/types';
 import recordActions from 'ducks/record/actions';
-import applicationActions from 'ducks/application/actions';
-
 import recordsService from './service';
+import recordsSelectors from 'ducks/record/selectors';
 
 function* handleAdd({ data }) {
   let response;
@@ -33,6 +33,31 @@ function* handleAdd({ data }) {
   }
 }
 
+function* handleDelete({ data }) {
+  const record = yield select(recordsSelectors.getRecord); // <-- get the project
+
+  try {
+    yield call(recordsService.deleteNew, {
+      data,
+      caseId: record.id,
+    });
+
+    yield put(recordActions.updateRecord(null));
+    yield put(recordActions.updateStatus('RECORD DELETED'));
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: 'RECORD NOT DELETED',
+        text: 'Please try again.',
+      }),
+    );
+  }
+}
+
 export function* addSaga() {
   yield takeEvery(recordTypes.ADD, handleAdd);
+}
+
+export function* deleteSaga() {
+  yield takeEvery(recordTypes.DELETE, handleDelete);
 }
