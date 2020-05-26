@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Slider from 'rc-slider';
-import Checkbox from 'components/Checkbox/Checkbox';
+import Checkbox from 'components/_shared/Checkbox/Checkbox';
 
 import {
   durationFilter,

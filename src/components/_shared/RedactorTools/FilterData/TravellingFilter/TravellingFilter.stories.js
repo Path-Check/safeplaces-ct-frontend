@@ -2,7 +2,7 @@ import React from 'react';
 
 import TravellingFilter from '.';
 
-import SidebarWrapper from 'components/Sidebar/SidebarWrapper';
+import SidebarWrapper from 'components/_shared/Button/Sidebar/SidebarWrapper';
 
 export default {
   title: 'Filter Data/Travelling Filter',

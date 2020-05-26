@@ -17,7 +17,7 @@ import {
 } from './FilterData.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from 'components/Button';
+import Button from 'components/_shared/Button';
 
 const FilterData = ({ children }) => {
   const [filtersVisible, setFiltersVisible] = useState(false);

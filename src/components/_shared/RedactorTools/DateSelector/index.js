@@ -13,16 +13,13 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
 
-import SingleDateToggle from 'components/RedactorTools/DateSelector/SingleDateToggle';
+import SingleDateToggle from 'components/_shared/RedactorTools/DateSelector/SingleDateToggle';
 
 const DateSelector = ({ dates }) => {
-  const checkSingleDate = dates.length === 1;
+  const checkSingleDate = dates?.length === 1;
   const [isSingleDate, setIsSingleDate] = useState(checkSingleDate);
-  const [dateRange, setDateRange] = useState([
-    dates[0],
-    dates[dates.length - 1],
-  ]);
-  const [singleDate, setSingleDate] = useState(dates[0]);
+  const [dateRange, setDateRange] = useState([]);
+  const [singleDate, setSingleDate] = useState();
 
   useEffect(() => {}, [isSingleDate]);
 
