@@ -4,7 +4,7 @@ import { connectRouter } from 'connected-react-router';
 import cases from './cases';
 import selectedPoints from './selectedPoints';
 import filter from './filter';
-import auth from './auth';
+import auth from './auth/reducer';
 import settingsApi from './settingsApi';
 import map from './map';
 import records from './record/reducer';

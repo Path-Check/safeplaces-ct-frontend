@@ -1,0 +1,30 @@
+@import 'scss/global';
+
+.modal {
+  position: fixed;
+  height: 90vh;
+  width: 100%;
+  animation: slideIn 300ms linear;
+  bottom: 0;
+  overflow: scroll;
+}
+
+.closeIcon {
+  top: 10px;
+  left: 15px;
+  font-size: 28px;
+  position: absolute;
+  color: black;
+  z-index: 99;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}

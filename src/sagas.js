@@ -1,7 +1,6 @@
-import { all, fork } from 'redux-saga/effects';
-import { loginSaga } from 'ducks/auth';
-import { addSaga } from 'ducks/record/sagas';
+import { all } from 'redux-saga/effects';
+import { authSaga } from './ducks/auth/sagas';
 
 export default function* rootSaga() {
-  yield all([addSaga(), loginSaga()]);
+  yield all([authSaga()]);
 }
