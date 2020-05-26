@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from './logo.module.scss';
 
 const Logo = () => (
-  <Link to="/" className={styles.logo}>
+  <Link to="/trace" className={styles.logo}>
     <svg fill="none" viewBox="0 0 356 50">
       <path
         fill="#fff"
