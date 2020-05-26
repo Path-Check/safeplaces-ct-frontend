@@ -10,6 +10,8 @@
   width: calc(100vw - 395px);
   align-items: center;
   position: relative;
+  margin-top: 10px;
+  z-index: 1;
 
   svg {
     margin-right: 20px;
