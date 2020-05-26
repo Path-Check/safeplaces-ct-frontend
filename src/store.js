@@ -9,14 +9,15 @@ import { createBrowserHistory } from 'history';
 import axiosInterceptors from './axiosInterceptors';
 
 const persistConfig = {
-  key: 'none',
+  key: 'root',
   storage,
   timeout: 500,
   // transforms: [saveSubsetBlacklistFilter],
-  blacklist: ['router', 'records'],
+  blacklist: ['router'],
 };
 
 export const history = createBrowserHistory();
+const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -29,7 +30,7 @@ const composeEnhancers =
 const enhancer = composeEnhancers(
   applyMiddleware(sagaMiddleware, routerMiddleware(history)),
 );
-const storeEntry = createStore(rootReducer(history), enhancer);
+const storeEntry = createStore(persistedReducer, enhancer);
 
 axiosInterceptors.setupInterceptors(storeEntry);
 sagaMiddleware.run(watcherSaga);
