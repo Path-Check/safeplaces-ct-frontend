@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 import { sidebarHeader } from './sidebarHeader.module.scss';
 
-const SidebarHeader = ({ copy, isAdmin }) => {
+const SidebarHeader = ({ title, copy }) => {
   return (
     <header className={sidebarHeader}>
-      <h4>Contact Trace{isAdmin && ', Admin'}</h4>
+      <h4>{title}</h4>
       <p>{copy}</p>
     </header>
   );
 };
 
 SidebarHeader.propTypes = {
+  title: PropTypes.string,
   copy: PropTypes.string,
-  isAdmin: PropTypes.bool,
 };
 
 export default SidebarHeader;
