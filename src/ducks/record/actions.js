@@ -4,9 +4,13 @@ const recordActions = {
   addRecord: data => ({
     type: recordTypes.ADD,
   }),
-  clearNotification: () => ({
-    type: recordTypes.NOTIFICATION,
-    data: {},
+  previewRecord: () => ({
+    type: recordTypes.STATUS,
+    status: 'PREVIEW_RECORD',
+  }),
+  clearStatus: () => ({
+    type: recordTypes.STATUS,
+    status: '',
   }),
 };
 
