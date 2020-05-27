@@ -13,6 +13,7 @@ import authActions from 'ducks/auth/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => authSelectors.getCurrentUser(state));
   const token = useSelector(state => authSelectors.getToken(state));
   const { fetching } = useSelector(state => authSelectors.getLoginState(state));
   const history = useHistory();
@@ -20,10 +21,16 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (token) {
-      history.push('/trace');
+    if (currentUser) {
+      const { completedOnboarding } = currentUser;
+      if (token && completedOnboarding) {
+        history.push('/trace');
+      }
+      if (token && !completedOnboarding) {
+        history.push('/onboarding');
+      }
     }
-  }, [token, history]);
+  }, [token, history, currentUser]);
 
   const { handleSubmit, errors, register } = useForm({});
 

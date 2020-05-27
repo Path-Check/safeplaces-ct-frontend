@@ -20,14 +20,14 @@ const authService = {
     }
     */
     return {
-      user: { id: 1, name: 'HA Name' },
+      user: { id: 1, name: 'HA Name', completedOnboarding: false },
       token: tokenRes.data.token,
     };
   },
   onboarding: data => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/organization/${data}`,
+      url: `${REACT_APP_API_URL}/organization/configuration`,
       data,
     });
   },

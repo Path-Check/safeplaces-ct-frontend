@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import logo from 'assets/images/logo.png';
 import styles from './styles.module.scss';
 import InfoInput from './InfoInput/InfoInput';
 import DaySlider from './DaySlider';
 import Button from 'components/_shared/Button';
 import MapModal from './MapModal';
-import { useSelector } from 'react-redux';
 import authSelectors from '../../../ducks/auth/selectors';
+import authActions from '../../../ducks/auth/actions';
 
 const infoInputs = [
   {
@@ -68,6 +70,8 @@ const infoInputs = [
 ];
 
 const HAConfig = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [openMapModal, setOpenMapModal] = useState(false);
   const { id: organizationId } = useSelector(state =>
     authSelectors.getCurrentUser(state),
@@ -84,9 +88,28 @@ const HAConfig = () => {
     referenceWebsiteUrl: undefined,
     informationWebsiteUrl: undefined,
   });
+
+  const {
+    name,
+    numberOfDaysToRetainRecords,
+    // regionCoordinates: { ne, sw },
+    apiEndpoint,
+    referenceWebsiteUrl,
+    informationWebsiteUrl,
+  } = state;
+
+  const formCompleted = !!(
+    name &&
+    // ne.latitude && ne.longitude && sw.latitude && sw.longitude &&
+    numberOfDaysToRetainRecords &&
+    apiEndpoint &&
+    referenceWebsiteUrl &&
+    informationWebsiteUrl
+  );
+
   const submitInfo = () => {
-    console.log(organizationId);
-    console.log(state);
+    dispatch(authActions.onboardingRequest({ organizationId, ...state }));
+    history.push('/trace');
   };
 
   const toggleMap = () => {
@@ -126,7 +149,12 @@ const HAConfig = () => {
             id={e.key}
           />
         ))}
-        <Button width="100%" height="72px" onClick={submitInfo}>
+        <Button
+          width="100%"
+          height="72px"
+          onClick={submitInfo}
+          disabled={!formCompleted}
+        >
           Save & Continue
         </Button>
       </div>
