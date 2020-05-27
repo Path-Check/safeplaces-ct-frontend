@@ -9,15 +9,19 @@ import MapModal from './MapModal';
 import authSelectors from '../../../ducks/auth/selectors';
 import authActions from '../../../ducks/auth/actions';
 import infoInputs from './infoInputs';
+import { useForm } from 'react-hook-form';
 
 const HAConfig = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [boundariesSetted, setBoundariesSetted] = useState(true);
+  // Leaving this true for now until it works to avoid stopping the flow
+  const [boundariesSet, setBoundariesSet] = useState(true);
+  const [boundariesError, setBoundariesError] = useState(false);
   const [openMapModal, setOpenMapModal] = useState(false);
   const { id: organizationId } = useSelector(state =>
     authSelectors.getCurrentUser(state),
   );
+  const { handleSubmit, errors, register } = useForm({});
 
   const [state, setState] = React.useState({
     name: undefined,
@@ -50,8 +54,13 @@ const HAConfig = () => {
   );
 
   const submitInfo = () => {
-    dispatch(authActions.onboardingRequest({ organizationId, ...state }));
-    history.push('/trace');
+    if (boundariesSet) {
+      dispatch(authActions.onboardingRequest({ organizationId, ...state }));
+      history.push('/trace');
+    }
+    if (!boundariesSet) {
+      setBoundariesError('* Required field');
+    }
   };
 
   const toggleMap = () => {
@@ -77,20 +86,26 @@ const HAConfig = () => {
           your profile
         </h3>
       </div>
-      <div className={styles.infoInputsContainer}>
+      <form
+        className={styles.infoInputsContainer}
+        onSubmit={handleSubmit(submitInfo)}
+      >
         {infoInputs.map(e => (
           <InfoInput
             key={e.title}
             title={e.title}
             subtitle={e.subtitle}
             placeholder={e.placeholder}
+            errors={errors}
+            register={register}
             children={
               e.children &&
               e.children({
                 toggleMap,
                 handleChange,
                 id: e.key,
-                boundariesSetted,
+                boundariesSet,
+                boundariesError,
               })
             }
             handleChange={handleChange}
@@ -100,12 +115,13 @@ const HAConfig = () => {
         <Button
           width="100%"
           height="72px"
-          onClick={submitInfo}
+          type="submit"
           disabled={!formCompleted}
         >
           Save & Continue
         </Button>
-      </div>
+      </form>
+
       <MapModal open={openMapModal} />
     </div>
   );

@@ -9,6 +9,8 @@ const InfoInput = ({
   placeholder = null,
   children = null,
   handleChange = null,
+  errors,
+  register,
 }) => {
   return (
     <div className={styles.container}>
@@ -17,9 +19,13 @@ const InfoInput = ({
       {!children ? (
         <TextInput
           id={id || title}
+          name={id || title}
           placeholder={placeholder}
           labelText=""
           onChange={handleChange}
+          invalid={!!errors[id || title]}
+          inputRef={register({ required: 'Required field' })}
+          invalidText={errors[id || title] && errors[id || title].message}
         />
       ) : (
         children

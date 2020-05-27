@@ -8,10 +8,8 @@ import {
 
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { debug } from 'mapbox-gl/src/shaders';
 
 const Button = ({
-  text,
   width,
   height,
   disabled = false,
