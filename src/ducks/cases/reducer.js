@@ -1,34 +1,33 @@
-import recordTypes from 'ducks/record/types';
+import casesTypes from 'ducks/cases/types';
 
 const initialState = {
+  activeCase: null,
+  cases: null,
   status: '',
   error: null,
-  accessCode: null,
   record: null,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case recordTypes.STATUS:
+    case casesTypes.STATUS:
       return { ...state, status: action.status };
-    case recordTypes.ADD:
+    case casesTypes.ADD_CASES:
       return {
         ...state,
-        record: action.data,
+        cases: action.data.cases,
       };
-    case recordTypes.DELETE:
+    case casesTypes.ADD_CASE:
       return {
         ...state,
-        record: null,
+        activeCase: action.data,
       };
-    case recordTypes.SUCCESS:
+    case casesTypes.SET_ACTIVE_CASE:
       return {
         ...state,
-        record: action.data,
-        code: action.data.code,
-        loading: false,
+        activeCase: action.data,
       };
-    case recordTypes.ENRICH: {
+    case casesTypes.ENRICH_CASE: {
       return {
         ...state,
         record: {
@@ -36,7 +35,6 @@ export default function reducer(state = initialState, action) {
           points: action.data,
         },
         code: null,
-        loading: false,
       };
     }
     default:
