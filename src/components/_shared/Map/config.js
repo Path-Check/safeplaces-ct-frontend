@@ -2,7 +2,6 @@ import defaultMapStyleJson from './style.json';
 import { fromJS } from 'immutable';
 
 import {
-  lineLayer,
   currentPointLayerAccuracy,
   selectedPointLayerAccuracy,
   pointLayerShadow,
@@ -28,30 +27,16 @@ export let defaultMapStyle = fromJS(jsonStyle);
 defaultMapStyle = defaultMapStyle
   .updateIn(['layers'], arr =>
     arr.push(
-      lineLayer,
       currentPointLayerAccuracy,
       selectedPointLayerAccuracy,
       pointLayerShadow,
       pointLayer,
       currentPointLayerShadow,
       currentPointLayer,
-      // selectedPointLayer,
-      // selectedPointLayerShadow,
     ),
   )
   .setIn(['sources', 'currentpoints'], fromJS(emptyFeature))
   .setIn(['sources', 'selectedPointLayer'], fromJS(emptyFeature))
   .setIn(['sources', 'selectedPointLayerShadow'], fromJS(emptyFeature))
   .setIn(['sources', 'selectedPointLayerShadow'], fromJS(emptyFeature))
-  .setIn(
-    ['sources', 'lines'],
-    fromJS({
-      lineMetrics: true,
-      type: 'geojson',
-      data: {
-        features: [],
-        type: 'FeatureCollection',
-      },
-    }),
-  )
   .setIn(['sources', 'points'], fromJS(emptyFeature));
