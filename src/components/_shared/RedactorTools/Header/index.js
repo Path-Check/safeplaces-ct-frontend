@@ -8,10 +8,10 @@ import casesSelectors from 'ducks/cases/selectors';
 import { useSelector } from 'react-redux';
 
 const RedactorToolsHeader = ({ currentRecord }) => {
-  const activeCases = useSelector(state => casesSelectors.getActiveCase(state));
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const handleBack = () => console.log('go back');
 
-  if (!activeCases) {
+  if (!activeCase) {
     return null;
   }
 
@@ -20,7 +20,7 @@ const RedactorToolsHeader = ({ currentRecord }) => {
       <button type="button" onClick={handleBack} title="Back to home screen">
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
-      <h3>Record ID: {activeCases.id}</h3>
+      <h3>Record ID: {activeCase.caseId}</h3>
     </header>
   );
 };

@@ -6,13 +6,13 @@ const casesService = {
   fetchCases: ({ organizationId }) => {
     return axios({
       method: 'get',
-      url: `${REACT_APP_API_URL}organization/cases`,
+      url: `${REACT_APP_API_URL}organization/caes`,
       data: {
         organizationId,
       },
     });
   },
-  fetchCase: ({ organizationId = 'rocket' }) => {
+  fetchCase: ({ organizationId }) => {
     return axios({
       method: 'POST',
       url: `${REACT_APP_API_URL}organization/case`,

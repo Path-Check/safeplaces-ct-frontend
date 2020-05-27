@@ -7,18 +7,19 @@ import casesService from './service';
 
 function* addCases({ data }) {
   let response;
+  const organizationId = ''; // TODO : retrieve from store
 
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
     response = yield call(casesService.fetchCases, {
-      data,
-      orgID: 'rocket',
+      organizationId,
     });
 
     yield put(casesActions.addCases(response.data));
     yield put(applicationActions.updateStatus('CASES ADDED'));
   } catch (error) {
+    yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
         title: 'Cases could not be retrieved.',
@@ -29,19 +30,16 @@ function* addCases({ data }) {
   }
 }
 
-function* addCasesSaga() {
-  yield takeEvery(casesTypes.FETCH_CASES, addCases);
-}
-
 function* addCase() {
   let response;
-  console.log('here');
+
+  const organizationId = ''; // TODO : retrieve from store
 
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
     response = yield call(casesService.fetchCase, {
-      orgID: 'rocket',
+      organizationId, // TODO : retrieve from store
     });
 
     yield put(casesActions.setCase(response.data));
@@ -52,6 +50,7 @@ function* addCase() {
 
     yield put(applicationActions.updateStatus('CASE FETCHED'));
   } catch (error) {
+    yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
         title: 'Record could not be created.',
@@ -88,6 +87,10 @@ function* loadCasePoints({ activeCase }) {
       }),
     );
   }
+}
+
+function* addCasesSaga() {
+  yield takeEvery(casesTypes.FETCH_CASES, addCases);
 }
 
 function* loadCasePointsSaga(data) {
