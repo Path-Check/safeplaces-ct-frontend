@@ -75,7 +75,6 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
-
   const [viewport, setViewport] = useState({
     width: 400,
     height: 300,

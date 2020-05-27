@@ -34,7 +34,7 @@ function App() {
         components={{ Toast: Notification }}
       >
         <ConnectedRouter history={history}>
-          <Header isAuthenticated={token} />
+          <Header isAuthenticated={!!token} />
           <Switch>
             <Route path="/login/:action?" component={Authentication} />
             {!token && <Redirect to="/login" />}

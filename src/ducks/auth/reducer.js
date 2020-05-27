@@ -1,36 +1,53 @@
 import authTypes from './types';
 
+const { login, onboarding } = authTypes;
+
 const initialState = {
   token: undefined,
   currentUser: undefined,
+  error: null,
 };
 
 export default function reducer(state = initialState, action) {
-  switch (action.type) {
-    case authTypes.REQUEST:
-      return { ...state, fetching: true, error: null };
-    case authTypes.SUCCESS:
+  const { type, data, error } = action;
+  switch (type) {
+    case login.REQUEST:
       return {
         ...state,
-        currentUser: action.data.user,
-        token: action.data.token,
+        fetching: true,
+      };
+    case login.SUCCESS:
+      return {
+        ...state,
+        currentUser: data.user,
+        token: data.token,
         fetching: false,
       };
-    case authTypes.FAILURE:
+    case onboarding.REQUEST:
+      return {
+        ...state,
+        fetching: true,
+      };
+    case onboarding.SUCCESS:
       return {
         ...state,
         fetching: false,
-        currentUser: undefined,
-        error: action.error,
-        errorResponse: action.error.response,
+      };
+    case login.FAILURE:
+    case onboarding.FAILURE:
+      return {
+        ...state,
+        fetching: false,
+        error: error,
+        errorResponse: error.message,
       };
     // case "LOGIN":
     // var salt = bcryptjs.genSaltSync(10);
     // var hash = bcryptjs.hashSync("B4c0//", salt);
-    // action.data.password = action.password;
+    // data.password = password;
     // case 'LOGIN_LOCAL':
     //   const newLogin = state;
-    //   newLogin.user = state.localAuth[action.data];
+    //   newLogin.user = state.localAuth[data];
     //   return {
     //     newLogin,
     //   };
