@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { sidebarActions } from '../TracerActions.module.scss';
 import Button from 'components/_shared/Button';
 import { useSelector } from 'react-redux';
-import recordsSelectors from 'ducks/record/selectors';
+import casesSelectors from 'ducks/cases/selectors';
 
 const TracerToolActions = () => {
-  const record = useSelector(state => recordsSelectors.getRecord(state));
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
 
   return (
     <div className={sidebarActions}>
-      <Button disabled={!record?.points}>Stage for Publishing</Button>
+      <Button disabled={!activeCase?.points}>Stage for Publishing</Button>
       <Button secondary>Save Session</Button>
     </div>
   );

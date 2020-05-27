@@ -12,11 +12,11 @@ import {
 } from './RecordAdded.module.scss';
 
 import Button from 'components/_shared/Button';
-import recordsSelectors from 'ducks/record/selectors';
+import casesSelectors from 'ducks/cases/selectors';
 
 const RecordAdded = () => {
-  const status = useSelector(state => recordsSelectors.getStatus(state));
-  const record = useSelector(state => recordsSelectors.getRecord(state));
+  const status = useSelector(state => casesSelectors.getStatus(state));
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
 
   if (status !== 'PREVIEW_RECORD') {
     return null;
@@ -33,7 +33,7 @@ const RecordAdded = () => {
             Record ID:
           </p>
         </header>
-        <p className={RecordAddedCode}>{record.id}</p>
+        <p className={RecordAddedCode}>{activeCase.id}</p>
         <div className={RecordAddedActions}>
           <Button large onClick={() => console.log('Close Modal')}>
             Ok

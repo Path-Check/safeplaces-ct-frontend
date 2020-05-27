@@ -12,19 +12,25 @@ import TracerLoadActions from 'views/Trace/Actions/LoadActions';
 import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import AddNewRecord from 'views/Trace/AddNewRecord';
 
-import recordsSelectors from 'ducks/record/selectors';
+import casesSelectors from 'ducks/cases/selectors';
 import RecordAdded from 'views/Trace/RecordAdded';
+import RecordsTable from 'components/_shared/RecordsTable';
+import applicationSelectors from 'ducks/application/selectors';
 
 const Trace = () => {
-  const record = useSelector(state => recordsSelectors.getRecord(state));
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const status = useSelector(state => applicationSelectors.getStatus(state));
+
+  const renderTools = status === 'CASE ACTIVE' && activeCase?.caseId;
 
   return (
     <>
       <div className={tracer}>
         <SidebarWrapper>
-          {record?.id ? (
+          {renderTools ? (
             <>
-              <RedactorTools /> <TracerToolActions />
+              <RedactorTools />
+              <TracerToolActions />
             </>
           ) : (
             <>
@@ -40,6 +46,7 @@ const Trace = () => {
       </div>
       <AddNewRecord />
       <RecordAdded />
+      <RecordsTable />
     </>
   );
 };

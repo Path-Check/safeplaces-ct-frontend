@@ -6,16 +6,16 @@ import FilterData from 'components/_shared/RedactorTools/FilterData';
 import DurationFilter from 'components/_shared/RedactorTools/FilterData/DurationFilter';
 import TravellingFilter from 'components/_shared/RedactorTools/FilterData/TravellingFilter';
 import SelectedDataList from 'components/_shared/SelectedData';
-import recordsSelectors from 'ducks/record/selectors';
+import casesSelectors from 'ducks/cases/selectors';
 import { useSelector } from 'react-redux';
 
 const RedactorTools = () => {
-  const record = useSelector(state => recordsSelectors.getRecord(state));
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
 
   return (
     <>
       <RedactorToolsHeader />
-      {record?.points && (
+      {activeCase?.points && (
         <>
           <DateSelector />
           <FilterData>
@@ -24,7 +24,7 @@ const RedactorTools = () => {
           </FilterData>
         </>
       )}
-      <SelectedDataList />
+      <SelectedDataList items={activeCase?.points} />
     </>
   );
 };

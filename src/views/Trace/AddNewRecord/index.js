@@ -12,18 +12,16 @@ import {
 } from './AddNewRecord.module.scss';
 
 import Button from 'components/_shared/Button';
-import recordsSelectors from 'ducks/record/selectors';
-import recordActions from 'ducks/record/actions';
+import casesSelectors from 'ducks/cases/selectors';
+import applicationSelectors from 'ducks/application/selectors';
+import applicationActions from 'ducks/application/actions';
 
 const AddNewRecord = () => {
   const dispatch = useDispatch();
-  const status = useSelector(state => recordsSelectors.getStatus(state));
-  const record = useSelector(state => recordsSelectors.getRecord(state));
-  const accessCode = useSelector(state =>
-    recordsSelectors.getAccessCode(state),
-  );
+  const status = useSelector(state => applicationSelectors.getStatus(state));
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
 
-  if (status !== 'RECORD ADDED') {
+  if (status !== 'CASE FETCHED') {
     return null;
   }
 
@@ -33,23 +31,32 @@ const AddNewRecord = () => {
         <header className={AddNewRecordHeader}>
           <h3 className={AddNewRecordTitle}>Add New Record</h3>
         </header>
-        {accessCode && (
+        {activeCase?.authCode && (
           <>
             <p>
               Share the access code below with a patient in order to load their
               location data for contact tracing.
             </p>
-            <p className={AddNewRecordCode}>{accessCode}</p>
+            <p className={AddNewRecordCode}>{activeCase?.authCode}</p>
             <div>or</div>
           </>
         )}
         <div className={AddNewRecordActions}>
-          {record.id && (
-            <Button large onClick={() => dispatch(recordActions.clearStatus())}>
+          {activeCase?.caseId && (
+            <Button
+              large
+              onClick={() =>
+                dispatch(applicationActions.updateStatus('CASE ACTIVE'))
+              }
+            >
               Create Record Manually
             </Button>
           )}
-          <Button secondary large>
+          <Button
+            secondary
+            large
+            onClick={() => dispatch(applicationActions.updateStatus('IDLE'))}
+          >
             Cancel
           </Button>
         </div>

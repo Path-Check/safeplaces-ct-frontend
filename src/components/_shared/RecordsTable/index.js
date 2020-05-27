@@ -6,12 +6,21 @@ import PropTypes from 'prop-types';
 import { tableWrapper, table, tableMain } from './recordsTable.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Record from 'components/RecordsTable/Record';
-import Modal from 'components/Modals';
-import Button from 'components/Button';
 
-const RecordsTable = ({ records }) => {
-  if (!records || records.length < 1) {
+import Modal from 'components/_global/Modal';
+import Button from 'components/_shared/Button';
+import casesSelectors from 'ducks/cases/selectors';
+import applicationSelectors from 'ducks/application/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import Record from 'components/_shared/RecordsTable/Record';
+import casesActions from 'ducks/cases/actions';
+
+const RecordsTable = () => {
+  const dispatch = useDispatch();
+  const cases = useSelector(state => casesSelectors.getCases(state));
+  const status = useSelector(state => applicationSelectors.getStatus(state));
+
+  if (status !== 'CASES ADDED' || !cases || cases.length < 1) {
     return null;
   }
 
@@ -23,15 +32,15 @@ const RecordsTable = ({ records }) => {
             <tr>
               <th colspan="1">Record ID</th>
               <th colspan="2">Last Saved</th>
-              <th colspan="2">Status</th>
-              <th colspan="1">Expires In</th>
+              <th colspan="1">Status</th>
+              <th colspan="2">Expires</th>
             </tr>
           </thead>
         </table>
         <div className={tableMain}>
           <table className={table}>
             <tbody>
-              {records.map(r => (
+              {cases.map(r => (
                 <Record {...r} />
               ))}
             </tbody>
@@ -42,8 +51,8 @@ const RecordsTable = ({ records }) => {
           <tfoot>
             <tr>
               <td colspan="4">
-                <Button onClick={() => console.log('add new case')}>
-                  <FontAwesomeIcon icon={faPlus} /> Add New Case
+                <Button onClick={() => dispatch(casesActions.addCase())}>
+                  <FontAwesomeIcon icon={faPlus} /> Add New Record
                 </Button>
               </td>
             </tr>
@@ -52,10 +61,6 @@ const RecordsTable = ({ records }) => {
       </div>
     </Modal>
   );
-};
-
-RecordsTable.propTypes = {
-  records: PropTypes.array,
 };
 
 export default RecordsTable;

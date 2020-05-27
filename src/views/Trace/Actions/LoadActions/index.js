@@ -5,21 +5,19 @@ import { sidebarActions } from '../TracerActions.module.scss';
 import Button from 'components/_shared/Button';
 import { useDispatch } from 'react-redux';
 
-import recordActions from 'ducks/record/actions';
+import casesActions from 'ducks/cases/actions';
 
 const TracerLoadActions = () => {
   const dispatch = useDispatch();
 
-  const onAddClick = () => {
-    dispatch(recordActions.addRecord());
-  };
-
-  const onLoadClick = () => {};
-
   return (
     <div className={sidebarActions}>
-      <Button onClick={onAddClick}>Add New Record</Button>
-      <Button secondary>Load Existing Record</Button>
+      <Button onClick={() => dispatch(casesActions.fetchCase())}>
+        Add New Record
+      </Button>
+      <Button secondary onClick={() => dispatch(casesActions.fetchCases())}>
+        Load Existing Record
+      </Button>
     </div>
   );
 };
