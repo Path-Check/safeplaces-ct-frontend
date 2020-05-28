@@ -24,11 +24,11 @@ jobs:
     - uses: actions/checkout@v2
       name: Checkout
 
-    - name: Registry Login
-      uses: actions-hub/docker/login@master
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    # - name: Registry Login
+    #   uses: actions-hub/docker/login@master
+    #   env:
+    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 
     
