@@ -6,28 +6,27 @@ const authService = {
   login: async data => {
     const tokenRes = await axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/login`,
+      url: `${REACT_APP_API_URL}login`,
       data,
     });
-    /* TODO
-    this will be used when the mock endpoint exists
-    if(token) {
-      const idRes = await axios({
-        method: 'POST',
-        url: `${REACT_APP_API_URL}/organization`,
+    const { token } = tokenRes.data;
+    let orgRes = null;
+    if (token) {
+      orgRes = await axios({
+        method: 'GET',
+        url: `${REACT_APP_API_URL}organization`,
         data,
       });
     }
-    */
-    return {
-      user: { id: 1, name: 'HA Name', completedOnboarding: false },
-      token: tokenRes.data.token,
-    };
+    // TODO completedOnboarding will soon come from BE
+    const user = orgRes ? { ...orgRes.data, completedOnboarding: true } : null;
+
+    return { user, token };
   },
   onboarding: data => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/organization/configuration`,
+      url: `${REACT_APP_API_URL}organization/configuration`,
       data,
     });
   },

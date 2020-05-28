@@ -6,8 +6,6 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  console.log(state);
-
   switch (action.type) {
     case applicationTypes.STATUS:
       return { ...state, status: action.status };
