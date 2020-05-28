@@ -19,7 +19,7 @@ const authService = {
       });
     }
     // TODO completedOnboarding will soon come from BE
-    const user = orgRes ? { ...orgRes.data, completedOnboarding: true } : null;
+    const user = orgRes ? { ...orgRes.data } : null;
 
     return { user, token };
   },
