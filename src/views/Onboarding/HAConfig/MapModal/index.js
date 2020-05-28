@@ -4,22 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import Map from '../Map';
 
-const MapModal = ({ open, confirmBounds }) => {
-  const [isOpen, setIsOpen] = useState(open);
+const MapModal = ({ open, openMapModal }) => {
   const node = useRef(null);
 
   const handleClick = useCallback(
     e => {
       if (node && node.current && !node.current.contains(e.target)) {
-        setIsOpen(false);
+        openMapModal(false);
       }
     },
-    [node],
+    [node, openMapModal],
   );
-
-  useEffect(() => {
-    setIsOpen(open);
-  }, [open]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClick);
@@ -31,15 +26,15 @@ const MapModal = ({ open, confirmBounds }) => {
     return () => document.removeEventListener('keypress', handleClick);
   }, [handleClick]);
 
-  return isOpen ? (
+  return open ? (
     <div className={styles.modal} ref={node}>
       <div className={styles.wrapper}>
         <FontAwesomeIcon
           icon={faTimes}
           className={styles.closeIcon}
-          onClick={() => setIsOpen(false)}
+          onClick={() => openMapModal(false)}
         />
-        <Map confirmBounds={confirmBounds} />
+        <Map />
       </div>
     </div>
   ) : null;

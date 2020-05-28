@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from 'assets/images/logo.png';
@@ -69,29 +69,11 @@ const HAConfig = () => {
 
   const handleChange = evt => {
     const value = evt.target.value;
-
     setState({
       ...state,
       [evt.target.id]: value,
     });
   };
-
-  const handleConfirmBounds = ({ _ne, _sw }) => {
-    const regionCoordinates = {
-      ne: { latitude: _ne.lat, longitude: _ne.lng },
-      sw: { latitude: _sw.lat, longitude: _sw.lng },
-    };
-
-    setState({
-      ...state,
-      regionCoordinates,
-    });
-  };
-
-  // not sure if we should do this or not?
-  useEffect(() => {
-    setOpenMapModal(false);
-  }, [state.regionCoordinates]);
 
   return (
     <div className={styles.container}>
@@ -136,11 +118,11 @@ const HAConfig = () => {
           type="submit"
           disabled={!formCompleted}
         >
-          Save &amp; Continue
+          Save & Continue
         </Button>
       </form>
 
-      <MapModal open={openMapModal} confirmBounds={handleConfirmBounds} />
+      <MapModal openMapModal={setOpenMapModal} open={openMapModal} />
     </div>
   );
 };
