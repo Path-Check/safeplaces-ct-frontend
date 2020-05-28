@@ -8,7 +8,6 @@ import mapboxgl from 'mapbox-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
-import { MapboxLayerSwitcherControl } from 'mapbox-layer-switcher';
 import 'mapbox-layer-switcher/styles.css';
 
 import styles from './styles.module.scss';
@@ -50,30 +49,6 @@ export default function Map({ confirmBounds }) {
     setMap(mapRef.current.getMap());
   }, [map, setMap]);
 
-  const onMapLoad = e => {
-    const styles = [];
-
-    styles.push({
-      id: 'composite',
-      title: 'MapBox',
-      type: 'base',
-      visibility: 'none',
-    });
-
-    defaultMapStyleJson.layers.forEach(element => {
-      if (element.base === 'true') {
-        styles.push({
-          id: element.id,
-          title: element.title,
-          type: 'base',
-          visibility: element.layout.visibility,
-        });
-      }
-    });
-
-    map.addControl(new MapboxLayerSwitcherControl(styles));
-  };
-
   return (
     <div className={styles.map}>
       <ReactMapGL
@@ -83,15 +58,11 @@ export default function Map({ confirmBounds }) {
         ref={mapRef}
         width="100%"
         height="90vh"
-        onLoad={onMapLoad}
-        onViewStateChange={viewportInternal => {
-          console.log('here');
-          setViewport(viewportInternal);
-        }}
+        onViewportChange={viewportInternal => setViewport(viewportInternal)}
       >
         <NavigationControl
           showCompass={true}
-          className={`mapboxgl-ctrl-bottom-left ${styles.mapCtrl}`}
+          className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
         />
         <Geocoder
           mapRef={mapRef}
@@ -101,7 +72,9 @@ export default function Map({ confirmBounds }) {
         />
         <Button
           className={styles.saveButton}
-          onClick={() => confirmBounds(map.getBounds())}
+          onClick={() => {
+            confirmBounds(map.getBounds());
+          }}
         >
           Use Current View as GPS Boundary
         </Button>
