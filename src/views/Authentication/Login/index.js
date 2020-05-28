@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Blockquote, InlineLoading, TextInput } from '@wfp/ui';
+import { InlineLoading, TextInput } from '@wfp/ui';
 import { useHistory } from 'react-router-dom';
 import styles from './login.module.scss';
 import loginImage from '../../../assets/images/home-page-graphic.png';
@@ -13,19 +13,24 @@ import authActions from 'ducks/auth/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => authSelectors.getCurrentUser(state));
   const token = useSelector(state => authSelectors.getToken(state));
-  const { fetching, errorResponse } = useSelector(state =>
-    authSelectors.getLoginState(state),
-  );
+  const { fetching } = useSelector(state => authSelectors.getLoginState(state));
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (token) {
-      history.push('/trace');
+    if (currentUser) {
+      const { completedOnboarding } = currentUser;
+      if (token && completedOnboarding) {
+        history.push('/trace');
+      }
+      if (token && !completedOnboarding) {
+        history.push('/onboarding');
+      }
     }
-  }, [token, history]);
+  }, [token, history, currentUser]);
 
   const { handleSubmit, errors, register } = useForm({});
 
@@ -39,7 +44,7 @@ const Login = () => {
 
   const onSubmit = async () => {
     if (email.length && password.length) {
-      dispatch(authActions.requestLogin({ email, password }));
+      dispatch(authActions.loginRequest({ email, password }));
     }
   };
 

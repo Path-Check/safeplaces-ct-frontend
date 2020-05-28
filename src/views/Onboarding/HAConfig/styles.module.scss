@@ -63,10 +63,11 @@ img {
   justify-content: center;
   max-width: 712px;
   margin-top: 190px;
+  margin-bottom: 80px;
 }
 
 .openMap {
-  background-color: white;
+  background-color: #fbfcfc;
   color: $interactive-01;
   border: 2px solid $interactive-01;
   font-style: normal;
@@ -79,4 +80,33 @@ img {
     background-color: white;
     font-size: 15px;
   }
+}
+
+.boundariesSetContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.checkCircle {
+  height: 26px;
+  width: 26px;
+  color: #41DCA4;
+  margin-right: 10px;
+}
+
+.boundariesSet {
+  font-size: 18px;
+  line-height: 24px;
+  color: #41DCA4;
+  margin-right: 48px;
+}
+
+.boundariesError {
+  font-size: 0.75rem;
+  margin: 0.25rem 0 0;
+  overflow: hidden;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #c5192d;
 }

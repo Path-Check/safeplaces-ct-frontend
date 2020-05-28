@@ -1,68 +1,78 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import logo from 'assets/images/logo.png';
 import styles from './styles.module.scss';
 import InfoInput from './InfoInput/InfoInput';
-import DaySlider from './DaySlider';
 import Button from 'components/_shared/Button';
 import MapModal from './MapModal';
-
-const infoInputs = [
-  {
-    title: 'Your Health Autority name',
-    subtitle: 'This name will be visible to the general public',
-    placeholder: 'Puerto Rico Department of Public Health',
-  },
-  {
-    title: 'Information Website',
-    subtitle:
-      'A website your users will reach to view local informations and alerts',
-    placeholder: 'https://minorityhealth.hhs.gov',
-  },
-  {
-    title: 'Reference Website',
-    subtitle:
-      'A website you’ll use to tell at-risk users what they should do next',
-    placeholder: 'https://minorityhealth.hhs.gov',
-  },
-  {
-    title: 'API Endpoint',
-    subtitle: 'Used to define where tou want to load and publish your data',
-    placeholder: 'https://api.example.com/safeplaces',
-  },
-  {
-    title: 'Privacy Policy',
-    subtitle:
-      'Used to display a privacy policy to users who subscribe to your health authority',
-    placeholder: 'https://minorityhealth.hhs.gov/privacy-policy.html',
-  },
-  {
-    title: 'Data Retention Policy',
-    subtitle:
-      'Set the duration unpublished data will remain in your database (30 days max)',
-    children: () => <DaySlider />,
-  },
-  {
-    title: 'Health Authority Region',
-    subtitle:
-      'Please zoom in/out and drag in order to choose your GPS boundaries',
-    children: handler => (
-      <Button
-        width="347px"
-        height="48px"
-        className={styles.openMap}
-        onClick={handler}
-      >
-        Open Map & Select Region
-      </Button>
-    ),
-  },
-];
+import authSelectors from '../../../ducks/auth/selectors';
+import authActions from '../../../ducks/auth/actions';
+import infoInputs from './infoInputs';
+import { useForm } from 'react-hook-form';
 
 const HAConfig = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  // Leaving this true for now until it works to avoid stopping the flow
+  const [boundariesSet, setBoundariesSet] = useState(true);
+  const [boundariesError, setBoundariesError] = useState(false);
   const [openMapModal, setOpenMapModal] = useState(false);
+  const { id: organizationId } = useSelector(state =>
+    authSelectors.getCurrentUser(state),
+  );
+  const { handleSubmit, errors, register } = useForm({});
+
+  const [state, setState] = React.useState({
+    name: undefined,
+    numberOfDaysToRetainRecords: undefined,
+    regionCoordinates: {
+      ne: { latitude: undefined, longitude: undefined },
+      sw: { latitude: undefined, longitude: undefined },
+    },
+    apiEndpoint: undefined,
+    referenceWebsiteUrl: undefined,
+    informationWebsiteUrl: undefined,
+  });
+
+  const {
+    name,
+    numberOfDaysToRetainRecords,
+    // regionCoordinates: { ne, sw },
+    apiEndpoint,
+    referenceWebsiteUrl,
+    informationWebsiteUrl,
+  } = state;
+
+  const formCompleted = !!(
+    name &&
+    // ne.latitude && ne.longitude && sw.latitude && sw.longitude &&
+    numberOfDaysToRetainRecords &&
+    apiEndpoint &&
+    referenceWebsiteUrl &&
+    informationWebsiteUrl
+  );
+
+  const submitInfo = () => {
+    if (boundariesSet) {
+      dispatch(authActions.onboardingRequest({ organizationId, ...state }));
+      history.push('/trace');
+    }
+    if (!boundariesSet) {
+      setBoundariesError('* Required field');
+    }
+  };
 
   const toggleMap = () => {
     setOpenMapModal(!openMapModal);
+  };
+
+  const handleChange = evt => {
+    const value = evt.target.value;
+    setState({
+      ...state,
+      [evt.target.id]: value,
+    });
   };
 
   return (
@@ -76,16 +86,42 @@ const HAConfig = () => {
           your profile
         </h3>
       </div>
-      <div className={styles.infoInputsContainer}>
+      <form
+        className={styles.infoInputsContainer}
+        onSubmit={handleSubmit(submitInfo)}
+      >
         {infoInputs.map(e => (
           <InfoInput
+            key={e.title}
             title={e.title}
             subtitle={e.subtitle}
             placeholder={e.placeholder}
-            children={e.children && e.children(toggleMap)}
+            errors={errors}
+            register={register}
+            children={
+              e.children &&
+              e.children({
+                toggleMap,
+                handleChange,
+                id: e.key,
+                boundariesSet,
+                boundariesError,
+              })
+            }
+            handleChange={handleChange}
+            id={e.key}
           />
         ))}
-      </div>
+        <Button
+          width="100%"
+          height="72px"
+          type="submit"
+          disabled={!formCompleted}
+        >
+          Save & Continue
+        </Button>
+      </form>
+
       <MapModal open={openMapModal} />
     </div>
   );
