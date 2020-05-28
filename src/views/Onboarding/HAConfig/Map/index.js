@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { fromJS } from 'immutable';
 
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
@@ -10,17 +10,6 @@ import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import { MapboxLayerSwitcherControl } from 'mapbox-layer-switcher';
 import 'mapbox-layer-switcher/styles.css';
-
-import {
-  lineLayer,
-  currentPointLayerAccuracy,
-  selectedPointLayerAccuracy,
-  pointLayerShadow,
-  pointLayer,
-  currentPointLayerShadow,
-  currentPointLayer,
-  emptyFeature,
-} from 'views/Onboarding/HAConfig/Map/layers';
 
 import styles from './styles.module.scss';
 import defaultMapStyleJson from './style.json';
@@ -40,41 +29,11 @@ jsonStyle = JSON.parse(
 
 var defaultMapStyle = fromJS(jsonStyle);
 
-defaultMapStyle = defaultMapStyle
-  .updateIn(['layers'], arr =>
-    arr.push(
-      lineLayer,
-      currentPointLayerAccuracy,
-      selectedPointLayerAccuracy,
-      pointLayerShadow,
-      pointLayer,
-      currentPointLayerShadow,
-      currentPointLayer,
-      // selectedPointLayer,
-      // selectedPointLayerShadow,
-    ),
-  )
-  .setIn(['sources', 'currentpoints'], fromJS(emptyFeature))
-  .setIn(['sources', 'selectedPointLayer'], fromJS(emptyFeature))
-  .setIn(['sources', 'selectedPointLayerShadow'], fromJS(emptyFeature))
-  .setIn(['sources', 'selectedPointLayerShadow'], fromJS(emptyFeature))
-  .setIn(
-    ['sources', 'lines'],
-    fromJS({
-      lineMetrics: true,
-      type: 'geojson',
-      data: {
-        features: [],
-        type: 'FeatureCollection',
-      },
-    }),
-  )
-  .setIn(['sources', 'points'], fromJS(emptyFeature));
-
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
 
-export default function Map({ setMap }) {
+export default function Map({ confirmBounds }) {
   const mapRef = useRef();
+  const [map, setMap] = useState(null);
   const [viewport, setViewport] = useState({
     width: 400,
     height: 300,
@@ -83,9 +42,15 @@ export default function Map({ setMap }) {
     zoom: 8,
   });
 
-  const onMapLoad = e => {
-    const map = mapRef.current.getMap();
+  useEffect(() => {
+    if (!mapRef.current) {
+      return;
+    }
 
+    setMap(mapRef.current.getMap());
+  }, [map, setMap]);
+
+  const onMapLoad = e => {
     const styles = [];
 
     styles.push({
@@ -119,7 +84,10 @@ export default function Map({ setMap }) {
         width="100%"
         height="90vh"
         onLoad={onMapLoad}
-        onViewportChange={viewportInternal => setViewport(viewportInternal)}
+        onViewStateChange={viewportInternal => {
+          console.log('here');
+          setViewport(viewportInternal);
+        }}
       >
         <NavigationControl
           showCompass={true}
@@ -133,10 +101,7 @@ export default function Map({ setMap }) {
         />
         <Button
           className={styles.saveButton}
-          onClick={() => {
-            console.log(viewport);
-            // store viewport data in global store
-          }}
+          onClick={() => confirmBounds(map.getBounds())}
         >
           Use Current View as GPS Boundary
         </Button>
