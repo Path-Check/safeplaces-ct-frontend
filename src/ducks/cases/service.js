@@ -6,7 +6,7 @@ const casesService = {
   fetchCases: ({ organizationId }) => {
     return axios({
       method: 'get',
-      url: `${REACT_APP_API_URL}organization/caes`,
+      url: `${REACT_APP_API_URL}organization/cases`,
       data: {
         organizationId,
       },

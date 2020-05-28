@@ -51,7 +51,7 @@ const RecordsTable = () => {
           <tfoot>
             <tr>
               <td colspan="4">
-                <Button onClick={() => dispatch(casesActions.addCase())}>
+                <Button onClick={() => dispatch(casesActions.fetchCase())}>
                   <FontAwesomeIcon icon={faPlus} /> Add New Record
                 </Button>
               </td>
