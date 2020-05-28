@@ -6,7 +6,6 @@ import { getTrackStart, getTrackEnd, getFilter } from '../../selectors';
 import styles from './styles.module.scss';
 import { Checkbox } from '@wfp/ui';
 import filter from '../../ducks/filter';
-console.log('filter', filter);
 const Handle = Slider.Handle;
 
 const handle = props => {

@@ -26,6 +26,10 @@ const casesActions = {
     type: casesTypes.ENRICH_CASE,
     data,
   }),
+  deleteCase: data => ({
+    type: casesTypes.DELETE_CASE,
+    data,
+  }),
 };
 
 export default casesActions;

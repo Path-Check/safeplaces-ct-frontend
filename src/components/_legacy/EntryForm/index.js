@@ -123,10 +123,6 @@ const EntryForm = ({ initialData, useInline, clickedCoordinate }) => {
       }
     }
     if (prevData !== undefined && prevData.initialData !== initialData) {
-      console.log('prev');
-      console.log(prevData.initialData);
-      console.log('current');
-      console.log(initialData);
       reset(initialDataManipulated);
     }
   }, [
@@ -188,7 +184,6 @@ const EntryForm = ({ initialData, useInline, clickedCoordinate }) => {
       return find ? find.long_name : '';
     };
     const components = results[0].address_components;
-    console.log(results[0].address_components);
     setValue([
       {
         street: `${search('route')} ${search('street_number')}`,

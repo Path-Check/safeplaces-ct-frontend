@@ -110,8 +110,6 @@ export default function Map({ setMap }) {
     map.addControl(new MapboxLayerSwitcherControl(styles));
   };
 
-  console.log(viewport);
-
   return (
     <div className={styles.map}>
       <ReactMapGL

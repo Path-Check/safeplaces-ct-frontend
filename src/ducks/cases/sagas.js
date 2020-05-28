@@ -1,9 +1,10 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { all, call, put, takeEvery, select } from 'redux-saga/effects';
 
 import applicationActions from 'ducks/application/actions';
 import casesTypes from 'ducks/cases/types';
 import casesActions from 'ducks/cases/actions';
 import casesService from './service';
+import casesSelectors from 'ducks/cases/selectors';
 
 function* addCases({ data }) {
   let response;
@@ -54,7 +55,8 @@ function* addCase() {
     yield put(
       applicationActions.notification({
         title: 'Record could not be created.',
-        text: 'Please contact technical support for assistance.',
+        text:
+          'If issue persists, please contact technical support for assistance.',
       }),
     );
   }
@@ -83,10 +85,34 @@ function* loadCasePoints({ activeCase }) {
     yield put(
       applicationActions.notification({
         title: 'Unable to retrieve location data.',
-        text: 'Please contact technical support for assistance.',
+        text:
+          'If issue persists, please contact technical support for assistance.',
       }),
     );
   }
+}
+
+function* deleteCase() {
+  const activeCase = yield select(casesSelectors.getActiveCase);
+
+  try {
+    yield call(casesService.deleteCase, {
+      caseId: activeCase.caseId,
+    });
+    yield put(casesActions.setCase(null));
+    yield put(applicationActions.updateStatus('IDLE'));
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to delete case',
+        text: 'Please try again.',
+      }),
+    );
+  }
+}
+
+function* deleteCaseSaga() {
+  yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
 }
 
 function* addCasesSaga() {
@@ -102,5 +128,10 @@ function* addCaseSaga() {
 }
 
 export default function* casesSagas() {
-  return yield all([addCaseSaga(), addCasesSaga(), loadCasePointsSaga()]);
+  return yield all([
+    addCaseSaga(),
+    addCasesSaga(),
+    loadCasePointsSaga(),
+    deleteCaseSaga(),
+  ]);
 }

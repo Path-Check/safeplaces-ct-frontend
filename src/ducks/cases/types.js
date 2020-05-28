@@ -6,6 +6,7 @@ const casesTypes = {
   SET_ACTIVE_CASE: 'safeplaces/cases/SET_ACTIVE_CASE',
   LOAD_CASE_POINTS: 'safeplaces/cases/LOAD_CASE_POINTS',
   ENRICH_CASE: 'safeplaces/cases/ENRICH_CASE',
+  DELETE_CASE: 'safeplaces/cases/DELETE_CASE',
 };
 
 export default casesTypes;

@@ -30,6 +30,15 @@ const casesService = {
       },
     });
   },
+  deleteCase: ({ caseId }) => {
+    return axios({
+      method: 'DELETE',
+      url: `${REACT_APP_API_URL}case`,
+      data: {
+        caseId,
+      },
+    });
+  },
 };
 
 export default casesService;

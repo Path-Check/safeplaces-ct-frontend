@@ -15,6 +15,7 @@ import Button from 'components/_shared/Button';
 import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';
 import applicationActions from 'ducks/application/actions';
+import casesActions from 'ducks/cases/actions';
 
 const AddNewRecord = () => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const AddNewRecord = () => {
           <Button
             secondary
             large
-            onClick={() => dispatch(applicationActions.updateStatus('IDLE'))}
+            onClick={() => dispatch(casesActions.deleteCase())}
           >
             Cancel
           </Button>
