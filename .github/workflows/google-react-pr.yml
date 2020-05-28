@@ -13,6 +13,8 @@ on:
 # Environment variables available to all jobs and steps in this workflow
 env:
   GITHUB_SHA: ${{ github.sha }}
+  DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
 
@@ -41,8 +43,8 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: pathcheck/safeplaces-testhost
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        username: $DOCKER_USER
+        password: $DOCKER_PASS
         tags: "${{ github.sha }} ,latest"
         workdir: tests/docker/testhost
 
@@ -54,8 +56,8 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: pathcheck/safeplaces-frontend
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        username: $DOCKER_USER
+        password: $DOCKER_PASS
         tags: "${{ github.sha }} ,latest"
 
   run-ui-tests:
