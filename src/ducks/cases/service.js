@@ -5,7 +5,7 @@ const { REACT_APP_API_URL } = process.env;
 const casesService = {
   fetchCases: ({ organizationId }) => {
     return axios({
-      method: 'get',
+      method: 'GET',
       url: `${REACT_APP_API_URL}organization/cases`,
       data: {
         organizationId,

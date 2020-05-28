@@ -7,6 +7,7 @@ const casesTypes = {
   LOAD_CASE_POINTS: 'safeplaces/cases/LOAD_CASE_POINTS',
   ENRICH_CASE: 'safeplaces/cases/ENRICH_CASE',
   DELETE_CASE: 'safeplaces/cases/DELETE_CASE',
+  CHECK_CASE_GPS_DATA: 'safeplaces/cases/CHECK_CASE_GPS_DATA',
 };
 
 export default casesTypes;

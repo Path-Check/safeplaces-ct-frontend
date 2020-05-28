@@ -6,7 +6,7 @@ const authService = {
   login: async data => {
     const tokenRes = await axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/login`,
+      url: `${REACT_APP_API_URL}login`,
       data,
     });
     /* TODO
@@ -14,20 +14,20 @@ const authService = {
     if(token) {
       const idRes = await axios({
         method: 'POST',
-        url: `${REACT_APP_API_URL}/organization`,
+        url: `${REACT_APP_API_URL}organization`,
         data,
       });
     }
     */
     return {
-      user: { id: 1, name: 'HA Name', completedOnboarding: false },
+      user: { id: 1, name: 'HA Name', completedOnboarding: true },
       token: tokenRes.data.token,
     };
   },
   onboarding: data => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/organization/configuration`,
+      url: `${REACT_APP_API_URL}organization/configuration`,
       data,
     });
   },

@@ -1,8 +1,8 @@
 import casesTypes from 'ducks/cases/types';
 
 const casesActions = {
-  status: () => ({
-    type: casesTypes.STATUS,
+  checkCaseGPSData: () => ({
+    type: casesTypes.CHECK_CASE_GPS_DATA,
   }),
   fetchCases: () => ({
     type: casesTypes.FETCH_CASES,

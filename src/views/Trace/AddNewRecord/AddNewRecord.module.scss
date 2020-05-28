@@ -13,16 +13,30 @@
 .AddNewRecordCode {
   font-size: 52px;
   font-weight: 600;
+  margin: 32px;
 }
 
 .AddNewRecordActions {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
 
   a,
   button {
     font-size: 20px;
     margin-bottom: 15px;
   }
+}
+
+.closeIcon {
+  top: 10px;
+  right: 15px;
+  font-size: 25px;
+  position: absolute;
+  color: black;
+  z-index: 99;
+  cursor: pointer;
+}
+
+.divider {
+  margin: 5px 0 20px;
 }

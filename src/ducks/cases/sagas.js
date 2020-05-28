@@ -1,19 +1,19 @@
-import { all, call, put, takeEvery, select } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 
 import applicationActions from 'ducks/application/actions';
 import casesTypes from 'ducks/cases/types';
 import casesActions from 'ducks/cases/actions';
 import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
+import authSelectors from '../auth/selectors';
 
 function* addCases({ data }) {
-  let response;
-  const organizationId = ''; // TODO : retrieve from store
+  const { id: organizationId } = yield select(authSelectors.getCurrentUser);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    response = yield call(casesService.fetchCases, {
+    const response = yield call(casesService.fetchCases, {
       organizationId,
     });
 
@@ -34,13 +34,13 @@ function* addCases({ data }) {
 function* addCase() {
   let response;
 
-  const organizationId = ''; // TODO : retrieve from store
+  const { id: organizationId } = yield select(authSelectors.getCurrentUser);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
     response = yield call(casesService.fetchCase, {
-      organizationId, // TODO : retrieve from store
+      organizationId,
     });
 
     yield put(casesActions.setCase(response.data));
@@ -63,12 +63,10 @@ function* addCase() {
 }
 
 function* loadCasePoints({ activeCase }) {
-  let response;
-
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    response = yield call(casesService.fetchPoints, {
+    const response = yield call(casesService.fetchPoints, {
       caseId: activeCase.caseId,
     });
 
@@ -87,6 +85,21 @@ function* loadCasePoints({ activeCase }) {
         title: 'Unable to retrieve location data.',
         text:
           'If issue persists, please contact technical support for assistance.',
+      }),
+    );
+  }
+}
+
+function* checkCaseGPSDataSaga() {
+  const activeCase = yield select(casesSelectors.getActiveCase);
+  try {
+    yield call(loadCasePoints, { activeCase });
+  } catch (e) {
+    yield put(
+      applicationActions.notification({
+        title: 'Data is not available yet.',
+        text:
+          'Please check again in a moment. If issue persists, please contact technical support for assistance.',
       }),
     );
   }
@@ -111,27 +124,10 @@ function* deleteCase() {
   }
 }
 
-function* deleteCaseSaga() {
-  yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
-}
-
-function* addCasesSaga() {
-  yield takeEvery(casesTypes.FETCH_CASES, addCases);
-}
-
-function* loadCasePointsSaga(data) {
-  yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
-}
-
-function* addCaseSaga() {
-  yield takeEvery(casesTypes.FETCH_CASE, addCase);
-}
-
 export default function* casesSagas() {
-  return yield all([
-    addCaseSaga(),
-    addCasesSaga(),
-    loadCasePointsSaga(),
-    deleteCaseSaga(),
-  ]);
+  yield takeEvery(casesTypes.FETCH_CASE, addCase);
+  yield takeEvery(casesTypes.FETCH_CASES, addCases);
+  yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
+  yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
+  yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);
 }

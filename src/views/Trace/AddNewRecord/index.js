@@ -9,6 +9,8 @@ import {
   AddNewRecordCode,
   AddNewRecordActions,
   AddNewRecordTitle,
+  closeIcon,
+  divider,
 } from './AddNewRecord.module.scss';
 
 import Button from 'components/_shared/Button';
@@ -16,6 +18,8 @@ import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';
 import applicationActions from 'ducks/application/actions';
 import casesActions from 'ducks/cases/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 
 const AddNewRecord = () => {
   const dispatch = useDispatch();
@@ -35,16 +39,27 @@ const AddNewRecord = () => {
         {activeCase?.authCode && (
           <>
             <p>
-              Share the access code below with a patient in order to load their
-              location data for contact tracing.
+              To add a new record, communicate the code below to a patient. They
+              will need to enter this code in their Safe Paths app to upload
+              their location data. Once they enter the code you can confirm you
+              have received the data.
             </p>
             <p className={AddNewRecordCode}>{activeCase?.authCode}</p>
-            <div>or</div>
+            <div className={AddNewRecordActions}>
+              <Button
+                large
+                onClick={() => dispatch(casesActions.checkCaseGPSData())}
+              >
+                Check Data Upload
+              </Button>
+            </div>
+            <div className={divider}>or</div>
           </>
         )}
         <div className={AddNewRecordActions}>
           {activeCase?.caseId && (
             <Button
+              secondary
               large
               onClick={() =>
                 dispatch(applicationActions.updateStatus('CASE ACTIVE'))
@@ -53,13 +68,11 @@ const AddNewRecord = () => {
               Create Record Manually
             </Button>
           )}
-          <Button
-            secondary
-            large
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={closeIcon}
             onClick={() => dispatch(casesActions.deleteCase())}
-          >
-            Cancel
-          </Button>
+          />
         </div>
       </Dialog>
     </Modal>
