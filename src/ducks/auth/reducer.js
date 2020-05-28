@@ -32,6 +32,9 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         fetching: false,
+        currentUser: {
+          ...action.data,
+        },
       };
     case login.FAILURE:
     case onboarding.FAILURE:

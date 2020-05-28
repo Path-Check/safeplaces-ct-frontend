@@ -9,7 +9,11 @@ const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) =>
   boundariesSet ? (
     <div className={styles.boundariesSetContainer}>
       <FontAwesomeIcon icon={faCheckCircle} className={styles.checkCircle} />
-      <h3 className={styles.boundariesSet}>GPS Boundaries set</h3>
+
+      {boundariesSet && (
+        <h3 className={styles.boundariesSet}>GPS Boundaries set</h3>
+      )}
+
       <Button
         width="347px"
         height="48px"
@@ -27,7 +31,7 @@ const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) =>
         className={styles.openMap}
         onClick={toggleMap}
       >
-        Open Map & Select Region
+        Open Map &amp; Select Region
       </Button>
       {boundariesError && (
         <p className={styles.boundariesError}>{boundariesError}</p>

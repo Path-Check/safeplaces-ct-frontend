@@ -17,7 +17,6 @@ export default function todos(state = initialState, action) {
 }
 
 export const addSelected = data => {
-  console.log('addSelected');
   return {
     type: SET,
     data,
@@ -25,7 +24,6 @@ export const addSelected = data => {
 };
 
 export const deleteSelected = data => {
-  console.log('deleteSelected', data);
   return {
     type: DELETE,
     data,

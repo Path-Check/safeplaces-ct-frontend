@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from 'assets/images/logo.png';
@@ -14,8 +14,7 @@ import { useForm } from 'react-hook-form';
 const HAConfig = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  // Leaving this true for now until it works to avoid stopping the flow
-  const [boundariesSet, setBoundariesSet] = useState(true);
+  const [boundariesSet, setBoundariesSet] = useState(false);
   const [boundariesError, setBoundariesError] = useState(false);
   const [openMapModal, setOpenMapModal] = useState(false);
   const { id: organizationId } = useSelector(state =>
@@ -38,7 +37,7 @@ const HAConfig = () => {
   const {
     name,
     numberOfDaysToRetainRecords,
-    // regionCoordinates: { ne, sw },
+    regionCoordinates: { ne, sw },
     apiEndpoint,
     referenceWebsiteUrl,
     informationWebsiteUrl,
@@ -46,7 +45,10 @@ const HAConfig = () => {
 
   const formCompleted = !!(
     name &&
-    // ne.latitude && ne.longitude && sw.latitude && sw.longitude &&
+    ne.latitude &&
+    ne.longitude &&
+    sw.latitude &&
+    sw.longitude &&
     numberOfDaysToRetainRecords &&
     apiEndpoint &&
     referenceWebsiteUrl &&
@@ -56,7 +58,6 @@ const HAConfig = () => {
   const submitInfo = () => {
     if (boundariesSet) {
       dispatch(authActions.onboardingRequest({ organizationId, ...state }));
-      history.push('/trace');
     }
     if (!boundariesSet) {
       setBoundariesError('* Required field');
@@ -74,6 +75,25 @@ const HAConfig = () => {
       [evt.target.id]: value,
     });
   };
+
+  const handleConfirmBounds = ({ _ne, _sw }) => {
+    const regionCoordinates = {
+      ne: { latitude: _ne.lat, longitude: _ne.lng },
+      sw: { latitude: _sw.lat, longitude: _sw.lng },
+    };
+
+    setBoundariesSet(true);
+
+    setState({
+      ...state,
+      regionCoordinates,
+    });
+  };
+
+  // not sure if we should do this or not?
+  useEffect(() => {
+    setOpenMapModal(false);
+  }, [state.regionCoordinates]);
 
   return (
     <div className={styles.container}>
@@ -118,11 +138,15 @@ const HAConfig = () => {
           type="submit"
           disabled={!formCompleted}
         >
-          Save & Continue
+          Save &amp; Continue
         </Button>
       </form>
 
-      <MapModal open={openMapModal} />
+      <MapModal
+        openMapModal={setOpenMapModal}
+        open={openMapModal}
+        confirmBounds={handleConfirmBounds}
+      />
     </div>
   );
 };

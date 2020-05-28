@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { fromJS } from 'immutable';
 import ReactMapGL, {
   NavigationControl,
   WebMercatorViewport,
 } from 'react-map-gl';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import defaultMapStyleJson from './style.json';
 import styles from './styles.module.scss';
 import getBounds from 'components/_shared/Map/getBounds';
 
@@ -15,26 +13,52 @@ import { defaultMapStyle } from 'components/_shared/Map/config';
 import casesSelectors from 'ducks/cases/selectors';
 
 import Notifications from 'components/_global/Notifications';
-import Popup from './Popup';
 import MapMarker from 'components/_shared/Map/Marker';
+import authSelectors from 'ducks/auth/selectors';
 
 export default function Map({ setMap }) {
-  const dispatch = useDispatch();
-  const [mapStyle, setMapStyle] = useState(defaultMapStyle);
-  const [viewport, setViewport] = useState({
-    width: 400,
-    height: 300,
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 8,
-  });
   const mapRef = useRef();
+  const [loaded, setLoaded] = useState(false);
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const boundsObject = useSelector(state => authSelectors.getBounds(state));
+  const bounds = [
+    [boundsObject.sw.longitude, boundsObject.sw.latitude],
+    [boundsObject.ne.longitude, boundsObject.ne.latitude],
+  ];
+
+  const initial = new WebMercatorViewport({
+    width: 800,
+    height: 800,
+  }).fitBounds(bounds);
+
+  const [viewport, setViewport] = useState({ ...initial, zoom: 5 });
+
+  const onMapLoad = e => {
+    setLoaded(true);
+
+    const bounds = [
+      [boundsObject.sw.longitude, boundsObject.sw.latitude],
+      [boundsObject.ne.longitude, boundsObject.ne.latitude],
+    ];
+
+    const focused = new WebMercatorViewport({
+      width: mapRef.current._width,
+      height: mapRef.current._height,
+    }).fitBounds(bounds);
+
+    const viewportCalc = {
+      ...viewport,
+      ...focused,
+      transitionDuration: 1000,
+    };
+
+    setViewport(viewportCalc);
+  };
 
   useEffect(() => {
     var zooming = {};
 
-    if (!activeCase || !activeCase.points) {
+    if (!loaded || !activeCase || !activeCase.points) {
       return;
     }
 
@@ -52,19 +76,12 @@ export default function Map({ setMap }) {
       })),
     };
 
-    const mapStyleUpdate = mapStyle.setIn(
-      ['sources', 'points'],
-      fromJS({
-        type: 'geojson',
-        data: points,
-      }),
-    );
+    if (points) {
+      console.log('here');
 
-    if (JSON.stringify(mapStyleUpdate) !== JSON.stringify(mapStyle)) {
       const bounds = getBounds(points);
-      const mapObject = document.getElementsByClassName('map')[0];
 
-      if (bounds && mapObject) {
+      if (bounds) {
         zooming = new WebMercatorViewport({
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
@@ -76,42 +93,20 @@ export default function Map({ setMap }) {
       const viewportCalc = {
         ...viewport,
         ...zooming,
-        transitionDuration: 500,
+        transitionDuration: 1000,
       };
       if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
         setViewport(viewportCalc);
       }
     }
-  }, [mapStyle, activeCase]);
-
-  const onMapLoad = e => {
-    const styles = [];
-
-    styles.push({
-      id: 'composite',
-      title: 'MapBox',
-      type: 'base',
-      visibility: 'none',
-    });
-
-    defaultMapStyleJson.layers.forEach(element => {
-      if (element.base === 'true') {
-        styles.push({
-          id: element.id,
-          title: element.title,
-          type: 'base',
-          visibility: element.layout.visibility,
-        });
-      }
-    });
-  };
+  }, [activeCase, loaded]);
 
   return (
     <ReactMapGL
       className="map"
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-      mapStyle={mapStyle}
+      mapStyle={defaultMapStyle}
       ref={mapRef}
       width="100%"
       height="100%"

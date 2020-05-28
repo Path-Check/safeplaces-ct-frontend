@@ -49,14 +49,14 @@
 
 .topLeft {
   position: absolute;
-  left: 25%;
-  top: 25%;
+  left: 5%;
+  top: 10%;
 }
 
 .topRight {
   position: absolute;
-  right: 25%;
-  top: 25%;
+  right: 5%;
+  top: 10%;
 
   &:after {
     right: 0;
@@ -65,8 +65,8 @@
 
 .bottomLeft {
   position: absolute;
-  left: 25%;
-  bottom: 25%;
+  left: 5%;
+  bottom: 10%;
 
   &:before {
     bottom: 0;
@@ -75,8 +75,8 @@
 
 .bottomRight {
   position: absolute;
-  right: 25%;
-  bottom: 25%;
+  right: 5%;
+  bottom: 10%;
 
   &:before {
     bottom: 0;

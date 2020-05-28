@@ -2,6 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import authTypes from './types';
 import authService from './service';
 import authActions from './actions';
+import { push } from 'connected-react-router';
 
 function* authenticateSaga({ data }) {
   try {
@@ -15,7 +16,15 @@ function* authenticateSaga({ data }) {
 function* onboardingSaga({ data }) {
   try {
     const response = yield call(authService.onboarding, data);
-    yield put(authActions.onboardingSuccess(response));
+
+    yield put(
+      authActions.onboardingSuccess({
+        ...response.data,
+        completedOnboarding: true,
+      }),
+    );
+
+    yield put(push('/trace'));
   } catch (error) {
     yield put(authActions.onboardingFailure(error));
   }
