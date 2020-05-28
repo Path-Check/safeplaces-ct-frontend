@@ -37,7 +37,7 @@ const HAConfig = () => {
   const {
     name,
     numberOfDaysToRetainRecords,
-    // regionCoordinates: { ne, sw },
+    regionCoordinates: { ne, sw },
     apiEndpoint,
     referenceWebsiteUrl,
     informationWebsiteUrl,
@@ -45,7 +45,10 @@ const HAConfig = () => {
 
   const formCompleted = !!(
     name &&
-    // ne.latitude && ne.longitude && sw.latitude && sw.longitude &&
+    ne.latitude &&
+    ne.longitude &&
+    sw.latitude &&
+    sw.longitude &&
     numberOfDaysToRetainRecords &&
     apiEndpoint &&
     referenceWebsiteUrl &&
