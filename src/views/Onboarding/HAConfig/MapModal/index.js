@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styles from './styles.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import Map from '../Map';
 
-const MapModal = ({ open, openMapModal }) => {
+const MapModal = ({ open, openMapModal, confirmBounds }) => {
   const node = useRef(null);
 
   const handleClick = useCallback(
@@ -34,7 +34,7 @@ const MapModal = ({ open, openMapModal }) => {
           className={styles.closeIcon}
           onClick={() => openMapModal(false)}
         />
-        <Map />
+        <Map confirmBounds={confirmBounds} />
       </div>
     </div>
   ) : null;
