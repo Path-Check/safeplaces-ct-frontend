@@ -19,7 +19,6 @@ function MyDropzone({ importPathTrigger, currentCase }) {
           // Do whatever you want with the file contents
           const binaryStr = reader.result;
           importPathTrigger(JSON.parse(binaryStr), currentCase);
-          console.log(JSON.parse(binaryStr));
         };
         reader.readAsText(file);
       });

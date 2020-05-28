@@ -37,7 +37,6 @@ const DateSelector = ({ dates }) => {
 
   const handleChange = value => {
     if (isSingleDate) {
-      console.log(dates[value]);
       setSingleDate(dates[value]);
     } else {
       setDateRange([dates[value[0]], dates[value[1]]]);

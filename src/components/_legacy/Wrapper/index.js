@@ -29,7 +29,6 @@ export default function Wrapper({ children, editor, sidebar }) {
   const newCase = () => {
     const id = v4();
     dispatch(cases.actions.create(id));
-    console.log(id);
     history.push(`/${id}`);
   };
 
