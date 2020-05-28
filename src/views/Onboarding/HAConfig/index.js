@@ -58,7 +58,6 @@ const HAConfig = () => {
   const submitInfo = () => {
     if (boundariesSet) {
       dispatch(authActions.onboardingRequest({ organizationId, ...state }));
-      history.push('/trace');
     }
     if (!boundariesSet) {
       setBoundariesError('* Required field');

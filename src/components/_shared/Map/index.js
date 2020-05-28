@@ -21,15 +21,20 @@ export default function Map({ setMap }) {
   const [loaded, setLoaded] = useState(false);
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
+  const bounds = [
+    [boundsObject.sw.longitude, boundsObject.sw.latitude],
+    [boundsObject.ne.longitude, boundsObject.ne.latitude],
+  ];
 
-  const [viewport, setViewport] = useState();
+  const initial = new WebMercatorViewport({
+    width: 800,
+    height: 800,
+  }).fitBounds(bounds);
+
+  const [viewport, setViewport] = useState({ ...initial, zoom: 5 });
 
   const onMapLoad = e => {
     setLoaded(true);
-
-    if (!boundsObject) {
-      return;
-    }
 
     const bounds = [
       [boundsObject.sw.longitude, boundsObject.sw.latitude],
