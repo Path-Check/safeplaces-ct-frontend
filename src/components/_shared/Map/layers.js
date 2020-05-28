@@ -77,19 +77,11 @@ export const pointLayer = {
   type: 'circle',
   source: 'points',
   paint: {
-    // 'circle-color': '#165078',
+    'circle-color': '#222',
     'circle-stroke-width': 2,
-    'circle-stroke-color': '#FFFFFF',
-    'circle-color': [
-      'match',
-      ['get', 'storeId'],
-      '5cdaca36bab5e21e9ee19344',
-      '#fbb03b',
-      /* other */ '#165078',
-    ],
+    'circle-stroke-color': '#333',
     'circle-radius': 5,
   },
-  // filter: ['in', 'storeId', '5cdaca36bab5e21e9ee19344']
 };
 
 export const pointLayerShadow = {
@@ -105,29 +97,6 @@ export const pointLayerShadow = {
     'circle-blur': 0.6,
     'circle-stroke-width': 0,
     'circle-stroke-color': '#ffffff',
-  },
-};
-
-export const lineLayer = {
-  id: 'LineString',
-  type: 'line',
-  source: 'lines',
-  layout: {
-    'line-join': 'round',
-    'line-cap': 'round',
-  },
-  paint: {
-    'line-width': 3,
-    'line-opacity': 0.5,
-    'line-gradient': [
-      'interpolate',
-      ['linear'],
-      ['line-progress'],
-      0,
-      '#0065D9',
-      1,
-      '#00D9FF',
-    ],
   },
 };
 

@@ -3,26 +3,52 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
+import moment from 'moment';
+
 import { Link } from 'react-router-dom';
 
 import styles from './record.module.scss';
+import { useDispatch } from 'react-redux';
+import casesActions from 'ducks/cases/actions';
 
-const Record = ({ id, updatedAt, status, expiresIn }) => {
-  const staged = status.toLowerCase() === 'staged for publishing';
+const Record = ({ caseId, updatedAt, status, expiresAt }) => {
+  const dispatch = useDispatch();
+  const unpublished = status.toLowerCase() === 'unpublished';
+  const updated = moment(updatedAt).format('ddd, MMMM D, YYYY - h:ma');
+  const expires = moment(expiresAt).format('ddd, MMMM D, YYYY - h:ma');
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,
-    [`${styles.isStaged}`]: staged,
+    [`${styles.unpublished}`]: unpublished,
   });
 
   return (
     <tr className={recordClasses}>
-      <td colspan="1">{staged ? id : <Link to={`${id}`}>{id}</Link>}</td>
-      <td colspan="2">
-        <time datetime={updatedAt}>{updatedAt}</time>
+      <td colspan="1">
+        {!unpublished ? (
+          caseId
+        ) : (
+          <button
+            onClick={() =>
+              dispatch(
+                casesActions.loadCasePoints({
+                  caseId,
+                  updatedAt,
+                  status,
+                  expiresAt,
+                }),
+              )
+            }
+          >
+            {caseId}
+          </button>
+        )}
       </td>
-      <td colspan="2">{status}</td>
-      <td colspan="1">{expiresIn}</td>
+      <td colspan="2">
+        <time datetime={updated}>{updated}</time>
+      </td>
+      <td colspan="1">{status}</td>
+      <td colspan="2">{expires}</td>
     </tr>
   );
 };

@@ -15,20 +15,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
 import SelectedDataContextMenu from 'components/_shared/SelectedData/SelectedDataContextMenu';
 import { useSelector } from 'react-redux';
-import recordsSelectors from 'ducks/record/selectors';
+import casesSelectors from 'ducks/cases/selectors';
 
-const SelectedDataList = ({ items, visible, total }) => {
+const SelectedDataList = () => {
   const [showContentMenu, setShowContentMenu] = useState(false);
-  const record = useSelector(state => recordsSelectors.getRecord(state));
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
 
   return (
     <div className={selectedDataWrapper}>
       <div className={selectedDataHeader}>
         <h5>Selected Data</h5>
         <div className={selectedDataHeaderInfo}>
-          {record.points && (
+          {activeCase?.points && (
             <p className={selectedDataSelection}>
-              {visible} of {total}
+              {/* {activeCase.points.length} of  */}
+              {activeCase.points.length}
             </p>
           )}
           <button
@@ -46,10 +47,10 @@ const SelectedDataList = ({ items, visible, total }) => {
           />
         )}
       </div>
-      {items?.length > 0 && (
+      {activeCase?.points?.length > 0 && (
         <ul className={selectedDataList}>
-          {items.map(i => (
-            <SelectedDataItem {...i} />
+          {activeCase?.points.map(p => (
+            <SelectedDataItem {...p} />
           ))}
         </ul>
       )}

@@ -1,21 +1,19 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
-import cases from './cases';
+import cases from './cases/reducer';
 import selectedPoints from './selectedPoints';
 import filter from './filter';
 import auth from './auth/reducer';
 import settingsApi from './settingsApi';
 import map from './map';
-import records from './record/reducer';
 import application from './application/reducer';
 
 const rootReducer = history =>
   combineReducers({
     application,
     auth,
-    records,
-    cases: cases.reducer,
+    cases,
     settingsApi,
     filter: filter.reducer,
     selectedPoints,

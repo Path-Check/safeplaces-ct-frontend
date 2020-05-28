@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import moment from 'moment';
+
 import { faMapMarkerAlt, faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -16,16 +18,14 @@ import {
 import PointContextMenu from 'components/_shared/PointContextMenu';
 
 const SelectedDataItem = ({
-  id,
-  latLng,
-  date,
-  time,
-  duration,
-  travelling,
+  pointId,
+  latitude,
+  longitude,
+  time: timestamp,
   hightlightedItem,
 }) => {
   const itemRef = useRef();
-  const isHighlighted = hightlightedItem === id;
+  const isHighlighted = hightlightedItem === pointId;
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const classes = classNames({
@@ -49,6 +49,9 @@ const SelectedDataItem = ({
     }
   }, [showContentMenu]);
 
+  const date = moment(timestamp).format('ddd, MMMM D, YYYY');
+  const time = moment(timestamp).format('hh:mm');
+
   return (
     <div className={classes} ref={itemRef}>
       <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
@@ -56,7 +59,7 @@ const SelectedDataItem = ({
         <h6>{date}</h6>
         <ul>
           <li>{time}</li>
-          <li>{travelling ? 'Travelling' : duration}</li>
+          {/* <li>{travelling ? 'Travelling' : duration}</li> */}
         </ul>
       </div>
       <button
@@ -68,7 +71,7 @@ const SelectedDataItem = ({
       </button>
       {showContentMenu && (
         <PointContextMenu
-          id={id}
+          time={pointId}
           closeAction={() => setShowContentMenu(false)}
         />
       )}
