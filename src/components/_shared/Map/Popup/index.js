@@ -11,7 +11,6 @@ import { getSelectedPointsData } from 'selectors/selectedPoints';
 export default function PopupWrapper() {
   const selectedPointsData = useSelector(getSelectedPointsData);
 
-  console.log('selectedPointsData', selectedPointsData);
   const dispatch = useDispatch();
 
   if (selectedPointsData.length === 1) {

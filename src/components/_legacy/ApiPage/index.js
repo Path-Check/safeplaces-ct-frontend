@@ -16,7 +16,6 @@ export default function ApiPage() {
   });
   const dispatch = useDispatch();
   const onSubmit = values => {
-    console.log(values);
     dispatch(changeSettingsApi(values));
   };
 

@@ -15,7 +15,6 @@ function* authenticateSaga({ data }) {
 function* onboardingSaga({ data }) {
   try {
     const response = yield call(authService.onboarding, data);
-    console.log(response);
 
     yield put(
       authActions.onboardingSuccess({
