@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { fromJS } from 'immutable';
+import ReactMapGL, {
+  NavigationControl,
+  WebMercatorViewport,
+} from 'react-map-gl';
 
-import { setMapCoordinate } from 'ducks/map';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
-import Notifications from 'components/_global/Notifications';
-import Track from './trackPath';
-
-import { addSelected } from '../../../ducks/selectedPoints';
-import { getFilteredTrackPath } from '../../../selectors';
-import Popup from './Popup';
-
-import styles from './styles.module.scss';
-
 import defaultMapStyleJson from './style.json';
+import styles from './styles.module.scss';
+import getBounds from 'components/_shared/Map/getBounds';
+
 import { defaultMapStyle } from 'components/_shared/Map/config';
+import casesSelectors from 'ducks/cases/selectors';
+
+import Notifications from 'components/_global/Notifications';
+import Popup from './Popup';
+import MapMarker from 'components/_shared/Map/Marker';
 
 export default function Map({ setMap }) {
   const dispatch = useDispatch();
@@ -27,52 +29,64 @@ export default function Map({ setMap }) {
     zoom: 8,
   });
   const mapRef = useRef();
-  const trackPath = useSelector(getFilteredTrackPath);
+  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
 
   useEffect(() => {
-    // const historyMapData = Track({
-    //   trackPath: trackPath,
-    // });
-    // console.log('style updated');
-    // var zooming = {};
-    // if (trackPath) {
-    //   const { points, lines } = historyMapData;
-    //   const mapStyleUpdate = mapStyle
-    //     .setIn(
-    //       ['sources', 'lines'],
-    //       fromJS({ type: 'geojson', lineMetrics: true, data: lines }),
-    //     )
-    //     .setIn(
-    //       ['sources', 'points'],
-    //       fromJS({ type: 'geojson', data: points }),
-    //     );
-    //   if (JSON.stringify(mapStyleUpdate) !== JSON.stringify(mapStyle)) {
-    //     setMapStyle(mapStyleUpdate);
-    //     const bounds = getBounds(points);
-    //     const mapObject = document.getElementsByClassName('map')[0];
-    //     if (bounds && mapObject) {
-    //       zooming = new WebMercatorViewport({
-    //         width: mapRef.current._width, // mapObject.offsetWidth,
-    //         height: mapRef.current._height, // mapObject.offsetHeight
-    //       }).fitBounds(bounds, {
-    //         padding: 50,
-    //         offset: [0, 0],
-    //       });
-    //     }
-    //     const viewportCalc = {
-    //       ...viewport,
-    //       ...zooming,
-    //       transitionDuration: 500,
-    //     };
-    //     if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
-    //       setViewport(viewportCalc);
-    //     }
-    //   }
-    // }
-  }, [mapStyle, trackPath, viewport]);
+    var zooming = {};
+
+    if (!activeCase || !activeCase.points) {
+      return;
+    }
+
+    const points = {
+      type: 'FeatureCollection',
+      features: activeCase.points.map((point, index) => ({
+        type: 'Feature',
+        properties: {
+          id: point.pointId,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [point.longitude, point.latitude],
+        },
+      })),
+    };
+
+    const mapStyleUpdate = mapStyle.setIn(
+      ['sources', 'points'],
+      fromJS({
+        type: 'geojson',
+        data: points,
+      }),
+    );
+
+    if (JSON.stringify(mapStyleUpdate) !== JSON.stringify(mapStyle)) {
+      const bounds = getBounds(points);
+      const mapObject = document.getElementsByClassName('map')[0];
+
+      if (bounds && mapObject) {
+        zooming = new WebMercatorViewport({
+          width: mapRef.current._width, // mapObject.offsetWidth,
+          height: mapRef.current._height, // mapObject.offsetHeight
+        }).fitBounds(bounds, {
+          padding: 50,
+          offset: [0, 0],
+        });
+      }
+      const viewportCalc = {
+        ...viewport,
+        ...zooming,
+        transitionDuration: 500,
+      };
+      if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
+        setViewport(viewportCalc);
+      }
+    }
+  }, [mapStyle, activeCase]);
 
   const onMapLoad = e => {
     const styles = [];
+
     styles.push({
       id: 'composite',
       title: 'MapBox',
@@ -92,21 +106,6 @@ export default function Map({ setMap }) {
     });
   };
 
-  const onMapClick = e => {
-    console.log(e);
-    var bbox = [
-      [e.point[0] - 1, e.point[1] - 1],
-      [e.point[0] + 1, e.point[1] + 1],
-    ];
-
-    dispatch(setMapCoordinate(e.lngLat));
-    var features = mapRef.current.queryRenderedFeatures(bbox, {
-      layers: ['pointLayer'],
-    });
-
-    console.log('map clicked', mapRef.current, features);
-  };
-
   return (
     <ReactMapGL
       className="map"
@@ -116,15 +115,17 @@ export default function Map({ setMap }) {
       ref={mapRef}
       width="100%"
       height="100%"
-      onClick={onMapClick}
       onLoad={onMapLoad}
       onViewportChange={viewportInternal => setViewport(viewportInternal)}
     >
-      {/* <NavigationControl
-        className={`mapboxgl-ctrl-bottom-left ${styles.mapCtrl}`}
-      /> */}
-      <Popup />
-      <Track />
+      {activeCase?.points?.map(p => (
+        <MapMarker {...p} />
+      ))}
+
+      <NavigationControl
+        className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
+        showCompass={false}
+      />
       <Notifications />
     </ReactMapGL>
   );
