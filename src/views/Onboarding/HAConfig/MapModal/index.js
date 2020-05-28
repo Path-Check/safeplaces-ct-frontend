@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import Map from '../Map';
 
-const MapModal = ({ open }) => {
+const MapModal = ({ open, confirmBounds }) => {
   const [isOpen, setIsOpen] = useState(open);
   const node = useRef(null);
 
@@ -39,7 +39,7 @@ const MapModal = ({ open }) => {
           className={styles.closeIcon}
           onClick={() => setIsOpen(false)}
         />
-        <Map />
+        <Map confirmBounds={confirmBounds} />
       </div>
     </div>
   ) : null;
