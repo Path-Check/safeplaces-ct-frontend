@@ -28,7 +28,7 @@ const MapModal = ({ open, openMapModal, confirmBounds }) => {
 
   return open ? (
     <div className={styles.modal} ref={node}>
-      <div className={styles.wrapper}>
+      <div className={styles.modalContent}>
         <FontAwesomeIcon
           icon={faTimes}
           className={styles.closeIcon}

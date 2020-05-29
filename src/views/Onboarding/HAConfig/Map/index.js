@@ -32,6 +32,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
 
 export default function Map({ confirmBounds }) {
   const mapRef = useRef();
+  const geocoderContainerRef = useRef();
   const [map, setMap] = useState(null);
   const [viewport, setViewport] = useState({
     width: 400,
@@ -64,11 +65,12 @@ export default function Map({ confirmBounds }) {
           showCompass={true}
           className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
         />
+        <div ref={geocoderContainerRef} className={styles.mapGeocoder} />
         <Geocoder
           mapRef={mapRef}
+          containerRef={geocoderContainerRef}
           onViewportChange={setViewport}
           mapboxApiAccessToken={mapboxgl.accessToken}
-          position="top-right"
         />
         <Button
           className={styles.saveButton}
