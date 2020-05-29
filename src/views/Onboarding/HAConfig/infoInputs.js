@@ -39,8 +39,8 @@ const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) =>
     </>
   );
 
-const DaySliderFunc = ({ handleChange, id }) => (
-  <DaySlider id={id} handleChange={handleChange} />
+const DaySliderFunc = ({ handleChange, id, value }) => (
+  <DaySlider id={id} handleChange={handleChange} value={value} />
 );
 
 const infoInputs = [
@@ -68,13 +68,14 @@ const infoInputs = [
     title: 'API Endpoint',
     subtitle: 'Used to define where tou want to load and publish your data',
     placeholder: 'https://api.example.com/safeplaces',
+    key: 'apiEndpoint',
   },
   {
     title: 'Privacy Policy',
     subtitle:
       'Used to display a privacy policy to users who subscribe to your health authority',
     placeholder: 'https://minorityhealth.hhs.gov/privacy-policy.html',
-    key: 'apiEndpoint',
+    key: 'privacyPolicyUrl',
   },
   {
     title: 'Data Retention Policy',

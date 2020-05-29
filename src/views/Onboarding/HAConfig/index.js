@@ -13,25 +13,32 @@ import { useForm } from 'react-hook-form';
 
 const HAConfig = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const {
+    location: { pathname },
+  } = useHistory();
   const [boundariesSet, setBoundariesSet] = useState(false);
   const [boundariesError, setBoundariesError] = useState(false);
   const [openMapModal, setOpenMapModal] = useState(false);
-  const { id: organizationId } = useSelector(state =>
-    authSelectors.getCurrentUser(state),
-  );
+  const user = useSelector(state => authSelectors.getCurrentUser(state));
   const { handleSubmit, errors, register } = useForm({});
 
   const [state, setState] = React.useState({
-    name: undefined,
-    numberOfDaysToRetainRecords: undefined,
+    name: user && user.name,
+    numberOfDaysToRetainRecords: user && user.numberOfDaysToRetainRecords,
     regionCoordinates: {
-      ne: { latitude: undefined, longitude: undefined },
-      sw: { latitude: undefined, longitude: undefined },
+      ne: {
+        latitude: user && user.regionCoordinates && user.regionCoordinates.ne,
+        longitude: user && user.regionCoordinates && user.regionCoordinates.ne,
+      },
+      sw: {
+        latitude: user && user.regionCoordinates && user.regionCoordinates.sw,
+        longitude: user && user.regionCoordinates && user.regionCoordinates.sw,
+      },
     },
-    apiEndpoint: undefined,
-    referenceWebsiteUrl: undefined,
-    informationWebsiteUrl: undefined,
+    apiEndpoint: user && user.apiEndpoint,
+    referenceWebsiteUrl: user && user.referenceWebsiteUrl,
+    informationWebsiteUrl: user && user.informationWebsiteUrl,
+    privacyPolicyUrl: user && user.privacyPolicyUrl,
   });
 
   const {
@@ -57,7 +64,12 @@ const HAConfig = () => {
 
   const submitInfo = () => {
     if (boundariesSet) {
-      dispatch(authActions.onboardingRequest({ organizationId, ...state }));
+      dispatch(
+        authActions.onboardingRequest({
+          organizationId: user.id,
+          ...state,
+        }),
+      );
     }
     if (!boundariesSet) {
       setBoundariesError('* Required field');
@@ -95,19 +107,25 @@ const HAConfig = () => {
     setOpenMapModal(false);
   }, [state.regionCoordinates]);
 
+  const isSettingsPage = pathname.includes('/settings/');
   return (
     <div className={styles.container}>
-      <div className={styles.ellipse} />
-      <div className={styles.welcomeContainer}>
-        <img src={logo} alt="logo" />
-        <h1 className={styles.title}>Welcome</h1>
-        <h3 className={styles.subtitle}>
-          As this is your first time here, we need to know some things to set up
-          your profile
-        </h3>
-      </div>
+      {!isSettingsPage ? (
+        <>
+          <div className={styles.ellipse} />
+          <div className={styles.welcomeContainer}>
+            <img src={logo} alt="logo" />
+            <h1 className={styles.title}>Welcome</h1>
+            <h3 className={styles.subtitle}>
+              As this is your first time here, we need to know some things to
+              set up your profile
+            </h3>
+          </div>
+        </>
+      ) : null}
       <form
         className={styles.infoInputsContainer}
+        style={{ marginTop: isSettingsPage && 36 }}
         onSubmit={handleSubmit(submitInfo)}
       >
         {infoInputs.map(e => (
@@ -118,6 +136,7 @@ const HAConfig = () => {
             placeholder={e.placeholder}
             errors={errors}
             register={register}
+            value={state[e.key]}
             children={
               e.children &&
               e.children({
