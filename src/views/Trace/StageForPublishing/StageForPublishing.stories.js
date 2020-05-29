@@ -1,5 +1,5 @@
 import React from 'react';
-import StageForPublishing from 'components/StageForPublishing';
+import StageForPublishing from 'views/Trace/StageForPublishing';
 
 export default { title: 'Leave Session' };
 

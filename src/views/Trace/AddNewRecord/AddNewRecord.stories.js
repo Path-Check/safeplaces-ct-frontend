@@ -1,5 +1,5 @@
 import React from 'react';
-import AddNewRecord from 'components/AddNewRecord';
+import AddNewRecord from 'views/Trace/AddNewRecord';
 
 export default { title: 'Add New Record' };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import RecordsTable from 'components/RecordsTable';
+import RecordsTable from 'components/_shared/RecordsTable';
 
 export default { title: 'Records Table' };
 

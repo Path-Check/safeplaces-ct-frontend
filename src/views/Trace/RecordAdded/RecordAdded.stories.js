@@ -1,5 +1,5 @@
 import React from 'react';
-import RecordAdded from 'components/RecordAdded';
+import RecordAdded from 'views/Trace/RecordAdded';
 
 export default { title: 'Record Added' };
 

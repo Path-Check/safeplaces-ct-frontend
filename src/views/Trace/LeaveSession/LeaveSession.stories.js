@@ -1,5 +1,5 @@
 import React from 'react';
-import LeaveSession from 'components/LeaveSession';
+import LeaveSession from 'views/Trace/LeaveSession';
 
 export default { title: 'Leave Session' };
 

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
-import Modal from 'components/Modal';
-import Dialog from 'components/Dialog';
+import Modal from 'components/_global/Modal';
+import Dialog from 'components/_shared/Dialog';
 
 import {
   PublishDataHeader,
@@ -13,7 +13,7 @@ import {
   PublishDataNotice,
 } from './PublishData.module.scss';
 
-import Button from 'components/Button';
+import Button from 'components/_shared/Button';
 
 const PublishData = ({ dataPoints, subscriberCount }) => {
   return (

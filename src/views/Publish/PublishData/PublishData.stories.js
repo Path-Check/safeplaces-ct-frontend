@@ -1,5 +1,5 @@
 import React from 'react';
-import PublishData from 'components/PublishData';
+import PublishData from 'views/Publish/PublishData';
 
 export default { title: 'Publish Data' };
 

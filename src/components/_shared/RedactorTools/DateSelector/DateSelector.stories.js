@@ -1,6 +1,8 @@
 import React from 'react';
-import DateSelector from 'components/RedactorTools/DateSelector';
-import SidebarWrapper from 'components/Sidebar/SidebarWrapper';
+
+import SidebarWrapper from 'components/_shared/Sidebar/SidebarWrapper';
+import DateSelector from 'components/_shared/RedactorTools/DateSelector';
+
 export default { title: 'Redactor Tools Date Selector' };
 
 export const Default = () => (

@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
-import Modal from 'components/Modal';
-import Dialog from 'components/Dialog';
 
 import {
   StageForPublishingHeader,
@@ -13,7 +11,9 @@ import {
   StageForPublishingNotice,
 } from './StageForPublishing.module.scss';
 
-import Button from 'components/Button';
+import Button from 'components/_shared/Button';
+import Modal from 'components/_global/Modal';
+import Dialog from 'components/_shared/Dialog';
 
 const StageForPublishing = () => {
   return (

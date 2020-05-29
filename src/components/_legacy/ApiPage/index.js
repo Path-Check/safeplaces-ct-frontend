@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignIn } from '@fortawesome/pro-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeSettingsApi, getSettingsApi } from '../../ducks/settingsApi';
-import ButtonRouter from 'components/ButtonRouter';
+import ButtonRouter from ''components/_shared/Button'Router';
 import authSelectors from 'ducks/auth/selectors';
 
 export default function ApiPage() {
