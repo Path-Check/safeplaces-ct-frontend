@@ -14,6 +14,7 @@ import applicationSelectors from 'ducks/application/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import Record from 'components/_shared/RecordsTable/Record';
 import casesActions from 'ducks/cases/actions';
+import applicationActions from 'ducks/application/actions';
 
 const RecordsTable = ({ isPublishing }) => {
   const dispatch = useDispatch();
@@ -25,7 +26,9 @@ const RecordsTable = ({ isPublishing }) => {
   }
 
   return (
-    <Modal>
+    <Modal
+      closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
+    >
       <div className={tableWrapper}>
         <table className={table}>
           <thead>
