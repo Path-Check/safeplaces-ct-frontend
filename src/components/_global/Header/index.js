@@ -8,18 +8,20 @@ import Logo from 'components/_shared/Logo';
 
 import { siteHeader, loggedIn } from './header.module.scss';
 
-const Header = ({ isAuthenticated }) => {
+const Header = ({ isAuthenticated, isOnboarded }) => {
   const classes = classNames({
     [`${siteHeader}`]: true,
     [`${loggedIn}`]: isAuthenticated,
   });
 
-  return (
+  const renderHeader = isAuthenticated && isOnboarded;
+
+  return renderHeader ? (
     <header className={classes}>
       <Logo />
-      {isAuthenticated && <Navigation />}
+      <Navigation />
     </header>
-  );
+  ) : null;
 };
 
 Header.propTypes = {

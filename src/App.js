@@ -24,6 +24,8 @@ import { Notification } from 'components/_global/Notifications';
 
 function App() {
   const token = useSelector(state => authSelectors.getToken(state));
+  const isOnboarded =
+    useSelector(state => authSelectors.getOnboardingStatus(state)) || false;
 
   return (
     <div className="App">
@@ -34,7 +36,7 @@ function App() {
         components={{ Toast: Notification }}
       >
         <ConnectedRouter history={history}>
-          <Header isAuthenticated={!!token} />
+          <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
           <Switch>
             <Route path="/login/:action?" component={Authentication} />
             {!token && <Redirect to="/login" />}

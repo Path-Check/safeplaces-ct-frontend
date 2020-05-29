@@ -4,15 +4,17 @@ import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 import DaySlider from './DaySlider';
 import styles from './styles.module.scss';
 import Button from '../../../components/_shared/Button';
+import { useSelector } from 'react-redux';
+import authSelectors from 'ducks/auth/selectors';
 
-const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) =>
-  boundariesSet ? (
+const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) => {
+  const boundaries = useSelector(state => authSelectors.getBounds(state));
+
+  return boundariesSet || boundaries ? (
     <div className={styles.boundariesSetContainer}>
       <FontAwesomeIcon icon={faCheckCircle} className={styles.checkCircle} />
 
-      {boundariesSet && (
-        <h3 className={styles.boundariesSet}>GPS Boundaries set</h3>
-      )}
+      <h3 className={styles.boundariesSet}>GPS Boundaries set</h3>
 
       <Button
         width="347px"
@@ -38,6 +40,7 @@ const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) =>
       )}
     </>
   );
+};
 
 const DaySliderFunc = ({ handleChange, id, value }) => (
   <DaySlider id={id} handleChange={handleChange} value={value} />
