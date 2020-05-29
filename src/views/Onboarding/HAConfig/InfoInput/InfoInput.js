@@ -11,6 +11,7 @@ const InfoInput = ({
   handleChange = null,
   errors,
   register,
+  value,
 }) => {
   return (
     <div className={styles.container}>
@@ -22,6 +23,7 @@ const InfoInput = ({
           name={id || title}
           placeholder={placeholder}
           labelText=""
+          value={value}
           onChange={handleChange}
           invalid={!!errors[id || title]}
           inputRef={register({ required: 'Required field' })}
