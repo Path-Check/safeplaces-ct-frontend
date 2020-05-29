@@ -1,0 +1,40 @@
+@import 'scss/global';
+
+.modal {
+  position: fixed;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  animation: slideIn 300ms linear;
+  bottom: 0;
+  z-index: 13;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modalContent {
+  height: calc(100vh - 10%);
+  position: relative;
+}
+
+.closeIcon {
+  top: 10px;
+  transform: translateY(-2.5%);
+  right: 10px;
+  font-size: 28px;
+  position: absolute;
+  color: #000;
+  cursor: pointer;
+  z-index: 8;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
