@@ -29,6 +29,7 @@ const Record = ({ caseId, updatedAt, status, expiresAt }) => {
           caseId
         ) : (
           <button
+            className={styles.recordAction}
             onClick={() =>
               dispatch(
                 casesActions.loadCasePoints({

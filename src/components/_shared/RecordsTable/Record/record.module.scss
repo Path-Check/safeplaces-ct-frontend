@@ -5,10 +5,17 @@
   &:last-of-type {
     border: none;
   }
+}
 
-  a {
-    color: #2434b6;
-  }
+.recordAction {
+  font-style: inherit;
+  color: #2434b6;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  padding: 0;
+  border-bottom: 1px solid #2434b6;
 }
 
 .unpublished {
