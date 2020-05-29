@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'rc-slider';
 import styles from './styles.module.scss';
 
-const DaySlider = ({ id, handleChange }) => {
-  const [day, setDay] = useState(14);
+const DaySlider = ({ id, handleChange, value }) => {
+  const [day, setDay] = useState(value || 14);
   const onChange = d => {
     setDay(d);
-    handleChange({ target: { value: d, id } });
   };
+
+  useEffect(() => {
+    console.log(day);
+    handleChange({ target: { value: day, id } });
+  }, [day]);
+
   return (
     <div className={styles.container}>
       <Slider
