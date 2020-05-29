@@ -30,7 +30,7 @@ const Trace = () => {
           {renderTools ? (
             <>
               <RedactorTools />
-              <TracerToolActions />
+              {/* <TracerToolActions /> */}
             </>
           ) : (
             <>

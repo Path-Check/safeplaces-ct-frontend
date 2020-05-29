@@ -62,13 +62,13 @@ const SelectedDataItem = ({
           {/* <li>{travelling ? 'Travelling' : duration}</li> */}
         </ul>
       </div>
-      <button
+      {/* <button
         className={selectedDataMenuAction}
         type="button"
         onClick={handleClick}
       >
         <FontAwesomeIcon icon={faEllipsisV} />
-      </button>
+      </button> */}
       {showContentMenu && (
         <PointContextMenu
           time={pointId}

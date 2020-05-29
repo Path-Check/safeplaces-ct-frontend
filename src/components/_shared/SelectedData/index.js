@@ -29,16 +29,16 @@ const SelectedDataList = () => {
           {activeCase?.points && (
             <p className={selectedDataSelection}>
               {/* {activeCase.points.length} of  */}
-              {activeCase.points.length}
+              {/* {activeCase.points.length} */}
             </p>
           )}
-          <button
+          {/* <button
             className={selectedDataAction}
             onClick={() => setShowContentMenu(!showContentMenu)}
             type="button"
           >
             <FontAwesomeIcon icon={faEllipsisV} />
-          </button>
+          </button> */}
         </div>
 
         {showContentMenu && (

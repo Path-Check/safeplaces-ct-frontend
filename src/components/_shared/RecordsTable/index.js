@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Record from 'components/_shared/RecordsTable/Record';
 import casesActions from 'ducks/cases/actions';
 
-const RecordsTable = () => {
+const RecordsTable = ({ isPublishing }) => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getCases(state));
   const status = useSelector(state => applicationSelectors.getStatus(state));
@@ -51,9 +51,11 @@ const RecordsTable = () => {
           <tfoot>
             <tr>
               <td colspan="4">
-                <Button onClick={() => dispatch(casesActions.fetchCase())}>
-                  <FontAwesomeIcon icon={faPlus} /> Add New Record
-                </Button>
+                {!isPublishing && (
+                  <Button onClick={() => dispatch(casesActions.fetchCase())}>
+                    <FontAwesomeIcon icon={faPlus} /> Add New Record
+                  </Button>
+                )}
               </td>
             </tr>
           </tfoot>
@@ -61,6 +63,10 @@ const RecordsTable = () => {
       </div>
     </Modal>
   );
+};
+
+RecordsTable.propTypes = {
+  isPublishing: PropTypes.bool,
 };
 
 export default RecordsTable;

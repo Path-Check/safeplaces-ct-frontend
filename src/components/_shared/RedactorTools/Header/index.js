@@ -17,9 +17,9 @@ const RedactorToolsHeader = ({ currentRecord }) => {
 
   return (
     <header className={redactorToolsHeader}>
-      <button type="button" onClick={handleBack} title="Back to home screen">
+      {/* <button type="button" onClick={handleBack} title="Back to home screen">
         <FontAwesomeIcon icon={faChevronLeft} />
-      </button>
+      </button> */}
       <h3>Record ID: {activeCase.caseId}</h3>
     </header>
   );

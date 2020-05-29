@@ -17,11 +17,11 @@ const RedactorTools = () => {
       <RedactorToolsHeader />
       {activeCase?.points && (
         <>
-          <DateSelector />
+          {/* <DateSelector />
           <FilterData>
             <DurationFilter />
             <TravellingFilter />
-          </FilterData>
+          </FilterData> */}
         </>
       )}
       <SelectedDataList items={activeCase?.points} />
