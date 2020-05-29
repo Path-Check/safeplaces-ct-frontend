@@ -2,11 +2,20 @@
 
 .modal {
   position: fixed;
-  height: 90vh;
+  height: calc(100vh - 10%);
   width: 100%;
   animation: slideIn 300ms linear;
   bottom: 0;
-  overflow: scroll;
+  z-index: 13;
+
+  &:before {
+    content: '';
+    background: rgba(0, 0, 0, 0.6);
+    height: 98px;
+    width: 100%;
+    position: absolute;
+    top: -98px;
+  }
 }
 
 .closeIcon {

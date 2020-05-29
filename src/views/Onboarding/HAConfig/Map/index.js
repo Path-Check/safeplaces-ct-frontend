@@ -57,7 +57,7 @@ export default function Map({ confirmBounds }) {
         mapStyle={defaultMapStyle}
         ref={mapRef}
         width="100%"
-        height="90vh"
+        height="calc(100vh - 10%)"
         onViewportChange={viewportInternal => setViewport(viewportInternal)}
       >
         <NavigationControl
