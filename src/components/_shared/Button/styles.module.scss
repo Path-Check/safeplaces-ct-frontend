@@ -25,8 +25,8 @@
 
   &:disabled {
     cursor: not-allowed;
-    background-color: #E5E7FA;
-    color: #6979F8;
+    background-color: #e5e7fa;
+    color: #6979f8;
   }
 
   > svg {
@@ -36,7 +36,8 @@
 
 .buttonLarge {
   min-width: 325px;
-  min-height: 72px;
+  min-height: 60px;
+  font-size: 18px;
 }
 
 .buttonSecondary {

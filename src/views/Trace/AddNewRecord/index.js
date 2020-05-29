@@ -39,10 +39,13 @@ const AddNewRecord = () => {
         {activeCase?.authCode && (
           <>
             <p>
-              To add a new record, communicate the code below to a patient. They
-              will need to enter this code in their Safe Paths app to upload
-              their location data. Once they enter the code you can confirm you
-              have received the data.
+              <strong>
+                {' '}
+                To add a new record, communicate the code below to a patient.
+              </strong>{' '}
+              They will need to enter this code in their Safe Paths app to
+              upload their location data. Once they enter the code you can
+              confirm you have received the data.
             </p>
             <p className={AddNewRecordCode}>{activeCase?.authCode}</p>
             <div className={AddNewRecordActions}>
