@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SettingsList from './SettingsList';
-import ButtonRouter from ''components/_shared/Button'Router';
+import ButtonRouter from 'components/_legacy/ButtonRouter';
 import { useSelector } from 'react-redux';
 import { getCases } from 'ducks/cases';
 import { saveAsJson } from 'helpers/export';
