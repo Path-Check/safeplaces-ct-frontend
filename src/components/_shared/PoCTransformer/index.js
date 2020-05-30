@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import JSONPretty from 'react-json-pretty';
 
-import { discreetToDuration, durationToDiscreet } from './pocTransformerLib';
+import {
+  discreetToDuration,
+  durationToDiscreet,
+} from 'helpers/pocTransformerLib';
 
 const nowTs = Date.now();
 const PoCTransformer = props => {
