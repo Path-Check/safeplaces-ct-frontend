@@ -1,0 +1,16 @@
+.siteHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  height: 75px;
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+}
+
+.loggedIn {
+  position: relative;
+  width: 100%;
+  background-color: #1f2c9b;
+}
