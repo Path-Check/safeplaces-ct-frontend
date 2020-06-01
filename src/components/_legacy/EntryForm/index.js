@@ -22,7 +22,7 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 import TimeInput from 'components/TimeInput';
 import { v4 } from 'uuid';
-import ButtonRouter from ''components/_shared/Button'Router';
+import ButtonRouter from 'components/_legacy/ButtonRouter';
 import cases from 'ducks/cases';
 import Value from '@wfp/ui/lib/components/Value';
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
