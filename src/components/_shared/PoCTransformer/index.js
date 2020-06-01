@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import JSONPretty from 'react-json-pretty';
+import { diffString } from 'json-diff';
+import { CopyBlock } from 'react-code-blocks';
 
 import {
   discreetToDuration,
@@ -92,16 +94,20 @@ const PoCTransformer = props => {
   };
 
   const onClickDiscreetToDuration = () => {
-    setDurationList([...discreetToDuration(discreetList)]);
+    const durationListTemp = discreetToDuration(discreetList);
+    setDurationList([...durationListTemp]);
   };
 
   const onClickDurationToDiscreet = () => {
-    setDiscreetList([...durationToDiscreet(durationList)]);
+    const discreetListTemp = durationToDiscreet(durationList);
+    setDiscreetList([...discreetListTemp]);
   };
 
-  const inputPoCStyle = { width: '300px', height: '200px', padding: '20px' };
+  const inputPoCStyle = { width: '400px', height: '200px', padding: '20px' };
   const outputPoCStyle = { padding: '20px' };
 
+  const diff = diffString(discreetList, durationList);
+  console.log(diff);
   return (
     <>
       <table>
