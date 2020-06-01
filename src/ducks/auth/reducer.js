@@ -44,6 +44,8 @@ export default function reducer(state = initialState, action) {
         error: error,
         errorResponse: error.message,
       };
+    case login.LOGOUT:
+      return initialState;
     // case "LOGIN":
     // var salt = bcryptjs.genSaltSync(10);
     // var hash = bcryptjs.hashSync("B4c0//", salt);
@@ -58,8 +60,6 @@ export default function reducer(state = initialState, action) {
     //   const newAuth = state;
     //   delete newAuth.user;
     //   return newAuth;
-    // case 'LOGOUT':
-    //   return initialState;
     default:
       return state;
   }

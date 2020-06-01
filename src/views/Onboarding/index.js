@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HAConfig from 'views/Onboarding/HAConfig';
+import HAConfig from './HAConfig';
 
 const Onboarding = () => {
   return <HAConfig />;

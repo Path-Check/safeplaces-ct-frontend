@@ -24,7 +24,7 @@ const HAConfig = () => {
 
   const [state, setState] = React.useState({
     name: user && user.name,
-    numberOfDaysToRetainRecords: user && user.numberOfDaysToRetainRecords,
+    numberOfDaysToRetainRecords: user && user.numberofDaysToRetainRecords, // TODO BE typo will be fixed
     regionCoordinates: {
       ne: {
         latitude: user && user.regionCoordinates && user.regionCoordinates.ne,
@@ -107,7 +107,7 @@ const HAConfig = () => {
     setOpenMapModal(false);
   }, [state.regionCoordinates]);
 
-  const isSettingsPage = pathname.includes('/settings/');
+  const isSettingsPage = pathname.includes('/settings');
   return (
     <div className={styles.container}>
       {!isSettingsPage ? (
@@ -145,6 +145,7 @@ const HAConfig = () => {
                 id: e.key,
                 boundariesSet,
                 boundariesError,
+                value: state[e.key],
               })
             }
             handleChange={handleChange}
