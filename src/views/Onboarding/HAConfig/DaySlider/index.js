@@ -4,12 +4,12 @@ import styles from './styles.module.scss';
 
 const DaySlider = ({ id, handleChange, value }) => {
   const [day, setDay] = useState(value || 0);
+
   const onChange = d => {
     setDay(d);
   };
 
   useEffect(() => {
-    console.log(day);
     handleChange({ target: { value: day, id } });
   }, [day]);
 

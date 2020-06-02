@@ -48,7 +48,7 @@ const DaySliderFunc = ({ handleChange, id, value }) => (
 
 const infoInputs = [
   {
-    title: 'Your Health Autority name',
+    title: 'Your Health Authority name',
     subtitle: 'This name will be visible to the general public',
     placeholder: 'Puerto Rico Department of Public Health',
     key: 'name',
@@ -69,7 +69,7 @@ const infoInputs = [
   },
   {
     title: 'API Endpoint',
-    subtitle: 'Used to define where tou want to load and publish your data',
+    subtitle: 'Used to define where you want to load and publish your data',
     placeholder: 'https://api.example.com/safeplaces',
     key: 'apiEndpoint',
   },

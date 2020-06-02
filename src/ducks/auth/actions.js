@@ -3,6 +3,9 @@ import authTypes from './types';
 const { onboarding, login } = authTypes;
 
 const authActions = {
+  logout: () => ({
+    type: login.LOGOUT,
+  }),
   loginRequest: data => ({
     type: login.REQUEST,
     data,
