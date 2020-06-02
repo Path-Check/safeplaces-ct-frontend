@@ -6,7 +6,7 @@ const pointsActions = {
     points,
   }),
   updateSelectedPoints: points => ({
-    type: pointsTypes.FILTERED_POINTS,
+    type: pointsTypes.SELECTED_POINTS,
     points,
   }),
   setSelectedPoint: id => ({

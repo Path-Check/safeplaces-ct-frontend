@@ -11,12 +11,12 @@ export default function reducer(state = initialState, action) {
     case pointsTypes.POINTS:
       return {
         ...state,
-        points: [...state.points, ...action.data],
+        points: [...state.points, ...action.points],
       };
     case pointsTypes.SELECTED_POINTS:
       return {
         ...state,
-        filterPoints: [...state.filterPoints, ...action.data],
+        selectedPoints: [...state.selectedPoints, ...action.data],
       };
     case pointsTypes.ACTIVE_POINT:
       return {

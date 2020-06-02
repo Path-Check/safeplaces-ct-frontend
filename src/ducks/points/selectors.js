@@ -1,6 +1,6 @@
 const pointsSelectors = {
   getPoints: state => state.points.points,
-  getFilteredPoints: state => state.points.filteredPoints,
+  getSelectedPoints: state => state.points.selectedPoints,
   getActivePoint: state => state.points.activePoint,
 };
 
