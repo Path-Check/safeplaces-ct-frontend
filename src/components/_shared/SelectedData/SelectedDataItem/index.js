@@ -16,16 +16,23 @@ import {
 } from './SelectedDataItem.module.scss';
 
 import PointContextMenu from 'components/_shared/PointContextMenu';
+import pointsActions from 'ducks/points/actions';
+import { useDispatch, useSelector } from 'react-redux';
+
+import pointsSelectors from 'ducks/points/selectors';
 
 const SelectedDataItem = ({
   pointId,
   latitude,
   longitude,
   time: timestamp,
-  hightlightedItem,
 }) => {
+  const dispatch = useDispatch();
   const itemRef = useRef();
-  const isHighlighted = hightlightedItem === pointId;
+  const activePoint = useSelector(state =>
+    pointsSelectors.getActivePoint(state),
+  );
+  const isHighlighted = activePoint === pointId;
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const classes = classNames({
@@ -34,9 +41,7 @@ const SelectedDataItem = ({
   });
 
   const handleClick = () => {
-    // fire action to set highlighted point
-    // and
-    // show content menu
+    dispatch(pointsActions.setSelectedPoint(pointId));
     setShowContentMenu(!showContentMenu);
   };
 
@@ -53,7 +58,12 @@ const SelectedDataItem = ({
   const time = moment(timestamp).format('hh:mm');
 
   return (
-    <div className={classes} ref={itemRef}>
+    <button
+      type="button"
+      onClick={handleClick}
+      className={classes}
+      ref={itemRef}
+    >
       <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
       <div className={selectedDataContent}>
         <h6>{date}</h6>
@@ -62,20 +72,16 @@ const SelectedDataItem = ({
           {/* <li>{travelling ? 'Travelling' : duration}</li> */}
         </ul>
       </div>
-      {/* <button
-        className={selectedDataMenuAction}
-        type="button"
-        onClick={handleClick}
-      >
+      <div className={selectedDataMenuAction} type="button">
         <FontAwesomeIcon icon={faEllipsisV} />
-      </button> */}
+      </div>
       {showContentMenu && (
         <PointContextMenu
           time={pointId}
           closeAction={() => setShowContentMenu(false)}
         />
       )}
-    </div>
+    </button>
   );
 };
 
