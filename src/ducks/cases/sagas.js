@@ -1,11 +1,13 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 
 import applicationActions from 'ducks/application/actions';
+
 import casesTypes from 'ducks/cases/types';
 import casesActions from 'ducks/cases/actions';
 import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
 import authSelectors from '../auth/selectors';
+import pointsActions from 'ducks/points/actions';
 
 function* addCases({ data }) {
   const { id: organizationId } = yield select(authSelectors.getCurrentUser);
@@ -51,6 +53,8 @@ function* addCase() {
 
     yield put(applicationActions.updateStatus('CASE FETCHED'));
   } catch (error) {
+    console.log(error);
+
     yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
@@ -70,13 +74,8 @@ function* loadCasePoints({ activeCase }) {
       caseId: activeCase.caseId,
     });
 
-    const enrichedCase = {
-      ...activeCase,
-      points: response.data.concernPoints,
-    };
-
-    yield put(casesActions.setCase(enrichedCase));
-
+    yield put(casesActions.setCase(activeCase));
+    yield put(pointsActions.updatePoints(response.data.concernPoints));
     yield put(applicationActions.updateStatus('CASE ACTIVE'));
   } catch (error) {
     yield put(casesActions.setCase(activeCase));

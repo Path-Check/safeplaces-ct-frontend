@@ -15,16 +15,22 @@ import casesSelectors from 'ducks/cases/selectors';
 import Notifications from 'components/_global/Notifications';
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
+import pointsSelectors from 'ducks/points/selectors';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
   const [loaded, setLoaded] = useState(false);
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const pointsOfConcern = useSelector(state =>
+    pointsSelectors.getPoints(state),
+  );
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const bounds = [
     [boundsObject.sw.longitude, boundsObject.sw.latitude],
     [boundsObject.ne.longitude, boundsObject.ne.latitude],
   ];
+
+  console.log(pointsOfConcern);
 
   const initial = new WebMercatorViewport({
     width: 800,
@@ -58,13 +64,13 @@ export default function Map({ setMap }) {
   useEffect(() => {
     var zooming = {};
 
-    if (!loaded || !activeCase || !activeCase.points) {
+    if (!loaded || !activeCase) {
       return;
     }
 
     const points = {
       type: 'FeatureCollection',
-      features: activeCase.points.map((point, index) => ({
+      features: pointsOfConcern.map((point, index) => ({
         type: 'Feature',
         properties: {
           id: point.pointId,
@@ -99,7 +105,7 @@ export default function Map({ setMap }) {
         setViewport(viewportCalc);
       }
     }
-  }, [activeCase, loaded]);
+  }, [pointsOfConcern, loaded]);
 
   return (
     <ReactMapGL
@@ -113,7 +119,7 @@ export default function Map({ setMap }) {
       onLoad={onMapLoad}
       onViewportChange={viewportInternal => setViewport(viewportInternal)}
     >
-      {activeCase?.points?.map(p => (
+      {pointsOfConcern.map(p => (
         <MapMarker {...p} />
       ))}
 
