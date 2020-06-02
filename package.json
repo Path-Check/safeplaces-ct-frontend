@@ -68,7 +68,9 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.5",
-    "prettier": "2.0.5"
+    "json-diff": "^0.5.4",
+    "prettier": "2.0.5",
+    "react-json-pretty": "^2.2.0"
   },
   "husky": {
     "hooks": {

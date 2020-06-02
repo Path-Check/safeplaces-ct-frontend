@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit, faUndo } from '@fortawesome/pro-solid-svg-icons';
 import moment from 'moment';
-import ButtonRouter from ''components/_shared/Button'Router';
+import ButtonRouter from 'components/_legacy/ButtonRouter';
 
 import { useParams } from 'react-router';
 import cases from 'ducks/cases';
