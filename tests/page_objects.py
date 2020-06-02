@@ -161,8 +161,8 @@ class NewPointEditor:
         self.find_element(add_tracks_btn).click()
 
 class IndividualDataPoint:
-    entry_selectbox = '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.wfp--form-item.wfp--checkbox-wrapper.styles_checkbox__3IQ4N > label'
-    entry_editbox = '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.styles_itemInner__3xvEO > div.styles_buttons__1phBJ > button:nth-child(1) > svg'
+    entry_selectbox = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.wfp--form-item.wfp--checkbox-wrapper.styles_checkbox__3IQ4N > label')
+    entry_editbox = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.styles_itemInner__3xvEO > div.styles_buttons__1phBJ > button:nth-child(1) > svg')
     
     def select_entry(self):
         self.find_element(entry_selectbox).click()
@@ -170,6 +170,37 @@ class IndividualDataPoint:
     def edit_entry(self):
         self.find_element(entry_editbox).click()
 
+class Settings:
+    health_authority_name = (By.ID, 'name')
+    information_website_URL = (By.ID, 'informationWebsiteUrl')
+    reference_website_URL = (By.ID, 'referenceWebsiteUrl')
+    api_endpoint = (By.ID, 'apiEndpoint')
+    privacy_policy_URL = (By.ID, 'privacyPolicyUrl')
+    data_retention_slider = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(6) > div > div')
+    reset_gps_button = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(7) > div > button')
+    save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
+    
+    def set_health_authority_name(self):
+        self.find_element(health_authority_name).send_keys(health_authority)
+
+    def set_information_website_URL(self):
+        self.find_element(information_website_URL).send_keys(information_website)
+
+    def set_reference_website_URL(self):
+        self.find_element(reference_website_URL).send_keys(reference_website)
+
+    def set_api_endpoint(self):
+        self.find_element(api_endpoint).send_keys(endpoint)
+
+    def set_privacy_policy_URL(self):
+        self.find_element(privacy_policy_URL).send_keys(privacy_policy)
+
+    def reset_gps_coordinates(self):
+        self.find_element(reset_gps_button).click()
+        
+    def save_and_continue(self):
+        self.find_element(save_continue_button).click()
+        
 class Tools:
     def compare_files(self, fname1, fname2):
         f1 = open(fname1)
