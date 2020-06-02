@@ -53,8 +53,6 @@ function* addCase() {
 
     yield put(applicationActions.updateStatus('CASE FETCHED'));
   } catch (error) {
-    console.log(error);
-
     yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
