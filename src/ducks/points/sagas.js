@@ -22,6 +22,7 @@ function* deletePoint({ id }) {
         title: `Point ${id} Deleted`,
       }),
     );
+    yield put(pointsActions.setSelectedPoint(null));
   } catch (error) {
     console.log(error);
 
