@@ -33,7 +33,7 @@ const SelectedDataList = () => {
       <div className={selectedDataHeader}>
         <h5>Selected Data</h5>
         <div className={selectedDataHeaderInfo}>
-          {activeCase && (
+          {activeCase && points.length > 0 && (
             <p className={selectedDataSelection}>
               {renderedPoints?.length} of {points?.length}
             </p>
@@ -49,6 +49,7 @@ const SelectedDataList = () => {
 
         {showContentMenu && (
           <SelectedDataContextMenu
+            pointsLength={points.length}
             closeAction={() => setShowContentMenu(false)}
           />
         )}
