@@ -7,6 +7,11 @@
   border-radius: 6px;
   background-color: #fff;
   position: relative;
+  width: 100%;
+  cursor: pointer;
+  background: none;
+  outline: none;
+  border: none;
 
   &:last-of-type {
     border: none;
@@ -38,9 +43,5 @@
 
 .selectedDataMenuAction {
   font-size: 22px;
-  cursor: pointer;
   margin-left: auto;
-  background: none;
-  outline: none;
-  border: none;
 }
