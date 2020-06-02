@@ -14,6 +14,8 @@ import {
   faTrash,
   faTimes,
 } from '@fortawesome/pro-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import pointsActions from 'ducks/points/actions';
 
 const PointContextMenu = ({
   id,
@@ -23,6 +25,7 @@ const PointContextMenu = ({
   deselectAction,
 }) => {
   const containerRef = useRef();
+  const dispatch = useDispatch();
 
   const handleClick = e => {
     const _Target = e.target;
@@ -52,7 +55,7 @@ const PointContextMenu = ({
         <FontAwesomeIcon icon={faTimes} />
       </button>
       <ul>
-        <li>
+        {/* <li>
           <button type="button" onClick={() => deleteAction(id)}>
             <FontAwesomeIcon icon={faEdit} />
             Edit
@@ -63,9 +66,12 @@ const PointContextMenu = ({
             <FontAwesomeIcon icon={faMinusCircle} />
             Unselect
           </button>
-        </li>
+        </li> */}
         <li>
-          <button type="button" onClick={() => deselectAction(id)}>
+          <button
+            type="button"
+            onClick={() => dispatch(pointsActions.deletePoint(id))}
+          >
             <FontAwesomeIcon icon={faTrash} />
             Delete
           </button>

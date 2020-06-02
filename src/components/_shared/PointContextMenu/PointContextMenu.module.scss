@@ -9,8 +9,19 @@
   border-radius: 6px;
   z-index: 3;
 
+  ul {
+    margin-top: 10px;
+  }
+
   li {
-    margin-bottom: 10px;
+    button {
+      padding: 10px;
+      width: 100%;
+
+      &:hover {
+        background: #e5e7fa;
+      }
+    }
 
     svg {
       min-width: 30px;

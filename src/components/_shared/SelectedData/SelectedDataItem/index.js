@@ -71,7 +71,7 @@ const SelectedDataItem = ({
       </button> */}
       {showContentMenu && (
         <PointContextMenu
-          time={pointId}
+          id={pointId}
           closeAction={() => setShowContentMenu(false)}
         />
       )}
