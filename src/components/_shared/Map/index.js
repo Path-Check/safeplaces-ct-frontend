@@ -30,8 +30,6 @@ export default function Map({ setMap }) {
     [boundsObject.ne.longitude, boundsObject.ne.latitude],
   ];
 
-  console.log(pointsOfConcern);
-
   const initial = new WebMercatorViewport({
     width: 800,
     height: 800,
@@ -83,8 +81,6 @@ export default function Map({ setMap }) {
     };
 
     if (points) {
-      console.log('here');
-
       const bounds = getBounds(points);
 
       if (bounds) {

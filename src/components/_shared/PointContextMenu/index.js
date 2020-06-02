@@ -21,6 +21,7 @@ const PointContextMenu = ({
   deleteAction,
   editAction,
   deselectAction,
+  closeCallback,
 }) => {
   const containerRef = useRef();
 
@@ -31,6 +32,7 @@ const PointContextMenu = ({
 
     if (!containerRef.current.contains(_Target)) {
       closeAction();
+      // closeCallback();
     }
   };
 
