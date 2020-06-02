@@ -25,7 +25,7 @@ const authService = {
   },
   onboarding: data => {
     return axios({
-      method: 'POST',
+      method: 'PUT',
       url: `${REACT_APP_API_URL}organization/configuration`,
       data,
     });
