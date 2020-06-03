@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import Map from '../Map';
 
-const MapModal = ({ open, openMapModal, confirmBounds }) => {
+const MapModal = ({ open, openMapModal, confirmBounds, regionCoordinates }) => {
   const node = useRef(null);
 
   const handleClick = useCallback(
@@ -34,7 +34,10 @@ const MapModal = ({ open, openMapModal, confirmBounds }) => {
           className={styles.closeIcon}
           onClick={() => openMapModal(false)}
         />
-        <Map confirmBounds={confirmBounds} />
+        <Map
+          confirmBounds={confirmBounds}
+          regionCoordinates={regionCoordinates}
+        />
       </div>
     </div>
   ) : null;

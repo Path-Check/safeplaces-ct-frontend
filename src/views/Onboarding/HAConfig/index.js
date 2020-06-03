@@ -24,15 +24,19 @@ const HAConfig = () => {
 
   const [state, setState] = React.useState({
     name: user && user.name,
-    numberOfDaysToRetainRecords: user && user.numberOfDaysToRetainRecords,
+    numberOfDaysToRetainRecords: user && user.numberofDaysToRetainRecords, // TODO BE typo will be fixed
     regionCoordinates: {
       ne: {
-        latitude: user && user.regionCoordinates && user.regionCoordinates.ne,
-        longitude: user && user.regionCoordinates && user.regionCoordinates.ne,
+        latitude:
+          user && user.regionCoordinates && user.regionCoordinates.ne.latitude,
+        longitude:
+          user && user.regionCoordinates && user.regionCoordinates.ne.longitude,
       },
       sw: {
-        latitude: user && user.regionCoordinates && user.regionCoordinates.sw,
-        longitude: user && user.regionCoordinates && user.regionCoordinates.sw,
+        latitude:
+          user && user.regionCoordinates && user.regionCoordinates.sw.latitude,
+        longitude:
+          user && user.regionCoordinates && user.regionCoordinates.sw.longitude,
       },
     },
     apiEndpoint: user && user.apiEndpoint,
@@ -48,22 +52,28 @@ const HAConfig = () => {
     apiEndpoint,
     referenceWebsiteUrl,
     informationWebsiteUrl,
+    privacyPolicyUrl,
   } = state;
+
+  // Had to to this because ne.latitude: 0 is false
+  const regionCordinatesExist =
+    ne.latitude !== undefined &&
+    ne.longitude !== undefined &&
+    sw.latitude !== undefined &&
+    sw.longitude !== undefined;
 
   const formCompleted = !!(
     name &&
-    ne.latitude &&
-    ne.longitude &&
-    sw.latitude &&
-    sw.longitude &&
+    regionCordinatesExist &&
     numberOfDaysToRetainRecords &&
     apiEndpoint &&
     referenceWebsiteUrl &&
-    informationWebsiteUrl
+    informationWebsiteUrl &&
+    privacyPolicyUrl
   );
 
   const submitInfo = () => {
-    if (boundariesSet) {
+    if (boundariesSet || regionCordinatesExist) {
       dispatch(
         authActions.onboardingRequest({
           organizationId: user.id,
@@ -107,7 +117,7 @@ const HAConfig = () => {
     setOpenMapModal(false);
   }, [state.regionCoordinates]);
 
-  const isSettingsPage = pathname.includes('/settings/');
+  const isSettingsPage = pathname.includes('/settings');
   return (
     <div className={styles.container}>
       {!isSettingsPage ? (
@@ -145,6 +155,7 @@ const HAConfig = () => {
                 id: e.key,
                 boundariesSet,
                 boundariesError,
+                value: state[e.key],
               })
             }
             handleChange={handleChange}

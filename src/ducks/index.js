@@ -8,12 +8,14 @@ import auth from './auth/reducer';
 import settingsApi from './settingsApi';
 import map from './map';
 import application from './application/reducer';
+import points from './points/reducer';
 
 const rootReducer = history =>
   combineReducers({
     application,
     auth,
     cases,
+    points,
     settingsApi,
     filter: filter.reducer,
     selectedPoints,

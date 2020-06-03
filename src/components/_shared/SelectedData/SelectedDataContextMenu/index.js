@@ -20,6 +20,7 @@ const SelectedDataContextMenu = ({
   closeAction,
   addAction,
   deleteAllAction,
+  pointsLength,
   deselectAllAction,
 }) => {
   const containerRef = useRef();
@@ -58,18 +59,22 @@ const SelectedDataContextMenu = ({
             Add Data point
           </button>
         </li>
-        <li>
-          <button type="button" onClick={() => deleteAllAction()}>
-            <FontAwesomeIcon icon={faMinusCircle} />
-            Unselect All
-          </button>
-        </li>
-        <li>
-          <button type="button" onClick={() => deleteAllAction()}>
-            <FontAwesomeIcon icon={faTrash} />
-            Delete All Selected
-          </button>
-        </li>
+        {pointsLength > 0 && (
+          <>
+            <li>
+              <button type="button" onClick={() => deleteAllAction()}>
+                <FontAwesomeIcon icon={faMinusCircle} />
+                Unselect All
+              </button>
+            </li>
+            <li>
+              <button type="button" onClick={() => deleteAllAction()}>
+                <FontAwesomeIcon icon={faTrash} />
+                Delete All Selected
+              </button>
+            </li>
+          </>
+        )}
       </ul>
     </div>
   );

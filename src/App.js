@@ -31,7 +31,7 @@ function App() {
     <div className="App">
       <ToastProvider
         autoDismiss
-        autoDismissTimeout={6000}
+        autoDismissTimeout={3000}
         placement="bottom-right"
         components={{ Toast: Notification }}
       >
