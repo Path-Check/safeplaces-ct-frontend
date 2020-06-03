@@ -19,7 +19,6 @@ class LocationSearchInput extends React.Component {
   };
 
   handleSelect = address => {
-    console.log(address);
     const { handlePointChange } = this.props;
     this.setState({ address });
 
@@ -30,6 +29,14 @@ class LocationSearchInput extends React.Component {
       })
       .catch(error => this.setState({ error: error.message }));
   };
+
+  componentDidMount() {
+    const { defaultValue } = this.props;
+
+    if (defaultValue) {
+      this.setState({ address: defaultValue });
+    }
+  }
 
   render() {
     return (
@@ -43,19 +50,10 @@ class LocationSearchInput extends React.Component {
           <div className={locationSearch}>
             <input
               style={{
-                fontFamily: 'Open Sans, sans-serif',
-                height: '40px',
-                color: '#031c2d',
-                backgroundColor: '#f9fbfc',
-                border: '1px solid #dfe3e6',
-                borderRadius: '0px',
-                boxShadow: 'none',
-                padding: '0 0.5rem',
                 width: '100%',
               }}
               {...getInputProps({
-                placeholder: 'Search Places ...',
-                className: 'location-search-input',
+                placeholder: 'Search Location',
               })}
             />
             {suggestions?.length > 0 && (
