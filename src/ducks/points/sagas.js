@@ -37,6 +37,13 @@ function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('CASE ACTIVE'));
 }
 
+function* editPoint({ id }) {
+  console.log();
+
+  yield put(applicationActions.updateStatus('EDIT MODE'));
+}
+
 export default function* pointsSagas() {
   yield takeEvery(pointsTypes.DELETE_POINT, deletePoint);
+  yield takeEvery(pointsTypes.EDIT_POINT, editPoint);
 }

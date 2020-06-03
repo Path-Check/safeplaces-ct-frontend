@@ -57,13 +57,16 @@ const PointContextMenu = ({
         <FontAwesomeIcon icon={faTimes} />
       </button>
       <ul>
-        {/* <li>
-          <button type="button" onClick={() => deleteAction(id)}>
+        <li>
+          <button
+            type="button"
+            onClick={() => dispatch(pointsActions.editPoint(id))}
+          >
             <FontAwesomeIcon icon={faEdit} />
             Edit
           </button>
         </li>
-        <li>
+        {/* <li>
           <button type="button" onClick={() => editAction(id)}>
             <FontAwesomeIcon icon={faMinusCircle} />
             Unselect
