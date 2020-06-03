@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
 
-import { marker } from './Marker.module.scss';
+import classNames from 'classnames';
+
+import { marker, markerAlt, markerExpanded } from './Marker.module.scss';
 
 import PointContextMenu from 'components/_shared/PointContextMenu';
 
@@ -13,7 +15,13 @@ import pointsSelectors from 'ducks/points/selectors';
 import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
 
-const MapMarker = ({ latitude, longitude, time: timestamp, pointId }) => {
+const MapMarker = ({
+  latitude,
+  longitude,
+  time: timestamp,
+  pointId,
+  alternate,
+}) => {
   const dispatch = useDispatch();
   const markerRef = useRef();
   const activePoint = useSelector(state =>
@@ -37,20 +45,21 @@ const MapMarker = ({ latitude, longitude, time: timestamp, pointId }) => {
     setShowContentMenu(!showContentMenu);
   };
 
+  const classes = classNames({
+    [`${marker}`]: true,
+    [`${markerAlt}`]: alternate,
+    [`${markerExpanded}`]: isHighlighted || alternate,
+  });
+
   return (
-    <Marker className={marker} latitude={latitude} longitude={longitude}>
+    <Marker className={classes} latitude={latitude} longitude={longitude}>
       <button onClick={handleClick} ref={markerRef}>
-        <FontAwesomeIcon
-          icon={faMapMarkerAlt}
-          style={{
-            fontSize: isHighlighted ? '40px' : '30px',
-            color: '#ff5656',
-          }}
-        />
+        <FontAwesomeIcon icon={faMapMarkerAlt} />
       </button>
-      {showContentMenu && (
+      {showContentMenu && !alternate && (
         <PointContextMenu
-          id={pointId}
+          renderDateTime
+          {...activePoint}
           closeAction={() => setShowContentMenu(false)}
         />
       )}

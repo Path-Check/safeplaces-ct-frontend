@@ -5,6 +5,7 @@ import pointsActions from 'ducks/points/actions';
 import pointsTypes from 'ducks/points/types';
 import pointsService from 'ducks/points/service';
 import pointsSelectors from 'ducks/points/selectors';
+import mapActions from 'ducks/map/actions';
 
 function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -44,16 +45,17 @@ function* editPoint({ point }) {
     yield call(pointsService.edit, point);
     const currentPoints = yield select(pointsSelectors.getPoints);
 
-    // filter using ID
     const points = currentPoints.filter(p => p.pointId !== point.pointId);
 
     yield put(pointsActions.updatePoints([...points, point]));
 
     yield put(
       applicationActions.notification({
-        title: `Point ${point.pointId} edited successfully.`,
+        title: `You just added 1 data point`,
       }),
     );
+
+    yield put(mapActions.updateLocation(null));
     yield put(pointsActions.setSelectedPoint(null));
   } catch (error) {
     console.log(error);
