@@ -35,6 +35,7 @@ Copy the `.env.template` file in the parent directory and rename it to `.env` fi
 REACT_APP_GOOGLE_PLACES_KEY=GOOGLE_API_KEY_WITH_PLACES_ENABLED
 REACT_APP_GOOGLE_PLACES_LANGUAGE=en
 REACT_APP_MAPBOX_KEY=MAPBOX_API_KEY
+REACT_APP_API_URL=REACT_APP_API_URL
 ```
 
 ## Available Scripts
