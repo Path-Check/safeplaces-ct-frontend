@@ -176,9 +176,11 @@ class Settings:
     reference_website_URL = (By.ID, 'referenceWebsiteUrl')
     api_endpoint = (By.ID, 'apiEndpoint')
     privacy_policy_URL = (By.ID, 'privacyPolicyUrl')
+    data_retention_slider_track = (By.CSS_SELECTOR, '#root > div > div > div > div > form > div:nth-child(6) > div > div > div.rc-slider-track')
     data_retention_slider_handle = (By.CSS_SELECTOR, '#root > div > div > div > div > form > div:nth-child(6) > div > div > div.rc-slider-handle')
     reset_gps_button = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(7) > div > button')
     save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
+    move = ActionChains(driver);
     
     def set_health_authority_name(self):
         self.find_element(health_authority_name).send_keys(health_authority)
@@ -195,6 +197,10 @@ class Settings:
     def set_privacy_policy_URL(self):
         self.find_element(privacy_policy_URL).send_keys(privacy_policy)
 
+    def set_retention_policy(self):
+        width = data_retention_slider_track.size['width']
+        move.click_and_hold(sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
+    
     def reset_gps_coordinates(self):
         self.find_element(reset_gps_button).click()
         
