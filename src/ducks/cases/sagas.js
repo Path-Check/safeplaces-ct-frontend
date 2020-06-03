@@ -74,7 +74,8 @@ function* loadCasePoints({ activeCase }) {
 
     yield put(casesActions.setCase(activeCase));
     yield put(pointsActions.updatePoints(response.data.concernPoints));
-    yield put(applicationActions.updateStatus('CASE ACTIVE'));
+    yield put(applicationActions.renderEditor(true));
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(casesActions.setCase(activeCase));
     yield put(

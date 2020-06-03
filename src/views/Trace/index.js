@@ -9,25 +9,24 @@ import RedactorTools from 'components/_shared/RedactorTools';
 import SidebarWrapper from 'components/_shared/Sidebar/SidebarWrapper';
 import SidebarHeader from 'components/_shared/Sidebar/SidebarHeader';
 import TracerLoadActions from 'views/Trace/Actions/LoadActions';
-import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import AddNewRecord from 'views/Trace/AddNewRecord';
 
-import casesSelectors from 'ducks/cases/selectors';
 import RecordAdded from 'views/Trace/RecordAdded';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
 
 const Trace = () => {
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
-  const status = useSelector(state => applicationSelectors.getStatus(state));
+  const renderEditor = useSelector(state =>
+    applicationSelectors.getRenderEditor(state),
+  );
 
-  const renderTools = status !== 'IDLE' && activeCase?.caseId;
+  console.log(renderEditor);
 
   return (
     <>
       <div className={tracer}>
         <SidebarWrapper>
-          {renderTools ? (
+          {renderEditor ? (
             <>
               <RedactorTools />
               {/* <TracerToolActions /> */}

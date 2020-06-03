@@ -13,6 +13,10 @@ const applicationActions = {
     type: applicationTypes.NOTIFICATION,
     data: null,
   }),
+  renderEditor: boolean => ({
+    type: applicationTypes.EDITOR_VIEW,
+    renderEditor: boolean,
+  }),
 };
 
 export default applicationActions;
