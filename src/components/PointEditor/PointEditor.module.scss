@@ -2,7 +2,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 360px;
+  width: 375px;
   border-radius: 6px;
   background: #ffffff;
   padding: 20px;
@@ -45,14 +45,14 @@
 
 .timeControls {
   display: flex;
-  margin: 15px 0 30px;
+  margin: 0 0 30px;
 
-  > div {
-    &:first-of-type {
-      margin-right: 10px;
-    }
-    &:last-of-type {
-      margin-left: 10px;
-    }
-  }
+  // > div {
+  //   &:first-of-type {
+  //     margin-right: 10px;
+  //   }
+  //   &:last-of-type {
+  //     margin-left: 10px;
+  //   }
+  // }
 }

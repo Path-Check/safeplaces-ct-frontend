@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'components/Button';
+import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
 import TimeInput from 'components/_shared/TimeInput';
 import TextInput from '@wfp/ui/lib/components/TextInput';
@@ -17,17 +17,30 @@ import {
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs, faTimes } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faCrosshairs,
+  faTimes,
+  faCheck,
+} from '@fortawesome/pro-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
+
 import pointsActions from 'ducks/points/actions';
+import mapSelectors from 'ducks/map/selectors';
+import mapActions from 'ducks/map/actions';
 
 const PointEditor = ({ isEdit, appStatus }) => {
   const dispatch = useDispatch();
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
+
+  const mapLocation = useSelector(state => mapSelectors.getLocation(state));
+
+  const initialLocation = isEdit
+    ? `${activePoint.longitude}, ${activePoint.latitude}`
+    : '';
 
   const initialState = isEdit
     ? activePoint
@@ -40,14 +53,9 @@ const PointEditor = ({ isEdit, appStatus }) => {
 
   const [state, setState] = useState(initialState);
 
-  const handleSubmit = () => {
-    // use local state and fire to api
-    console.log(state);
-
-    dispatch(pointsActions.editPoint(state));
-  };
-
   const handleChange = (type, data) => {
+    console.log(type, data);
+
     switch (type) {
       case 'latLng':
         setState({
@@ -55,11 +63,32 @@ const PointEditor = ({ isEdit, appStatus }) => {
           longitude: data.lng,
           latitude: data.lat,
         });
+        dispatch(
+          mapActions.updateLocation({
+            longitude: data.lng,
+            latitude: data.lat,
+          }),
+        );
+        break;
+      case 'date':
+        setState({
+          ...state,
+          time: data,
+        });
         break;
 
       default:
         break;
     }
+  };
+
+  const handleSubmit = () => {
+    const payload = {
+      ...state,
+      ...mapLocation,
+    };
+
+    dispatch(pointsActions.editPoint(payload));
   };
 
   return (
@@ -78,20 +107,30 @@ const PointEditor = ({ isEdit, appStatus }) => {
         </button>
       </div>
       <div className={locationControls}>
-        <LocationSearchInput handlePointChange={handleChange} />
-        {/* <span>or</span>
-        <Button text="Select from Map">
-          <FontAwesomeIcon icon={faCrosshairs} />
-        </Button> */}
+        <LocationSearchInput
+          handlePointChange={handleChange}
+          defaultValue={initialLocation}
+        />
+        <span>or</span>
+        <Button
+          onClick={() => {
+            dispatch(applicationActions.updateStatus('SELECT LOCATION'));
+          }}
+        >
+          <FontAwesomeIcon icon={faCrosshairs} /> Select from Map
+        </Button>
       </div>
 
-      {/* <DateInput displayValue="06/09/2020" />
       <div className={timeControls}>
-        <TimeInput time type="time" defaultValue="test" />
-        <DurationInput name="duration" defaultValue="01" />
+        <DateInput
+          handleChange={handleChange}
+          displayValue={isEdit ? activePoint.time : new Date()}
+        />
       </div>
-       */}
-      <Button onClick={handleSubmit} type="submit" text={`Save Data`} />
+
+      <Button onClick={handleSubmit} type="submit">
+        Save Data
+      </Button>
     </div>
   );
 };
