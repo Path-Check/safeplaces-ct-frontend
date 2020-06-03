@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-
 import PropTypes from 'prop-types';
+
+import moment from 'moment';
 
 import {
   pointContextMenu,
+  pointContextMenuHeader,
   pointContextMenuClose,
 } from './PointContextMenu.module.scss';
 
@@ -20,12 +22,12 @@ import applicationActions from 'ducks/application/actions';
 import applicationSelectors from 'ducks/application/selectors';
 
 const PointContextMenu = ({
-  id,
+  pointId: id,
   closeAction,
-  deleteAction,
-  editAction,
-  deselectAction,
-  closeCallback,
+  time,
+  latitude,
+  longitude,
+  renderDateTime = false,
 }) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
@@ -68,6 +70,12 @@ const PointContextMenu = ({
       >
         <FontAwesomeIcon icon={faTimes} />
       </button>
+      {renderDateTime && (
+        <div className={pointContextMenuHeader}>
+          <span>{moment.utc(time).format('ddd, MMM d, yyyy')}</span>
+          <span>{moment.utc(time).format('HH:mm')}</span>
+        </div>
+      )}
       <ul>
         <li>
           <button
