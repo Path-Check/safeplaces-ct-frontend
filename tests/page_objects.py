@@ -176,7 +176,7 @@ class Settings:
     reference_website_URL = (By.ID, 'referenceWebsiteUrl')
     api_endpoint = (By.ID, 'apiEndpoint')
     privacy_policy_URL = (By.ID, 'privacyPolicyUrl')
-    data_retention_slider = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(6) > div > div')
+    data_retention_slider_handle = (By.CSS_SELECTOR, '#root > div > div > div > div > form > div:nth-child(6) > div > div > div.rc-slider-handle')
     reset_gps_button = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(7) > div > button')
     save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
     
