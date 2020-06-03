@@ -41,7 +41,7 @@ const Login = () => {
             {errorResponse && <Blockquote warning>{errorResponse}</Blockquote>}
 
             <TextInput
-              autocorrect="off"
+              autoCorrect="off"
               autoCapitalize="off"
               labelText="Email"
               inputRef={register({ required: 'Please enter a email' })}
@@ -51,7 +51,7 @@ const Login = () => {
             />
 
             <TextInput
-              autocorrect="off"
+              autoCorrect="off"
               autoCapitalize="off"
               labelText="Password"
               inputRef={register}
