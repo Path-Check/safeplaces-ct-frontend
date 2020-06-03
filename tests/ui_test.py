@@ -1,7 +1,7 @@
 #from selenium.webdriver.remote import webdriver
 from selenium import webdriver
 #from selenium.webdriver.chrome import options
-from page_objects import EntryPage, LoginPage, RedactionPage, Tools
+from page_objects import EntryPage, LoginPage, RedactionPage, SettingsPage, Tools
 import unittest
 import os
 
@@ -47,7 +47,21 @@ class TestRedaction(unittest.TestCase):
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
 
-
+    # leaving test_ out of the method name until the SUT works
+    def settings(self):
+        tools = Tools()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        settings_page = SettingsPage(self.driver)
+        settings_page.set_health_authority_name('Test Health Authority')
+        settings_page.set_information_website_URL('https://cdc.gov')
+        settings_page.set_reference_website_URL('https://cdc.gov')
+        settings_page.set_api_endpoint('https://s3.aws.com/bucket_name/safepaths.json')
+        settings_page.set_privacy_policy_URL('https://www.cdc.gov/other/privacy.html')
+        # set retention policy slider to 50% of the way across, which would be 15 days
+        settings_page.set_retention_policy('50')
+        settings_page.reset_gps_coordinates
+        settings_page.save_and_continue
+        
     #def test_redaction(self): <--- removed test_ from the method name until the SUT works!
     def redaction(self):
         tools = Tools()
