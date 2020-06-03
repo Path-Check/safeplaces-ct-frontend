@@ -21,7 +21,7 @@ const Trace = () => {
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const status = useSelector(state => applicationSelectors.getStatus(state));
 
-  const renderTools = status === 'CASE ACTIVE' && activeCase?.caseId;
+  const renderTools = status !== 'IDLE' && activeCase?.caseId;
 
   return (
     <>

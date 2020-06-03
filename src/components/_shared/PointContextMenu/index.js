@@ -14,8 +14,10 @@ import {
   faTrash,
   faTimes,
 } from '@fortawesome/pro-solid-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
+import applicationActions from 'ducks/application/actions';
+import applicationSelectors from 'ducks/application/selectors';
 
 const PointContextMenu = ({
   id,
@@ -27,6 +29,7 @@ const PointContextMenu = ({
 }) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   const handleClick = e => {
     const _Target = e.target;
@@ -35,7 +38,8 @@ const PointContextMenu = ({
 
     if (!containerRef.current.contains(_Target)) {
       closeAction();
-      // closeCallback();
+      // dispatch(applicationActions.updateStatus(''));
+      // dispatch(pointsActions.setSelectedPoint(null));
     }
   };
 
@@ -47,12 +51,20 @@ const PointContextMenu = ({
     };
   }, []);
 
+  if (appStatus === 'EDIT POINT') {
+    return null;
+  }
+
   return (
     <div className={pointContextMenu} ref={containerRef}>
       <button
         className={pointContextMenuClose}
         type="button"
-        onClick={closeAction}
+        onClick={() => {
+          closeAction();
+          dispatch(applicationActions.updateStatus(''));
+          dispatch(pointsActions.setSelectedPoint(null));
+        }}
       >
         <FontAwesomeIcon icon={faTimes} />
       </button>
@@ -60,7 +72,9 @@ const PointContextMenu = ({
         <li>
           <button
             type="button"
-            onClick={() => dispatch(pointsActions.editPoint(id))}
+            onClick={() =>
+              dispatch(applicationActions.updateStatus('EDIT POINT'))
+            }
           >
             <FontAwesomeIcon icon={faEdit} />
             Edit

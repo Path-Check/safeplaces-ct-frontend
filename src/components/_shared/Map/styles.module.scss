@@ -2,7 +2,10 @@
 
 .map {
   height: 100vh;
+  width: 100%;
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .mapCtrl {
@@ -13,6 +16,6 @@
   position: absolute;
   z-index: 1;
   width: 50%;
-  left:calc(50% - 180px);
+  left: calc(50% - 180px);
   top: 10px;
 }

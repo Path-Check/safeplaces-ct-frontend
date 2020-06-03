@@ -16,6 +16,8 @@ import Notifications from 'components/_global/Notifications';
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
 import pointsSelectors from 'ducks/points/selectors';
+import PointEditor from 'components/PointEditor';
+import applicationSelectors from 'ducks/application/selectors';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
@@ -24,11 +26,16 @@ export default function Map({ setMap }) {
   const pointsOfConcern = useSelector(state =>
     pointsSelectors.getPoints(state),
   );
+
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const bounds = [
     [boundsObject.sw.longitude, boundsObject.sw.latitude],
     [boundsObject.ne.longitude, boundsObject.ne.latitude],
   ];
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const isEdit = appStatus === 'EDIT POINT';
+  const isAdd = appStatus === 'ADD POINT';
+  const renderPointsEditor = isEdit || isAdd;
 
   const initial = new WebMercatorViewport({
     width: 800,
@@ -104,26 +111,30 @@ export default function Map({ setMap }) {
   }, [pointsOfConcern, loaded]);
 
   return (
-    <ReactMapGL
-      className="map"
-      {...viewport}
-      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-      mapStyle={defaultMapStyle}
-      ref={mapRef}
-      width="100%"
-      height="100%"
-      onLoad={onMapLoad}
-      onViewportChange={viewportInternal => setViewport(viewportInternal)}
-    >
-      {pointsOfConcern.map(p => (
-        <MapMarker {...p} />
-      ))}
+    <div className={styles.map}>
+      <ReactMapGL
+        {...viewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
+        mapStyle={defaultMapStyle}
+        ref={mapRef}
+        width="100%"
+        height="100%"
+        onLoad={onMapLoad}
+        onViewportChange={viewportInternal => setViewport(viewportInternal)}
+      >
+        {pointsOfConcern.map(p => (
+          <MapMarker {...p} key={p.pointId} />
+        ))}
 
-      <NavigationControl
-        className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
-        showCompass={false}
-      />
+        <NavigationControl
+          className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
+          showCompass={false}
+        />
+      </ReactMapGL>
       <Notifications />
-    </ReactMapGL>
+      {renderPointsEditor && (
+        <PointEditor appStatus={appStatus} isEdit={isEdit} />
+      )}
+    </div>
   );
 }

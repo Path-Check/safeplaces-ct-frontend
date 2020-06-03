@@ -1,5 +1,4 @@
 .selectedDataItem {
-  display: flex;
   padding: 10px;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.025);
@@ -7,13 +6,17 @@
   border-radius: 6px;
   background-color: #fff;
   position: relative;
-  width: 100%;
-  cursor: pointer;
-  background: none;
-  outline: none;
-  border: none;
 
   &:last-of-type {
+    border: none;
+  }
+
+  button {
+    display: flex;
+    width: 100%;
+    cursor: pointer;
+    background: none;
+    outline: none;
     border: none;
   }
 }
