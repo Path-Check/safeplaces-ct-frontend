@@ -9,17 +9,17 @@ const pointsActions = {
     type: pointsTypes.SELECTED_POINTS,
     points,
   }),
-  setSelectedPoint: id => ({
+  setSelectedPoint: data => ({
     type: pointsTypes.ACTIVE_POINT,
-    id,
+    data,
   }),
   deletePoint: id => ({
     type: pointsTypes.DELETE_POINT,
     id,
   }),
-  editPoint: id => ({
+  editPoint: point => ({
     type: pointsTypes.EDIT_POINT,
-    id,
+    point,
   }),
   addPoint: coords => ({
     type: pointsTypes.ADD_POINT,
