@@ -4,13 +4,13 @@
   left: 10px;
   width: 375px;
   border-radius: 6px;
-  background: #ffffff;
-  padding: 20px;
+  background: #f8f8ff;
+  z-index: 13;
 
   h5 {
     display: inline-flex;
     align-items: center;
-    margin-bottom: 25px;
+    padding: 15px;
 
     svg {
       font-size: 26px;
@@ -27,9 +27,15 @@
   }
 }
 
-.selectionLocationHelpClose {
+.selectionLocationHelpToggle {
   position: absolute;
   top: 20px;
-  right: 10px;
+  right: 20px;
   font-size: 18px;
+}
+
+.selectionLocationHelpBody {
+  padding: 15px;
+  position: relative;
+  border-top: 1px solid #f8f8ff;
 }

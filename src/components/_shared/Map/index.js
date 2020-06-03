@@ -172,14 +172,14 @@ export default function Map({ setMap }) {
               className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
               showCompass={false}
             />
-            <Notifications />
-            {renderPointsEditor && (
-              <PointEditor appStatus={appStatus} isEdit={isEdit} />
-            )}
-            {selectLocation && <SelectionLocationHelp />}
           </>
         )}
       </ReactMapGL>
+      <Notifications />
+      {renderPointsEditor && (
+        <PointEditor appStatus={appStatus} isEdit={isEdit} />
+      )}
+      {selectLocation && <SelectionLocationHelp />}
     </div>
   );
 }
