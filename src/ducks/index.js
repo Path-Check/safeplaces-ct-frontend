@@ -6,7 +6,7 @@ import selectedPoints from './selectedPoints';
 import filter from './filter';
 import auth from './auth/reducer';
 import settingsApi from './settingsApi';
-import map from './map';
+import map from './map/reducer';
 import application from './application/reducer';
 import points from './points/reducer';
 

@@ -13,7 +13,7 @@ const persistConfig = {
   storage,
   timeout: 500,
   // transforms: [saveSubsetBlacklistFilter],
-  blacklist: ['router', 'points', 'cases', 'application'],
+  blacklist: ['router', 'points', 'cases', 'application', 'map'],
 };
 
 export const history = createBrowserHistory();
