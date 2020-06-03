@@ -20,6 +20,7 @@ import pointsSelectors from 'ducks/points/selectors';
 import PointEditor from 'components/PointEditor';
 import applicationSelectors from 'ducks/application/selectors';
 import mapSelectors from 'ducks/map/selectors';
+import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
@@ -175,7 +176,7 @@ export default function Map({ setMap }) {
             {renderPointsEditor && (
               <PointEditor appStatus={appStatus} isEdit={isEdit} />
             )}
-            {selectLocation && <div>Select Location</div>}
+            {selectLocation && <SelectionLocationHelp />}
           </>
         )}
       </ReactMapGL>

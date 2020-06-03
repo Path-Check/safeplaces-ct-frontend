@@ -1,9 +1,8 @@
 import React from 'react';
 import { Popup } from 'react-map-gl';
 
-import { useSelector, useDispatch } from 'react-redux';
-import applicationSelectors from 'ducks/application/selectors';
-import { faCheck, faMapMarkerPlus } from '@fortawesome/pro-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { popup, popupButton } from './Popup.module.scss';
@@ -20,7 +19,7 @@ export default function PopupWrapper({ longitude, latitude, type }) {
       latitude={latitude}
       closeOnClick={false}
       closeButton={false}
-      offsetTop={-10}
+      offsetTop={10}
       className={popup}
     >
       <div>

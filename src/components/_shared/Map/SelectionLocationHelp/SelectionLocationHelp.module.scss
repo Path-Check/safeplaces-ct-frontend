@@ -1,0 +1,35 @@
+.selectionLocationHelp {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 375px;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 20px;
+
+  h5 {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 25px;
+
+    svg {
+      font-size: 26px;
+      margin-right: 10px;
+    }
+  }
+
+  ol {
+    list-style: decimal;
+
+    li {
+      margin: 0 0 15px 20px;
+    }
+  }
+}
+
+.selectionLocationHelpClose {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  font-size: 18px;
+}
