@@ -147,7 +147,7 @@ const RequestPassword = props => {
               <TextInput
                 control={control}
                 error={error}
-                autocorrect="off"
+                autoCorrect="off"
                 autoCapitalize="off"
                 labelText="Email or phone number"
                 id="user"

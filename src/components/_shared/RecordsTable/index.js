@@ -33,10 +33,10 @@ const RecordsTable = ({ isPublishing }) => {
         <table className={table}>
           <thead>
             <tr>
-              <th colspan="1">Record ID</th>
-              <th colspan="2">Last Saved</th>
-              <th colspan="1">Status</th>
-              <th colspan="2">Expires</th>
+              <th colSpan="1">Record ID</th>
+              <th colSpan="2">Last Saved</th>
+              <th colSpan="1">Status</th>
+              <th colSpan="2">Expires</th>
             </tr>
           </thead>
         </table>
@@ -44,7 +44,7 @@ const RecordsTable = ({ isPublishing }) => {
           <table className={table}>
             <tbody>
               {cases.map(r => (
-                <Record {...r} />
+                <Record key={r.caseId} {...r} />
               ))}
             </tbody>
           </table>
@@ -53,7 +53,7 @@ const RecordsTable = ({ isPublishing }) => {
         <table className={table}>
           <tfoot>
             <tr>
-              <td colspan="4">
+              <td colSpan="4">
                 {!isPublishing && (
                   <Button onClick={() => dispatch(casesActions.fetchCase())}>
                     <FontAwesomeIcon icon={faPlus} /> Add New Record
