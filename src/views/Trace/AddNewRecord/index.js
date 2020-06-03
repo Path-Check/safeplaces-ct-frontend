@@ -64,9 +64,10 @@ const AddNewRecord = () => {
             <Button
               secondary
               large
-              onClick={() =>
-                dispatch(applicationActions.updateStatus('CASE ACTIVE'))
-              }
+              onClick={() => {
+                dispatch(applicationActions.renderEditor(true));
+                dispatch(applicationActions.updateStatus(''));
+              }}
             >
               Create Record Manually
             </Button>
