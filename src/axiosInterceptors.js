@@ -8,7 +8,7 @@ export default {
         const token =
           state.auth && state.auth.token ? state.auth.token : undefined;
         if (token) {
-          config.headers.authorization = 'JWT ' + token;
+          config.headers.authorization = 'Bearer ' + token;
         }
         return config;
       },
