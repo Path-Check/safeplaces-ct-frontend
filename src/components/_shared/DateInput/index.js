@@ -1,25 +1,37 @@
-import React from 'react';
-import { SingleDatePickerInput } from '@wfp/ui';
-import styles from './styles.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faClock } from '@fortawesome/pro-regular-svg-icons';
+import React, { useState } from 'react';
 import moment from 'moment';
 
-import 'react-dates/initialize';
-import { SingleDatePicker, DateRangePicker } from 'react-dates';
+import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function DateInput(props) {
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
+import styles from './styles.module.scss';
+
+import 'react-dates/initialize';
+export default function DateInput({ handleChange, displayValue }) {
+  const initialValue = moment(displayValue).toDate();
+
+  const [startDate, setStartDate] = useState(initialValue);
+
+  const handleDateChange = date => {
+    const dateTime = moment(date).format();
+
+    setStartDate(date);
+    handleChange('date', dateTime);
+  };
+
   return (
     <div className={styles.dateInput}>
-      <SingleDatePickerInput
-        style={{ width: '100%' }}
-        datePicker={SingleDatePicker}
-        customInputIcon={
-          <FontAwesomeIcon className={styles.icon} icon={faCalendarAlt} />
-        }
-        type="date"
-        placeholder=""
-        defaultValue=""
+      <FontAwesomeIcon className={styles.icon} icon={faCalendarAlt} />
+      <DatePicker
+        selected={startDate}
+        showTimeSelect
+        onChange={date => handleDateChange(date)}
+        timeFormat="HH:mm"
+        className="datePicker"
+        dateFormat="MM/dd/yyyy  -  HH:mm"
       />
     </div>
   );
