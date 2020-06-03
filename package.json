@@ -36,6 +36,7 @@
     "react-geocode": "^0.2.1",
     "react-hook-form": "^5.2.0",
     "react-map-gl": "^5.2.3",
+    "react-map-gl-geocoder": "^2.0.11",
     "react-places-autocomplete": "^7.2.1",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
@@ -68,7 +69,9 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.5",
-    "prettier": "2.0.5"
+    "json-diff": "^0.5.4",
+    "prettier": "2.0.5",
+    "react-json-pretty": "^2.2.0"
   },
   "husky": {
     "hooks": {

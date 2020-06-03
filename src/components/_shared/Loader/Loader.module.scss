@@ -1,0 +1,129 @@
+@import 'scss/ui.scss';
+
+.loader {
+  width: 650px;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: #f8f8ff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loaderTitle {
+  font-size: 26px;
+}
+
+.loaderBody {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  height: 200px;
+}
+
+.spinner {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+@keyframes :global(loaderSpin) {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner span :global {
+  display: block;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: loaderSpin;
+  animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  transform-origin: 40px 40px;
+}
+
+.spinner span:after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1f2c9b;
+  margin: -4px 0 0 -4px;
+}
+
+.spinner span:nth-child(1) {
+  animation-delay: -0.036s;
+}
+
+.spinner span:nth-child(1):after {
+  top: 63px;
+  left: 63px;
+}
+
+.spinner span:nth-child(2) {
+  animation-delay: -0.072s;
+}
+
+.spinner span:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+
+.spinner span:nth-child(3) {
+  animation-delay: -0.108s;
+}
+
+.spinner span:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+
+.spinner span:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.spinner span:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+
+.spinner span:nth-child(5) {
+  animation-delay: -0.18s;
+}
+
+.spinner span:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+
+.spinner span:nth-child(6) {
+  animation-delay: -0.216s;
+}
+
+.spinner span:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+
+.spinner span:nth-child(7) {
+  animation-delay: -0.252s;
+}
+
+.spinner span:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+
+.spinner span:nth-child(8) {
+  animation-delay: -0.288s;
+}
+
+.spinner span:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
