@@ -11,7 +11,7 @@ export default function reducer(state = initialState, action) {
     case pointsTypes.POINTS:
       return {
         ...state,
-        points: [...state.points, ...action.points],
+        points: action.points,
       };
     case pointsTypes.SELECTED_POINTS:
       return {

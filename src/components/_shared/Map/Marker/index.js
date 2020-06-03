@@ -39,7 +39,7 @@ const MapMarker = ({ latitude, longitude, pointId }) => {
       </button>
       {showContentMenu && (
         <PointContextMenu
-          time={pointId}
+          id={pointId}
           closeAction={() => setShowContentMenu(false)}
         />
       )}
