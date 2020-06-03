@@ -170,7 +170,7 @@ class IndividualDataPoint:
     def edit_entry(self):
         self.find_element(entry_editbox).click()
 
-class Settings:
+class SettingsPage(Page):
     health_authority_name = (By.ID, 'name')
     information_website_URL = (By.ID, 'informationWebsiteUrl')
     reference_website_URL = (By.ID, 'referenceWebsiteUrl')
@@ -182,22 +182,22 @@ class Settings:
     save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
     move = ActionChains(driver);
     
-    def set_health_authority_name(self):
+    def set_health_authority_name(self, health_authority):
         self.find_element(health_authority_name).send_keys(health_authority)
 
-    def set_information_website_URL(self):
+    def set_information_website_URL(self, information_website):
         self.find_element(information_website_URL).send_keys(information_website)
 
-    def set_reference_website_URL(self):
+    def set_reference_website_URL(self, reference_website):
         self.find_element(reference_website_URL).send_keys(reference_website)
 
-    def set_api_endpoint(self):
+    def set_api_endpoint(self, endpoint):
         self.find_element(api_endpoint).send_keys(endpoint)
 
-    def set_privacy_policy_URL(self):
+    def set_privacy_policy_URL(self, privacy_policy):
         self.find_element(privacy_policy_URL).send_keys(privacy_policy)
 
-    def set_retention_policy(self):
+    def set_retention_policy(self, percent):
         width = data_retention_slider_track.size['width']
         move.click_and_hold(sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
     
