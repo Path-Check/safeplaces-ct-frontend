@@ -46,12 +46,17 @@ function* updatePoint({ point, type }) {
 
   try {
     if (isEdit) {
-      yield call(pointsService.edit, point);
+      const response = yield call(pointsService.edit, point);
       const points = currentPoints.filter(p => p.pointId !== point.pointId);
-      yield put(pointsActions.updatePoints([...points, point]));
+      yield put(pointsActions.updatePoints([...points, response.data.point]));
     } else {
-      yield call(pointsService.add, point);
-      yield put(pointsActions.updatePoints([point, ...currentPoints]));
+      const response = yield call(pointsService.add, point);
+      yield put(
+        pointsActions.updatePoints([
+          response.data.concernPoint,
+          ...currentPoints,
+        ]),
+      );
     }
 
     yield put(mapActions.updateLocation(null));

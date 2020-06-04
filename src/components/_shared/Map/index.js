@@ -11,7 +11,6 @@ import styles from './styles.module.scss';
 import getBounds from 'components/_shared/Map/getBounds';
 
 import { defaultMapStyle } from 'components/_shared/Map/config';
-import casesSelectors from 'ducks/cases/selectors';
 
 import Notifications from 'components/_global/Notifications';
 import MapMarker from 'components/_shared/Map/Marker';
@@ -33,8 +32,6 @@ export default function Map({ setMap }) {
   const locationSelect = useSelector(state =>
     mapSelectors.getLocationSelect(state),
   );
-
-  console.log(locationSelect);
 
   const pointsOfConcern = useSelector(state =>
     pointsSelectors.getPoints(state),
@@ -73,7 +70,7 @@ export default function Map({ setMap }) {
     const viewportCalc = {
       ...viewport,
       ...focused,
-      transitionDuration: 1000,
+      transitionDuration: 500,
     };
 
     setViewport(viewportCalc);
@@ -111,9 +108,7 @@ export default function Map({ setMap }) {
         zooming = new WebMercatorViewport({
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
-        }).fitBounds(bounds, {
-          offset: [100, 100],
-        });
+        }).fitBounds(bounds);
       }
       const viewportCalc = {
         ...viewport,

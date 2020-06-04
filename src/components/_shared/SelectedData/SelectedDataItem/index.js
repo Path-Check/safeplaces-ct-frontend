@@ -35,7 +35,8 @@ const SelectedDataItem = ({
     pointsSelectors.getActivePoint(state),
   );
 
-  const isHighlighted = activePoint?.pointId === pointId;
+  const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
+
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const date = moment(timestamp).format('ddd, MMMM D, YYYY');

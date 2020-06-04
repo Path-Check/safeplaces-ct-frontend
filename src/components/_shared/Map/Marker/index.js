@@ -27,8 +27,7 @@ const MapMarker = ({
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-  const isHighlighted = activePoint?.pointId === pointId;
-
+  const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const handleClick = e => {

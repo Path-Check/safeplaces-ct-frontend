@@ -37,8 +37,9 @@ const PointEditor = () => {
   );
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const isEdit = appStatus === 'EDIT POINT';
+  const isAdd = appStatus === 'ADD POINT';
 
-  if (appStatus !== 'EDIT POINT' && appStatus !== 'ADD POINT') {
+  if (!isAdd && !isEdit) {
     return null;
   }
 
@@ -46,14 +47,16 @@ const PointEditor = () => {
     ? `${activePoint.longitude}, ${activePoint.latitude}`
     : '';
 
-  const isDisabled =
+  const addValidation =
     !selectedLocation?.latitude ||
     !selectedLocation?.longitude ||
     !selectedLocation?.time;
 
-  const handleChange = (type, data) => {
-    console.log(type);
+  const editValidation = !selectedLocation;
 
+  const isDisabled = isAdd ? addValidation : editValidation;
+
+  const handleChange = (type, data) => {
     switch (type) {
       case 'latLng':
         dispatch(
