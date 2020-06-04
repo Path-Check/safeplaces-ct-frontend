@@ -58,6 +58,7 @@ const PointEditor = () => {
       case 'latLng':
         dispatch(
           mapActions.updateLocation({
+            ...selectedLocation,
             longitude: data.lng,
             latitude: data.lat,
           }),
@@ -67,6 +68,7 @@ const PointEditor = () => {
         console.log(data);
         dispatch(
           mapActions.updateLocation({
+            ...selectedLocation,
             time: data,
           }),
         );

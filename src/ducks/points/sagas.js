@@ -20,7 +20,7 @@ function* deletePoint({ id }) {
     yield put(pointsActions.updatePoints(points));
     yield put(
       applicationActions.notification({
-        title: `Point ${id} Deleted`,
+        title: `Point Deleted`,
       }),
     );
     yield put(pointsActions.setSelectedPoint(null));
