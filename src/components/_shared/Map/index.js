@@ -113,10 +113,7 @@ export default function Map({ setMap }) {
         zooming = new WebMercatorViewport({
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
-        }).fitBounds(bounds, {
-          padding: 40,
-          offset: [350, 200],
-        });
+        }).fitBounds(bounds);
       }
       const viewportCalc = {
         ...viewport,
@@ -144,7 +141,7 @@ export default function Map({ setMap }) {
         onLoad={onMapLoad}
         onViewportChange={viewportInternal => setViewport(viewportInternal)}
         onClick={map => {
-          if (map.rightButton) {
+          if (map.rightButton && appStatus === 'SELECT LOCATION') {
             setPopupLocation({
               latitude: map.lngLat[1],
               longitude: map.lngLat[0],

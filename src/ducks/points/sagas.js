@@ -38,40 +38,47 @@ function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('CASE ACTIVE'));
 }
 
-function* editPoint({ point }) {
+function* updatePoint({ point, type }) {
   yield put(applicationActions.updateStatus('BUSY'));
+  const isEdit = type === pointsTypes.EDIT_POINT;
+
+  const currentPoints = yield select(pointsSelectors.getPoints);
 
   try {
-    yield call(pointsService.edit, point);
-    const currentPoints = yield select(pointsSelectors.getPoints);
-
-    const points = currentPoints.filter(p => p.pointId !== point.pointId);
-
-    yield put(pointsActions.updatePoints([...points, point]));
-
-    yield put(
-      applicationActions.notification({
-        title: `You just added 1 data point`,
-      }),
-    );
+    if (isEdit) {
+      yield call(pointsService.edit, point);
+      const points = currentPoints.filter(p => p.pointId !== point.pointId);
+      yield put(pointsActions.updatePoints([...points, point]));
+    } else {
+      yield put(pointsActions.setSelectedPoint(null));
+      yield call(pointsService.add, point);
+      yield put(pointsActions.updatePoints([point, ...currentPoints]));
+    }
 
     yield put(mapActions.updateLocation(null));
     yield put(pointsActions.setSelectedPoint(null));
+
+    yield put(
+      applicationActions.notification({
+        title: `You just ${isEdit ? 'edited' : 'added'} 1 data point`,
+      }),
+    );
   } catch (error) {
     console.log(error);
 
     yield put(
       applicationActions.notification({
-        title: 'Unable to edit point',
+        title: `Unable to ${isEdit ? 'edit' : 'add'} point`,
         text: 'Please try again.',
       }),
     );
   }
 
-  yield put(applicationActions.updateStatus('CASE ACTIVE'));
+  yield put(applicationActions.updateStatus('IDLE'));
 }
 
 export default function* pointsSagas() {
   yield takeEvery(pointsTypes.DELETE_POINT, deletePoint);
-  yield takeEvery(pointsTypes.EDIT_POINT, editPoint);
+  yield takeEvery(pointsTypes.EDIT_POINT, updatePoint);
+  yield takeEvery(pointsTypes.ADD_POINT, updatePoint);
 }

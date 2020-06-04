@@ -38,13 +38,13 @@ const SelectedDataList = () => {
               {renderedPoints?.length} of {points?.length}
             </p>
           )}
-          {/* <button
+          <button
             className={selectedDataAction}
             onClick={() => setShowContentMenu(!showContentMenu)}
             type="button"
           >
             <FontAwesomeIcon icon={faEllipsisV} />
-          </button> */}
+          </button>
         </div>
 
         {showContentMenu && (

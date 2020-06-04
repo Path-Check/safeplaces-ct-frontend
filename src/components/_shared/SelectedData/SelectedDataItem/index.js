@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
+import mapActions from 'ducks/map/actions';
 
 const SelectedDataItem = ({
   pointId,
@@ -47,6 +48,7 @@ const SelectedDataItem = ({
 
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
+    dispatch(mapActions.updateLocation(null));
 
     dispatch(
       pointsActions.setSelectedPoint({

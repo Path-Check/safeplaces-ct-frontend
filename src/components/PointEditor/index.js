@@ -88,7 +88,13 @@ const PointEditor = ({ isEdit, appStatus }) => {
       ...mapLocation,
     };
 
-    dispatch(pointsActions.editPoint(payload));
+    console.log(isEdit);
+
+    if (isEdit) {
+      dispatch(pointsActions.editPoint(payload));
+    } else {
+      dispatch(pointsActions.addPoint(payload));
+    }
   };
 
   return (
