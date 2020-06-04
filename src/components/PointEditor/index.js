@@ -45,7 +45,7 @@ const PointEditor = ({ isEdit, appStatus }) => {
   const initialState = isEdit
     ? activePoint
     : {
-        date: '',
+        pointId: 42,
         time: '',
         longitude: '',
         latitude: '',
@@ -53,9 +53,9 @@ const PointEditor = ({ isEdit, appStatus }) => {
 
   const [state, setState] = useState(initialState);
 
-  const handleChange = (type, data) => {
-    console.log(type, data);
+  const isDisabled = !state.latitude || !state.longitude || !state.time;
 
+  const handleChange = (type, data) => {
     switch (type) {
       case 'latLng':
         setState({
@@ -87,8 +87,6 @@ const PointEditor = ({ isEdit, appStatus }) => {
       ...state,
       ...mapLocation,
     };
-
-    console.log(isEdit);
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
@@ -130,11 +128,11 @@ const PointEditor = ({ isEdit, appStatus }) => {
       <div className={timeControls}>
         <DateInput
           handleChange={handleChange}
-          displayValue={isEdit ? activePoint.time : new Date()}
+          displayValue={isEdit ? activePoint.time : null}
         />
       </div>
 
-      <Button onClick={handleSubmit} type="submit">
+      <Button onClick={handleSubmit} type="submit" disabled={isDisabled}>
         Save Data
       </Button>
     </div>

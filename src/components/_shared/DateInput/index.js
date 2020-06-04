@@ -11,15 +11,15 @@ import styles from './styles.module.scss';
 
 import 'react-dates/initialize';
 export default function DateInput({ handleChange, displayValue }) {
-  const initialValue = moment(displayValue).toDate();
+  const initialValue = displayValue ? moment(displayValue).toDate() : null;
 
   const [startDate, setStartDate] = useState(initialValue);
 
   const handleDateChange = date => {
     const dateTime = moment(date).format();
 
-    setStartDate(date);
     handleChange('date', dateTime);
+    setStartDate(date);
   };
 
   return (

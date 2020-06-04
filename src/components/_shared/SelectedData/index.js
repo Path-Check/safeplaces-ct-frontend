@@ -57,7 +57,7 @@ const SelectedDataList = () => {
       {renderedPoints?.length > 0 && (
         <ul className={selectedDataList}>
           {renderedPoints?.map(p => (
-            <SelectedDataItem key={p.pointId} {...p} />
+            <SelectedDataItem key={p.latitude} {...p} />
           ))}
         </ul>
       )}

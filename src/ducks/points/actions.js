@@ -21,9 +21,9 @@ const pointsActions = {
     type: pointsTypes.EDIT_POINT,
     point,
   }),
-  addPoint: coords => ({
+  addPoint: point => ({
     type: pointsTypes.ADD_POINT,
-    coords,
+    point,
   }),
 };
 

@@ -14,12 +14,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useDispatch, useSelector } from 'react-redux';
 import applicationActions from 'ducks/application/actions';
-import mapActions from 'ducks/map/actions';
+import applicationSelectors from 'ducks/application/selectors';
 
 const SelectionLocationHelp = () => {
   const dispatch = useDispatch();
   const [showBody, setShowBody] = useState(true);
   const toggleIcon = showBody ? faChevronUp : faChevronDown;
+  const isEdit =
+    useSelector(state => applicationSelectors.getStatus(state)) ===
+    'EDIT POINT';
+
+  console.log(isEdit);
+
   return (
     <div className={selectionLocationHelp}>
       <button
@@ -31,7 +37,9 @@ const SelectionLocationHelp = () => {
       <h5>
         <button
           onClick={() => {
-            dispatch(applicationActions.updateStatus('EDIT POINT'));
+            isEdit
+              ? dispatch(applicationActions.updateStatus('EDIT POINT'))
+              : dispatch(applicationActions.updateStatus('ADD POINT'));
           }}
         >
           <FontAwesomeIcon icon={faChevronLeft} />

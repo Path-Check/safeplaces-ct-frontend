@@ -155,8 +155,8 @@ export default function Map({ setMap }) {
       >
         {editorMode && (
           <>
-            {pointsOfConcern.map(p => (
-              <MapMarker {...p} key={p.pointId} />
+            {pointsOfConcern.map((p, i) => (
+              <MapMarker {...p} key={i} />
             ))}
 
             {selectedLocation && <MapMarker {...selectedLocation} alternate />}

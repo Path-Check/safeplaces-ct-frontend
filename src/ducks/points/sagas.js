@@ -39,10 +39,10 @@ function* deletePoint({ id }) {
 }
 
 function* updatePoint({ point, type }) {
-  yield put(applicationActions.updateStatus('BUSY'));
   const isEdit = type === pointsTypes.EDIT_POINT;
-
   const currentPoints = yield select(pointsSelectors.getPoints);
+
+  yield put(applicationActions.updateStatus('BUSY'));
 
   try {
     if (isEdit) {
@@ -50,7 +50,6 @@ function* updatePoint({ point, type }) {
       const points = currentPoints.filter(p => p.pointId !== point.pointId);
       yield put(pointsActions.updatePoints([...points, point]));
     } else {
-      yield put(pointsActions.setSelectedPoint(null));
       yield call(pointsService.add, point);
       yield put(pointsActions.updatePoints([point, ...currentPoints]));
     }
@@ -64,8 +63,6 @@ function* updatePoint({ point, type }) {
       }),
     );
   } catch (error) {
-    console.log(error);
-
     yield put(
       applicationActions.notification({
         title: `Unable to ${isEdit ? 'edit' : 'add'} point`,
