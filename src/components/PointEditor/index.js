@@ -94,18 +94,18 @@ const PointEditor = () => {
     }
   };
 
+  const handleClose = () => {
+    dispatch(applicationActions.updateStatus(''));
+    dispatch(pointsActions.setSelectedPoint(null));
+    dispatch(mapActions.updateLocation(null));
+  };
+
   return (
     <>
       <div className={pointEditor}>
         <div className={pointEditorHeader}>
           <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
-          <button
-            className={closeAction}
-            onClick={() => {
-              dispatch(applicationActions.updateStatus(''));
-              dispatch(pointsActions.setSelectedPoint(null));
-            }}
-          >
+          <button className={closeAction} onClick={handleClose}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>

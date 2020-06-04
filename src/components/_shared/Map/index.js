@@ -121,6 +121,12 @@ export default function Map({ setMap }) {
     }
   }, [pointsOfConcern, loaded, selectedLocation]);
 
+  useEffect(() => {
+    if (!locationSelect && popupLocation) {
+      setPopupLocation(null);
+    }
+  }, [locationSelect, popupLocation]);
+
   return (
     <div
       className={styles.map}
