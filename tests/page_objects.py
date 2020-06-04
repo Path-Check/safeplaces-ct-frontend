@@ -170,7 +170,25 @@ class IndividualDataPoint:
     def edit_entry(self):
         self.find_element(entry_editbox).click()
 
+class ContactTracePage(Page):
+    add_new_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button:nth-child(1)')
+    load_existing_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button.styles_button__1QQUp.styles_buttonSecondary__3onvZ.undefined')
+    
+    def add_new_record(self):
+        self.find_element(add_new_record_button).click()
+    
+    def load_existing_record(self):
+        self.find_element(load_existing_record_button).click()
+
+class PublishDataPage(Page):
+    load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
+    
+    def publish_data(self):
+        self.find_element(load_data_button).click()
+
 class SettingsPage(Page):
+    configuration_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(1) > a')
+    logout_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(2) > a')
     health_authority_name = (By.ID, 'name')
     information_website_URL = (By.ID, 'informationWebsiteUrl')
     reference_website_URL = (By.ID, 'referenceWebsiteUrl')
@@ -206,7 +224,13 @@ class SettingsPage(Page):
         
     def save_and_continue(self):
         self.find_element(save_continue_button).click()
-        
+ 
+    def configuration(self):
+        self.find_element(configuration_button).click()
+
+    def logout(self):
+        self.find_element(logout_button).click()
+
 class Tools:
     def compare_files(self, fname1, fname2):
         f1 = open(fname1)
