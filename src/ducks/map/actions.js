@@ -9,6 +9,10 @@ const mapActions = {
     type: mapTypes.UPDATE_LOCATION,
     location,
   }),
+  locationSelect: locationSelect => ({
+    type: mapTypes.LOCATION_SELECT,
+    locationSelect,
+  }),
 };
 
 export default mapActions;
