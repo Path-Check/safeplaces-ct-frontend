@@ -10,15 +10,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './styles.module.scss';
 
 import 'react-dates/initialize';
-export default function DateInput({ handleChange, displayValue }) {
-  const initialValue = moment(displayValue).toDate();
+import { useSelector } from 'react-redux';
+import mapSelectors from 'ducks/map/selectors';
 
-  const [startDate, setStartDate] = useState(initialValue);
+export default function DateInput({ handleChange, displayValue }) {
+  const initialValue = displayValue ? moment(displayValue).toDate() : '';
+  const selectedLocation = useSelector(state =>
+    mapSelectors.getLocation(state),
+  );
 
   const handleDateChange = date => {
-    const dateTime = moment(date).format();
+    let dateTime = null;
 
-    setStartDate(date);
+    if (date) {
+      dateTime = moment(date).format();
+    }
+
     handleChange('date', dateTime);
   };
 
@@ -26,7 +33,11 @@ export default function DateInput({ handleChange, displayValue }) {
     <div className={styles.dateInput}>
       <FontAwesomeIcon className={styles.icon} icon={faCalendarAlt} />
       <DatePicker
-        selected={startDate}
+        selected={
+          selectedLocation?.time
+            ? moment(selectedLocation.time).toDate()
+            : initialValue
+        }
         showTimeSelect
         onChange={date => handleDateChange(date)}
         timeFormat="HH:mm"

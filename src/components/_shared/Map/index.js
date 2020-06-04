@@ -11,7 +11,6 @@ import styles from './styles.module.scss';
 import getBounds from 'components/_shared/Map/getBounds';
 
 import { defaultMapStyle } from 'components/_shared/Map/config';
-import casesSelectors from 'ducks/cases/selectors';
 
 import Notifications from 'components/_global/Notifications';
 import MapMarker from 'components/_shared/Map/Marker';
@@ -25,13 +24,15 @@ import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp'
 export default function Map({ setMap }) {
   const mapRef = useRef();
   const [loaded, setLoaded] = useState(false);
-  const [renderLocationSelect, setRenderLocationSelect] = useState(false);
-  const [popupLocation, setPopupLocation] = useState(null);
 
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const [popupLocation, setPopupLocation] = useState(null);
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
+  const locationSelect = useSelector(state =>
+    mapSelectors.getLocationSelect(state),
+  );
+
   const pointsOfConcern = useSelector(state =>
     pointsSelectors.getPoints(state),
   );
@@ -45,10 +46,6 @@ export default function Map({ setMap }) {
   const editorMode = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
-  const isEdit = appStatus === 'EDIT POINT';
-  const isAdd = appStatus === 'ADD POINT';
-  const selectLocation = appStatus === 'SELECT LOCATION';
-  const renderPointsEditor = isEdit || isAdd;
 
   const initial = new WebMercatorViewport({
     width: 800,
@@ -73,7 +70,7 @@ export default function Map({ setMap }) {
     const viewportCalc = {
       ...viewport,
       ...focused,
-      transitionDuration: 1000,
+      transitionDuration: 500,
     };
 
     setViewport(viewportCalc);
@@ -82,11 +79,9 @@ export default function Map({ setMap }) {
   useEffect(() => {
     var zooming = {};
 
-    if (!loaded || !activeCase) {
+    if (!loaded) {
       return;
     }
-
-    console.log(selectedLocation);
 
     const pointsToZoom = selectedLocation
       ? [...pointsOfConcern, { ...selectedLocation, id: 'newLocation' }]
@@ -113,21 +108,24 @@ export default function Map({ setMap }) {
         zooming = new WebMercatorViewport({
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
-        }).fitBounds(bounds, {
-          padding: 40,
-          offset: [350, 200],
-        });
+        }).fitBounds(bounds);
       }
       const viewportCalc = {
         ...viewport,
         ...zooming,
-        transitionDuration: 1000,
+        transitionDuration: 500,
       };
       if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
         setViewport(viewportCalc);
       }
     }
   }, [pointsOfConcern, loaded, selectedLocation]);
+
+  useEffect(() => {
+    if (!locationSelect && popupLocation) {
+      setPopupLocation(null);
+    }
+  }, [locationSelect, popupLocation]);
 
   return (
     <div
@@ -143,30 +141,35 @@ export default function Map({ setMap }) {
         height="100%"
         onLoad={onMapLoad}
         onViewportChange={viewportInternal => setViewport(viewportInternal)}
-        onClick={map => {
-          if (map.rightButton) {
+        onClick={({ rightButton, lngLat }) => {
+          if (locationSelect && rightButton) {
+            const [longitude, latitude] = lngLat;
             setPopupLocation({
-              latitude: map.lngLat[1],
-              longitude: map.lngLat[0],
+              latitude,
+              longitude,
             });
-            setRenderLocationSelect(true);
           } else {
-            setRenderLocationSelect(false);
             setPopupLocation(null);
           }
         }}
       >
         {editorMode && (
           <>
-            {pointsOfConcern.map(p => (
-              <MapMarker {...p} key={p.pointId} />
+            {pointsOfConcern.map((p, i) => (
+              <MapMarker {...p} key={i} />
             ))}
 
-            {selectedLocation && <MapMarker {...selectedLocation} alternate />}
+            {selectedLocation &&
+              selectedLocation?.longitude &&
+              selectedLocation?.latitude && (
+                <MapMarker {...selectedLocation} alternate />
+              )}
 
-            {renderLocationSelect && appStatus === 'SELECT LOCATION' && (
-              <PopupWrapper {...popupLocation} type={appStatus} />
-            )}
+            {locationSelect &&
+              popupLocation?.longitude &&
+              popupLocation?.latitude && (
+                <PopupWrapper {...popupLocation} type={appStatus} />
+              )}
 
             <NavigationControl
               className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
@@ -176,10 +179,7 @@ export default function Map({ setMap }) {
         )}
       </ReactMapGL>
       <Notifications />
-      {renderPointsEditor && (
-        <PointEditor appStatus={appStatus} isEdit={isEdit} />
-      )}
-      {selectLocation && <SelectionLocationHelp />}
+      {locationSelect ? <SelectionLocationHelp /> : <PointEditor />}
     </div>
   );
 }

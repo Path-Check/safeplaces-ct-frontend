@@ -11,15 +11,14 @@ import {
   faChevronUp,
 } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { useDispatch, useSelector } from 'react-redux';
-import applicationActions from 'ducks/application/actions';
+import { useDispatch } from 'react-redux';
 import mapActions from 'ducks/map/actions';
 
 const SelectionLocationHelp = () => {
   const dispatch = useDispatch();
   const [showBody, setShowBody] = useState(true);
   const toggleIcon = showBody ? faChevronUp : faChevronDown;
+
   return (
     <div className={selectionLocationHelp}>
       <button
@@ -29,11 +28,7 @@ const SelectionLocationHelp = () => {
         <FontAwesomeIcon icon={toggleIcon} />
       </button>
       <h5>
-        <button
-          onClick={() => {
-            dispatch(applicationActions.updateStatus('EDIT POINT'));
-          }}
-        >
+        <button onClick={() => dispatch(mapActions.locationSelect(false))}>
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         Select Location on Map

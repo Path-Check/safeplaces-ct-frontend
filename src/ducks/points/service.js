@@ -19,6 +19,13 @@ const pointsService = {
       data,
     });
   },
+  add: data => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/point`,
+      data,
+    });
+  },
 };
 
 export default pointsService;

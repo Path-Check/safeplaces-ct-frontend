@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
+import mapActions from 'ducks/map/actions';
 
 const SelectedDataItem = ({
   pointId,
@@ -34,7 +35,8 @@ const SelectedDataItem = ({
     pointsSelectors.getActivePoint(state),
   );
 
-  const isHighlighted = activePoint?.pointId === pointId;
+  const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
+
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const date = moment(timestamp).format('ddd, MMMM D, YYYY');
@@ -47,6 +49,7 @@ const SelectedDataItem = ({
 
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
+    dispatch(mapActions.updateLocation(null));
 
     dispatch(
       pointsActions.setSelectedPoint({

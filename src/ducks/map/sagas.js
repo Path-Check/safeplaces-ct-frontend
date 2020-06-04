@@ -1,13 +1,16 @@
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { put, select, takeLatest } from 'redux-saga/effects';
 import mapTypes from 'ducks/map/types';
 import mapActions from 'ducks/map/actions';
 import applicationActions from 'ducks/application/actions';
+import applicationSelectors from 'ducks/application/selectors';
 
 function* setLocation({ location }) {
-  console.log(location);
+  const appStatus = yield select(applicationSelectors.getStatus);
 
   yield put(mapActions.updateLocation(location));
-  yield put(applicationActions.updateStatus('EDIT POINT'));
+
+  if (appStatus === 'EDIT POINT')
+    yield put(applicationActions.updateStatus('EDIT POINT'));
 }
 
 export default function* mapSagas() {

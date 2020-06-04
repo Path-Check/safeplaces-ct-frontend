@@ -20,7 +20,7 @@ function* deletePoint({ id }) {
     yield put(pointsActions.updatePoints(points));
     yield put(
       applicationActions.notification({
-        title: `Point ${id} Deleted`,
+        title: `Point Deleted`,
       }),
     );
     yield put(pointsActions.setSelectedPoint(null));
@@ -38,40 +38,49 @@ function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('CASE ACTIVE'));
 }
 
-function* editPoint({ point }) {
+function* updatePoint({ point, type }) {
+  const isEdit = type === pointsTypes.EDIT_POINT;
+  const currentPoints = yield select(pointsSelectors.getPoints);
+
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    yield call(pointsService.edit, point);
-    const currentPoints = yield select(pointsSelectors.getPoints);
-
-    const points = currentPoints.filter(p => p.pointId !== point.pointId);
-
-    yield put(pointsActions.updatePoints([...points, point]));
-
-    yield put(
-      applicationActions.notification({
-        title: `You just added 1 data point`,
-      }),
-    );
+    if (isEdit) {
+      const response = yield call(pointsService.edit, point);
+      const points = currentPoints.filter(p => p.pointId !== point.pointId);
+      yield put(pointsActions.updatePoints([...points, response.data.point]));
+    } else {
+      const response = yield call(pointsService.add, point);
+      yield put(
+        pointsActions.updatePoints([
+          response.data.concernPoint,
+          ...currentPoints,
+        ]),
+      );
+    }
 
     yield put(mapActions.updateLocation(null));
     yield put(pointsActions.setSelectedPoint(null));
-  } catch (error) {
-    console.log(error);
 
     yield put(
       applicationActions.notification({
-        title: 'Unable to edit point',
+        title: `You just ${isEdit ? 'edited' : 'added'} 1 data point`,
+      }),
+    );
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: `Unable to ${isEdit ? 'edit' : 'add'} point`,
         text: 'Please try again.',
       }),
     );
   }
 
-  yield put(applicationActions.updateStatus('CASE ACTIVE'));
+  yield put(applicationActions.updateStatus('IDLE'));
 }
 
 export default function* pointsSagas() {
   yield takeEvery(pointsTypes.DELETE_POINT, deletePoint);
-  yield takeEvery(pointsTypes.EDIT_POINT, editPoint);
+  yield takeEvery(pointsTypes.EDIT_POINT, updatePoint);
+  yield takeEvery(pointsTypes.ADD_POINT, updatePoint);
 }

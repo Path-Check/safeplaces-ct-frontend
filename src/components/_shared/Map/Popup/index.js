@@ -23,17 +23,16 @@ export default function PopupWrapper({ longitude, latitude, type }) {
       className={popup}
     >
       <div>
-        {type === 'SELECT LOCATION' && (
-          <button
-            className={popupButton}
-            onClick={() =>
-              dispatch(mapActions.setLocation({ longitude, latitude }))
-            }
-          >
-            <FontAwesomeIcon icon={faCheck} />
-            Use Location
-          </button>
-        )}
+        <button
+          className={popupButton}
+          onClick={() => {
+            dispatch(mapActions.setLocation({ longitude, latitude }));
+            dispatch(mapActions.locationSelect(false));
+          }}
+        >
+          <FontAwesomeIcon icon={faCheck} />
+          Use Location
+        </button>
       </div>
     </Popup>
   );
