@@ -3,6 +3,7 @@ import ReactMapGL, {
   NavigationControl,
   WebMercatorViewport,
 } from 'react-map-gl';
+import PopupWrapper from './Popup';
 
 import { useSelector } from 'react-redux';
 
@@ -16,19 +17,38 @@ import Notifications from 'components/_global/Notifications';
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
 import pointsSelectors from 'ducks/points/selectors';
+import PointEditor from 'components/PointEditor';
+import applicationSelectors from 'ducks/application/selectors';
+import mapSelectors from 'ducks/map/selectors';
+import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
   const [loaded, setLoaded] = useState(false);
+  const [renderLocationSelect, setRenderLocationSelect] = useState(false);
+  const [popupLocation, setPopupLocation] = useState(null);
+
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const selectedLocation = useSelector(state =>
+    mapSelectors.getLocation(state),
+  );
   const pointsOfConcern = useSelector(state =>
     pointsSelectors.getPoints(state),
   );
+
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const bounds = [
     [boundsObject.sw.longitude, boundsObject.sw.latitude],
     [boundsObject.ne.longitude, boundsObject.ne.latitude],
   ];
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const editorMode = useSelector(state =>
+    applicationSelectors.getRenderEditor(state),
+  );
+  const isEdit = appStatus === 'EDIT POINT';
+  const isAdd = appStatus === 'ADD POINT';
+  const selectLocation = appStatus === 'SELECT LOCATION';
+  const renderPointsEditor = isEdit || isAdd;
 
   const initial = new WebMercatorViewport({
     width: 800,
@@ -66,9 +86,15 @@ export default function Map({ setMap }) {
       return;
     }
 
+    console.log(selectedLocation);
+
+    const pointsToZoom = selectedLocation
+      ? [...pointsOfConcern, { ...selectedLocation, id: 'newLocation' }]
+      : pointsOfConcern;
+
     const points = {
       type: 'FeatureCollection',
-      features: pointsOfConcern.map((point, index) => ({
+      features: pointsToZoom.map((point, index) => ({
         type: 'Feature',
         properties: {
           id: point.pointId,
@@ -88,8 +114,8 @@ export default function Map({ setMap }) {
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
         }).fitBounds(bounds, {
-          padding: 50,
-          offset: [0, 0],
+          padding: 40,
+          offset: [350, 200],
         });
       }
       const viewportCalc = {
@@ -101,29 +127,59 @@ export default function Map({ setMap }) {
         setViewport(viewportCalc);
       }
     }
-  }, [pointsOfConcern, loaded]);
+  }, [pointsOfConcern, loaded, selectedLocation]);
 
   return (
-    <ReactMapGL
-      className="map"
-      {...viewport}
-      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-      mapStyle={defaultMapStyle}
-      ref={mapRef}
-      width="100%"
-      height="100%"
-      onLoad={onMapLoad}
-      onViewportChange={viewportInternal => setViewport(viewportInternal)}
+    <div
+      className={styles.map}
+      style={{ pointerEvents: editorMode ? 'all' : 'none' }}
     >
-      {pointsOfConcern.map(p => (
-        <MapMarker {...p} />
-      ))}
+      <ReactMapGL
+        {...viewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
+        mapStyle={defaultMapStyle}
+        ref={mapRef}
+        width="100%"
+        height="100%"
+        onLoad={onMapLoad}
+        onViewportChange={viewportInternal => setViewport(viewportInternal)}
+        onClick={map => {
+          if (map.rightButton) {
+            setPopupLocation({
+              latitude: map.lngLat[1],
+              longitude: map.lngLat[0],
+            });
+            setRenderLocationSelect(true);
+          } else {
+            setRenderLocationSelect(false);
+            setPopupLocation(null);
+          }
+        }}
+      >
+        {editorMode && (
+          <>
+            {pointsOfConcern.map(p => (
+              <MapMarker {...p} key={p.pointId} />
+            ))}
 
-      <NavigationControl
-        className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
-        showCompass={false}
-      />
+            {selectedLocation && <MapMarker {...selectedLocation} alternate />}
+
+            {renderLocationSelect && appStatus === 'SELECT LOCATION' && (
+              <PopupWrapper {...popupLocation} type={appStatus} />
+            )}
+
+            <NavigationControl
+              className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
+              showCompass={false}
+            />
+          </>
+        )}
+      </ReactMapGL>
       <Notifications />
-    </ReactMapGL>
+      {renderPointsEditor && (
+        <PointEditor appStatus={appStatus} isEdit={isEdit} />
+      )}
+      {selectLocation && <SelectionLocationHelp />}
+    </div>
   );
 }

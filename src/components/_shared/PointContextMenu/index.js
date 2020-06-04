@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-
 import PropTypes from 'prop-types';
+
+import moment from 'moment';
 
 import {
   pointContextMenu,
+  pointContextMenuHeader,
   pointContextMenuClose,
 } from './PointContextMenu.module.scss';
 
@@ -14,19 +16,22 @@ import {
   faTrash,
   faTimes,
 } from '@fortawesome/pro-solid-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
+import applicationActions from 'ducks/application/actions';
+import applicationSelectors from 'ducks/application/selectors';
 
 const PointContextMenu = ({
-  id,
+  pointId: id,
   closeAction,
-  deleteAction,
-  editAction,
-  deselectAction,
-  closeCallback,
+  time,
+  latitude,
+  longitude,
+  renderDateTime = false,
 }) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   const handleClick = e => {
     const _Target = e.target;
@@ -35,7 +40,8 @@ const PointContextMenu = ({
 
     if (!containerRef.current.contains(_Target)) {
       closeAction();
-      // closeCallback();
+      // dispatch(applicationActions.updateStatus(''));
+      // dispatch(pointsActions.setSelectedPoint(null));
     }
   };
 
@@ -47,23 +53,42 @@ const PointContextMenu = ({
     };
   }, []);
 
+  if (appStatus === 'EDIT POINT') {
+    return null;
+  }
+
   return (
     <div className={pointContextMenu} ref={containerRef}>
       <button
         className={pointContextMenuClose}
         type="button"
-        onClick={closeAction}
+        onClick={() => {
+          closeAction();
+          dispatch(applicationActions.updateStatus(''));
+          dispatch(pointsActions.setSelectedPoint(null));
+        }}
       >
         <FontAwesomeIcon icon={faTimes} />
       </button>
+      {renderDateTime && (
+        <div className={pointContextMenuHeader}>
+          <span>{moment.utc(time).format('ddd, MMM d, yyyy')}</span>
+          <span>{moment.utc(time).format('HH:mm')}</span>
+        </div>
+      )}
       <ul>
-        {/* <li>
-          <button type="button" onClick={() => deleteAction(id)}>
+        <li>
+          <button
+            type="button"
+            onClick={() =>
+              dispatch(applicationActions.updateStatus('EDIT POINT'))
+            }
+          >
             <FontAwesomeIcon icon={faEdit} />
             Edit
           </button>
         </li>
-        <li>
+        {/* <li>
           <button type="button" onClick={() => editAction(id)}>
             <FontAwesomeIcon icon={faMinusCircle} />
             Unselect

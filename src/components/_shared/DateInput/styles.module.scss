@@ -2,33 +2,36 @@
 
 .dateInput {
   position: relative;
-  max-width: 200px;
+  width: 100%;
 
-  input[type='date'],
-  input[type='time'] {
-    display: flex;
-    align-items: center;
-  }
-
-  input[type='date']::-webkit-inner-spin-button,
-  input[type='date']::-webkit-calendar-picker-indicator {
-    //display: none;
-    cursor: pointer;
-    opacity: 0;
-    -webkit-appearance: none;
-    background: red;
+  input {
+    background: #f8f8ff;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    height: 44px;
+    padding-left: 46px;
+    font-size: 18px;
+    font-weight: 400;
   }
 }
 
 .icon {
   position: absolute;
-  right: 3px;
+  left: 13px;
   bottom: 0;
-  height: 39px;
+  transform: translateY(-50%);
+  top: 50%;
   width: 35px;
-  color: $interactive-01;
+  font-size: 22px;
   pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+}
+
+:global .react-datepicker-wrapper,
+:global .datePicker {
+  width: 100%;
 }

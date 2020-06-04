@@ -11,9 +11,9 @@ import styles from './record.module.scss';
 import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
 
-const Record = ({ caseId, updatedAt, status, expiresAt }) => {
+const Record = ({ caseId, updatedAt, state, expiresAt }) => {
   const dispatch = useDispatch();
-  const unpublished = status.toLowerCase() === 'unpublished';
+  const unpublished = state.toLowerCase() === 'unpublished';
   const updated = moment(updatedAt).format('ddd, MMMM D, YYYY - h:ma');
   const expires = moment(expiresAt).format('ddd, MMMM D, YYYY - h:ma');
 
@@ -24,7 +24,7 @@ const Record = ({ caseId, updatedAt, status, expiresAt }) => {
 
   return (
     <tr className={recordClasses}>
-      <td colspan="1">
+      <td colSpan="1">
         {!unpublished ? (
           caseId
         ) : (
@@ -35,7 +35,7 @@ const Record = ({ caseId, updatedAt, status, expiresAt }) => {
                 casesActions.loadCasePoints({
                   caseId,
                   updatedAt,
-                  status,
+                  state,
                   expiresAt,
                 }),
               )
@@ -45,11 +45,11 @@ const Record = ({ caseId, updatedAt, status, expiresAt }) => {
           </button>
         )}
       </td>
-      <td colspan="2">
-        <time datetime={updated}>{updated}</time>
+      <td colSpan="2">
+        <time dateTime={updated}>{updated}</time>
       </td>
-      <td colspan="1">{status}</td>
-      <td colspan="2">{expires}</td>
+      <td colSpan="1">{state}</td>
+      <td colSpan="2">{expires}</td>
     </tr>
   );
 };

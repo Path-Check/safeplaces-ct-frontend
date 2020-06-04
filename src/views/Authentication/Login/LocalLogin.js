@@ -98,7 +98,7 @@ const LocalLogin = props => {
             <Controller
               as={
                 <Select
-                  autocorrect="off"
+                  autoCorrect="off"
                   autoCapitalize="off"
                   labelText="username"
                   id="username"
@@ -115,7 +115,7 @@ const LocalLogin = props => {
             <Controller
               as={
                 <TextInput
-                  autocorrect="off"
+                  autoCorrect="off"
                   autoCapitalize="off"
                   id="password"
                   labelText="Passwort"

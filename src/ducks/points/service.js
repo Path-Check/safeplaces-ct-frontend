@@ -12,6 +12,13 @@ const pointsService = {
       },
     });
   },
+  edit: data => {
+    return axios({
+      method: 'PUT',
+      url: `${REACT_APP_API_URL}point`,
+      data,
+    });
+  },
 };
 
 export default pointsService;

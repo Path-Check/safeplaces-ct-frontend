@@ -1,7 +1,29 @@
 .marker {
-  button {
+  > button {
+    font-size: 30px;
     background: none;
     outline: none;
     border: none;
+
+    svg {
+      color: #ff5656;
+    }
+  }
+}
+
+.markerAlt {
+  > button {
+    pointer-events: none;
+    cursor: not-allowed;
+
+    svg {
+      color: #4051db;
+    }
+  }
+}
+
+.markerExpanded {
+  > button {
+    font-size: 40px;
   }
 }

@@ -38,13 +38,13 @@ const SelectedDataList = () => {
               {renderedPoints?.length} of {points?.length}
             </p>
           )}
-          <button
+          {/* <button
             className={selectedDataAction}
             onClick={() => setShowContentMenu(!showContentMenu)}
             type="button"
           >
             <FontAwesomeIcon icon={faEllipsisV} />
-          </button>
+          </button> */}
         </div>
 
         {showContentMenu && (
@@ -57,7 +57,7 @@ const SelectedDataList = () => {
       {renderedPoints?.length > 0 && (
         <ul className={selectedDataList}>
           {renderedPoints?.map(p => (
-            <SelectedDataItem {...p} />
+            <SelectedDataItem key={p.pointId} {...p} />
           ))}
         </ul>
       )}

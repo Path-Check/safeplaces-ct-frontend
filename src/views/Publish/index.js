@@ -9,15 +9,22 @@ import SidebarHeader from 'components/_shared/Sidebar/SidebarHeader';
 import PublishToolActions from 'views/Publish/Actions/ToolActions';
 import PublishLoadActions from 'views/Publish/Actions/LoadActions';
 import RecordsTable from 'components/_shared/RecordsTable';
+import applicationSelectors from 'ducks/application/selectors';
+import { useSelector } from 'react-redux';
 
 const Publish = ({ record }) => {
+  const renderEditor = useSelector(state =>
+    applicationSelectors.getRenderEditor(state),
+  );
+
   return (
     <>
       <div className={publish}>
         <SidebarWrapper>
-          {record ? (
+          {renderEditor ? (
             <>
-              <RedactorTools /> <PublishToolActions />
+              <RedactorTools />
+              <PublishToolActions />
             </>
           ) : (
             <>

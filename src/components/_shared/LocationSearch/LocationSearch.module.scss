@@ -1,0 +1,55 @@
+.locationSearch {
+  width: 100%;
+  position: relative;
+
+  input {
+    background: #f8f8ff;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    height: 44px;
+    padding-left: 10px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+}
+
+.locationSuggestions {
+  position: absolute;
+  top: 100%;
+  background-color: #fff;
+  width: 100%;
+  padding: 30px 10px 10px;
+  z-index: 3;
+}
+
+.locationSuggestion {
+  display: flex;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    margin-right: 10px;
+    font-size: 30px;
+  }
+
+  h6 {
+    margin-bottom: 5px;
+  }
+  p {
+    font-size: 10px;
+  }
+
+  &:hover,
+  &:focus {
+    background: #e5e7fa;
+  }
+}
+
+.locationSuggestionActive {
+  background: #e5e7fa;
+}

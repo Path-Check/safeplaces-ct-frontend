@@ -21,7 +21,7 @@ export default function reducer(state = initialState, action) {
     case pointsTypes.ACTIVE_POINT:
       return {
         ...state,
-        activePoint: action.id,
+        activePoint: action.data,
       };
     default:
       return state;

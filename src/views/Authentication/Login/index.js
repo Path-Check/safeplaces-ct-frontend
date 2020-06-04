@@ -61,7 +61,7 @@ const Login = () => {
             <TextInput
               id="email-input"
               onChange={onEmail}
-              autocorrect="off"
+              autoCorrect="off"
               autoCapitalize="off"
               labelText="Email"
               inputRef={register({ required: 'Please enter a email' })}
@@ -73,7 +73,7 @@ const Login = () => {
             <TextInput
               id="pass-input"
               onChange={onPassword}
-              autocorrect="off"
+              autoCorrect="off"
               autoCapitalize="off"
               labelText="Password"
               inputRef={register}
