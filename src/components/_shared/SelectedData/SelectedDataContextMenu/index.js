@@ -16,7 +16,8 @@ import {
   faTimes,
 } from '@fortawesome/pro-solid-svg-icons';
 import applicationActions from 'ducks/application/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import applicationSelectors from 'ducks/application/selectors';
 
 const SelectedDataContextMenu = ({
   closeAction,
@@ -27,6 +28,7 @@ const SelectedDataContextMenu = ({
 }) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   const handleClick = e => {
     const _Target = e.target;
@@ -56,17 +58,21 @@ const SelectedDataContextMenu = ({
         <FontAwesomeIcon icon={faTimes} />
       </button>
       <ul>
-        <li>
-          <button
-            type="button"
-            onClick={() =>
-              dispatch(applicationActions.updateStatus('ADD POINT'))
-            }
-          >
-            <FontAwesomeIcon icon={faPlus} />
-            Add Data point
-          </button>
-        </li>
+        {appStatus !== 'ADD POINT' && (
+          <li>
+            <button
+              type="button"
+              onClick={() => {
+                dispatch(applicationActions.updateStatus('ADD POINT'));
+                closeAction();
+              }}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              Add Data point
+            </button>
+          </li>
+        )}
+
         {pointsLength > 0 && (
           <>
             {/* <li>
