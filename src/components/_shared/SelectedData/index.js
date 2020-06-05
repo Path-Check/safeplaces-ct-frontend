@@ -22,11 +22,11 @@ const SelectedDataList = () => {
   const [showContentMenu, setShowContentMenu] = useState(false);
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const points = useSelector(state => pointsSelectors.getPoints(state));
-  const selectedPoints = useSelector(state =>
-    pointsSelectors.getSelectedPoints(state),
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
   );
 
-  const renderedPoints = selectedPoints?.length ? selectedPoints : points;
+  const renderedPoints = filteredPoints.length ? filteredPoints : points;
 
   return (
     <div className={selectedDataWrapper}>
