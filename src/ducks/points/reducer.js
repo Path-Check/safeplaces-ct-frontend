@@ -2,26 +2,27 @@ import pointsTypes from './types';
 
 const initialState = {
   points: [],
-  filterPoints: [],
+  filteredPoints: [],
   activePoint: null,
 };
 
 export default function reducer(state = initialState, action) {
-  switch (action.type) {
+  const { type, data, points } = action;
+  switch (type) {
     case pointsTypes.POINTS:
       return {
         ...state,
-        points: action.points,
-      };
-    case pointsTypes.SELECTED_POINTS:
-      return {
-        ...state,
-        selectedPoints: [...state.selectedPoints, ...action.data],
+        points,
       };
     case pointsTypes.ACTIVE_POINT:
       return {
         ...state,
-        activePoint: action.data,
+        activePoint: data,
+      };
+    case pointsTypes.FILTER_POINTS:
+      return {
+        ...state,
+        filteredPoints: data,
       };
     default:
       return state;

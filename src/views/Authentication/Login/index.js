@@ -10,6 +10,7 @@ import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
 
 import authActions from 'ducks/auth/actions';
+import Notifications from '../../../components/_global/Notifications';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const Login = () => {
 
   const onSubmit = async () => {
     if (email.length && password.length) {
-      dispatch(authActions.loginRequest({ email, password }));
+      dispatch(authActions.loginRequest({ username: email, password }));
     }
   };
 
@@ -108,6 +109,7 @@ const Login = () => {
           </form>
         </div>
       </div>
+      <Notifications />
     </div>
   );
 };

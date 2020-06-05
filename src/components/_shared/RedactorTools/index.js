@@ -8,22 +8,22 @@ import TravellingFilter from 'components/_shared/RedactorTools/FilterData/Travel
 import SelectedDataList from 'components/_shared/SelectedData';
 import casesSelectors from 'ducks/cases/selectors';
 import { useSelector } from 'react-redux';
+import pointsSelectors from '../../../ducks/points/selectors';
 
 const RedactorTools = () => {
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const dates = useSelector(state => pointsSelectors.getPointsDates(state));
 
   return (
     <>
       <RedactorToolsHeader />
-      {activeCase?.points && (
-        <>
-          {/* <DateSelector />
-          <FilterData>
-            <DurationFilter />
-            <TravellingFilter />
-          </FilterData> */}
-        </>
-      )}
+      <>
+        <DateSelector dates={dates} />
+        <FilterData>
+          <DurationFilter />
+          <TravellingFilter />
+        </FilterData>
+      </>
       <SelectedDataList items={activeCase?.points} />
     </>
   );

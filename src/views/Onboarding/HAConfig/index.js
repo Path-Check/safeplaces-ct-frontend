@@ -10,6 +10,7 @@ import authSelectors from '../../../ducks/auth/selectors';
 import authActions from '../../../ducks/auth/actions';
 import infoInputs from './infoInputs';
 import { useForm } from 'react-hook-form';
+import Notifications from '../../../components/_global/Notifications';
 
 const HAConfig = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const HAConfig = () => {
 
   const [state, setState] = React.useState({
     name: user && user.name,
-    numberOfDaysToRetainRecords: user && user.numberofDaysToRetainRecords, // TODO BE typo will be fixed
+    daysToRetainRecords: user && user.daysToRetainRecords,
     regionCoordinates: {
       ne: {
         latitude:
@@ -39,19 +40,19 @@ const HAConfig = () => {
           user && user.regionCoordinates && user.regionCoordinates.sw.longitude,
       },
     },
-    apiEndpoint: user && user.apiEndpoint,
+    apiEndpointUrl: user && user.apiEndpointUrl,
     referenceWebsiteUrl: user && user.referenceWebsiteUrl,
-    informationWebsiteUrl: user && user.informationWebsiteUrl,
+    infoWebsiteUrl: user && user.infoWebsiteUrl,
     privacyPolicyUrl: user && user.privacyPolicyUrl,
   });
 
   const {
     name,
-    numberOfDaysToRetainRecords,
+    daysToRetainRecords,
     regionCoordinates: { ne, sw },
-    apiEndpoint,
+    apiEndpointUrl,
     referenceWebsiteUrl,
-    informationWebsiteUrl,
+    infoWebsiteUrl,
     privacyPolicyUrl,
   } = state;
 
@@ -65,10 +66,10 @@ const HAConfig = () => {
   const formCompleted = !!(
     name &&
     regionCordinatesExist &&
-    numberOfDaysToRetainRecords &&
-    apiEndpoint &&
+    daysToRetainRecords &&
+    apiEndpointUrl &&
     referenceWebsiteUrl &&
-    informationWebsiteUrl &&
+    infoWebsiteUrl &&
     privacyPolicyUrl
   );
 
@@ -76,8 +77,8 @@ const HAConfig = () => {
     if (boundariesSet || regionCordinatesExist) {
       dispatch(
         authActions.onboardingRequest({
-          organizationId: user.id,
           ...state,
+          completedOnboarding: true,
         }),
       );
     }
@@ -177,6 +178,7 @@ const HAConfig = () => {
         open={openMapModal}
         confirmBounds={handleConfirmBounds}
       />
+      <Notifications />
     </div>
   );
 };

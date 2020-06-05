@@ -37,6 +37,14 @@ export default function Map({ setMap }) {
     pointsSelectors.getPoints(state),
   );
 
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
+  );
+
+  const renderedPoints = filteredPoints.length
+    ? filteredPoints
+    : pointsOfConcern;
+
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const bounds = [
     [boundsObject.sw.longitude, boundsObject.sw.latitude],
@@ -84,8 +92,8 @@ export default function Map({ setMap }) {
     }
 
     const pointsToZoom = selectedLocation
-      ? [...pointsOfConcern, { ...selectedLocation, id: 'newLocation' }]
-      : pointsOfConcern;
+      ? [...renderedPoints, { ...selectedLocation, id: 'newLocation' }]
+      : renderedPoints;
 
     const points = {
       type: 'FeatureCollection',
@@ -122,7 +130,7 @@ export default function Map({ setMap }) {
         setViewport(viewportCalc);
       }
     }
-  }, [pointsOfConcern, loaded, selectedLocation]);
+  }, [renderedPoints, loaded, selectedLocation]);
 
   useEffect(() => {
     if (!locationSelect && popupLocation) {
@@ -158,7 +166,7 @@ export default function Map({ setMap }) {
       >
         {editorMode && (
           <>
-            {pointsOfConcern.map((p, i) => (
+            {renderedPoints.map((p, i) => (
               <MapMarker {...p} key={i} />
             ))}
 

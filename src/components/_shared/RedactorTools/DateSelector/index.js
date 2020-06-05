@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import Slider, { Range } from 'rc-slider';
@@ -14,26 +14,58 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
 
 import SingleDateToggle from 'components/_shared/RedactorTools/DateSelector/SingleDateToggle';
+import { useDispatch, useSelector } from 'react-redux';
+import pointsActions from '../../../../ducks/points/actions';
+import pointsSelectors from '../../../../ducks/points/selectors';
+import moment from 'moment';
 
 const DateSelector = ({ dates }) => {
   const checkSingleDate = dates?.length === 1;
   const [isSingleDate, setIsSingleDate] = useState(checkSingleDate);
   const [dateRange, setDateRange] = useState([]);
   const [singleDate, setSingleDate] = useState();
+  const dispatch = useDispatch();
+  const points = useSelector(state => pointsSelectors.getPoints(state));
+  const currentDateFormat = 'ddd, MMMM D, YYYY';
 
-  useEffect(() => {}, [isSingleDate]);
+  const filterSingleDatePoints = useCallback(() => {
+    return points.filter(p =>
+      moment(moment(p.time).format(currentDateFormat)).isSame(
+        moment(singleDate, 'ddd, MMMM D, YYYY'),
+      ),
+    );
+  }, [points, singleDate]);
+
+  const filterRangeDatePoints = useCallback(() => {
+    return points.filter(p =>
+      moment(moment(p.time).format(currentDateFormat)).isBetween(
+        moment(dateRange[0], 'ddd, MMMM D, YYYY'),
+        moment(dateRange[1], 'ddd, MMMM D, YYYY'),
+        undefined,
+        '[]',
+      ),
+    );
+  }, [dateRange, points]);
 
   useEffect(() => {
-    // Update the store with single date for filtering
-  }, [singleDate]);
+    if (!isSingleDate) {
+      dispatch(pointsActions.setFilteredPoints([]));
+    }
+  }, [dispatch, isSingleDate]);
 
   useEffect(() => {
-    // Update the store with date range for filtering
-  }, [dateRange]);
+    if (singleDate) {
+      const filtered = filterSingleDatePoints();
+      dispatch(pointsActions.setFilteredPoints(filtered));
+    }
+  }, [dispatch, filterSingleDatePoints, singleDate]);
 
-  if (!dates || dates.length < 1) {
-    return null;
-  }
+  useEffect(() => {
+    if (dateRange.length) {
+      const filtered = filterRangeDatePoints();
+      dispatch(pointsActions.setFilteredPoints(filtered));
+    }
+  }, [dateRange, dispatch, filterRangeDatePoints]);
 
   const handleChange = value => {
     if (isSingleDate) {
@@ -42,10 +74,6 @@ const DateSelector = ({ dates }) => {
       setDateRange([dates[value[0]], dates[value[1]]]);
     }
   };
-
-  if (!dates || dates.length < 1) {
-    return null;
-  }
 
   return (
     <div className={dateSelector}>

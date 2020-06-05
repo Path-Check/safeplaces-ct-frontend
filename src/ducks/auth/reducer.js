@@ -33,7 +33,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         fetching: false,
         currentUser: {
-          ...action.data,
+          ...data,
         },
       };
     case login.FAILURE:
@@ -46,20 +46,6 @@ export default function reducer(state = initialState, action) {
       };
     case login.LOGOUT:
       return initialState;
-    // case "LOGIN":
-    // var salt = bcryptjs.genSaltSync(10);
-    // var hash = bcryptjs.hashSync("B4c0//", salt);
-    // data.password = password;
-    // case 'LOGIN_LOCAL':
-    //   const newLogin = state;
-    //   newLogin.user = state.localAuth[data];
-    //   return {
-    //     newLogin,
-    //   };
-    // case 'LOGOUT_LOCAL':
-    //   const newAuth = state;
-    //   delete newAuth.user;
-    //   return newAuth;
     default:
       return state;
   }
