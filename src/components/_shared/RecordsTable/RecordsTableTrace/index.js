@@ -12,7 +12,7 @@ import Button from 'components/_shared/Button';
 import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';
 import { useSelector, useDispatch } from 'react-redux';
-import Record from 'components/_shared/RecordsTable/Record';
+import Record from './Record';
 import casesActions from 'ducks/cases/actions';
 import applicationActions from 'ducks/application/actions';
 

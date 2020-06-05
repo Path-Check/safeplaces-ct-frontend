@@ -21,6 +21,8 @@ import casesActions from 'ducks/cases/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 
+import FocusTrap from 'focus-trap-react';
+
 const AddNewRecord = () => {
   const dispatch = useDispatch();
   const status = useSelector(state => applicationSelectors.getStatus(state));
@@ -33,51 +35,62 @@ const AddNewRecord = () => {
   return (
     <Modal>
       <Dialog width="650px">
-        <header className={AddNewRecordHeader}>
-          <h3 className={AddNewRecordTitle}>Add New Record</h3>
-        </header>
-        {activeCase?.authCode && (
-          <>
-            <p>
-              <strong>
-                {' '}
-                To add a new record, communicate the code below to a patient.
-              </strong>{' '}
-              They will need to enter this code in their Safe Paths app to
-              upload their location data. Once they enter the code you can
-              confirm you have received the data.
-            </p>
-            <p className={AddNewRecordCode}>{activeCase?.authCode}</p>
+        <FocusTrap active={activeCase?.caseId}>
+          <div>
+            <header className={AddNewRecordHeader}>
+              <h3 className={AddNewRecordTitle}>Add New Record</h3>
+            </header>
+            {activeCase?.authCode && (
+              <>
+                <p>
+                  <strong>
+                    {' '}
+                    To add a new record, communicate the code below to a
+                    patient.
+                  </strong>{' '}
+                  They will need to enter this code in their Safe Paths app to
+                  upload their location data. Once they enter the code you can
+                  confirm you have received the data.
+                </p>
+                <p className={AddNewRecordCode}>{activeCase?.authCode}</p>
+                <div className={AddNewRecordActions}>
+                  <Button
+                    large
+                    onClick={() => dispatch(casesActions.checkCaseGPSData())}
+                  >
+                    Check Data Upload
+                  </Button>
+                </div>
+                <div className={divider}>or</div>
+              </>
+            )}
             <div className={AddNewRecordActions}>
-              <Button
-                large
-                onClick={() => dispatch(casesActions.checkCaseGPSData())}
+              {activeCase?.caseId && (
+                <Button
+                  secondary
+                  large
+                  onClick={() => {
+                    dispatch(applicationActions.renderEditor(true));
+                    dispatch(applicationActions.updateStatus(''));
+                  }}
+                >
+                  Create Record Manually
+                </Button>
+              )}{' '}
+              <button
+                icon={faTimes}
+                className={closeIcon}
+                onClick={() => dispatch(casesActions.deleteCase())}
               >
-                Check Data Upload
-              </Button>
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  className={closeIcon}
+                  onClick={() => dispatch(casesActions.deleteCase())}
+                />
+              </button>
             </div>
-            <div className={divider}>or</div>
-          </>
-        )}
-        <div className={AddNewRecordActions}>
-          {activeCase?.caseId && (
-            <Button
-              secondary
-              large
-              onClick={() => {
-                dispatch(applicationActions.renderEditor(true));
-                dispatch(applicationActions.updateStatus(''));
-              }}
-            >
-              Create Record Manually
-            </Button>
-          )}
-          <FontAwesomeIcon
-            icon={faTimes}
-            className={closeIcon}
-            onClick={() => dispatch(casesActions.deleteCase())}
-          />
-        </div>
+          </div>
+        </FocusTrap>
       </Dialog>
     </Modal>
   );

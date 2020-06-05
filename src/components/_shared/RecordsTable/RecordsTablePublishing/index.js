@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { tableWrapper, table, tableMain } from '../recordsTable.module.scss';
+import {
+  tableWrapper,
+  table,
+  tableMain,
+  tableAction,
+} from '../recordsTable.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -63,6 +68,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
             <td colSpan="4">
               <>
                 <Button
+                  className={tableAction}
                   disabled={caseIds.length < 1}
                   onClick={() => dispatch(casesActions.fetchCases(caseIds))}
                 >
