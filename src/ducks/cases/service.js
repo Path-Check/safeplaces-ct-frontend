@@ -30,6 +30,15 @@ const casesService = {
       },
     });
   },
+  fetchMultiPoints: ({ caseId }) => {
+    return axios({
+      method: 'GET',
+      url: `${REACT_APP_API_URL}cases/points`,
+      data: {
+        caseId,
+      },
+    });
+  },
   deleteCase: ({ caseId }) => {
     return axios({
       method: 'DELETE',

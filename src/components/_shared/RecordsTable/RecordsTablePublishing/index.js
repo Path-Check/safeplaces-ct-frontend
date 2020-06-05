@@ -68,7 +68,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
                 <Button
                   className={tableAction}
                   disabled={caseIds.length < 1}
-                  onClick={() => dispatch(casesActions.fetchCases(caseIds))}
+                  onClick={() => dispatch(casesActions.loadCasePoints(caseIds))}
                 >
                   Open Selected Data
                 </Button>
