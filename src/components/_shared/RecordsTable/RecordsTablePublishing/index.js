@@ -6,8 +6,6 @@ import {
   tableAction,
 } from '../recordsTable.module.scss';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import Button from 'components/_shared/Button';
 import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';

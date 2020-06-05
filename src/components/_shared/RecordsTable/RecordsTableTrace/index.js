@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { faPlus } from '@fortawesome/pro-solid-svg-icons';
-
-import PropTypes from 'prop-types';
 
 import { tableWrapper, table, tableMain } from '../recordsTable.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Modal from 'components/_global/Modal';
 import Button from 'components/_shared/Button';
 import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import Record from './Record';
 import casesActions from 'ducks/cases/actions';
-import applicationActions from 'ducks/application/actions';
-
 const RecordsTableTrace = () => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getCases(state));

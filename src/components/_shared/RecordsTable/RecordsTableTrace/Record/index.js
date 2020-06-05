@@ -2,15 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
-
 import moment from 'moment';
-
-import { Link } from 'react-router-dom';
 
 import styles from './record.module.scss';
 import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
-import Checkbox from 'components/_shared/Checkbox/Checkbox';
 
 const Record = ({
   caseId,
