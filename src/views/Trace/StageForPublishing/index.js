@@ -14,8 +14,12 @@ import {
 import Button from 'components/_shared/Button';
 import Modal from 'components/_global/Modal';
 import Dialog from 'components/_shared/Dialog';
+import applicationActions from 'ducks/application/actions';
+import { useDispatch } from 'react-redux';
 
 const StageForPublishing = () => {
+  const dispatch = useDispatch();
+
   return (
     <Modal>
       <Dialog width="650px">
@@ -36,7 +40,11 @@ const StageForPublishing = () => {
           <Button large onClick={() => console.log('Pubish')}>
             Yes, I received consent
           </Button>
-          <Button large secondary onClick={() => console.log('Cancel')}>
+          <Button
+            large
+            secondary
+            onClick={() => dispatch(applicationActions.updateStatus('IDLE'))}
+          >
             No, I did not receive consent
           </Button>
         </div>
