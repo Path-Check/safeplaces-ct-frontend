@@ -10,7 +10,7 @@ import {
 
 import classNames from 'classnames';
 
-const Checkbox = ({ label, onChange, align, id }) => {
+const Checkbox = ({ label, onChange, align, id, name }) => {
   const [checked, setChecked] = useState(false);
 
   const containerClasses = classNames({
@@ -18,9 +18,9 @@ const Checkbox = ({ label, onChange, align, id }) => {
     [`${alignLeft}`]: align === 'left',
   });
 
-  const onCheck = () => {
+  const onCheck = e => {
     setChecked(!checked);
-    onChange(!checked);
+    onChange(!checked, e);
   };
 
   return (
@@ -29,6 +29,7 @@ const Checkbox = ({ label, onChange, align, id }) => {
         <input
           type="checkbox"
           id={id}
+          name={name}
           onChange={onCheck}
           checked={checked}
           className="input"
