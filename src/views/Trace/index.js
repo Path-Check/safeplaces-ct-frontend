@@ -47,7 +47,9 @@ const Trace = () => {
       </div>
       <AddNewRecord />
       <RecordAdded />
-      <RecordsTable />
+
+      {appStatus === 'CASES ADDED' && <RecordsTable />}
+
       {appStatus === 'STAGE CHANGES' && <StageForPublishing />}
     </>
   );

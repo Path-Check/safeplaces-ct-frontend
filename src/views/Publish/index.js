@@ -16,6 +16,7 @@ const Publish = ({ record }) => {
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   return (
     <>
@@ -38,7 +39,7 @@ const Publish = ({ record }) => {
         </SidebarWrapper>
         <Map />
       </div>
-      <RecordsTable isPublishing />
+      {appStatus === 'CASES ADDED' && <RecordsTable isPublishing />}
     </>
   );
 };
