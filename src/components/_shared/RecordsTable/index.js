@@ -8,16 +8,21 @@ import { useDispatch } from 'react-redux';
 import applicationActions from 'ducks/application/actions';
 import RecordsTablePublishing from 'components/_shared/RecordsTable/RecordsTablePublishing';
 import RecordsTableTrace from 'components/_shared/RecordsTable/RecordsTableTrace';
+import FocusTrap from 'focus-trap-react';
 
 const RecordsTable = ({ isPublishing }) => {
   const dispatch = useDispatch();
 
   return (
-    <Modal
-      closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
-    >
-      {isPublishing ? <RecordsTablePublishing /> : <RecordsTableTrace />}
-    </Modal>
+    <FocusTrap>
+      <div>
+        <Modal
+          closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
+        >
+          {isPublishing ? <RecordsTablePublishing /> : <RecordsTableTrace />}
+        </Modal>
+      </div>
+    </FocusTrap>
   );
 };
 

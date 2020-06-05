@@ -54,7 +54,6 @@ const RecordsTableTrace = () => {
               <Button onClick={() => dispatch(casesActions.fetchCase())}>
                 <FontAwesomeIcon icon={faPlus} /> Add New Record
               </Button>
-              )}
             </td>
           </tr>
         </tfoot>
