@@ -15,7 +15,7 @@ const authActions = {
     data,
   }),
   loginFailure: error => ({
-    type: login.REQUEST,
+    type: login.FAILURE,
     error,
   }),
   onboardingRequest: data => ({
@@ -27,7 +27,7 @@ const authActions = {
     data,
   }),
   onboardingFailure: error => ({
-    type: onboarding.REQUEST,
+    type: onboarding.FAILURE,
     error,
   }),
 };
