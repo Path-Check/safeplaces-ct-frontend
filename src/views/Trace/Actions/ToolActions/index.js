@@ -16,9 +16,7 @@ const TracerToolActions = () => {
     <div className={sidebarActions}>
       <Button
         disabled={points?.length < 1}
-        onClick={() =>
-          dispatch(applicationActions.updateStatus('STAGE CHANGES'))
-        }
+        onClick={() => dispatch(applicationActions.updateStatus('STAGE CASE'))}
       >
         Stage for Publishing
       </Button>

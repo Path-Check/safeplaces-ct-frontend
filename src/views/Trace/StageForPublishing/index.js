@@ -16,6 +16,7 @@ import Modal from 'components/_global/Modal';
 import Dialog from 'components/_shared/Dialog';
 import applicationActions from 'ducks/application/actions';
 import { useDispatch } from 'react-redux';
+import casesActions from 'ducks/cases/actions';
 
 const StageForPublishing = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const StageForPublishing = () => {
           </p>
         </header>
         <div className={StageForPublishingActions}>
-          <Button large onClick={() => console.log('Pubish')}>
+          <Button large onClick={() => dispatch(casesActions.stageCase())}>
             Yes, I received consent
           </Button>
           <Button

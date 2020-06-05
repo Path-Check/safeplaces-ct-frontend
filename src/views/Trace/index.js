@@ -50,7 +50,7 @@ const Trace = () => {
 
       {appStatus === 'CASES ADDED' && <RecordsTable />}
 
-      {appStatus === 'STAGE CHANGES' && <StageForPublishing />}
+      {appStatus === 'STAGE CASE' && <StageForPublishing />}
     </>
   );
 };
