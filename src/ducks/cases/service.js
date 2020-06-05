@@ -39,6 +39,15 @@ const casesService = {
       },
     });
   },
+  publishCases: ({ caseIds }) => {
+    return axios({
+      method: 'DELETE',
+      url: `${REACT_APP_API_URL}cases/publish`,
+      data: {
+        caseIds,
+      },
+    });
+  },
 };
 
 export default casesService;

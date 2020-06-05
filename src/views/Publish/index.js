@@ -10,12 +10,15 @@ import PublishToolActions from 'views/Publish/Actions/ToolActions';
 import PublishLoadActions from 'views/Publish/Actions/LoadActions';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
-import { useSelector } from 'react-redux';
+import PublishData from 'views/Publish/PublishData';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 const Publish = ({ record }) => {
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   return (
     <>
@@ -39,6 +42,7 @@ const Publish = ({ record }) => {
         <Map />
       </div>
       <RecordsTable isPublishing />
+      {appStatus === 'SUBMIT FOR PUBLISHING' && <PublishData />}
     </>
   );
 };
