@@ -80,6 +80,11 @@ class TestRedaction(unittest.TestCase):
         #TODO: this next step fails because it was designed for backend=OFF.  To test this, we need to load the publisher screen and see what data is there when we hit load
         #tools.compare_files(self.tmp_dir + '/privkit31A-synthetic-REDACTED-REDACTED.json', self.home_dir + '/' + self.data_dir + '/expected_results/privkit31A-synthetic-REDACTED-REDACTED.json')
 
+    def logout(self):
+        tools = Tools()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        settings_page = SettingsPage(self.driver)
+        settings_page.logout
 
     def tearDown(self):
         self.driver.close()
