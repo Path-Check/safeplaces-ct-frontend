@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import {
   selectedDataContextMenu,
-  selectedDataContextMenuClose,
+  selectedDataContextMenuAction,
 } from './SelectedDataContextMenu.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -50,17 +50,11 @@ const SelectedDataContextMenu = ({
 
   return (
     <div className={selectedDataContextMenu} ref={containerRef}>
-      <button
-        className={selectedDataContextMenuClose}
-        type="button"
-        onClick={closeAction}
-      >
-        <FontAwesomeIcon icon={faTimes} />
-      </button>
       <ul>
         {appStatus !== 'ADD POINT' && (
           <li>
             <button
+              className={selectedDataContextMenuAction}
               type="button"
               onClick={() => {
                 dispatch(applicationActions.updateStatus('ADD POINT'));
@@ -76,13 +70,15 @@ const SelectedDataContextMenu = ({
         {pointsLength > 0 && (
           <>
             {/* <li>
-              <button type="button" onClick={() => deleteAllAction()}>
+              <button type="button" onClick={() => deleteAllAction()} 
+              className={selectedDataContextMenuAction}>
                 <FontAwesomeIcon icon={faMinusCircle} />
                 Unselect All
               </button>
             </li>
             <li>
-              <button type="button" onClick={() => deleteAllAction()}>
+              <button type="button" onClick={() => deleteAllAction()} 
+              className={selectedDataContextMenuAction}>
                 <FontAwesomeIcon icon={faTrash} />
                 Delete All Selected
               </button>
