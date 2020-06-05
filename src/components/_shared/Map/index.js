@@ -108,7 +108,10 @@ export default function Map({ setMap }) {
         zooming = new WebMercatorViewport({
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
-        }).fitBounds(bounds);
+        }).fitBounds(bounds, {
+          padding: 20,
+          offset: [40, 40],
+        });
       }
       const viewportCalc = {
         ...viewport,
