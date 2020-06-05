@@ -58,7 +58,7 @@ const infoInputs = [
     subtitle:
       'A website your users will reach to view local informations and alerts',
     placeholder: 'https://minorityhealth.hhs.gov',
-    key: 'informationWebsiteUrl',
+    key: 'infoWebsiteUrl',
   },
   {
     title: 'Reference Website',
@@ -71,7 +71,7 @@ const infoInputs = [
     title: 'API Endpoint',
     subtitle: 'Used to define where you want to load and publish your data',
     placeholder: 'https://api.example.com/safeplaces',
-    key: 'apiEndpoint',
+    key: 'apiEndpointUrl',
   },
   {
     title: 'Privacy Policy',
@@ -85,7 +85,7 @@ const infoInputs = [
     subtitle:
       'Set the duration unpublished data will remain in your database (30 days max)',
     children: DaySliderFunc,
-    key: 'numberOfDaysToRetainRecords',
+    key: 'daysToRetainRecords',
   },
   {
     title: 'Health Authority Region',

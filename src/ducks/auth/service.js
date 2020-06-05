@@ -3,23 +3,45 @@ import axios from 'axios';
 const { REACT_APP_API_URL } = process.env;
 
 const authService = {
-  login: async data => {
-    const tokenRes = await axios({
+  getToken: async data => {
+    return axios({
       method: 'POST',
       url: `${REACT_APP_API_URL}login`,
       data,
     });
-    const { token } = tokenRes.data;
+  },
+  getOrganization: async token => {
+    return axios({
+      method: 'GET',
+      url: `${REACT_APP_API_URL}organization`,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+  },
+  getOrganizationConfig: async token => {
+    return axios({
+      method: 'GET',
+      url: `${REACT_APP_API_URL}organization/configuration`,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+  },
+  login: async data => {
     let orgRes = null;
+    let user = null;
+
+    const {
+      data: { token },
+    } = await authService.getToken(data);
+
     if (token) {
-      orgRes = await axios({
-        method: 'GET',
-        url: `${REACT_APP_API_URL}organization`,
-        data,
-      });
+      orgRes = await authService.getOrganizationConfig(token);
+      if (orgRes) {
+        user = orgRes ? { ...orgRes.data } : null;
+      }
     }
-    // TODO completedOnboarding will soon come from BE
-    const user = orgRes ? { ...orgRes.data } : null;
 
     return { user, token };
   },
