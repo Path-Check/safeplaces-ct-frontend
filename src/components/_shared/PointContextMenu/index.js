@@ -32,6 +32,8 @@ const PointContextMenu = ({
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const isTrace =
+    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
 
   const handleClick = e => {
     const _Target = e.target;
@@ -78,31 +80,35 @@ const PointContextMenu = ({
       )}
       <ul>
         <li>
-          <button
-            type="button"
-            onClick={() =>
-              dispatch(applicationActions.updateStatus('EDIT POINT'))
-            }
-          >
-            <FontAwesomeIcon icon={faEdit} />
-            Edit
-          </button>
-        </li>
-        {/* <li>
-          <button type="button" onClick={() => editAction(id)}>
+          <button type="button" onClick={() => console.log('oi oi')}>
             <FontAwesomeIcon icon={faMinusCircle} />
             Unselect
           </button>
-        </li> */}
-        <li>
-          <button
-            type="button"
-            onClick={() => dispatch(pointsActions.deletePoint(id))}
-          >
-            <FontAwesomeIcon icon={faTrash} />
-            Delete
-          </button>
         </li>
+        {isTrace && (
+          <li>
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(applicationActions.updateStatus('EDIT POINT'))
+              }
+            >
+              <FontAwesomeIcon icon={faEdit} />
+              Edit
+            </button>
+          </li>
+        )}
+        {isTrace && (
+          <li>
+            <button
+              type="button"
+              onClick={() => dispatch(pointsActions.deletePoint(id))}
+            >
+              <FontAwesomeIcon icon={faTrash} />
+              Delete
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );

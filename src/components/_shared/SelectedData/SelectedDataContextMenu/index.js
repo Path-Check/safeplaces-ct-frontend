@@ -31,9 +31,11 @@ const SelectedDataContextMenu = ({
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
+
+  const isTrace =
+    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
+  const noFilteredPoints =
+    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
 
   const handleClick = e => {
     const _Target = e.target;
@@ -56,7 +58,7 @@ const SelectedDataContextMenu = ({
   return (
     <div className={selectedDataContextMenu} ref={containerRef}>
       <ul>
-        {appStatus !== 'ADD POINT' && (
+        {appStatus !== 'ADD POINT' && isTrace && (
           <li>
             <button
               className={selectedDataContextMenuAction}
@@ -72,7 +74,7 @@ const SelectedDataContextMenu = ({
           </li>
         )}
 
-        {filteredPoints?.length > 0 && (
+        {!noFilteredPoints && (
           <>
             <li>
               <button
@@ -84,16 +86,18 @@ const SelectedDataContextMenu = ({
                 Unselect All
               </button>
             </li>
-            <li>
-              <button
-                type="button"
-                onClick={() => deleteAllAction()}
-                className={selectedDataContextMenuAction}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-                Delete All Selected
-              </button>
-            </li>
+            {isTrace && (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => deleteAllAction()}
+                  className={selectedDataContextMenuAction}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                  Delete All Selected
+                </button>
+              </li>
+            )}
           </>
         )}
       </ul>
