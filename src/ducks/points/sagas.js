@@ -48,7 +48,9 @@ function* updatePoint({ point, type }) {
     if (isEdit) {
       const response = yield call(pointsService.edit, point);
       const points = currentPoints.filter(p => p.pointId !== point.pointId);
-      yield put(pointsActions.updatePoints([...points, response.data.point]));
+      yield put(
+        pointsActions.updatePoints([...points, response.data.concernPoint]),
+      );
     } else {
       const response = yield call(pointsService.add, point);
       yield put(

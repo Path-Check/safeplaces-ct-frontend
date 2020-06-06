@@ -151,11 +151,39 @@ function* publishCases() {
   }
 }
 
+function* stageCase() {
+  const { caseId } = yield select(casesSelectors.getActiveCase);
+
+  yield put(applicationActions.updateStatus('BUSY'));
+
+  try {
+    yield call(casesService.stageCase, { caseId });
+    yield put(
+      applicationActions.notification({
+        title: `Record ${caseId} has successfully been staged for publishing.`,
+      }),
+    );
+
+    yield put(applicationActions.renderEditor(false));
+    yield put(applicationActions.updateStatus('IDLE'));
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to stage case for publishing, Please try again',
+        text: '- if the problem persists, please seek technical support.',
+      }),
+    );
+
+    yield put(applicationActions.updateStatus('STAGE CASE'));
+  }
+}
+
 export default function* casesSagas() {
   yield takeEvery(casesTypes.FETCH_CASE, addCase);
   yield takeEvery(casesTypes.FETCH_CASES, addCases);
   yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
   yield takeEvery(casesTypes.PUBLISH_CASES, publishCases);
+  yield takeEvery(casesTypes.STAGE_CASE, stageCase);
   yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);
 }

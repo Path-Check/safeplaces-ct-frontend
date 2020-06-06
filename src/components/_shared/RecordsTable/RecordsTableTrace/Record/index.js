@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
-
 import moment from 'moment';
-
-import { Link } from 'react-router-dom';
 
 import styles from './record.module.scss';
 import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
 
-const Record = ({ caseId, updatedAt, state, expiresAt }) => {
+const Record = ({
+  caseId,
+  updatedAt,
+  state,
+  expiresAt,
+  isPublishing,
+  onChange,
+}) => {
   const dispatch = useDispatch();
   const unpublished = state.toLowerCase() === 'unpublished';
   const updated = moment(updatedAt).format('ddd, MMMM D, YYYY - h:ma');

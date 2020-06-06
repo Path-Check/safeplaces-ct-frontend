@@ -45,6 +45,12 @@ const casesService = {
       url: `${REACT_APP_API_URL}cases/publish`,
       data: {
         caseIds,
+  stageCase: ({ caseId }) => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}/case/stage`,
+      data: {
+        caseId,
       },
     });
   },

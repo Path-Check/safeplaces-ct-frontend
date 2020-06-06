@@ -41,8 +41,8 @@ const Publish = ({ record }) => {
         </SidebarWrapper>
         <Map />
       </div>
-      <RecordsTable isPublishing />
       {appStatus === 'SUBMIT FOR PUBLISHING' && <PublishData />}
+      {appStatus === 'CASES ADDED' && <RecordsTable />}
     </>
   );
 };
