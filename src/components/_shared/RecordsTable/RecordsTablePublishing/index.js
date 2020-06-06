@@ -36,8 +36,6 @@ const RecordsTablePublishing = ({ isPublishing }) => {
     setCaseIds(ids);
   };
 
-  console.log(caseIds);
-
   return (
     <div className={tableWrapper}>
       <table className={table}>

@@ -69,8 +69,6 @@ function* addCase() {
 function* loadCasePoints({ type, caseId }) {
   yield put(applicationActions.updateStatus('BUSY'));
 
-  console.log(type, caseId);
-
   try {
     const response = yield call(casesService.fetchPoints, {
       caseId,
@@ -82,6 +80,8 @@ function* loadCasePoints({ type, caseId }) {
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(casesActions.setCase(caseId));
+
+    yield put(applicationActions.updateStatus('CASES ADDED'));
     yield put(
       applicationActions.notification({
         title: 'Unable to retrieve location data.',
@@ -110,12 +110,19 @@ function* checkCaseGPSDataSaga() {
 function* deleteCase() {
   const activeCase = yield select(casesSelectors.getActiveCase);
 
+  console.log('delete');
+
   try {
     yield call(casesService.deleteCase, {
       caseId: activeCase.caseId,
     });
     yield put(casesActions.setCase(null));
     yield put(applicationActions.updateStatus('IDLE'));
+    yield put(
+      applicationActions.notification({
+        title: 'Case Deleted',
+      }),
+    );
   } catch (error) {
     yield put(
       applicationActions.notification({

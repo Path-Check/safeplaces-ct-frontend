@@ -44,7 +44,6 @@ const AddNewRecord = () => {
               <>
                 <p>
                   <strong>
-                    {' '}
                     To add a new record, communicate the code below to a
                     patient.
                   </strong>{' '}
@@ -82,11 +81,7 @@ const AddNewRecord = () => {
                 className={closeIcon}
                 onClick={() => dispatch(casesActions.deleteCase())}
               >
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  className={closeIcon}
-                  onClick={() => dispatch(casesActions.deleteCase())}
-                />
+                <FontAwesomeIcon icon={faTimes} className={closeIcon} />
               </button>
             </div>
           </div>

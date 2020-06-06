@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
 
 const Record = ({
-  caseId,
+  id,
   updatedAt,
   state,
   expiresAt,
@@ -30,13 +30,13 @@ const Record = ({
     <tr className={recordClasses}>
       <td colSpan="1">
         {!unpublished ? (
-          caseId
+          id
         ) : (
           <button
             className={styles.recordAction}
-            onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
+            onClick={() => dispatch(casesActions.loadCasePoints(id))}
           >
-            {caseId}
+            {id}
           </button>
         )}
       </td>

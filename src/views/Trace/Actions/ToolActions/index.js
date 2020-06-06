@@ -22,7 +22,7 @@ const TracerToolActions = () => {
       >
         Stage for Publishing
       </Button>
-      <Button secondary>Save Session</Button>
+      {/* <Button secondary>Save Session</Button> */}
     </div>
   );
 };

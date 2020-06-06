@@ -22,13 +22,15 @@ const casesService = {
     });
   },
   fetchPoints: ({ caseId }) => {
-    return axios({
+    const request = {
       method: 'GET',
       url: `${REACT_APP_API_URL}case/points`,
       data: {
         caseId,
       },
-    });
+    };
+
+    return axios(request);
   },
   fetchMultiPoints: ({ caseId }) => {
     return axios({
@@ -40,6 +42,14 @@ const casesService = {
     });
   },
   deleteCase: ({ caseId }) => {
+    console.log({
+      method: 'DELETE',
+      url: `${REACT_APP_API_URL}case`,
+      data: {
+        caseId,
+      },
+    });
+
     return axios({
       method: 'DELETE',
       url: `${REACT_APP_API_URL}case`,
