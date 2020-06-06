@@ -140,7 +140,7 @@ function* deleteCase() {
 }
 
 function* publishCases() {
-  const cases = yield select(casesSelectors.getCases);
+  const cases = yield select(casesSelectors.getActiveCase);
 
   yield put(applicationActions.updateStatus('BUSY'));
 

@@ -61,16 +61,16 @@ const casesService = {
   publishCases: ({ caseIds }) => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/cases/publish`,
+      url: `${REACT_APP_API_URL}cases/publish`,
       data: {
-        caseIds,
+        caseIds: [caseIds.caseId],
       },
     });
   },
   stageCase: ({ caseId }) => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}/case/stage`,
+      url: `${REACT_APP_API_URL}case/stage`,
       data: {
         caseId,
       },
