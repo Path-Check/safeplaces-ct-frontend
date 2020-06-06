@@ -28,7 +28,7 @@ const Login = () => {
       console.log(history);
 
       if (token && completedOnboarding) {
-        history.push(location.state.referrer || 'trace');
+        history.push(location.state?.referrer || 'trace');
       }
       if (token && !completedOnboarding) {
         history.push('/onboarding');

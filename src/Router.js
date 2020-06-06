@@ -20,7 +20,7 @@ function Router({ token }) {
         <Redirect
           to={{
             pathname: '/login',
-            state: { referrer: location.pathname },
+            state: { referrer: location.pathname || '/' },
           }}
         />
       )}
