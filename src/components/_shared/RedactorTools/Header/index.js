@@ -5,11 +5,11 @@ import { redactorToolsHeader } from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
 import casesSelectors from 'ducks/cases/selectors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const RedactorToolsHeader = ({ currentRecord }) => {
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
-  const handleBack = () => console.log('go back');
+  const dispatch = useDispatch();
 
   if (!activeCase) {
     return null;
@@ -17,9 +17,17 @@ const RedactorToolsHeader = ({ currentRecord }) => {
 
   return (
     <header className={redactorToolsHeader}>
-      {/* <button type="button" onClick={handleBack} title="Back to home screen">
+      <button
+        type="button"
+        onClick={() =>
+          dispatch({
+            type: 'RESET_VIEW',
+          })
+        }
+        title="Back to home screen"
+      >
         <FontAwesomeIcon icon={faChevronLeft} />
-      </button> */}
+      </button>
       <h3>Record ID: {activeCase.caseId}</h3>
     </header>
   );
