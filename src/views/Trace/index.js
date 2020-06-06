@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { tracer } from './Tracer.module.scss';
 
@@ -16,13 +16,18 @@ import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
 import StageForPublishing from 'views/Trace/StageForPublishing';
 import TracerToolActions from 'views/Trace/Actions/ToolActions';
+import applicationActions from 'ducks/application/actions';
 
 const Trace = () => {
+  const dispatch = useDispatch();
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
-
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+
+  useEffect(() => {
+    dispatch(applicationActions.setMode('trace'));
+  }, []);
 
   return (
     <>
