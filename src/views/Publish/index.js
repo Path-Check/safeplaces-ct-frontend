@@ -10,7 +10,9 @@ import PublishToolActions from 'views/Publish/Actions/ToolActions';
 import PublishLoadActions from 'views/Publish/Actions/LoadActions';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
-import { useSelector } from 'react-redux';
+import PublishData from 'views/Publish/PublishData';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 const Publish = ({ record }) => {
   const renderEditor = useSelector(state =>
@@ -39,7 +41,8 @@ const Publish = ({ record }) => {
         </SidebarWrapper>
         <Map />
       </div>
-      {appStatus === 'CASES ADDED' && <RecordsTable isPublishing />}
+      {appStatus === 'SUBMIT FOR PUBLISHING' && <PublishData />}
+      {appStatus === 'CASES ADDED' && <RecordsTable />}
     </>
   );
 };

@@ -8,7 +8,6 @@ import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
 import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
-import pointsSelectors from 'ducks/points/selectors';
 
 function* addCases({ data }) {
   const { id: organizationId } = yield select(authSelectors.getCurrentUser);
@@ -123,6 +122,35 @@ function* deleteCase() {
   }
 }
 
+function* publishCases() {
+  const cases = yield select(casesSelectors.getCases);
+
+  yield put(applicationActions.updateStatus('BUSY'));
+
+  try {
+    yield call(casesService.publishCases, {
+      caseIds: cases,
+    });
+    yield put(casesActions.setCase(null));
+    yield put(applicationActions.updateStatus('IDLE'));
+    yield put(
+      applicationActions.notification({
+        title: `${cases.length} record(s) have been downloaded to your API endpoint`,
+        text: 'Please try again.',
+      }),
+    );
+  } catch (error) {
+    yield put(applicationActions.updateStatus('SUBMIT FOR PUBLISHING'));
+
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to publish case(s)',
+        text: 'Please try again.',
+      }),
+    );
+  }
+}
+
 function* stageCase() {
   const { caseId } = yield select(casesSelectors.getActiveCase);
 
@@ -154,6 +182,7 @@ export default function* casesSagas() {
   yield takeEvery(casesTypes.FETCH_CASE, addCase);
   yield takeEvery(casesTypes.FETCH_CASES, addCases);
   yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
+  yield takeEvery(casesTypes.PUBLISH_CASES, publishCases);
   yield takeEvery(casesTypes.STAGE_CASE, stageCase);
   yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);

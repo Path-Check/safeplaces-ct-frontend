@@ -33,6 +33,9 @@ const casesActions = {
     type: casesTypes.DELETE_CASE,
     data,
   }),
+  publishCases: () => ({
+    type: casesTypes.PUBLISH_CASES,
+  }),
 };
 
 export default casesActions;
