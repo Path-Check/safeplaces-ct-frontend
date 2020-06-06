@@ -26,9 +26,15 @@ const casesActions = {
     type: casesTypes.ENRICH_CASE,
     data,
   }),
+  stageCase: data => ({
+    type: casesTypes.STAGE_CASE,
+  }),
   deleteCase: data => ({
     type: casesTypes.DELETE_CASE,
     data,
+  }),
+  publishCases: () => ({
+    type: casesTypes.PUBLISH_CASES,
   }),
 };
 

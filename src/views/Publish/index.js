@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { publish } from './Publish.module.scss';
 
@@ -10,19 +10,15 @@ import PublishToolActions from 'views/Publish/Actions/ToolActions';
 import PublishLoadActions from 'views/Publish/Actions/LoadActions';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
+import PublishData from 'views/Publish/PublishData';
+
 import { useSelector, useDispatch } from 'react-redux';
-import applicationActions from 'ducks/application/actions';
 
 const Publish = ({ record }) => {
-  const dispatch = useDispatch();
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-
-  useEffect(() => {
-    dispatch(applicationActions.setMode('publish'));
-  }, []);
 
   return (
     <>
@@ -45,7 +41,8 @@ const Publish = ({ record }) => {
         </SidebarWrapper>
         <Map />
       </div>
-      {appStatus === 'CASES ADDED' && <RecordsTable isPublishing />}
+      {appStatus === 'SUBMIT FOR PUBLISHING' && <PublishData />}
+      {appStatus === 'CASES ADDED' && <RecordsTable />}
     </>
   );
 };
