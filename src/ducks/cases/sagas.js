@@ -160,8 +160,9 @@ function* publishCases() {
     yield call(casesService.publishCases, {
       caseIds: cases,
     });
-    yield put(casesActions.setCase(null));
-    yield put(applicationActions.updateStatus('IDLE'));
+
+    yield put({ type: 'RESET_VIEW' });
+
     yield put(
       applicationActions.notification({
         title: `${cases.length} record(s) have been downloaded to your API endpoint`,
