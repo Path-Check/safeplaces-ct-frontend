@@ -60,7 +60,7 @@ export default function Map({ setMap }) {
     height: 800,
   }).fitBounds(bounds);
 
-  const [viewport, setViewport] = useState({ ...initial, zoom: 5 });
+  const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
   const onMapLoad = e => {
     setLoaded(true);
