@@ -8,7 +8,7 @@ const PublishToolActions = () => {
   return (
     <div className={sidebarActions}>
       <Button>Submit Data For Publishing</Button>
-      <Button secondary>Save Changes</Button>
+      {/* <Button secondary>Save Changes</Button> */}
     </div>
   );
 };
