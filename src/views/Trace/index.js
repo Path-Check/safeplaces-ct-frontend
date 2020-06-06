@@ -14,13 +14,15 @@ import AddNewRecord from 'views/Trace/AddNewRecord';
 import RecordAdded from 'views/Trace/RecordAdded';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
+import StageForPublishing from 'views/Trace/StageForPublishing';
+import TracerToolActions from 'views/Trace/Actions/ToolActions';
 
 const Trace = () => {
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
 
-  console.log(renderEditor);
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   return (
     <>
@@ -29,7 +31,7 @@ const Trace = () => {
           {renderEditor ? (
             <>
               <RedactorTools />
-              {/* <TracerToolActions /> */}
+              <TracerToolActions />
             </>
           ) : (
             <>
@@ -45,7 +47,10 @@ const Trace = () => {
       </div>
       <AddNewRecord />
       <RecordAdded />
-      <RecordsTable />
+
+      {appStatus === 'CASES ADDED' && <RecordsTable />}
+
+      {appStatus === 'STAGE CASE' && <StageForPublishing />}
     </>
   );
 };

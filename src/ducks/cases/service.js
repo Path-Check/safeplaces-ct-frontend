@@ -39,6 +39,15 @@ const casesService = {
       },
     });
   },
+  stageCase: ({ caseId }) => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}/case/stge`,
+      data: {
+        caseId,
+      },
+    });
+  },
 };
 
 export default casesService;

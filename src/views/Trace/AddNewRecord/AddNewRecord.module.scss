@@ -34,6 +34,12 @@
   color: black;
   z-index: 99;
   cursor: pointer;
+  transition: transform 250ms ease;
+
+  &:focus,
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .divider {
