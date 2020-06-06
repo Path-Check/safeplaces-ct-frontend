@@ -17,7 +17,7 @@ const persistConfig = {
 };
 
 export const history = createBrowserHistory();
-const persistedReducer = persistReducer(persistConfig, rootReducer(history));
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();

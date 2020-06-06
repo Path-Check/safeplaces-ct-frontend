@@ -130,8 +130,6 @@ function* checkCaseGPSDataSaga() {
 function* deleteCase() {
   const activeCase = yield select(casesSelectors.getActiveCase);
 
-  console.log('delete');
-
   try {
     yield call(casesService.deleteCase, {
       caseId: activeCase.caseId,
@@ -195,8 +193,9 @@ function* stageCase() {
       }),
     );
 
-    yield put(applicationActions.renderEditor(false));
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put({
+      type: 'RESET_VIEW',
+    });
   } catch (error) {
     yield put(
       applicationActions.notification({
