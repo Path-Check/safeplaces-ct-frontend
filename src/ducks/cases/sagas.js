@@ -21,9 +21,15 @@ function* addCases({ data }) {
       organizationId,
     });
 
+    if (!response.data.cases || response.data.cases.length < 1) {
+      throw Error('No cases returned');
+    }
+
     yield put(casesActions.addCases(response.data));
     yield put(applicationActions.updateStatus('CASES ADDED'));
   } catch (error) {
+    console.error(error);
+
     yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
