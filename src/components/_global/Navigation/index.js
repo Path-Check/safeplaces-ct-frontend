@@ -9,27 +9,19 @@ const Navigation = () => (
   <nav>
     <ul className={styles.navMenu}>
       <li>
-        <NavLink
-          className={styles.navMenuItem}
-          activeClassName={styles.active}
-          to="/trace"
-        >
+        <a className={styles.navMenuItem} href="/trace">
           Contact Trace
-        </NavLink>
-        <NavLink
-          className={styles.navMenuItem}
-          activeClassName={styles.active}
-          to="/publish"
-        >
+        </a>
+        <a className={styles.navMenuItem} href="/publish">
           Publish Data
-        </NavLink>
+        </a>
       </li>
       <li>
         <NavLink
           className={styles.navMenuItem}
           activeClassName={styles.active}
           strict
-          to="/settings/"
+          to="/settings"
         >
           Settings
         </NavLink>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { InlineLoading, TextInput } from '@wfp/ui';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from './login.module.scss';
 import loginImage from '../../../assets/images/home-page-graphic.png';
 
@@ -20,12 +20,15 @@ const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
     if (currentUser) {
       const { completedOnboarding } = currentUser;
+      console.log(history);
+
       if (token && completedOnboarding) {
-        history.push('/trace');
+        history.push(location.state.referrer || 'trace');
       }
       if (token && !completedOnboarding) {
         history.push('/onboarding');

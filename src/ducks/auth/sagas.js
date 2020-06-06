@@ -28,10 +28,8 @@ function* onboardingSaga({ data }) {
     yield put(
       authActions.onboardingSuccess({
         ...response.data,
-        completedOnboarding: true,
       }),
     );
-
     yield put(push('/trace'));
   } catch (error) {
     const {
