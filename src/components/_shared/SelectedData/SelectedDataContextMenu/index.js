@@ -18,6 +18,8 @@ import {
 import applicationActions from 'ducks/application/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import applicationSelectors from 'ducks/application/selectors';
+import pointsActions from 'ducks/points/actions';
+import pointsSelectors from 'ducks/points/selectors';
 
 const SelectedDataContextMenu = ({
   closeAction,
@@ -29,6 +31,9 @@ const SelectedDataContextMenu = ({
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
+  );
 
   const handleClick = e => {
     const _Target = e.target;
@@ -67,22 +72,28 @@ const SelectedDataContextMenu = ({
           </li>
         )}
 
-        {pointsLength > 0 && (
+        {filteredPoints?.length > 0 && (
           <>
-            {/* <li>
-              <button type="button" onClick={() => deleteAllAction()} 
-              className={selectedDataContextMenuAction}>
+            <li>
+              <button
+                type="button"
+                onClick={() => dispatch(pointsActions.setFilteredPoints([]))}
+                className={selectedDataContextMenuAction}
+              >
                 <FontAwesomeIcon icon={faMinusCircle} />
                 Unselect All
               </button>
             </li>
             <li>
-              <button type="button" onClick={() => deleteAllAction()} 
-              className={selectedDataContextMenuAction}>
+              <button
+                type="button"
+                onClick={() => deleteAllAction()}
+                className={selectedDataContextMenuAction}
+              >
                 <FontAwesomeIcon icon={faTrash} />
                 Delete All Selected
               </button>
-            </li> */}
+            </li>
           </>
         )}
       </ul>
