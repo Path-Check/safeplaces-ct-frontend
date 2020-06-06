@@ -41,10 +41,13 @@ const casesService = {
   },
   publishCases: ({ caseIds }) => {
     return axios({
-      method: 'DELETE',
-      url: `${REACT_APP_API_URL}cases/publish`,
+      method: 'POST',
+      url: `${REACT_APP_API_URL}/cases/publish`,
       data: {
         caseIds,
+      },
+    });
+  },
   stageCase: ({ caseId }) => {
     return axios({
       method: 'POST',
