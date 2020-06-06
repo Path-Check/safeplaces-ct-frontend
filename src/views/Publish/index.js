@@ -23,6 +23,9 @@ const Publish = ({ record }) => {
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   useEffect(() => {
+    dispatch({
+      type: 'RESET_VIEW',
+    });
     dispatch(applicationActions.setMode('publish'));
   }, []);
 

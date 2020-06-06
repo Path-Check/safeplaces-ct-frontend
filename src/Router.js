@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import { Redirect, useLocation } from 'react-router';
+import { Redirect, useLocation, useHistory } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 
 import './scss/ui.scss';
@@ -10,6 +10,7 @@ import Trace from 'views/Trace';
 import Publish from 'views/Publish';
 import Onboarding from 'views/Onboarding';
 import Settings from 'views/Settings';
+
 function Router({ token }) {
   const location = useLocation();
 
