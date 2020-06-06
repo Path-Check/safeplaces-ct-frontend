@@ -74,10 +74,24 @@ function* addCase() {
 
 function* loadCasePoints({ type, caseId }) {
   yield put(applicationActions.updateStatus('BUSY'));
+  let service;
+  let data;
+
+  if (Array.isArray(caseId)) {
+    service = 'fetchMultiPoints';
+    data = {
+      caseIds: caseId,
+    };
+  } else {
+    service = 'fetchPoints';
+    data = {
+      caseId,
+    };
+  }
 
   try {
-    const response = yield call(casesService.fetchPoints, {
-      caseId,
+    const response = yield call(casesService[service], {
+      data,
     });
 
     yield put(casesActions.setCase(caseId));

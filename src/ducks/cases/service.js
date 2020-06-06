@@ -21,24 +21,20 @@ const casesService = {
       },
     });
   },
-  fetchPoints: ({ caseId }) => {
+  fetchPoints: ({ data }) => {
     const request = {
       method: 'GET',
       url: `${REACT_APP_API_URL}case/points`,
-      data: {
-        caseId,
-      },
+      data,
     };
 
     return axios(request);
   },
-  fetchMultiPoints: ({ caseId }) => {
+  fetchMultiPoints: ({ data }) => {
     return axios({
       method: 'GET',
       url: `${REACT_APP_API_URL}cases/points`,
-      data: {
-        caseId,
-      },
+      data,
     });
   },
   deleteCase: ({ caseId }) => {
