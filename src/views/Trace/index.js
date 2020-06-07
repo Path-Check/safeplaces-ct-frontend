@@ -24,13 +24,14 @@ const Trace = () => {
     applicationSelectors.getRenderEditor(state),
   );
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const mode = useSelector(state => applicationSelectors.getMode(state));
 
   useEffect(() => {
     dispatch({
       type: 'RESET_VIEW',
     });
     dispatch(applicationActions.setMode('trace'));
-  }, []);
+  }, [mode]);
 
   return (
     <>

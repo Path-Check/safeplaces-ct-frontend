@@ -10,16 +10,10 @@ import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
 
 function* addCases({ data }) {
-  const { id: organizationId } = yield select(authSelectors.getCurrentUser);
-
-  console.log(data);
-
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    const response = yield call(casesService.fetchCases, {
-      organizationId,
-    });
+    const response = yield call(casesService.fetchCases);
 
     if (!response.data.cases || response.data.cases.length < 1) {
       throw Error('No cases returned');

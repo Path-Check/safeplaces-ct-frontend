@@ -3,13 +3,10 @@ import axios from 'axios';
 const { REACT_APP_API_URL } = process.env;
 
 const casesService = {
-  fetchCases: ({ organizationId }) => {
+  fetchCases: () => {
     return axios({
       method: 'GET',
       url: `${REACT_APP_API_URL}organization/cases`,
-      data: {
-        organizationId,
-      },
     });
   },
   fetchCase: ({ organizationId }) => {
@@ -23,7 +20,7 @@ const casesService = {
   },
   fetchPoints: ({ data }) => {
     const request = {
-      method: 'GET',
+      method: 'PUT',
       url: `${REACT_APP_API_URL}case/points`,
       data,
     };
