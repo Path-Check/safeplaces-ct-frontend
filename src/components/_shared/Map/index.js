@@ -45,15 +45,16 @@ export default function Map({ setMap }) {
     ? filteredPoints
     : pointsOfConcern;
 
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const editorMode = useSelector(state =>
+    applicationSelectors.getRenderEditor(state),
+  );
+
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const bounds = [
     [boundsObject.sw.longitude, boundsObject.sw.latitude],
     [boundsObject.ne.longitude, boundsObject.ne.latitude],
   ];
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const editorMode = useSelector(state =>
-    applicationSelectors.getRenderEditor(state),
-  );
 
   const initial = new WebMercatorViewport({
     width: 800,
