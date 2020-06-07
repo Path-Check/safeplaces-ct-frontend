@@ -190,7 +190,6 @@ export default function Map({ setMap }) {
           </>
         )}
       </ReactMapGL>
-      <Notifications />
       {locationSelect ? <SelectionLocationHelp /> : <PointEditor />}
     </div>
   );

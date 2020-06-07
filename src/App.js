@@ -12,7 +12,7 @@ import Header from 'components/_global/Header';
 
 import './scss/ui.scss';
 import Loader from 'components/_shared/Loader';
-import { Notification } from 'components/_global/Notifications';
+import Notifications from 'components/_global/Notifications';
 
 import Router from './Router';
 function App() {
@@ -27,6 +27,8 @@ function App() {
         <Router token={token} />
       </ConnectedRouter>
       <Loader />
+
+      <Notifications />
     </div>
   );
 }
