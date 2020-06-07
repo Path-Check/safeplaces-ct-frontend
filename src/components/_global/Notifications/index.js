@@ -16,10 +16,10 @@ const Notifications = () => {
   );
 
   useEffect(() => {
-    console.log(notification);
-
     if (notification) {
-      toast(`${notification.title} ${notification.text}`, {
+      const { title = '', text = '' } = notification;
+
+      toast(`${title} ${text}`, {
         className: notificationWrapper,
         onClose: () => dispatch(applicationActions.removeNotification()),
       });
@@ -30,7 +30,6 @@ const Notifications = () => {
     <ToastContainer
       position="bottom-right"
       hideProgressBar={true}
-      autoClose={2000}
       newestOnTop={false}
       closeOnClick
       closeButton={CloseNotification}
