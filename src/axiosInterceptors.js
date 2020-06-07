@@ -24,7 +24,7 @@ export default {
       function (error) {
         // catches if the session ended!
         if (error.response.status === 401) {
-          localStorage.clear();
+          sessionStorage.clear();
           store.dispatch({ type: 'LOGOUT', data: true });
         }
         return Promise.reject(error);
