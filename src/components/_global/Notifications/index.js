@@ -30,6 +30,7 @@ const Notifications = () => {
     <ToastContainer
       position="bottom-right"
       hideProgressBar={true}
+      autoClose={2000}
       newestOnTop={false}
       closeOnClick
       closeButton={CloseNotification}
