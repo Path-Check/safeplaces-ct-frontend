@@ -22,18 +22,11 @@ function App() {
 
   return (
     <div className="App">
-      <ToastProvider
-        autoDismiss
-        autoDismissTimeout={3000}
-        placement="bottom-right"
-        components={{ Toast: Notification }}
-      >
-        <ConnectedRouter history={history}>
-          <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
-          <Router token={token} />
-        </ConnectedRouter>
-        <Loader />
-      </ToastProvider>
+      <ConnectedRouter history={history}>
+        <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
+        <Router token={token} />
+      </ConnectedRouter>
+      <Loader />
     </div>
   );
 }

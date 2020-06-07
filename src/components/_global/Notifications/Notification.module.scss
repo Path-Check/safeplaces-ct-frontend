@@ -1,4 +1,4 @@
-.notification {
+.notificationWrapper {
   display: flex;
   background-color: #374357;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.25);
@@ -7,11 +7,14 @@
   color: #e9eaf0;
   font-size: 18px;
   text-align: left;
-  width: calc(100vw - 395px);
+  width: calc(100vw - 415px);
   align-items: center;
   position: relative;
   margin-top: 10px;
   z-index: 1;
+  border: none;
+  min-height: auto;
+  padding-right: 40px;
 
   svg {
     margin-right: 20px;
@@ -20,10 +23,12 @@
   button {
     position: absolute;
     right: 0;
-    background: none;
-    outline: none;
-    border: none;
     color: white;
+    cursor: pointer;
     font-size: 20px;
   }
+}
+
+:global .Toastify__toast-container {
+  width: auto;
 }

@@ -22,7 +22,9 @@ const StageForPublishing = () => {
   const dispatch = useDispatch();
 
   return (
-    <Modal>
+    <Modal
+      closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
+    >
       <Dialog width="650px">
         <header className={StageForPublishingHeader}>
           <h3 className={StageForPublishingTitle}>Stage For Publishing</h3>
