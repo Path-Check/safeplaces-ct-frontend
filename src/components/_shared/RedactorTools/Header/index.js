@@ -28,7 +28,7 @@ const RedactorToolsHeader = ({ currentRecord }) => {
       >
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
-      <h3>Record ID: {activeCase.caseId}</h3>
+      <h3>Record ID: {activeCase}</h3>
     </header>
   );
 };

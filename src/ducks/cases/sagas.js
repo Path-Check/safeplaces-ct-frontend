@@ -19,10 +19,7 @@ function* addCases({ data }) {
       throw Error('No cases returned');
     }
 
-    const data = {
-      cases: response.data.cases.filter(c => c.state === 'staging'),
-    };
-    yield put(casesActions.addCases(data));
+    yield put(casesActions.addCases(response.data));
     yield put(applicationActions.updateStatus('CASES ADDED'));
   } catch (error) {
     console.error(error);
@@ -126,11 +123,11 @@ function* checkCaseGPSDataSaga() {
 }
 
 function* deleteCase() {
-  const activeCase = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCase);
 
   try {
     yield call(casesService.deleteCase, {
-      caseId: activeCase.caseId,
+      caseId,
     });
     yield put(casesActions.setCase(null));
     yield put(applicationActions.updateStatus('IDLE'));
@@ -150,22 +147,20 @@ function* deleteCase() {
 }
 
 function* publishCases() {
-  const caseIds = yield select(casesSelectors.getActiveCase);
+  const cases = yield select(casesSelectors.getActiveCase);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
-  console.log(caseIds);
-
   try {
     yield call(casesService.publishCases, {
-      caseIds,
+      caseIds: cases,
     });
 
     yield put({ type: 'RESET_VIEW' });
 
     yield put(
       applicationActions.notification({
-        title: `${caseIds.length} record(s) have been downloaded to your API endpoint`,
+        title: `${cases.length} record(s) have been downloaded to your API endpoint`,
         text: 'Please try again.',
       }),
     );
