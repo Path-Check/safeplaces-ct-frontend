@@ -20,7 +20,7 @@ const casesService = {
   },
   fetchPoints: ({ data }) => {
     const request = {
-      method: 'PUT',
+      method: 'POST',
       url: `${REACT_APP_API_URL}case/points`,
       data,
     };
