@@ -31,6 +31,7 @@ const Notifications = () => {
       position="bottom-right"
       hideProgressBar={true}
       newestOnTop={false}
+      autoClose={2000}
       closeOnClick
       closeButton={CloseNotification}
     />
