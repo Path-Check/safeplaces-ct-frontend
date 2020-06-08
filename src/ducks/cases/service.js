@@ -56,7 +56,7 @@ const casesService = {
       method: 'POST',
       url: `${REACT_APP_API_URL}cases/publish`,
       data: {
-        caseIds: [caseIds.caseId],
+        caseIds,
       },
     });
   },
