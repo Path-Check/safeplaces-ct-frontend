@@ -49,8 +49,12 @@ function* addCase() {
 
     yield put(casesActions.setCase(response.data.caseId));
 
-    if (response.data.authCode) {
-      yield put(casesActions.enrichCase());
+    const {
+      data: { accessCode },
+    } = yield call(casesService.fetchAccessCode);
+
+    if (accessCode) {
+      yield put(casesActions.setAccessCode(accessCode));
     }
 
     yield put(applicationActions.updateStatus('CASE FETCHED'));
@@ -110,7 +114,7 @@ function* loadCasePoints({ type, caseId }) {
 function* checkCaseGPSDataSaga() {
   const activeCase = yield select(casesSelectors.getActiveCase);
   try {
-    yield call(loadCasePoints, { activeCase });
+    yield call(loadCasePoints, { caseId: activeCase });
   } catch (e) {
     yield put(
       applicationActions.notification({

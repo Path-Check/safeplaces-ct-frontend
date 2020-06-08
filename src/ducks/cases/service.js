@@ -18,6 +18,12 @@ const casesService = {
       },
     });
   },
+  fetchAccessCode: () => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}access-code`,
+    });
+  },
   fetchPoints: ({ data }) => {
     const request = {
       method: 'POST',
