@@ -34,8 +34,14 @@ $mobile-bottom-swipe-height: 75px;
   p {
     margin-bottom: 15px;
   }
-  
-  
+
+  button {
+    outline: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
   @mixin borderBox() {
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(

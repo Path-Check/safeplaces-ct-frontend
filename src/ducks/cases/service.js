@@ -3,13 +3,10 @@ import axios from 'axios';
 const { REACT_APP_API_URL } = process.env;
 
 const casesService = {
-  fetchCases: ({ organizationId }) => {
+  fetchCases: () => {
     return axios({
       method: 'GET',
       url: `${REACT_APP_API_URL}organization/cases`,
-      data: {
-        organizationId,
-      },
     });
   },
   fetchCase: ({ organizationId }) => {
@@ -21,19 +18,58 @@ const casesService = {
       },
     });
   },
-  fetchPoints: ({ caseId }) => {
+  fetchAccessCode: () => {
     return axios({
-      method: 'GET',
+      method: 'POST',
+      url: `${REACT_APP_API_URL}access-code`,
+    });
+  },
+  fetchPoints: ({ data }) => {
+    const request = {
+      method: 'POST',
       url: `${REACT_APP_API_URL}case/points`,
+      data,
+    };
+
+    return axios(request);
+  },
+  fetchMultiPoints: ({ data }) => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}cases/points`,
+      data,
+    });
+  },
+  deleteCase: ({ caseId }) => {
+    console.log({
+      method: 'DELETE',
+      url: `${REACT_APP_API_URL}case`,
+      data: {
+        caseId,
+      },
+    });
+
+    return axios({
+      method: 'DELETE',
+      url: `${REACT_APP_API_URL}case`,
       data: {
         caseId,
       },
     });
   },
-  deleteCase: ({ caseId }) => {
+  publishCases: ({ caseIds }) => {
     return axios({
-      method: 'DELETE',
-      url: `${REACT_APP_API_URL}case`,
+      method: 'POST',
+      url: `${REACT_APP_API_URL}cases/publish`,
+      data: {
+        caseIds,
+      },
+    });
+  },
+  stageCase: ({ caseId }) => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/stage`,
       data: {
         caseId,
       },

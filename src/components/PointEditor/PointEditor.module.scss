@@ -1,0 +1,59 @@
+.pointEditor {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 375px;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 20px;
+
+  button {
+    width: 100%;
+  }
+}
+
+.pointEditorHeader {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 30px;
+
+  .closeAction {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    cursor: pointer;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 24px;
+    width: auto;
+  }
+}
+
+.locationControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+
+  span {
+    display: inline-block;
+    margin: 10px 0;
+  }
+}
+
+.timeControls {
+  display: flex;
+  margin: 0 0 30px;
+
+  // > div {
+  //   &:first-of-type {
+  //     margin-right: 10px;
+  //   }
+  //   &:last-of-type {
+  //     margin-left: 10px;
+  //   }
+  // }
+}

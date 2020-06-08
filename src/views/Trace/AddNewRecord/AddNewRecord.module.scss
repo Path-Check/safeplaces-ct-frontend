@@ -14,6 +14,7 @@
   font-size: 52px;
   font-weight: 600;
   margin: 32px;
+  text-align: center;
 }
 
 .AddNewRecordActions {
@@ -34,8 +35,15 @@
   color: black;
   z-index: 99;
   cursor: pointer;
+  transition: transform 250ms ease;
+
+  &:focus,
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .divider {
   margin: 0 0 15px;
+  text-align: center;
 }

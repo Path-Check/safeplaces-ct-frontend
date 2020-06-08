@@ -17,16 +17,21 @@ import SelectedDataContextMenu from 'components/_shared/SelectedData/SelectedDat
 import { useSelector } from 'react-redux';
 import casesSelectors from 'ducks/cases/selectors';
 import pointsSelectors from 'ducks/points/selectors';
+import applicationSelectors from 'ducks/application/selectors';
 
 const SelectedDataList = () => {
   const [showContentMenu, setShowContentMenu] = useState(false);
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const points = useSelector(state => pointsSelectors.getPoints(state));
-  const selectedPoints = useSelector(state =>
-    pointsSelectors.getSelectedPoints(state),
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
   );
+  const isPublish =
+    useSelector(state => applicationSelectors.getMode(state)) === 'publish';
+  const renderedPoints = filteredPoints.length ? filteredPoints : points;
 
-  const renderedPoints = selectedPoints?.length ? selectedPoints : points;
+  const noFilteredPoints =
+    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
 
   return (
     <div className={selectedDataWrapper}>
@@ -38,13 +43,15 @@ const SelectedDataList = () => {
               {renderedPoints?.length} of {points?.length}
             </p>
           )}
-          <button
-            className={selectedDataAction}
-            onClick={() => setShowContentMenu(!showContentMenu)}
-            type="button"
-          >
-            <FontAwesomeIcon icon={faEllipsisV} />
-          </button>
+          {isPublish && noFilteredPoints ? null : (
+            <button
+              className={selectedDataAction}
+              onClick={() => setShowContentMenu(!showContentMenu)}
+              type="button"
+            >
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </button>
+          )}
         </div>
 
         {showContentMenu && (
@@ -57,7 +64,7 @@ const SelectedDataList = () => {
       {renderedPoints?.length > 0 && (
         <ul className={selectedDataList}>
           {renderedPoints?.map(p => (
-            <SelectedDataItem {...p} />
+            <SelectedDataItem key={p.latitude} {...p} />
           ))}
         </ul>
       )}

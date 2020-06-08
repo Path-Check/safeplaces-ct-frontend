@@ -11,22 +11,25 @@
   border: 2px solid $interactive-01;
   background-color: $interactive-01;
   padding: 10px 20px;
-  color: white;
+  color: #fff;
   text-align: center;
   cursor: pointer;
   text-decoration: none;
   outline: none;
   transition: all 300ms ease;
 
+  &:focus,
   &:hover {
     background-color: $hover-primary;
     border-color: $hover-primary;
+    color: #fff;
   }
 
   &:disabled {
     cursor: not-allowed;
     background-color: #e5e7fa;
-    color: #6979f8;
+    border-color: #e5e7fa;
+    color: #a5affb;
   }
 
   > svg {

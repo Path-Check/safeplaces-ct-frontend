@@ -3,6 +3,7 @@ import authTypes from './types';
 import authService from './service';
 import authActions from './actions';
 import { push } from 'connected-react-router';
+import applicationActions from '../application/actions';
 
 function* authenticateSaga({ data }) {
   try {
@@ -10,7 +11,17 @@ function* authenticateSaga({ data }) {
     yield put(authActions.loginSuccess(response));
   } catch (error) {
     yield put(authActions.loginFailure(error));
+
+    const { name, response } = error;
+
+    const message = response?.data?.message || 'Something went wrong';
+
+    yield put(applicationActions.notification({ title: name, text: message }));
   }
+}
+
+function* logoutSaga() {
+  yield put(push('/login'));
 }
 
 function* onboardingSaga({ data }) {
@@ -20,12 +31,19 @@ function* onboardingSaga({ data }) {
     yield put(
       authActions.onboardingSuccess({
         ...response.data,
-        completedOnboarding: true,
       }),
     );
-
     yield put(push('/trace'));
   } catch (error) {
+    const {
+      name,
+      response: {
+        data: { message },
+        status,
+      },
+    } = error;
+    const text = status === 500 ? 'Something wrong happened.' : message;
+    yield put(applicationActions.notification({ title: name, text }));
     yield put(authActions.onboardingFailure(error));
   }
 }
@@ -33,4 +51,5 @@ function* onboardingSaga({ data }) {
 export function* authSaga() {
   yield takeEvery(authTypes.login.REQUEST, authenticateSaga);
   yield takeEvery(authTypes.onboarding.REQUEST, onboardingSaga);
+  yield takeEvery(authTypes.login.LOGOUT, logoutSaga);
 }

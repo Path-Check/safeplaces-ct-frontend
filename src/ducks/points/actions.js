@@ -5,25 +5,25 @@ const pointsActions = {
     type: pointsTypes.POINTS,
     points,
   }),
-  updateSelectedPoints: points => ({
-    type: pointsTypes.SELECTED_POINTS,
-    points,
+  setFilteredPoints: data => ({
+    type: pointsTypes.FILTER_POINTS,
+    data,
   }),
-  setSelectedPoint: id => ({
+  setSelectedPoint: data => ({
     type: pointsTypes.ACTIVE_POINT,
-    id,
+    data,
   }),
   deletePoint: id => ({
     type: pointsTypes.DELETE_POINT,
     id,
   }),
-  editPoint: id => ({
+  editPoint: point => ({
     type: pointsTypes.EDIT_POINT,
-    id,
+    point,
   }),
-  addPoint: coords => ({
+  addPoint: point => ({
     type: pointsTypes.ADD_POINT,
-    coords,
+    point,
   }),
 };
 

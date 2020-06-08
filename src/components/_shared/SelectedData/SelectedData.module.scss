@@ -1,5 +1,7 @@
 .selectedDataWrapper {
   position: relative;
+  overflow: auto;
+  height: 100%;
 }
 
 .selectedDataHeader {
@@ -18,9 +20,11 @@
 
 .selectedDataList {
   max-height: 400px;
+  min-height: 200px;
   overflow: auto;
   border-radius: 6px;
   background-color: #fff;
+  margin-bottom: 20px;
 }
 
 .selectedDataSelection {
