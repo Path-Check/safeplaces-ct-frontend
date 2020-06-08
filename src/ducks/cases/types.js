@@ -5,6 +5,7 @@ const casesTypes = {
   FETCH_CASE: 'safeplaces/cases/FETCH_CASE',
   STAGE_CASE: 'safeplaces/cases/STAGE_CASE',
   SET_ACTIVE_CASE: 'safeplaces/cases/SET_ACTIVE_CASE',
+  SET_ACCESS_CODE: 'safeplaces/cases/SET_ACCESS_CODE',
   LOAD_CASE_POINTS: 'safeplaces/cases/LOAD_CASE_POINTS',
   LOAD_MULTICASE_POINTS: 'safeplaces/cases/LOAD_MULTICASE_POINTS',
   ENRICH_CASE: 'safeplaces/cases/ENRICH_CASE',

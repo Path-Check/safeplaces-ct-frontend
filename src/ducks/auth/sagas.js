@@ -20,6 +20,10 @@ function* authenticateSaga({ data }) {
   }
 }
 
+function* logoutSaga() {
+  yield put(push('/login'));
+}
+
 function* onboardingSaga({ data }) {
   try {
     const response = yield call(authService.onboarding, data);
@@ -47,4 +51,5 @@ function* onboardingSaga({ data }) {
 export function* authSaga() {
   yield takeEvery(authTypes.login.REQUEST, authenticateSaga);
   yield takeEvery(authTypes.onboarding.REQUEST, onboardingSaga);
+  yield takeEvery(authTypes.login.LOGOUT, logoutSaga);
 }

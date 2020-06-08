@@ -18,6 +18,10 @@ const casesActions = {
     type: casesTypes.SET_ACTIVE_CASE,
     caseId,
   }),
+  setAccessCode: accessCode => ({
+    type: casesTypes.SET_ACCESS_CODE,
+    accessCode,
+  }),
   loadCasePoints: caseId => ({
     type: casesTypes.LOAD_CASE_POINTS,
     caseId,

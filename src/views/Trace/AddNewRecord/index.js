@@ -27,6 +27,7 @@ const AddNewRecord = () => {
   const dispatch = useDispatch();
   const status = useSelector(state => applicationSelectors.getStatus(state));
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const accessCode = useSelector(state => casesSelectors.getAccessCode(state));
 
   if (status !== 'CASE FETCHED') {
     return null;
@@ -40,7 +41,7 @@ const AddNewRecord = () => {
             <header className={AddNewRecordHeader}>
               <h3 className={AddNewRecordTitle}>Add New Record</h3>
             </header>
-            {activeCase?.authCode && (
+            {accessCode && (
               <>
                 <p>
                   <strong>
@@ -51,7 +52,7 @@ const AddNewRecord = () => {
                   upload their location data. Once they enter the code you can
                   confirm you have received the data.
                 </p>
-                <p className={AddNewRecordCode}>{activeCase?.authCode}</p>
+                <p className={AddNewRecordCode}>{accessCode}</p>
                 <div className={AddNewRecordActions}>
                   <Button
                     large
