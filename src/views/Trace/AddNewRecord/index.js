@@ -64,7 +64,7 @@ const AddNewRecord = () => {
               </>
             )}
             <div className={AddNewRecordActions}>
-              {activeCase?.caseId && (
+              {activeCase && (
                 <Button
                   secondary
                   large

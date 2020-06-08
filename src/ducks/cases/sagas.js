@@ -47,7 +47,7 @@ function* addCase() {
       organizationId,
     });
 
-    yield put(casesActions.setCase(response.data));
+    yield put(casesActions.setCase(response.data.caseId));
 
     if (response.data.authCode) {
       yield put(casesActions.enrichCase());

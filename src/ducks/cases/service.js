@@ -29,7 +29,7 @@ const casesService = {
   },
   fetchMultiPoints: ({ data }) => {
     return axios({
-      method: 'GET',
+      method: 'POST',
       url: `${REACT_APP_API_URL}cases/points`,
       data,
     });
