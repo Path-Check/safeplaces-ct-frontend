@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
-import storageSession from 'redux-persist/lib/storage/session';
+import storage from 'redux-persist/lib/storage';
 import rootReducer from 'ducks';
 import watcherSaga from 'sagas';
 import { routerMiddleware } from 'connected-react-router';
@@ -10,7 +10,7 @@ import axiosInterceptors from './axiosInterceptors';
 
 const persistConfig = {
   key: 'root',
-  storage: storageSession,
+  storage,
   timeout: 500,
   // transforms: [saveSubsetBlacklistFilter],
   blacklist: ['router', 'points', 'cases', 'application', 'map'],
