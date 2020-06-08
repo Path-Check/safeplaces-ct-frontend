@@ -83,11 +83,16 @@ const PointEditor = () => {
   };
 
   const handleSubmit = () => {
-    const payload = {
+    let payload = {
       ...selectedLocation,
     };
 
     if (isEdit) {
+      payload = {
+        ...activePoint,
+        ...selectedLocation,
+      };
+
       dispatch(pointsActions.editPoint(payload));
     } else {
       dispatch(pointsActions.addPoint(payload));

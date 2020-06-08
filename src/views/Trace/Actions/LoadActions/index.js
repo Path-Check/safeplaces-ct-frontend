@@ -1,11 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import casesActions from 'ducks/cases/actions';
+import { useDispatch } from 'react-redux';
 
 import { sidebarActions } from '../TracerActions.module.scss';
 import Button from 'components/_shared/Button';
-import { useDispatch } from 'react-redux';
 
-import casesActions from 'ducks/cases/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/pro-solid-svg-icons';
 
 const TracerLoadActions = () => {
   const dispatch = useDispatch();
@@ -13,7 +15,7 @@ const TracerLoadActions = () => {
   return (
     <div className={sidebarActions}>
       <Button onClick={() => dispatch(casesActions.fetchCase())}>
-        Add New Record
+        <FontAwesomeIcon icon={faPlus} /> Add New Record
       </Button>
       <Button secondary onClick={() => dispatch(casesActions.fetchCases())}>
         Load Existing Record

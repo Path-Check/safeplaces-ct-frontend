@@ -6,6 +6,7 @@ import pointsTypes from 'ducks/points/types';
 import pointsService from 'ducks/points/service';
 import pointsSelectors from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
+import casesSelectors from 'ducks/cases/selectors';
 
 function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -41,18 +42,37 @@ function* deletePoint({ id }) {
 function* updatePoint({ point, type }) {
   const isEdit = type === pointsTypes.EDIT_POINT;
   const currentPoints = yield select(pointsSelectors.getPoints);
+  const caseId = yield select(casesSelectors.getActiveCase);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
+  let data = null;
+
+  console.log(isEdit);
+  console.log(caseId);
+
   try {
     if (isEdit) {
-      const response = yield call(pointsService.edit, point);
+      data = {
+        ...point,
+        duration: 5,
+      };
+
+      const response = yield call(pointsService.edit, data);
       const points = currentPoints.filter(p => p.pointId !== point.pointId);
       yield put(
         pointsActions.updatePoints([...points, response.data.concernPoint]),
       );
     } else {
-      const response = yield call(pointsService.add, point);
+      data = {
+        caseId,
+        point: {
+          ...point,
+          duration: 5,
+        },
+      };
+
+      const response = yield call(pointsService.add, data);
       yield put(
         pointsActions.updatePoints([
           response.data.concernPoint,
@@ -69,6 +89,7 @@ function* updatePoint({ point, type }) {
         title: `You just ${isEdit ? 'edited' : 'added'} 1 data point`,
       }),
     );
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -76,9 +97,8 @@ function* updatePoint({ point, type }) {
         text: 'Please try again.',
       }),
     );
+    yield put(applicationActions.updateStatus('ADD POINT'));
   }
-
-  yield put(applicationActions.updateStatus('IDLE'));
 }
 
 export default function* pointsSagas() {

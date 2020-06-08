@@ -10,14 +10,13 @@ function* authenticateSaga({ data }) {
     const response = yield call(authService.login, data);
     yield put(authActions.loginSuccess(response));
   } catch (error) {
-    const {
-      name,
-      response: {
-        data: { message },
-      },
-    } = error;
-    yield put(applicationActions.notification({ title: name, text: message }));
     yield put(authActions.loginFailure(error));
+
+    const { name, response } = error;
+
+    const message = response?.data?.message || 'Something went wrong';
+
+    yield put(applicationActions.notification({ title: name, text: message }));
   }
 }
 
@@ -28,10 +27,8 @@ function* onboardingSaga({ data }) {
     yield put(
       authActions.onboardingSuccess({
         ...response.data,
-        completedOnboarding: true,
       }),
     );
-
     yield put(push('/trace'));
   } catch (error) {
     const {

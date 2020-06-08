@@ -23,6 +23,8 @@ const RecordsTablePublishing = ({ isPublishing }) => {
     return null;
   }
 
+  const stagedCases = cases.filter(c => c.state === 'staging');
+
   const handleChange = (checked, e) => {
     const caseId = e.target.id;
     let ids = [];
@@ -35,8 +37,6 @@ const RecordsTablePublishing = ({ isPublishing }) => {
 
     setCaseIds(ids);
   };
-
-  console.log(caseIds);
 
   return (
     <div className={tableWrapper}>
@@ -53,7 +53,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
       <div className={tableMain}>
         <table className={table}>
           <tbody>
-            {cases.map(r => (
+            {stagedCases.map(r => (
               <Record key={r.caseId} {...r} onChange={handleChange} />
             ))}
           </tbody>
@@ -68,7 +68,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
                 <Button
                   className={tableAction}
                   disabled={caseIds.length < 1}
-                  onClick={() => dispatch(casesActions.fetchCases(caseIds))}
+                  onClick={() => dispatch(casesActions.loadCasePoints(caseIds))}
                 >
                   Open Selected Data
                 </Button>

@@ -17,6 +17,10 @@ const applicationActions = {
     type: applicationTypes.EDITOR_VIEW,
     renderEditor: boolean,
   }),
+  setMode: mode => ({
+    type: applicationTypes.MODE,
+    mode,
+  }),
 };
 
 export default applicationActions;

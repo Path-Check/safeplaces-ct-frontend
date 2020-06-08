@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action) {
     case casesTypes.SET_ACTIVE_CASE:
       return {
         ...state,
-        activeCase: action.data,
+        activeCase: action.caseId,
       };
     case casesTypes.ENRICH_CASE: {
       return {

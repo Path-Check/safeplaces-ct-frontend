@@ -14,13 +14,13 @@ const casesActions = {
   fetchCase: () => ({
     type: casesTypes.FETCH_CASE,
   }),
-  setCase: data => ({
+  setCase: caseId => ({
     type: casesTypes.SET_ACTIVE_CASE,
-    data,
+    caseId,
   }),
-  loadCasePoints: activeCase => ({
+  loadCasePoints: caseId => ({
     type: casesTypes.LOAD_CASE_POINTS,
-    activeCase,
+    caseId,
   }),
   enrichCase: data => ({
     type: casesTypes.ENRICH_CASE,

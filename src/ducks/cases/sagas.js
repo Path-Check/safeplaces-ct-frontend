@@ -10,18 +10,20 @@ import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
 
 function* addCases({ data }) {
-  const { id: organizationId } = yield select(authSelectors.getCurrentUser);
-
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    const response = yield call(casesService.fetchCases, {
-      organizationId,
-    });
+    const response = yield call(casesService.fetchCases);
+
+    if (!response.data.cases || response.data.cases.length < 1) {
+      throw Error('No cases returned');
+    }
 
     yield put(casesActions.addCases(response.data));
     yield put(applicationActions.updateStatus('CASES ADDED'));
   } catch (error) {
+    console.error(error);
+
     yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
@@ -45,7 +47,7 @@ function* addCase() {
       organizationId,
     });
 
-    yield put(casesActions.setCase(response.data));
+    yield put(casesActions.setCase(response.data.caseId));
 
     if (response.data.authCode) {
       yield put(casesActions.enrichCase());
@@ -64,20 +66,37 @@ function* addCase() {
   }
 }
 
-function* loadCasePoints({ activeCase }) {
+function* loadCasePoints({ type, caseId }) {
   yield put(applicationActions.updateStatus('BUSY'));
+  let service;
+  let data;
+  const multiCase = Array.isArray(caseId);
+
+  if (multiCase) {
+    service = 'fetchMultiPoints';
+    data = {
+      caseIds: caseId,
+    };
+  } else {
+    service = 'fetchPoints';
+    data = {
+      caseId,
+    };
+  }
 
   try {
-    const response = yield call(casesService.fetchPoints, {
-      caseId: activeCase.caseId,
+    const response = yield call(casesService[service], {
+      data,
     });
 
-    yield put(casesActions.setCase(activeCase));
+    yield put(casesActions.setCase(caseId));
     yield put(pointsActions.updatePoints(response.data.concernPoints));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
-    yield put(casesActions.setCase(activeCase));
+    yield put(casesActions.setCase(caseId));
+
+    yield put(applicationActions.updateStatus('CASES ADDED'));
     yield put(
       applicationActions.notification({
         title: 'Unable to retrieve location data.',
@@ -104,14 +123,19 @@ function* checkCaseGPSDataSaga() {
 }
 
 function* deleteCase() {
-  const activeCase = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCase);
 
   try {
     yield call(casesService.deleteCase, {
-      caseId: activeCase.caseId,
+      caseId,
     });
     yield put(casesActions.setCase(null));
     yield put(applicationActions.updateStatus('IDLE'));
+    yield put(
+      applicationActions.notification({
+        title: 'Case Deleted',
+      }),
+    );
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -123,7 +147,7 @@ function* deleteCase() {
 }
 
 function* publishCases() {
-  const cases = yield select(casesSelectors.getCases);
+  const cases = yield select(casesSelectors.getActiveCase);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -131,8 +155,9 @@ function* publishCases() {
     yield call(casesService.publishCases, {
       caseIds: cases,
     });
-    yield put(casesActions.setCase(null));
-    yield put(applicationActions.updateStatus('IDLE'));
+
+    yield put({ type: 'RESET_VIEW' });
+
     yield put(
       applicationActions.notification({
         title: `${cases.length} record(s) have been downloaded to your API endpoint`,
@@ -152,7 +177,7 @@ function* publishCases() {
 }
 
 function* stageCase() {
-  const { caseId } = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCase);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -164,8 +189,9 @@ function* stageCase() {
       }),
     );
 
-    yield put(applicationActions.renderEditor(false));
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put({
+      type: 'RESET_VIEW',
+    });
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -185,5 +211,6 @@ export default function* casesSagas() {
   yield takeEvery(casesTypes.PUBLISH_CASES, publishCases);
   yield takeEvery(casesTypes.STAGE_CASE, stageCase);
   yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
+  yield takeEvery(casesTypes.LOAD_MULTICASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);
 }

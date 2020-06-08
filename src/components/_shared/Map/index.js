@@ -45,22 +45,23 @@ export default function Map({ setMap }) {
     ? filteredPoints
     : pointsOfConcern;
 
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const editorMode = useSelector(state =>
+    applicationSelectors.getRenderEditor(state),
+  );
+
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const bounds = [
     [boundsObject.sw.longitude, boundsObject.sw.latitude],
     [boundsObject.ne.longitude, boundsObject.ne.latitude],
   ];
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const editorMode = useSelector(state =>
-    applicationSelectors.getRenderEditor(state),
-  );
 
   const initial = new WebMercatorViewport({
     width: 800,
     height: 800,
   }).fitBounds(bounds);
 
-  const [viewport, setViewport] = useState({ ...initial, zoom: 5 });
+  const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
   const onMapLoad = e => {
     setLoaded(true);
@@ -189,7 +190,6 @@ export default function Map({ setMap }) {
           </>
         )}
       </ReactMapGL>
-      <Notifications />
       {locationSelect ? <SelectionLocationHelp /> : <PointEditor />}
     </div>
   );

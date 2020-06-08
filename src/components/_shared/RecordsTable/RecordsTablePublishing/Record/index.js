@@ -9,13 +9,13 @@ import styles from './record.module.scss';
 import Checkbox from 'components/_shared/Checkbox/Checkbox';
 
 const Record = ({
-  caseId,
+  id,
   updatedAt,
   state,
   expiresAt,
   onChange,
   processingDate,
-  tracerId,
+  contact_tracer_id,
 }) => {
   const processDateFriendly = moment(processingDate).format(
     'ddd, MMMM D, YYYY - h:ma',
@@ -28,13 +28,13 @@ const Record = ({
   return (
     <tr className={recordClasses}>
       <th colSpan="1">
-        <Checkbox id={caseId} name={caseId} onChange={onChange} />
+        <Checkbox id={id} name={id} onChange={onChange} />
       </th>
-      <td colSpan="1">{caseId}</td>
+      <td colSpan="1">{id}</td>
       <td colSpan="2">
         <time dateTime={processingDate}>{processDateFriendly}</time>
       </td>
-      <td colSpan="1">{tracerId ? `${tracerId}` : 'N/A'}</td>
+      <td colSpan="1">{contact_tracer_id ? `${contact_tracer_id}` : 'N/A'}</td>
     </tr>
   );
 };

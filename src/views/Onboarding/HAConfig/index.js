@@ -178,7 +178,6 @@ const HAConfig = () => {
         open={openMapModal}
         confirmBounds={handleConfirmBounds}
       />
-      <Notifications />
     </div>
   );
 };

@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 import mapActions from 'ducks/map/actions';
+import applicationSelectors from 'ducks/application/selectors';
 
 const SelectedDataItem = ({
   pointId,
@@ -34,14 +35,12 @@ const SelectedDataItem = ({
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-
+  const isTrace =
+    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
   const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
-
   const [showContentMenu, setShowContentMenu] = useState(false);
-
   const date = moment(timestamp).format('ddd, MMMM D, YYYY');
   const time = moment(timestamp).format('hh:mm');
-
   const classes = classNames({
     [`${selectedDataItem}`]: true,
     [`${selectedDataItemHighlighted}`]: isHighlighted,
@@ -59,6 +58,10 @@ const SelectedDataItem = ({
         time: timestamp,
       }),
     );
+
+    if (!isTrace) {
+      return;
+    }
 
     setShowContentMenu(!showContentMenu);
   };
@@ -83,9 +86,11 @@ const SelectedDataItem = ({
             {/* <li>{travelling ? 'Travelling' : duration}</li> */}
           </ul>
         </div>
-        <div className={selectedDataMenuAction} type="button">
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </div>
+        {isTrace && (
+          <div className={selectedDataMenuAction} type="button">
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </div>
+        )}
       </button>
       {showContentMenu && (
         <PointContextMenu
