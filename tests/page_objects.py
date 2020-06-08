@@ -51,8 +51,8 @@ class LoginPage(Page):
         self.driver.implicitly_wait(3)
 
         try:
-            self.find_element(self.username).send_keys("admin")
-            self.find_element(self.password).send_keys("admin")
+            self.find_element(self.username).send_keys("spladmin")
+            self.find_element(self.password).send_keys("password")
             self.find_element(self.login_btn).click()
         except Exception as e:
             pass
