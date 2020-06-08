@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { history } from './store';
+
 export default {
   setupInterceptors: store => {
     axios.interceptors.request.use(
@@ -26,6 +28,7 @@ export default {
         if (error.response.status === 401) {
           localStorage.clear();
           store.dispatch({ type: 'LOGOUT', data: true });
+          history.push('/login');
         }
         return Promise.reject(error);
       },
