@@ -27,7 +27,7 @@ class TestRedaction(unittest.TestCase):
         if 'BASE_TEST_URL' in os.environ.copy():
             self.base_url = os.environ['BASE_TEST_URL']
         else:
-            self.base_url = 'https://react.safeplaces.extremesolution.com/'
+            self.base_url = 'https://dev.safeplaces.extremesolution.com/'
         if 'SELENIUM_URL' in os.environ.copy():
             self.sel_url = os.environ['SELENIUM_URL']
         else:
@@ -49,8 +49,11 @@ class TestRedaction(unittest.TestCase):
 
     # leaving test_ out of the method name until the SUT works
     def settings(self):
-        tools = Tools()
+        login_page = LoginPage(self.driver)
+        login_page.login_if_required()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
+        entry_page.open_page()
+        entry_page.open_settings()
         settings_page = SettingsPage(self.driver)
         settings_page.set_health_authority_name('Test Health Authority')
         settings_page.set_information_website_URL('https://cdc.gov')
@@ -81,7 +84,6 @@ class TestRedaction(unittest.TestCase):
         #tools.compare_files(self.tmp_dir + '/privkit31A-synthetic-REDACTED-REDACTED.json', self.home_dir + '/' + self.data_dir + '/expected_results/privkit31A-synthetic-REDACTED-REDACTED.json')
 
     def logout(self):
-        tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         settings_page = SettingsPage(self.driver)
         settings_page.logout
