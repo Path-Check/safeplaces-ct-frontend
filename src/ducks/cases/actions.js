@@ -40,9 +40,9 @@ const casesActions = {
   publishCases: () => ({
     type: casesTypes.PUBLISH_CASES,
   }),
-  updExternalCaseId: data => ({
+  updExternalCaseId: externalId => ({
     type: casesTypes.UPDATE_EXTERNAL_ID,
-    data
+    externalId
   })
 };
 

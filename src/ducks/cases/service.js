@@ -81,8 +81,8 @@ const casesService = {
       url: `${REACT_APP_API_URL}case`,
       data: {
         caseId,
-        externalId
-      }
+        externalId,
+      },
     });
   },
 };

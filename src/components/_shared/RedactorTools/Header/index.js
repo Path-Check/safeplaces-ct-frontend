@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux'
 import { redactorToolsHeader, selectedfaEllipsisVIcon, ModalButton } from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
-import { Button, TextInput, Modal } from '@wfp/ui'
-//import Modal from '../../../_global/Modal';
+import { Button, TextInput } from '@wfp/ui'
+import Modal from '../../../_global/Modal';
 import Dialog from '../../../_shared/Dialog';
 import casesSelectors from 'ducks/cases/selectors';
 import caseAction from 'ducks/cases/actions';
@@ -23,10 +23,10 @@ const RedactorToolsHeader = ({ currentRecord }) => {
     setInputValue(event.target.value);
   };
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     if (activeCase) {
-      dispatch(caseAction.updExternalCaseId({ activeCase, externalInpuValue }));
-      console.log('upd:', caseAction.updExternalCaseId({ activeCase, externalInpuValue }))
+      dispatch(caseAction.updExternalCaseId(externalInpuValue));
+      console.log('upd:', caseAction.updExternalCaseId(externalInpuValue))
     }
   };
 
@@ -35,44 +35,51 @@ const RedactorToolsHeader = ({ currentRecord }) => {
   }
 
   return (
-    <header className={redactorToolsHeader}>
-      {/* <button type="button" onClick={handleBack} title="Back to home screen">
+    <>
+      <header className={redactorToolsHeader}>
+        {/* <button type="button" onClick={handleBack} title="Back to home screen">
         <FontAwesomeIcon icon={faChevronLeft} />
       </button> */}
-      <h3>Record ID: {activeCase}</h3>
-      <button
-        className={selectedfaEllipsisVIcon}
-        onClick={() => setShowModal(true)}
-        type="button"
-      >
-        <FontAwesomeIcon icon={faEllipsisV} />
-      </button>
-
-      <Modal open={showModal}>
-        <Dialog width="650px">
-          <header>
-            <h3>Edit Record ID</h3>
-            <p>
-              If you are using a System to manage your patients and already have an ID
-              for this patient, please enter it
-          </p>
-          </header>
-          <TextInput
-            id="inputID"
-            placeholder="Enter A Record ID"
-            onChange={onChangeHandler}
-            value={externalInpuValue}
-          />
-          <Button type="button" className={ModalButton} onClick={onSubmit}>
-            Save Record ID
+        <h3>Record ID: {activeCase}</h3>
+        <button
+          className={selectedfaEllipsisVIcon}
+          onClick={() => setShowModal(true)}
+          type="button"
+        >
+          <FontAwesomeIcon icon={faEllipsisV} />
+        </button>
+      </header>
+      {showModal && (
+        <Modal>
+          <Dialog width="650px">
+            <header>
+              <h3>Edit Record ID</h3>
+              <p>
+                If you are using a System to manage your patients and already
+                have an ID for this patient, please enter it
+              </p>
+            </header>
+            <TextInput
+              id="inputID"
+              placeholder="Enter A Record ID"
+              onChange={onChangeHandler}
+              value={externalInpuValue}
+            />
+            <Button type="button" className={ModalButton} onClick={onSubmit}>
+              Save Record ID
             </Button>
-          <br />
-          <Button type="button" className={ModalButton} onClick={() => setShowModal(false)}>
-            Cancel
+            <br />
+            <Button
+              type="button"
+              className={ModalButton}
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
             </Button>
-        </Dialog>
-      </Modal>
-    </header>
+          </Dialog>
+        </Modal>
+      )}
+    </>
   );
 };
 

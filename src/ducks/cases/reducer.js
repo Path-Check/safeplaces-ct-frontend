@@ -47,7 +47,7 @@ export default function reducer(state = initialState, action) {
     case casesTypes.UPDATE_EXTERNAL_ID: {
       return {
         ...state,
-        externalId: action.data
+        externalId
       }
     }
     default:
