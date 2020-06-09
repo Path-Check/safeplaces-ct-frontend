@@ -12,7 +12,6 @@ import getBounds from 'components/_shared/Map/getBounds';
 
 import { defaultMapStyle } from 'components/_shared/Map/config';
 
-import Notifications from 'components/_global/Notifications';
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
 import pointsSelectors from 'ducks/points/selectors';
@@ -20,6 +19,8 @@ import PointEditor from 'components/PointEditor';
 import applicationSelectors from 'ducks/application/selectors';
 import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
+import DrawEditor from 'components/_shared/Map/DrawEditor';
+import { toPoint } from './_helpers';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
@@ -98,16 +99,7 @@ export default function Map({ setMap }) {
 
     const points = {
       type: 'FeatureCollection',
-      features: pointsToZoom.map((point, index) => ({
-        type: 'Feature',
-        properties: {
-          id: point.pointId,
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [point.longitude, point.latitude],
-        },
-      })),
+      features: pointsToZoom.map((point, index) => toPoint(point)),
     };
 
     if (points) {
@@ -183,6 +175,9 @@ export default function Map({ setMap }) {
                 <PopupWrapper {...popupLocation} type={appStatus} />
               )}
 
+            {appStatus !== 'EDIT POINT' && appStatus !== 'ADD POINT' && (
+              <DrawEditor />
+            )}
             <NavigationControl
               className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
               showCompass={false}
