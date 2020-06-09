@@ -5,10 +5,27 @@
   button {
     border: none;
     outline: none;
-    background: none;
+    //background: none;
     cursor: pointer;
     margin-right: 15px;
     font-size: 20px;
     padding: 0;
   }
+}
+
+.selectedfaEllipsisVIcon {
+  margin-left: 9em;
+}
+
+header h3{
+  text-align: center;
+}
+
+header p{
+  margin-top: 20px;
+}
+
+.ModalButton{
+  font-size: 16px !important;
+  width: 9em;
 }

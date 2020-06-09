@@ -12,6 +12,7 @@ const casesTypes = {
   DELETE_CASE: 'safeplaces/cases/DELETE_CASE',
   PUBLISH_CASES: 'safeplaces/cases/PUBLISH_CASES',
   CHECK_CASE_GPS_DATA: 'safeplaces/cases/CHECK_CASE_GPS_DATA',
+  UPDATE_EXTERNAL_ID: 'safeplaces/cases/UPDATE_EXTERNAL_ID'
 };
 
 export default casesTypes;

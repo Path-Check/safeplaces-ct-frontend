@@ -40,6 +40,10 @@ const casesActions = {
   publishCases: () => ({
     type: casesTypes.PUBLISH_CASES,
   }),
+  updExternalCaseId: data => ({
+    type: casesTypes.UPDATE_EXTERNAL_ID,
+    data
+  })
 };
 
 export default casesActions;

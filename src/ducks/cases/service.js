@@ -75,6 +75,16 @@ const casesService = {
       },
     });
   },
+  updateExternalCaseId: ({ caseId, externalId }) => {
+    return axios({
+      method: 'PUT',
+      url: `${REACT_APP_API_URL}case`,
+      data: {
+        caseId,
+        externalId
+      }
+    });
+  },
 };
 
 export default casesService;

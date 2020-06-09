@@ -6,11 +6,12 @@ const initialState = {
   status: '',
   error: null,
   record: null,
+  externalId: null,
   accessCode: null,
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, status, data, caseId, accessCode } = action;
+  const { type, status, data, caseId, accessCode, externalId } = action;
   switch (type) {
     case casesTypes.STATUS:
       return { ...state, status: status };
@@ -42,6 +43,12 @@ export default function reducer(state = initialState, action) {
           points: data,
         },
       };
+    }
+    case casesTypes.UPDATE_EXTERNAL_ID: {
+      return {
+        ...state,
+        externalId: action.data
+      }
     }
     default:
       return state;
