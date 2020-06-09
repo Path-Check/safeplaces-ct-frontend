@@ -21,6 +21,7 @@ import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
 import DrawEditor from 'components/_shared/Map/DrawEditor';
 import { toPoint } from './_helpers';
+import { render } from 'react-dom';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
@@ -175,9 +176,9 @@ export default function Map({ setMap }) {
                 <PopupWrapper {...popupLocation} type={appStatus} />
               )}
 
-            {appStatus !== 'EDIT POINT' && appStatus !== 'ADD POINT' && (
-              <DrawEditor />
-            )}
+            {appStatus !== 'EDIT POINT' &&
+              appStatus !== 'ADD POINT' &&
+              renderedPoints?.length > 1 && <DrawEditor />}
             <NavigationControl
               className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
               showCompass={false}
