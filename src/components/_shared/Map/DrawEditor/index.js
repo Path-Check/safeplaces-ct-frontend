@@ -27,10 +27,12 @@ import Toggle from 'components/_shared/ToggleControl';
 
 import inside from '@turf/inside';
 import pointsSelectors from 'ducks/points/selectors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toPoint } from 'components/_shared/Map/_helpers';
+import pointsActions from 'ducks/points/actions';
 
 const DrawEditor = () => {
+  const dispatch = useDispatch();
   const editorRef = useRef();
   const [renderTools, setRenderTools] = useState(false);
   const [mode, setMode] = useState(null);
@@ -91,10 +93,8 @@ const DrawEditor = () => {
   const onApply = () => {
     const filterdPoints = points.filter(p => inside(toPoint(p), geometry));
 
-    console.log(filterdPoints);
-
     if (filterdPoints) {
-      // update points
+      dispatch(pointsActions.setFilteredPoints(filterdPoints));
     } else {
       console.log('no points present in this geography');
     }
