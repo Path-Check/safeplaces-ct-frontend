@@ -28,6 +28,9 @@ class Page(object):
 class EntryPage(Page):
     btn_setup_case = (By.CSS_SELECTOR, '#root > div > div > button')
     loc_scrubber = (By.XPATH, '//a[@href="./location-scrubber/index.html"]')
+    contact_trace = (By.CSS_SELECTOR, '#root > div > header > nav > ul > li:nth-child(1) > a.navigation_navMenuItem__eAjx9.navigation_active__1RKN8')
+    publish_data = (By.CSS_SELECTOR, '#root > div > header > nav > ul > li:nth-child(1) > a:nth-child(2)')
+    settings_link = (By.CSS_SELECTOR, '#root > div > header > nav > ul > li:nth-child(2) > a')
 
     def open_page(self):
         self.open("")
@@ -39,6 +42,15 @@ class EntryPage(Page):
 
     def open_redactor(self):
         self.find_element(self.loc_scrubber).click()
+
+    def open_trace(self):
+        self.find_element(self.contact_trace).click()
+
+    def open_publish(self):
+        self.find_element(self.publish_data).click()
+
+    def open_settings(self):
+        self.find_element(self.settings_link).click()
 
 class LoginPage(Page):
     username = (By.ID, 'username')
