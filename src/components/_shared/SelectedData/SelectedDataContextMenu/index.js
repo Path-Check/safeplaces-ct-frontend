@@ -34,8 +34,11 @@ const SelectedDataContextMenu = ({
 
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-  const noFilteredPoints =
-    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
+  );
+  const points = useSelector(state => pointsSelectors.getPoints(state));
+  const noFilteredPoints = filteredPoints.length < 1;
 
   const handleClick = e => {
     const _Target = e.target;
@@ -74,7 +77,7 @@ const SelectedDataContextMenu = ({
           </li>
         )}
 
-        {!noFilteredPoints && (
+        {!noFilteredPoints && filteredPoints.length !== points.length && (
           <>
             <li>
               <button
