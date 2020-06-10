@@ -47,6 +47,29 @@ class TestRedaction(unittest.TestCase):
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
 
+    def test_contact_trace(self):
+        tools = Tools()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        entry_page.open_page()
+        login_page = LoginPage(self.driver)
+        login_page.login_if_required()
+        entry_page.open_trace()
+        contact_trace_page = ContactTracePage(self.driver)
+        contact_trace_page.add_new_record()
+        add_record_page = AddNewRecordPage(self.driver)
+        add_record_page.create_manually()
+        contact_trace_page.more()
+        contact_trace_page.add_data_point_button()
+        # start to add a point and cancel editing the point
+        # if the test works this far, we can expand it later
+        point_editor_page = AddDataToRecordPage(self.driver)
+        point_editor.enter_location('-122.19732036472264, 37.718665250290684')
+        point_editor.enter_date('06/08/2020 07:00')
+        point_editor.close()
+        entry_page.open_settings()
+        settings_page = SettingsPage(self.driver)
+        settings_page.logout
+       
     # leaving test_ out of the method name until the SUT works
     def settings(self):
         login_page = LoginPage(self.driver)
@@ -82,11 +105,6 @@ class TestRedaction(unittest.TestCase):
         redaction_page.save_file()
         #TODO: this next step fails because it was designed for backend=OFF.  To test this, we need to load the publisher screen and see what data is there when we hit load
         #tools.compare_files(self.tmp_dir + '/privkit31A-synthetic-REDACTED-REDACTED.json', self.home_dir + '/' + self.data_dir + '/expected_results/privkit31A-synthetic-REDACTED-REDACTED.json')
-
-    def logout(self):
-        entry_page = EntryPage(self.driver,base_url=self.base_url)
-        settings_page = SettingsPage(self.driver)
-        settings_page.logout
 
     def tearDown(self):
         self.driver.close()
