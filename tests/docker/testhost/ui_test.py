@@ -47,6 +47,47 @@ class TestRedaction(unittest.TestCase):
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
 
+    def test_contact_trace(self):
+        tools = Tools()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        entry_page.open_page()
+        login_page = LoginPage(self.driver)
+        login_page.login_if_required()
+        entry_page.open_trace()
+        contact_trace_page = ContactTracePage(self.driver)
+        contact_trace_page.add_new_record()
+        add_record_page = AddNewRecordPage(self.driver)
+        add_record_page.create_manually()
+        contact_trace_page.more()
+        contact_trace_page.add_data_point_button()
+        # start to add a point and cancel editing the point
+        # if the test works this far, we can expand it later
+        point_editor_page = AddDataToRecordPage(self.driver)
+        point_editor.enter_location('-122.19732036472264, 37.718665250290684')
+        point_editor.enter_date('06/08/2020 07:00')
+        point_editor.close()
+        entry_page.open_settings()
+        settings_page = SettingsPage(self.driver)
+        settings_page.logout
+       
+    # leaving test_ out of the method name until the SUT works
+    def settings(self):
+        login_page = LoginPage(self.driver)
+        login_page.login_if_required()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        entry_page.open_page()
+        entry_page.open_settings()
+        settings_page = SettingsPage(self.driver)
+        settings_page.set_health_authority_name('Test Health Authority')
+        settings_page.set_information_website_URL('https://cdc.gov')
+        settings_page.set_reference_website_URL('https://cdc.gov')
+        settings_page.set_api_endpoint('https://s3.aws.com/bucket_name/safepaths.json')
+        settings_page.set_privacy_policy_URL('https://www.cdc.gov/other/privacy.html')
+        # set retention policy slider to 50% of the way across, which would be 15 days
+        settings_page.set_retention_policy('50')
+        settings_page.reset_gps_coordinates
+        settings_page.save_and_continue
+        
 
     #def test_redaction(self): <--- removed test_ from the method name until the SUT works!
     def redaction(self):
