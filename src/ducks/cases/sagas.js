@@ -72,20 +72,25 @@ function* addCase() {
 
 function* loadCasePoints({ type, caseId }) {
   yield put(applicationActions.updateStatus('BUSY'));
+  const accessCode = yield select(casesSelectors.getAccessCode);
   let service;
   let data;
-  const multiCase = Array.isArray(caseId);
 
-  if (multiCase) {
-    service = 'fetchMultiPoints';
-    data = {
-      caseIds: caseId,
-    };
-  } else {
-    service = 'fetchPoints';
-    data = {
-      caseId,
-    };
+  switch (type) {
+    case casesTypes.LOAD_CASE_POINTS:
+      service = 'fetchPoints';
+      data = {
+        caseId,
+      };
+      break;
+    case casesTypes.LOAD_MULTICASE_POINTS:
+      service = 'fetchMultiPoints';
+      data = {
+        caseIds: caseId,
+      };
+      break;
+    default:
+      break;
   }
 
   try {
@@ -99,8 +104,6 @@ function* loadCasePoints({ type, caseId }) {
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(casesActions.setCase(caseId));
-
-    yield put(applicationActions.updateStatus('CASES ADDED'));
     yield put(
       applicationActions.notification({
         title: 'Unable to retrieve location data.',
@@ -108,13 +111,39 @@ function* loadCasePoints({ type, caseId }) {
           'If issue persists, please contact technical support for assistance.',
       }),
     );
+    yield put(applicationActions.updateStatus('CASES ADDED'));
+  }
+}
+
+function* enrichCase({ caseId }) {
+  yield put(applicationActions.updateStatus('BUSY'));
+  const accessCode = yield select(casesSelectors.getAccessCode);
+
+  try {
+    const response = yield call(casesService.enrichCase, {
+      accessCode,
+      caseId,
+    });
+
+    console.log(response);
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to retrieve location data.',
+      }),
+    );
+
+    yield put(applicationActions.updateStatus('CASE FETCHED'));
   }
 }
 
 function* checkCaseGPSDataSaga() {
-  const activeCase = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCase);
+
   try {
-    yield call(loadCasePoints, { caseId: activeCase });
+    yield call(enrichCase, {
+      caseId,
+    });
   } catch (e) {
     yield put(
       applicationActions.notification({

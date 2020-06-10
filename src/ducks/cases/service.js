@@ -33,6 +33,18 @@ const casesService = {
 
     return axios(request);
   },
+  enrichCase: ({ accessCode, caseId }) => {
+    const request = {
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/points/ingest`,
+      data: {
+        accessCode,
+        caseId,
+      },
+    };
+
+    return axios(request);
+  },
   fetchMultiPoints: ({ data }) => {
     return axios({
       method: 'POST',
