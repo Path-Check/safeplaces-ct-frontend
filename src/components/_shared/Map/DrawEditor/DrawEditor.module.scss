@@ -35,9 +35,15 @@
 .editorNavControls {
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fff;
+  height: 46px;
+  padding: 10px;
+  border-radius: 24px;
+
+  button {
+  }
 }

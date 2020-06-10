@@ -76,7 +76,7 @@ const SelectedDataContextMenu = ({
 
         {!noFilteredPoints && (
           <>
-            {/* <li>
+            <li>
               <button
                 type="button"
                 onClick={() => dispatch(pointsActions.setFilteredPoints([]))}
@@ -85,7 +85,7 @@ const SelectedDataContextMenu = ({
                 <FontAwesomeIcon icon={faMinusCircle} />
                 Unselect All
               </button>
-            </li> */}
+            </li>
             {/* {isTrace && (
               <li>
                 <button

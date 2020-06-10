@@ -179,6 +179,7 @@ export default function Map({ setMap }) {
             {appStatus !== 'EDIT POINT' &&
               appStatus !== 'ADD POINT' &&
               renderedPoints?.length > 1 && <DrawEditor />}
+
             <NavigationControl
               className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
               showCompass={false}

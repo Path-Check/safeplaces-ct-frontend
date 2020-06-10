@@ -20,6 +20,8 @@ import {
   faDrawPolygon,
   faDrawCircle,
   faDrawSquare,
+  faCheck,
+  faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -153,8 +155,12 @@ const DrawEditor = () => {
       </div>
       {geometry && (
         <div className={editorNavControls}>
-          <button onClick={onApply}>Apply Selection</button>
-          <button>Discard Selection</button>
+          <button onClick={onApply}>
+            Apply Selection <FontAwesomeIcon icon={faCheck} />
+          </button>
+          <button>
+            Discard Selection <FontAwesomeIcon icon={faTrash} />
+          </button>
         </div>
       )}
     </>
