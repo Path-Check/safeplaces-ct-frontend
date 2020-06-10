@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux'
-import { redactorToolsHeader, selectedfaEllipsisVIcon, ModalButton } from './header.module.scss';
+import { redactorToolsHeader, selectedfaEllipsisVIcon, ModalButton, inputtext } from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
 import { Button, TextInput } from '@wfp/ui'
@@ -26,7 +26,6 @@ const RedactorToolsHeader = ({ currentRecord }) => {
   const onSubmit = () => {
     if (activeCase) {
       dispatch(caseAction.updExternalCaseId(externalInpuValue));
-      console.log('upd:', caseAction.updExternalCaseId(externalInpuValue))
     }
   };
 
@@ -60,7 +59,7 @@ const RedactorToolsHeader = ({ currentRecord }) => {
               </p>
             </header>
             <TextInput
-              id="inputID"
+              className={inputtext}
               placeholder="Enter A Record ID"
               onChange={onChangeHandler}
               value={externalInpuValue}

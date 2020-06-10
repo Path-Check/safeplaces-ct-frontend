@@ -14,7 +14,8 @@
 }
 
 .selectedfaEllipsisVIcon {
-  margin-left: 9em;
+  position: absolute;
+  margin-left: 311px;
 }
 
 header h3{
@@ -28,4 +29,8 @@ header p{
 .ModalButton{
   font-size: 16px !important;
   width: 9em;
+}
+
+.inputtext{
+  margin-bottom: 12px;
 }

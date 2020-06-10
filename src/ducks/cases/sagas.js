@@ -211,24 +211,19 @@ function* stageCase() {
 
 // Implementation in progress ..
 function* updateExternalId({ externalId }) {
-  console.log('external id: ', externalId)
   const caseId = yield select(casesSelectors.getActiveCase);
-  console.log('case id from sagax: ', caseId)
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    yield call(
-      casesService.updateExternalCaseId({
-        caseId,
-        externalId,
-      }),
-    );
+    yield call(casesService.updateExternalCaseId, { caseId, externalId });
 
     yield put(
       applicationActions.notification({
-        title: `Case id ${caseId} has been updated successfully`
+        title: `The external id ${externalId} has been set successfully`
       })
     )
+    yield put(applicationActions.updateStatus('EXTERNAL ID UPDATED'));
+
   } catch (error) {
     yield put(applicationActions.updateStatus('IDLE'));
     yield put(
