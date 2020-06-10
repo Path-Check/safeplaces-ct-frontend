@@ -86,10 +86,10 @@ class RedactionPage(Page):
     date_start = (By.ID, 'date-start')
     date_end = (By.ID, 'date-end')
     duration = (By.ID, 'duration')
-    add_entry_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > a > button')
-    delete_inspected_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > button:nth-child(2)')
-    select_all_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > button:nth-child(3) > svg')
-    select_none_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > button:nth-child(4)')
+    # add_entry_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > a > button')
+    # delete_inspected_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > button:nth-child(2)')
+    # select_all_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > button:nth-child(3) > svg')
+    # select_none_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_toolbar__3nYxc > button:nth-child(4)')
 
     def load_file(self, filename):
         self.find_element(self.load_file_btn).send_keys(filename)
@@ -106,17 +106,17 @@ class RedactionPage(Page):
     def check_duration_is(self, value):
         self.check_is(value,self.find_element(self.duration).text)
         
-    def add_entry(self):
-        self.find_element(self.add_entry_btn).click()
+    # def add_entry(self):
+    #     self.find_element(self.add_entry_btn).click()
 
-    def delete_inspected(self):
-        self.find_element(self.delete_inspected_btn).click()
+    # def delete_inspected(self):
+    #     self.find_element(self.delete_inspected_btn).click()
         
-    def select_all(self):
-        self.find_element(self.select_all_btn).click()
+    # def select_all(self):
+    #     self.find_element(self.select_all_btn).click()
         
-    def select_none(self):
-        self.find_element(self.select_none_btn).click()
+    # def select_none(self):
+    #     self.find_element(self.select_none_btn).click()
 
 # commenting out as page appears no longer to exist in this form
 # class NewPointEditor:
