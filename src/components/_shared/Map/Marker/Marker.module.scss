@@ -23,6 +23,7 @@
 }
 
 .markerExpanded {
+  z-index: 2;
   > button {
     font-size: 40px;
   }
