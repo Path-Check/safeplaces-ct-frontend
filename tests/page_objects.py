@@ -118,76 +118,85 @@ class RedactionPage(Page):
     def select_none(self):
         self.find_element(self.select_none_btn).click()
 
-class NewPointEditor:
-    dateInput = (By.NAME, 'date')
-    timeInput = (By.NAME, 'time')
-    searchAddress = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > div:nth-child(2) > div > input')
-    latitude = (By.NAME, 'latitude')
-    longitude = (By.NAME, 'longitude')
-    street = (By.NAME, 'street')
-    other = (By.NAME, 'other')
-    town = (By.NAME, 'town')
-    postalCode = (By.NAME, 'postal')
-    comment = (By.NAME, 'comment')
-    add_tracks_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > button')
-    pick_location_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > div.styles_position__2ql7M > span:nth-child(3) > button > svg')
-    get_coordinates_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > div.styles_position__2ql7M > span:nth-child(4) > button > svg')
-    
-    def enter_date(self, date):
-        self.find_element(self.dateInput).send_keys(date)
-
-    def enter_address(self, address):
-        self.find_element(self.searchAddress).send_keys(address)
-
-    def enter_latitude(self, latitude):
-        self.find_element(self.timeInput).send_keys(latitude)
-
-    def enter_longitude(self, date):
-        self.find_element(self.timeInput).send_keys(longitude)
-
-    def enter_street(self, street):
-        self.find_element(self.timeInput).send_keys(street)
-
-    def enter_other(self, date):
-        self.find_element(self.timeInput).send_keys(other)
-
-    def enter_town(self, date):
-        self.find_element(self.timeInput).send_keys(town)
-
-    def enter_postal_code(self, date):
-        self.find_element(self.timeInput).send_keys(postal_code)
-
-    def enter_comment(self, date):
-        self.find_element(self.timeInput).send_keys(comment)
-
-    def pick_location(self):
-        self.find_element(pick_location_btn).click()
-
-    def get_coordinates(self):
-        self.find_element(get_coordinates_btn).click()
-
-    def add_tracks(self):
-        self.find_element(add_tracks_btn).click()
-
-class IndividualDataPoint:
-    entry_selectbox = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.wfp--form-item.wfp--checkbox-wrapper.styles_checkbox__3IQ4N > label')
-    entry_editbox = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.styles_itemInner__3xvEO > div.styles_buttons__1phBJ > button:nth-child(1) > svg')
-    
-    def select_entry(self):
-        self.find_element(entry_selectbox).click()
-
-    def edit_entry(self):
-        self.find_element(entry_editbox).click()
+# commenting out as page appears no longer to exist in this form
+# class NewPointEditor:
+#     dateInput = (By.NAME, 'date')
+#     timeInput = (By.NAME, 'time')
+#     searchAddress = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > div:nth-child(2) > div > input')
+#     latitude = (By.NAME, 'latitude')
+#     longitude = (By.NAME, 'longitude')
+#     street = (By.NAME, 'street')
+#     other = (By.NAME, 'other')
+#     town = (By.NAME, 'town')
+#     postalCode = (By.NAME, 'postal')
+#     comment = (By.NAME, 'comment')
+#     add_tracks_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > button')
+#     pick_location_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > div.styles_position__2ql7M > span:nth-child(3) > button > svg')
+#     get_coordinates_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_editor__1yYbN > form > div.styles_content__1vUjG > div.styles_position__2ql7M > span:nth-child(4) > button > svg')
+#     
+#     def enter_date(self, date):
+#         self.find_element(self.dateInput).send_keys(date)
+# 
+#     def enter_address(self, address):
+#         self.find_element(self.searchAddress).send_keys(address)
+# 
+#     def enter_latitude(self, latitude):
+#         self.find_element(self.timeInput).send_keys(latitude)
+# 
+#     def enter_longitude(self, date):
+#         self.find_element(self.timeInput).send_keys(longitude)
+# 
+#     def enter_street(self, street):
+#         self.find_element(self.timeInput).send_keys(street)
+# 
+#     def enter_other(self, date):
+#         self.find_element(self.timeInput).send_keys(other)
+# 
+#     def enter_town(self, date):
+#         self.find_element(self.timeInput).send_keys(town)
+# 
+#     def enter_postal_code(self, date):
+#         self.find_element(self.timeInput).send_keys(postal_code)
+# 
+#     def enter_comment(self, date):
+#         self.find_element(self.timeInput).send_keys(comment)
+# 
+#     def pick_location(self):
+#         self.find_element(pick_location_btn).click()
+# 
+#     def get_coordinates(self):
+#         self.find_element(get_coordinates_btn).click()
+# 
+#     def add_tracks(self):
+#         self.find_element(add_tracks_btn).click()
+# 
+# class IndividualDataPoint:
+#     entry_selectbox = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.wfp--form-item.wfp--checkbox-wrapper.styles_checkbox__3IQ4N > label')
+#     entry_editbox = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_sidebarContent__3-5j0 > div > div.styles_itemInner__3xvEO > div.styles_buttons__1phBJ > button:nth-child(1) > svg')
+#     
+#     def select_entry(self):
+#         self.find_element(entry_selectbox).click()
+# 
+#     def edit_entry(self):
+#         self.find_element(entry_editbox).click()
 
 class ContactTracePage(Page):
     add_new_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button:nth-child(1)')
     load_existing_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button.styles_button__1QQUp.styles_buttonSecondary__3onvZ.undefined')
+    more_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div > button > svg > path')
+    add_data_point_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div.SelectedDataContextMenu_selectedDataContextMenu__7joml > ul > li > button')
     
     def add_new_record(self):
         self.find_element(add_new_record_button).click()
     
     def load_existing_record(self):
         self.find_element(load_existing_record_button).click()
+
+    def more(self):
+        self.find_element(more_button).click()
+    
+    def add_data_point(self):
+        self.find_element(add_data_point_button).click()
 
 class AddNewRecordPage(Page):
     check_data_upload_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(4) > button')
@@ -205,6 +214,7 @@ class AddDataToRecordPage(Page):
     use_location_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div:nth-child(1)')
     date_picker = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_timeControls__3lzO7 > div > div.react-datepicker-wrapper > div > input')
     save_data_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > button')
+    close_point_editor_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_pointEditorHeader__2-aPg > button > svg > path')
     
     def enter_location(self, location):
         self.find_element(self.search_location).send_keys(location)
@@ -220,6 +230,10 @@ class AddDataToRecordPage(Page):
 
     def save_data(self):
         self.find_element(save_data_button).click()
+        
+    def close(self):
+        self.find_element(close_point_editor_button).click()
+    
     
 class StageForPublishingPage(Page):
     yes_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button:nth-child(1)')
@@ -278,9 +292,23 @@ class SettingsPage(Page):
  
     def configuration(self):
         self.find_element(configuration_button).click()
-
+        
     def logout(self):
         self.find_element(logout_button).click()
+    
+    # in case we need to configure the settings every time the website is rebuilt, this can be added to ui_test.py
+    def configure_settings_if_required(self):
+        self.driver.implicitly_wait(3)
+        self.set_health_authority_name('Test Health Authority')
+        self.set_information_website_URL('https://cdc.gov')
+        self.set_reference_website_URL('https://cdc.gov')
+        self.set_api_endpoint('https://s3.aws.com/bucket_name/safepaths.json')
+        self.set_privacy_policy_URL('https://www.cdc.gov/other/privacy.html')
+        # set retention policy slider to 50% of the way across, which would be 15 days
+        self.set_retention_policy('50')
+        self.reset_gps_coordinates
+        self.save_and_continue
+
 
 class Tools:
     def compare_files(self, fname1, fname2):
