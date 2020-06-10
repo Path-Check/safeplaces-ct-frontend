@@ -136,9 +136,6 @@ class NewPointEditor:
     def enter_date(self, date):
         self.find_element(self.dateInput).send_keys(date)
 
-    def enter_date(self, date):
-        self.find_element(self.dateInput).send_keys(date)
-
     def enter_address(self, address):
         self.find_element(self.searchAddress).send_keys(address)
 
@@ -192,6 +189,48 @@ class ContactTracePage(Page):
     def load_existing_record(self):
         self.find_element(load_existing_record_button).click()
 
+class AddNewRecordPage(Page):
+    check_data_upload_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(4) > button')
+    create_record_manually_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(6) > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
+    
+    def upload_data(self):
+        self.find_element(check_data_upload_button).click()
+    
+    def create_manually(self):
+        self.find_element(create_record_manually_button).click()
+    
+class AddDataToRecordPage(Page):
+    search_location = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > div > input[type=text]')
+    select_from_map_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > button')
+    use_location_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div:nth-child(1)')
+    date_picker = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_timeControls__3lzO7 > div > div.react-datepicker-wrapper > div > input')
+    save_data_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > button')
+    
+    def enter_location(self, location):
+        self.find_element(self.search_location).send_keys(location)
+
+    def select_from_map(self):
+        self.find_element(select_from_map_button).click()
+    
+    def use_location(self):
+        self.find_element(use_location_button).click()
+    
+    def enter_date(self, date_picker):
+        self.find_element(self.search_location).send_keys(date)
+
+    def save_data(self):
+        self.find_element(save_data_button).click()
+    
+class StageForPublishingPage(Page):
+    yes_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button:nth-child(1)')
+    no_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
+    
+    def yes_consent(self):
+        self.find_element(yes_consent_button).click()
+    
+    def no_consent(self):
+        self.find_element(no_consent_button).click()
+    
 class PublishDataPage(Page):
     load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
     
