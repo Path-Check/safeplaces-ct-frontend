@@ -36,7 +36,7 @@ const Record = ({
       <td colSpan="2">
         <time dateTime={processingDate}>{processDateFriendly}</time>
       </td>
-      <td colSpan="1">{contact_tracer_id ? `${contact_tracer_id}` : 'N/A'}</td>
+      <td colSpan="2">{contact_tracer_id ? `${contact_tracer_id}` : 'N/A'}</td>
     </tr>
   );
 };
