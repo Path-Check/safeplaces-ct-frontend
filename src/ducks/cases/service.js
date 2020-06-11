@@ -76,7 +76,7 @@ const casesService = {
     });
   },
   updateExternalCaseId: async ({ caseId, externalId }) => {
-    const res = await axios({
+    return await axios({
       method: 'PUT',
       url: `${REACT_APP_API_URL}case`,
       data: {
@@ -84,7 +84,6 @@ const casesService = {
         externalId,
       },
     });
-    return res;
   },
 };
 

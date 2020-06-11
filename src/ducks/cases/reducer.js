@@ -8,10 +8,11 @@ const initialState = {
   record: null,
   externalId: null,
   accessCode: null,
+  updateExtIDError: null
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, status, data, caseId, accessCode, externalId } = action;
+  const { type, status, data, caseId, accessCode, externalId, updateExtIDError } = action;
   switch (type) {
     case casesTypes.STATUS:
       return { ...state, status: status };
@@ -44,12 +45,29 @@ export default function reducer(state = initialState, action) {
         },
       };
     }
-    case casesTypes.UPDATE_EXTERNAL_ID: {
+
+
+    case casesTypes.externalID.REQUEST: {
       return {
         ...state,
+        fetching: true,
+      }
+    }
+    case casesTypes.externalID.SUCCESS: {
+      return {
+        ...state,
+        fetching: false,
         externalId
       }
     }
+    case casesTypes.externalID.FAILURE: {
+      return {
+        ...state,
+        fetching: false,
+        error: updateExtIDError
+      }
+    }
+
     default:
       return state;
   }

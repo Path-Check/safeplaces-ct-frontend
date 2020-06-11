@@ -208,14 +208,17 @@ function* stageCase() {
   }
 }
 
-
-// Implementation in progress ..
 function* updateExternalId({ externalId }) {
   const caseId = yield select(casesSelectors.getActiveCase);
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    yield call(casesService.updateExternalCaseId, { caseId, externalId });
+    const response = yield call(casesService.updateExternalCaseId, { caseId, externalId });
+    yield put(
+      casesActions.updExternalCaseIdSuccess(
+        response.data.case
+      )
+    );
 
     yield put(
       applicationActions.notification({
@@ -230,7 +233,8 @@ function* updateExternalId({ externalId }) {
       applicationActions.notification({
         title: `Trouble updating id ${caseId}`,
         text: ' - Please try again.',
-      }))
+      }));
+    yield put(casesActions.updExternalCaseIdFailure(error));
   }
 }
 
@@ -243,5 +247,5 @@ export default function* casesSagas() {
   yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.LOAD_MULTICASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);
-  yield takeEvery(casesTypes.UPDATE_EXTERNAL_ID, updateExternalId);
+  yield takeEvery(casesTypes.externalID.REQUEST, updateExternalId);
 }
