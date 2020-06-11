@@ -20,6 +20,9 @@ import pointsActions from 'ducks/points/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 import pointsSelectors from 'ducks/points/selectors';
+import applicationActions from 'ducks/application/actions';
+import mapActions from 'ducks/map/actions';
+import applicationSelectors from 'ducks/application/selectors';
 
 const SelectedDataItem = ({
   pointId,
@@ -32,16 +35,34 @@ const SelectedDataItem = ({
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-  const isHighlighted = activePoint === pointId;
+  const isTrace =
+    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
+  const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
   const [showContentMenu, setShowContentMenu] = useState(false);
-
+  const date = moment(timestamp).format('ddd, MMMM D, YYYY');
+  const time = moment(timestamp).format('hh:mm');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
     [`${selectedDataItemHighlighted}`]: isHighlighted,
   });
 
-  const handleClick = () => {
-    dispatch(pointsActions.setSelectedPoint(pointId));
+  const handleClick = e => {
+    dispatch(applicationActions.updateStatus(''));
+    dispatch(mapActions.updateLocation(null));
+
+    dispatch(
+      pointsActions.setSelectedPoint({
+        pointId,
+        latitude,
+        longitude,
+        time: timestamp,
+      }),
+    );
+
+    if (!isTrace) {
+      return;
+    }
+
     setShowContentMenu(!showContentMenu);
   };
 
@@ -54,34 +75,30 @@ const SelectedDataItem = ({
     }
   }, [showContentMenu]);
 
-  const date = moment(timestamp).format('ddd, MMMM D, YYYY');
-  const time = moment(timestamp).format('hh:mm');
-
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className={classes}
-      ref={itemRef}
-    >
-      <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
-      <div className={selectedDataContent}>
-        <h6>{date}</h6>
-        <ul>
-          <li>{time}</li>
-          {/* <li>{travelling ? 'Travelling' : duration}</li> */}
-        </ul>
-      </div>
-      <div className={selectedDataMenuAction} type="button">
-        <FontAwesomeIcon icon={faEllipsisV} />
-      </div>
+    <div className={classes}>
+      <button type="button" onClick={handleClick} ref={itemRef}>
+        <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
+        <div className={selectedDataContent}>
+          <h6>{date}</h6>
+          <ul>
+            <li>{time}</li>
+            {/* <li>{travelling ? 'Travelling' : duration}</li> */}
+          </ul>
+        </div>
+        {isTrace && (
+          <div className={selectedDataMenuAction} type="button">
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </div>
+        )}
+      </button>
       {showContentMenu && (
         <PointContextMenu
-          id={pointId}
+          {...activePoint}
           closeAction={() => setShowContentMenu(false)}
         />
       )}
-    </button>
+    </div>
   );
 };
 

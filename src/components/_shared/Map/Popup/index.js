@@ -1,41 +1,39 @@
 import React from 'react';
 import { Popup } from 'react-map-gl';
-import styles from './styles.module.scss';
 
-import moment from 'moment';
-import { addSelected } from 'ducks/selectedPoints';
+import { useDispatch } from 'react-redux';
+import { faCheck } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { getSelectedPointsData } from 'selectors/selectedPoints';
+import { popup, popupButton } from './Popup.module.scss';
+import mapActions from 'ducks/map/actions';
 
-export default function PopupWrapper() {
-  const selectedPointsData = useSelector(getSelectedPointsData);
-
+export default function PopupWrapper({ longitude, latitude, type }) {
   const dispatch = useDispatch();
 
-  if (selectedPointsData.length === 1) {
-    return (
-      <Popup
-        tipSize={8}
-        anchor="bottom"
-        longitude={selectedPointsData[0].longitude}
-        latitude={selectedPointsData[0].latitude}
-        closeOnClick={false}
-        closeButton={false}
-        offsetTop={-10}
-        onClose={() => dispatch(addSelected([]))}
-      >
-        <div className={styles.popup}>
-          <h3 className={styles.title}>
-            {moment.utc(selectedPointsData[0].time).format('YYYY-MM-DD')}
-          </h3>
-          <p className={styles.time}>
-            {moment.utc(selectedPointsData[0].time).format('HH:mm:ss')}
-          </p>
-        </div>
-      </Popup>
-    );
-  }
-
-  return null;
+  return (
+    <Popup
+      tipSize={0}
+      anchor="bottom"
+      longitude={longitude}
+      latitude={latitude}
+      closeOnClick={false}
+      closeButton={false}
+      offsetTop={10}
+      className={popup}
+    >
+      <div>
+        <button
+          className={popupButton}
+          onClick={() => {
+            dispatch(mapActions.setLocation({ longitude, latitude }));
+            dispatch(mapActions.locationSelect(false));
+          }}
+        >
+          <FontAwesomeIcon icon={faCheck} />
+          Use Location
+        </button>
+      </div>
+    </Popup>
+  );
 }

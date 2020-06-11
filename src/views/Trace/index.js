@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { tracer } from './Tracer.module.scss';
 
@@ -9,28 +9,38 @@ import RedactorTools from 'components/_shared/RedactorTools';
 import SidebarWrapper from 'components/_shared/Sidebar/SidebarWrapper';
 import SidebarHeader from 'components/_shared/Sidebar/SidebarHeader';
 import TracerLoadActions from 'views/Trace/Actions/LoadActions';
-import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import AddNewRecord from 'views/Trace/AddNewRecord';
 
-import casesSelectors from 'ducks/cases/selectors';
 import RecordAdded from 'views/Trace/RecordAdded';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
+import StageForPublishing from 'views/Trace/StageForPublishing';
+import TracerToolActions from 'views/Trace/Actions/ToolActions';
+import applicationActions from 'ducks/application/actions';
 
 const Trace = () => {
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
-  const status = useSelector(state => applicationSelectors.getStatus(state));
+  const dispatch = useDispatch();
+  const renderEditor = useSelector(state =>
+    applicationSelectors.getRenderEditor(state),
+  );
+  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const mode = useSelector(state => applicationSelectors.getMode(state));
 
-  const renderTools = status === 'CASE ACTIVE' && activeCase?.caseId;
+  useEffect(() => {
+    dispatch({
+      type: 'RESET_VIEW',
+    });
+    dispatch(applicationActions.setMode('trace'));
+  }, [mode]);
 
   return (
     <>
       <div className={tracer}>
         <SidebarWrapper>
-          {renderTools ? (
+          {renderEditor ? (
             <>
               <RedactorTools />
-              {/* <TracerToolActions /> */}
+              <TracerToolActions />
             </>
           ) : (
             <>
@@ -46,7 +56,10 @@ const Trace = () => {
       </div>
       <AddNewRecord />
       <RecordAdded />
-      <RecordsTable />
+
+      {appStatus === 'CASES ADDED' && <RecordsTable />}
+
+      {appStatus === 'STAGE CASE' && <StageForPublishing />}
     </>
   );
 };

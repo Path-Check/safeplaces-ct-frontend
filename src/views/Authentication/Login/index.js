@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { InlineLoading, TextInput } from '@wfp/ui';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from './login.module.scss';
 import loginImage from '../../../assets/images/home-page-graphic.png';
 
@@ -10,6 +10,7 @@ import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
 
 import authActions from 'ducks/auth/actions';
+import Notifications from '../../../components/_global/Notifications';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,12 +20,15 @@ const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
     if (currentUser) {
       const { completedOnboarding } = currentUser;
+      console.log(history);
+
       if (token && completedOnboarding) {
-        history.push('/trace');
+        history.push(location.state?.referrer || 'trace');
       }
       if (token && !completedOnboarding) {
         history.push('/onboarding');
@@ -44,7 +48,7 @@ const Login = () => {
 
   const onSubmit = async () => {
     if (email.length && password.length) {
-      dispatch(authActions.loginRequest({ email, password }));
+      dispatch(authActions.loginRequest({ username: email, password }));
     }
   };
 
@@ -61,7 +65,7 @@ const Login = () => {
             <TextInput
               id="email-input"
               onChange={onEmail}
-              autocorrect="off"
+              autoCorrect="off"
               autoCapitalize="off"
               labelText="Email"
               inputRef={register({ required: 'Please enter a email' })}
@@ -73,7 +77,7 @@ const Login = () => {
             <TextInput
               id="pass-input"
               onChange={onPassword}
-              autocorrect="off"
+              autoCorrect="off"
               autoCapitalize="off"
               labelText="Password"
               inputRef={register}
@@ -108,6 +112,7 @@ const Login = () => {
           </form>
         </div>
       </div>
+      <Notifications />
     </div>
   );
 };

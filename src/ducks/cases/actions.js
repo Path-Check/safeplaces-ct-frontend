@@ -14,21 +14,35 @@ const casesActions = {
   fetchCase: () => ({
     type: casesTypes.FETCH_CASE,
   }),
-  setCase: data => ({
+  setCase: caseId => ({
     type: casesTypes.SET_ACTIVE_CASE,
-    data,
+    caseId,
   }),
-  loadCasePoints: activeCase => ({
+  setAccessCode: accessCode => ({
+    type: casesTypes.SET_ACCESS_CODE,
+    accessCode,
+  }),
+  loadCasePoints: caseId => ({
     type: casesTypes.LOAD_CASE_POINTS,
-    activeCase,
+    caseId,
+  }),
+  loadMultiCasePoints: caseId => ({
+    type: casesTypes.LOAD_MULTICASE_POINTS,
+    caseId,
   }),
   enrichCase: data => ({
     type: casesTypes.ENRICH_CASE,
     data,
   }),
+  stageCase: data => ({
+    type: casesTypes.STAGE_CASE,
+  }),
   deleteCase: data => ({
     type: casesTypes.DELETE_CASE,
     data,
+  }),
+  publishCases: () => ({
+    type: casesTypes.PUBLISH_CASES,
   }),
 };
 

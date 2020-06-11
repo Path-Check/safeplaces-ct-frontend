@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { fromJS } from 'immutable';
 
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import ReactMapGL, {
+  NavigationControl,
+  WebMercatorViewport,
+} from 'react-map-gl';
 
 import mapboxgl from 'mapbox-gl';
 
@@ -14,6 +17,8 @@ import styles from './styles.module.scss';
 import defaultMapStyleJson from './style.json';
 
 import Button from 'components/_shared/Button';
+import { useSelector } from 'react-redux';
+import authSelectors from 'ducks/auth/selectors';
 
 let jsonStyle = JSON.stringify(defaultMapStyleJson).replace(
   /{REACT_APP_HERE_APP_ID}/g,
@@ -34,13 +39,27 @@ export default function Map({ confirmBounds }) {
   const mapRef = useRef();
   const geocoderContainerRef = useRef();
   const [map, setMap] = useState(null);
-  const [viewport, setViewport] = useState({
-    width: 400,
-    height: 300,
+
+  const boundsObject = useSelector(state => authSelectors.getBounds(state));
+  const bounds = boundsObject && [
+    [boundsObject.sw.longitude, boundsObject.sw.latitude],
+    [boundsObject.ne.longitude, boundsObject.ne.latitude],
+  ];
+
+  const fallbackViewport = {
     latitude: 37.7577,
     longitude: -122.4376,
     zoom: 8,
-  });
+  };
+
+  const initial = bounds
+    ? new WebMercatorViewport({
+        width: 800,
+        height: 800,
+      }).fitBounds(bounds)
+    : fallbackViewport;
+
+  const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
   useEffect(() => {
     if (!mapRef.current) {

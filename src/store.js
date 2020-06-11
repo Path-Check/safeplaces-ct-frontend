@@ -13,11 +13,11 @@ const persistConfig = {
   storage,
   timeout: 500,
   // transforms: [saveSubsetBlacklistFilter],
-  blacklist: ['router', 'points', 'cases', 'application'],
+  blacklist: ['router', 'points', 'cases', 'application', 'map'],
 };
 
 export const history = createBrowserHistory();
-const persistedReducer = persistReducer(persistConfig, rootReducer(history));
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();

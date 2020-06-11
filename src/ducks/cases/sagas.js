@@ -10,18 +10,20 @@ import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
 
 function* addCases({ data }) {
-  const { id: organizationId } = yield select(authSelectors.getCurrentUser);
-
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    const response = yield call(casesService.fetchCases, {
-      organizationId,
-    });
+    const response = yield call(casesService.fetchCases);
+
+    if (!response.data.cases || response.data.cases.length < 1) {
+      throw Error('No cases returned');
+    }
 
     yield put(casesActions.addCases(response.data));
     yield put(applicationActions.updateStatus('CASES ADDED'));
   } catch (error) {
+    console.error(error);
+
     yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
@@ -45,10 +47,14 @@ function* addCase() {
       organizationId,
     });
 
-    yield put(casesActions.setCase(response.data));
+    yield put(casesActions.setCase(response.data.caseId));
 
-    if (response.data.authCode) {
-      yield put(casesActions.enrichCase());
+    const {
+      data: { accessCode },
+    } = yield call(casesService.fetchAccessCode);
+
+    if (accessCode) {
+      yield put(casesActions.setAccessCode(accessCode));
     }
 
     yield put(applicationActions.updateStatus('CASE FETCHED'));
@@ -64,19 +70,40 @@ function* addCase() {
   }
 }
 
-function* loadCasePoints({ activeCase }) {
+function* loadCasePoints({ type, caseId }) {
   yield put(applicationActions.updateStatus('BUSY'));
+  const accessCode = yield select(casesSelectors.getAccessCode);
+  let service;
+  let data;
+
+  switch (type) {
+    case casesTypes.LOAD_CASE_POINTS:
+      service = 'fetchPoints';
+      data = {
+        caseId,
+      };
+      break;
+    case casesTypes.LOAD_MULTICASE_POINTS:
+      service = 'fetchMultiPoints';
+      data = {
+        caseIds: caseId,
+      };
+      break;
+    default:
+      break;
+  }
 
   try {
-    const response = yield call(casesService.fetchPoints, {
-      caseId: activeCase.caseId,
+    const response = yield call(casesService[service], {
+      data,
     });
 
-    yield put(casesActions.setCase(activeCase));
+    yield put(casesActions.setCase(caseId));
     yield put(pointsActions.updatePoints(response.data.concernPoints));
-    yield put(applicationActions.updateStatus('CASE ACTIVE'));
+    yield put(applicationActions.renderEditor(true));
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
-    yield put(casesActions.setCase(activeCase));
+    yield put(casesActions.setCase(caseId));
     yield put(
       applicationActions.notification({
         title: 'Unable to retrieve location data.',
@@ -84,13 +111,39 @@ function* loadCasePoints({ activeCase }) {
           'If issue persists, please contact technical support for assistance.',
       }),
     );
+    yield put(applicationActions.updateStatus('CASES ADDED'));
+  }
+}
+
+function* enrichCase({ caseId }) {
+  yield put(applicationActions.updateStatus('BUSY'));
+  const accessCode = yield select(casesSelectors.getAccessCode);
+
+  try {
+    const response = yield call(casesService.enrichCase, {
+      accessCode,
+      caseId,
+    });
+
+    console.log(response);
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to retrieve location data.',
+      }),
+    );
+
+    yield put(applicationActions.updateStatus('CASE FETCHED'));
   }
 }
 
 function* checkCaseGPSDataSaga() {
-  const activeCase = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCase);
+
   try {
-    yield call(loadCasePoints, { activeCase });
+    yield call(enrichCase, {
+      caseId,
+    });
   } catch (e) {
     yield put(
       applicationActions.notification({
@@ -103,14 +156,19 @@ function* checkCaseGPSDataSaga() {
 }
 
 function* deleteCase() {
-  const activeCase = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCase);
 
   try {
     yield call(casesService.deleteCase, {
-      caseId: activeCase.caseId,
+      caseId,
     });
     yield put(casesActions.setCase(null));
     yield put(applicationActions.updateStatus('IDLE'));
+    yield put(
+      applicationActions.notification({
+        title: 'Case Deleted',
+      }),
+    );
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -121,10 +179,71 @@ function* deleteCase() {
   }
 }
 
+function* publishCases() {
+  const cases = yield select(casesSelectors.getActiveCase);
+
+  yield put(applicationActions.updateStatus('BUSY'));
+
+  try {
+    yield call(casesService.publishCases, {
+      caseIds: cases,
+    });
+
+    yield put({ type: 'RESET_VIEW' });
+
+    yield put(
+      applicationActions.notification({
+        title: `${cases.length} record(s) have been downloaded to your API endpoint`,
+        text: 'Please try again.',
+      }),
+    );
+  } catch (error) {
+    yield put(applicationActions.updateStatus('SUBMIT FOR PUBLISHING'));
+
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to publish case(s)',
+        text: 'Please try again.',
+      }),
+    );
+  }
+}
+
+function* stageCase() {
+  const caseId = yield select(casesSelectors.getActiveCase);
+
+  yield put(applicationActions.updateStatus('BUSY'));
+
+  try {
+    yield call(casesService.stageCase, { caseId });
+    yield put(
+      applicationActions.notification({
+        title: `Record ${caseId} has successfully been staged for publishing.`,
+      }),
+    );
+
+    yield put({
+      type: 'RESET_VIEW',
+    });
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to stage case for publishing, Please try again',
+        text: '- if the problem persists, please seek technical support.',
+      }),
+    );
+
+    yield put(applicationActions.updateStatus('STAGE CASE'));
+  }
+}
+
 export default function* casesSagas() {
   yield takeEvery(casesTypes.FETCH_CASE, addCase);
   yield takeEvery(casesTypes.FETCH_CASES, addCases);
   yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
+  yield takeEvery(casesTypes.PUBLISH_CASES, publishCases);
+  yield takeEvery(casesTypes.STAGE_CASE, stageCase);
   yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
+  yield takeEvery(casesTypes.LOAD_MULTICASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);
 }

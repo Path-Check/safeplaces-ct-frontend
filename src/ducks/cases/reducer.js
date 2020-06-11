@@ -6,35 +6,41 @@ const initialState = {
   status: '',
   error: null,
   record: null,
+  accessCode: null,
 };
 
 export default function reducer(state = initialState, action) {
-  switch (action.type) {
+  const { type, status, data, caseId, accessCode } = action;
+  switch (type) {
     case casesTypes.STATUS:
-      return { ...state, status: action.status };
+      return { ...state, status: status };
     case casesTypes.ADD_CASES:
       return {
         ...state,
-        cases: action.data.cases,
+        cases: data.cases,
       };
     case casesTypes.ADD_CASE:
       return {
         ...state,
-        activeCase: action.data,
+        activeCase: data,
       };
     case casesTypes.SET_ACTIVE_CASE:
       return {
         ...state,
-        activeCase: action.data,
+        activeCase: caseId,
+      };
+    case casesTypes.SET_ACCESS_CODE:
+      return {
+        ...state,
+        accessCode,
       };
     case casesTypes.ENRICH_CASE: {
       return {
         ...state,
         record: {
           ...state.record,
-          points: action.data,
+          points: data,
         },
-        code: null,
       };
     }
     default:

@@ -5,11 +5,25 @@ const { REACT_APP_API_URL } = process.env;
 const pointsService = {
   delete: pointId => {
     return axios({
-      method: 'DELETE',
-      url: `${REACT_APP_API_URL}point`,
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/point/delete`,
       data: {
         pointId,
       },
+    });
+  },
+  edit: data => {
+    return axios({
+      method: 'PUT',
+      url: `${REACT_APP_API_URL}case/point`,
+      data,
+    });
+  },
+  add: data => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/point`,
+      data,
     });
   },
 };
