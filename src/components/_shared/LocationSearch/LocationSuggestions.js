@@ -17,8 +17,6 @@ const LocationSuggestions = ({
     <div className={locationSuggestions}>
       {loading && <div>Loading...</div>}
       {suggestions.map(suggestion => {
-        console.log(suggestion);
-
         const className = suggestion.active
           ? `${locationSuggestion} ${locationSuggestionActive}`
           : locationSuggestion;
