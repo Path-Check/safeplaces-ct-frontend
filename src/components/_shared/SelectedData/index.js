@@ -39,12 +39,14 @@ const SelectedDataList = () => {
 
   return (
     <div className={selectedDataWrapper}>
-      <p
-        onClick={() => dispatch(pointsActions.setFilteredPoints(points))}
-        className={clearFilters}
-      >
-        Clear all filters
-      </p>
+      {filteredPoints.length && (
+        <button
+          onClick={() => dispatch(pointsActions.setFilteredPoints(points))}
+          className={clearFilters}
+        >
+          Clear all filters
+        </button>
+      )}
       <div className={selectedDataHeader}>
         <h5>Selected Data</h5>
         <div className={selectedDataHeaderInfo}>
