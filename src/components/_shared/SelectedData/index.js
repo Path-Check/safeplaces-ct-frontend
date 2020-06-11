@@ -41,7 +41,7 @@ const SelectedDataList = () => {
     <div className={selectedDataWrapper}>
       {filteredPoints.length > 0 && (
         <button
-          onClick={() => dispatch(pointsActions.setFilteredPoints(points))}
+          onClick={() => dispatch(pointsActions.setFilteredPoints([]))}
           className={clearFilters}
         >
           Clear all filters
