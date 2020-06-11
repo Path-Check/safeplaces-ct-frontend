@@ -46,6 +46,8 @@ export default function Map({ setMap }) {
     : pointsOfConcern;
 
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const renderPointEditor =
+    appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
   const editorMode = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
@@ -190,7 +192,11 @@ export default function Map({ setMap }) {
           </>
         )}
       </ReactMapGL>
-      {locationSelect ? <SelectionLocationHelp /> : <PointEditor />}
+      {locationSelect ? (
+        <SelectionLocationHelp />
+      ) : renderPointEditor ? (
+        <PointEditor isEdit={appStatus === 'EDIT POINT'} />
+      ) : null}
     </div>
   );
 }
