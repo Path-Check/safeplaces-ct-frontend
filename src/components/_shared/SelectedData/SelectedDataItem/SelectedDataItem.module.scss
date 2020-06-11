@@ -26,13 +26,15 @@
 }
 
 .selectedDataIcon {
-  font-size: 28px;
+  font-size: 40px;
   margin-right: 10px;
 }
 
 .selectedDataContent {
+  text-align: left;
+
   h6 {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 
   ul {

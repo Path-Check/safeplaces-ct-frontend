@@ -54,7 +54,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
         <table className={table}>
           <tbody>
             {stagedCases.map(r => (
-              <Record key={r.caseId} {...r} onChange={handleChange} />
+              <Record key={`case-pub-${r.id}`} {...r} onChange={handleChange} />
             ))}
           </tbody>
         </table>

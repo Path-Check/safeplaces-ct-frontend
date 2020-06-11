@@ -29,6 +29,7 @@ export default function Map({ setMap }) {
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
+
   const locationSelect = useSelector(state =>
     mapSelectors.getLocationSelect(state),
   );
@@ -46,20 +47,22 @@ export default function Map({ setMap }) {
     : pointsOfConcern;
 
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const renderPointEditor =
+    appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
   const editorMode = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
 
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const bounds = [
-    [boundsObject.sw.longitude, boundsObject.sw.latitude],
-    [boundsObject.ne.longitude, boundsObject.ne.latitude],
+    [boundsObject.sw.longitude || 1, boundsObject.sw.latitude || 1],
+    [boundsObject.ne.longitude || 1, boundsObject.ne.latitude || 1],
   ];
 
   const initial = new WebMercatorViewport({
     width: 800,
     height: 800,
-  }).fitBounds(bounds);
+  });
 
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
@@ -67,8 +70,8 @@ export default function Map({ setMap }) {
     setLoaded(true);
 
     const bounds = [
-      [boundsObject.sw.longitude, boundsObject.sw.latitude],
-      [boundsObject.ne.longitude, boundsObject.ne.latitude],
+      [boundsObject.sw.longitude || 1, boundsObject.sw.latitude || 1],
+      [boundsObject.ne.longitude || 1, boundsObject.ne.latitude || 1],
     ];
 
     const focused = new WebMercatorViewport({
@@ -190,7 +193,11 @@ export default function Map({ setMap }) {
           </>
         )}
       </ReactMapGL>
-      {locationSelect ? <SelectionLocationHelp /> : <PointEditor />}
+      {locationSelect ? (
+        <SelectionLocationHelp />
+      ) : renderPointEditor ? (
+        <PointEditor isEdit={appStatus === 'EDIT POINT'} />
+      ) : null}
     </div>
   );
 }

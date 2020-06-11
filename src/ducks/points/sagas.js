@@ -48,14 +48,10 @@ function* updatePoint({ point, type }) {
 
   let data = null;
 
-  console.log(isEdit);
-  console.log(caseId);
-
   try {
     if (isEdit) {
       data = {
         ...point,
-        duration: 5,
       };
 
       const response = yield call(pointsService.edit, data);
@@ -66,10 +62,7 @@ function* updatePoint({ point, type }) {
     } else {
       data = {
         caseId,
-        point: {
-          ...point,
-          duration: 5,
-        },
+        point,
       };
 
       const response = yield call(pointsService.add, data);
@@ -97,7 +90,9 @@ function* updatePoint({ point, type }) {
         text: 'Please try again.',
       }),
     );
-    yield put(applicationActions.updateStatus('ADD POINT'));
+    yield put(
+      applicationActions.updateStatus(isEdit ? 'EDIT POINT' : 'ADD POINT'),
+    );
   }
 }
 
