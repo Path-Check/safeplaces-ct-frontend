@@ -54,9 +54,10 @@ class EntryPage(Page):
         self.find_element(self.settings_link).click()
 
 class LoginPage(Page):
-    username = (By.ID, 'username')
-    password = (By.ID, 'password')
-    login_btn = (By.ID, 'login')
+    username = (By.ID, 'email-input')
+    password = (By.ID, 'pass-input')
+    login_btn = (By.CSS_SELECTOR, '#root > div > div.login_login__2GcqT > div.login_loginFormContainer__16rwU > div > form > div.login_submitWrapper__3fdbp > div > button')
+    # login_btn = (By.ID, 'login')
     api_key = (By.ID, 'api-key')
     submit = (By.ID, 'submit')
 
@@ -188,26 +189,26 @@ class ContactTracePage(Page):
     add_data_point_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div.SelectedDataContextMenu_selectedDataContextMenu__7joml > ul > li > button')
     
     def add_new_record(self):
-        self.find_element(add_new_record_button).click()
+        self.find_element(self.add_new_record_button).click()
     
     def load_existing_record(self):
-        self.find_element(load_existing_record_button).click()
+        self.find_element(self.load_existing_record_button).click()
 
     def more(self):
-        self.find_element(more_button).click()
+        self.find_element(self.more_button).click()
     
     def add_data_point(self):
-        self.find_element(add_data_point_button).click()
+        self.find_element(self.add_data_point_button).click()
 
 class AddNewRecordPage(Page):
     check_data_upload_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(4) > button')
     create_record_manually_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(6) > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
     
     def upload_data(self):
-        self.find_element(check_data_upload_button).click()
+        self.find_element(self.check_data_upload_button).click()
     
     def create_manually(self):
-        self.find_element(create_record_manually_button).click()
+        self.find_element(self.create_record_manually_button).click()
     
 class AddDataToRecordPage(Page):
     search_location = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > div > input[type=text]')
@@ -221,19 +222,19 @@ class AddDataToRecordPage(Page):
         self.find_element(self.search_location).send_keys(location)
 
     def select_from_map(self):
-        self.find_element(select_from_map_button).click()
+        self.find_element(self.select_from_map_button).click()
     
     def use_location(self):
-        self.find_element(use_location_button).click()
+        self.find_element(self.use_location_button).click()
     
-    def enter_date(self, date_picker):
-        self.find_element(self.search_location).send_keys(date)
+    def enter_date(self, date):
+        self.find_element(self.date_picker).send_keys(date)
 
     def save_data(self):
-        self.find_element(save_data_button).click()
+        self.find_element(self.save_data_button).click()
         
     def close(self):
-        self.find_element(close_point_editor_button).click()
+        self.find_element(self.close_point_editor_button).click()
     
     
 class StageForPublishingPage(Page):
