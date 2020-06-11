@@ -10,7 +10,6 @@ import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
 
 import authActions from 'ducks/auth/actions';
-import Notifications from '../../../components/_global/Notifications';
 
 const Login = () => {
   const dispatch = useDispatch();
