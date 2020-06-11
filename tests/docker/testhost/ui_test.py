@@ -1,7 +1,7 @@
 #from selenium.webdriver.remote import webdriver
 from selenium import webdriver
 #from selenium.webdriver.chrome import options
-from page_objects import EntryPage, LoginPage, RedactionPage, Tools
+from page_objects import EntryPage, LoginPage, RedactionPage, ContactTracePage, AddNewRecordPage, AddDataToRecordPage, StageForPublishingPage, PublishDataPage, SettingsPage, Tools
 import unittest
 import os
 
@@ -84,7 +84,8 @@ class TestRedaction(unittest.TestCase):
         settings_page.set_api_endpoint('https://s3.aws.com/bucket_name/safepaths.json')
         settings_page.set_privacy_policy_URL('https://www.cdc.gov/other/privacy.html')
         # set retention policy slider to 50% of the way across, which would be 15 days
-        settings_page.set_retention_policy('50')
+        # commented out until we find how to get ActionChains working
+        # settings_page.set_retention_policy('50')
         settings_page.reset_gps_coordinates
         settings_page.save_and_continue
         
