@@ -59,13 +59,13 @@ class TestRedaction(unittest.TestCase):
         add_record_page = AddNewRecordPage(self.driver)
         add_record_page.create_manually()
         contact_trace_page.more()
-        contact_trace_page.add_data_point_button()
+        contact_trace_page.add_data_point()
         # start to add a point and cancel editing the point
         # if the test works this far, we can expand it later
         point_editor_page = AddDataToRecordPage(self.driver)
-        point_editor.enter_location('-122.19732036472264, 37.718665250290684')
-        point_editor.enter_date('06/08/2020 07:00')
-        point_editor.close()
+        point_editor_page.enter_location('-122.19732036472264, 37.718665250290684')
+        point_editor_page.enter_date('06/08/2020 07:00')
+        point_editor_page.close()
         entry_page.open_settings()
         settings_page = SettingsPage(self.driver)
         settings_page.logout
