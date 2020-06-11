@@ -1,5 +1,10 @@
 .navMenu {
   display: flex;
+  margin-top: 15px;
+
+  @media screen and (min-width: 700px) {
+    margin: 0;
+  }
 }
 
 .navMenuItem {
