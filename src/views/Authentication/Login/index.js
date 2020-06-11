@@ -95,14 +95,6 @@ const Login = () => {
                   )}
                 </Button>
               </div>
-              {/* Since we are Persisting the state its not needed for now
-              <div className={styles.rememberMeContainer}>
-                <Checkbox
-                  label="Remember Me"
-                  id="rememberMe"
-                  onChange={test => console.log(test)}
-                />
-              </div> */}
               <p className={styles.disclaimer}>
                 If you are a Health Authority member but you still don’t have an
                 account, please contact your HA admin.
@@ -111,7 +103,6 @@ const Login = () => {
           </form>
         </div>
       </div>
-      <Notifications />
     </div>
   );
 };
