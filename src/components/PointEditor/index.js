@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'components/_shared/Button';
@@ -25,7 +25,6 @@ import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
-import applicationSelectors from 'ducks/application/selectors';
 
 const PointEditor = ({ isEdit }) => {
   const dispatch = useDispatch();
@@ -35,32 +34,45 @@ const PointEditor = ({ isEdit }) => {
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
-
   const initialLocation = isEdit
-    ? `${activePoint.longitude}, ${activePoint.latitude}`
+    ? `${activePoint?.longitude}, ${activePoint?.latitude}`
     : '';
-
   const addValidation =
     !selectedLocation?.latitude ||
     !selectedLocation?.longitude ||
     !selectedLocation?.from ||
     !selectedLocation?.to;
-
   const editValidation = !selectedLocation;
   const isDisabled = isEdit ? editValidation : addValidation;
 
   const returnEndTime = () => {
-    const from = activePoint.time;
-    const duration = activePoint.duration;
+    let from = null;
+    let duration = null;
 
-    if (!duration) {
+    if (!activePoint || !activePoint.duration || !activePoint.time) {
       return null;
-    } else {
-      return moment(from).add(duration, 'minutes');
     }
+
+    from = activePoint.time;
+    duration = activePoint.duration;
+
+    return moment(from).add(duration, 'minutes');
   };
 
+  useEffect(() => {
+    if (isEdit) {
+      dispatch(
+        mapActions.updateLocation({
+          from: activePoint?.time,
+          to: returnEndTime(),
+        }),
+      );
+    }
+  }, []);
+
   const handleChange = (type, data) => {
+    console.log(selectedLocation);
+
     switch (type) {
       case 'latLng':
         dispatch(
@@ -72,6 +84,7 @@ const PointEditor = ({ isEdit }) => {
         );
         break;
       case 'dateFrom':
+        console.log(selectedLocation);
         dispatch(
           mapActions.updateLocation({
             ...selectedLocation,
@@ -108,9 +121,11 @@ const PointEditor = ({ isEdit }) => {
       return {
         ...activePoint,
         ...selectedLocation,
-        duration:
-          returnDuration(selectedLocation.from, selectedLocation.to) ||
-          activePoint.duration,
+        time: selectedLocation.from || activePoint.time,
+        duration: returnDuration(
+          selectedLocation.from || activePoint.time,
+          selectedLocation.to,
+        ),
       };
     } else {
       return {
@@ -123,7 +138,13 @@ const PointEditor = ({ isEdit }) => {
   };
 
   const handleSubmit = () => {
-    dispatch(pointsActions.editPoint(generatePayload()));
+    const payload = generatePayload();
+
+    if (isEdit) {
+      dispatch(pointsActions.editPoint(payload));
+    } else {
+      dispatch(pointsActions.addPoint(payload));
+    }
   };
 
   const handleClose = () => {
@@ -134,7 +155,7 @@ const PointEditor = ({ isEdit }) => {
 
   return (
     <>
-      <form className={pointEditor} onClick={handleSubmit}>
+      <form className={pointEditor} onSubmit={handleSubmit}>
         <div className={pointEditorHeader}>
           <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
           <button className={closeAction} onClick={handleClose}>
@@ -160,19 +181,20 @@ const PointEditor = ({ isEdit }) => {
           <DateInput
             type="dateFrom"
             id="dateFrom"
-            to="From"
+            label="From"
             handleChange={handleChange}
-            displayValue={activePoint.time || null}
+            displayValue={isEdit ? selectedLocation?.to : null}
             selectedValue={selectedLocation?.from}
           />
         </div>
+
         <div className={timeControls}>
           <DateInput
             type="dateTo"
             id="dateTo"
             label="To"
             handleChange={handleChange}
-            displayValue={returnEndTime()}
+            displayValue={isEdit ? selectedLocation?.from : null}
             selectedValue={selectedLocation?.to}
           />
         </div>

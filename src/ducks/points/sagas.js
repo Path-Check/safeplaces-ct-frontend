@@ -90,7 +90,9 @@ function* updatePoint({ point, type }) {
         text: 'Please try again.',
       }),
     );
-    yield put(applicationActions.updateStatus('ADD POINT'));
+    yield put(
+      applicationActions.updateStatus(isEdit ? 'EDIT POINT' : 'ADD POINT'),
+    );
   }
 }
 

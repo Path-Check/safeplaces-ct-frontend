@@ -4,7 +4,12 @@ import classNames from 'classnames';
 
 import moment from 'moment';
 
-import { faMapMarkerAlt, faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faMapMarkerAlt,
+  faEllipsisV,
+  faHourglass,
+  faClock,
+} from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
@@ -23,6 +28,8 @@ import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 import mapActions from 'ducks/map/actions';
 import applicationSelectors from 'ducks/application/selectors';
+
+import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
 
 const SelectedDataItem = ({
   pointId,
@@ -77,6 +84,12 @@ const SelectedDataItem = ({
     }
   }, [showContentMenu]);
 
+  useEffect(() => {
+    if (!isHighlighted) {
+      setShowContentMenu(false);
+    }
+  }, [isHighlighted]);
+
   return (
     <div className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
@@ -84,8 +97,15 @@ const SelectedDataItem = ({
         <div className={selectedDataContent}>
           <h6>{date}</h6>
           <ul>
-            <li>{time}</li>
-            {duration && <li>{duration} Minutes</li>}
+            <li>
+              <FontAwesomeIcon icon={faClock} /> {time}
+            </li>
+            {duration && (
+              <li>
+                <FontAwesomeIcon icon={faHourglass} />{' '}
+                {formattedDuration(duration)}
+              </li>
+            )}
           </ul>
         </div>
         {isTrace && (
@@ -94,7 +114,7 @@ const SelectedDataItem = ({
           </div>
         )}
       </button>
-      {showContentMenu && (
+      {showContentMenu && isHighlighted && (
         <PointContextMenu
           {...activePoint}
           closeAction={() => setShowContentMenu(false)}
