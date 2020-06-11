@@ -74,6 +74,7 @@ function* loadCasePoints({ type, caseId }) {
   yield put(applicationActions.updateStatus('BUSY'));
   let service;
   let data;
+
   const multiCase = Array.isArray(caseId);
 
   if (multiCase) {
@@ -112,9 +113,11 @@ function* loadCasePoints({ type, caseId }) {
 }
 
 function* checkCaseGPSDataSaga() {
-  const activeCase = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCase);
+  const accessCode = yield select(casesSelectors.getActiveCase);
+
   try {
-    yield call(loadCasePoints, { caseId: activeCase });
+    yield call(loadCasePoints, { caseId, accessCode });
   } catch (e) {
     yield put(
       applicationActions.notification({

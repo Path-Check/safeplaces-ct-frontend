@@ -25,7 +25,6 @@ const Login = () => {
   useEffect(() => {
     if (currentUser) {
       const { completedOnboarding } = currentUser;
-      console.log(history);
 
       if (token && completedOnboarding) {
         history.push(location.state?.referrer || 'trace');
