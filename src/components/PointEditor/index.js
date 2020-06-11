@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
-import TimeInput from 'components/_shared/TimeInput';
-import TextInput from '@wfp/ui/lib/components/TextInput';
-import DurationInput from 'components/DurationInput';
+
 import LocationSearchInput from 'components/_shared/LocationSearch';
+
+import moment from 'moment';
 
 import {
   pointEditor,
@@ -27,7 +27,7 @@ import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
 import applicationSelectors from 'ducks/application/selectors';
 
-const PointEditor = () => {
+const PointEditor = ({ isEdit }) => {
   const dispatch = useDispatch();
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
@@ -35,13 +35,6 @@ const PointEditor = () => {
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const isEdit = appStatus === 'EDIT POINT';
-  const isAdd = appStatus === 'ADD POINT';
-
-  if (!isAdd && !isEdit) {
-    return null;
-  }
 
   const initialLocation = isEdit
     ? `${activePoint.longitude}, ${activePoint.latitude}`
@@ -50,11 +43,22 @@ const PointEditor = () => {
   const addValidation =
     !selectedLocation?.latitude ||
     !selectedLocation?.longitude ||
-    !selectedLocation?.time;
+    !selectedLocation?.from ||
+    !selectedLocation?.to;
 
   const editValidation = !selectedLocation;
+  const isDisabled = isEdit ? editValidation : addValidation;
 
-  const isDisabled = isAdd ? addValidation : editValidation;
+  const returnEndTime = () => {
+    const from = activePoint.time;
+    const duration = activePoint.duration;
+
+    if (!duration) {
+      return null;
+    } else {
+      return moment(from).add(duration, 'minutes');
+    }
+  };
 
   const handleChange = (type, data) => {
     switch (type) {
@@ -67,12 +71,19 @@ const PointEditor = () => {
           }),
         );
         break;
-      case 'date':
-        console.log(data);
+      case 'dateFrom':
         dispatch(
           mapActions.updateLocation({
             ...selectedLocation,
-            time: data,
+            from: data,
+          }),
+        );
+        break;
+      case 'dateTo':
+        dispatch(
+          mapActions.updateLocation({
+            ...selectedLocation,
+            to: data,
           }),
         );
         break;
@@ -82,21 +93,37 @@ const PointEditor = () => {
     }
   };
 
-  const handleSubmit = () => {
-    let payload = {
-      ...selectedLocation,
-    };
+  const returnDuration = (from, to) => {
+    const minutes = moment(to).diff(moment(from), 'minutes');
 
+    if (!from || !to) {
+      return null;
+    }
+
+    return minutes;
+  };
+
+  const generatePayload = () => {
     if (isEdit) {
-      payload = {
+      return {
         ...activePoint,
         ...selectedLocation,
+        duration:
+          returnDuration(selectedLocation.from, selectedLocation.to) ||
+          activePoint.duration,
       };
-
-      dispatch(pointsActions.editPoint(payload));
     } else {
-      dispatch(pointsActions.addPoint(payload));
+      return {
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
+        time: selectedLocation.from,
+        duration: returnDuration(selectedLocation.from, selectedLocation.to),
+      };
     }
+  };
+
+  const handleSubmit = () => {
+    dispatch(pointsActions.editPoint(generatePayload()));
   };
 
   const handleClose = () => {
@@ -107,7 +134,7 @@ const PointEditor = () => {
 
   return (
     <>
-      <div className={pointEditor}>
+      <form className={pointEditor} onClick={handleSubmit}>
         <div className={pointEditorHeader}>
           <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
           <button className={closeAction} onClick={handleClose}>
@@ -131,22 +158,35 @@ const PointEditor = () => {
 
         <div className={timeControls}>
           <DateInput
+            type="dateFrom"
+            id="dateFrom"
+            to="From"
             handleChange={handleChange}
-            displayValue={isEdit ? activePoint.time : null}
+            displayValue={activePoint.time || null}
+            selectedValue={selectedLocation?.from}
+          />
+        </div>
+        <div className={timeControls}>
+          <DateInput
+            type="dateTo"
+            id="dateTo"
+            label="To"
+            handleChange={handleChange}
+            displayValue={returnEndTime()}
+            selectedValue={selectedLocation?.to}
           />
         </div>
 
-        <Button onClick={handleSubmit} type="submit" disabled={isDisabled}>
+        <Button type="submit" disabled={isDisabled}>
           Save Data
         </Button>
-      </div>
+      </form>
     </>
   );
 };
 
 PointEditor.propTypes = {
   isEdit: PropTypes.bool,
-  appStatus: PropTypes.string,
 };
 
 export default PointEditor;

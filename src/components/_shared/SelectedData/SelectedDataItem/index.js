@@ -29,6 +29,7 @@ const SelectedDataItem = ({
   latitude,
   longitude,
   time: timestamp,
+  duration,
 }) => {
   const dispatch = useDispatch();
   const itemRef = useRef();
@@ -56,6 +57,7 @@ const SelectedDataItem = ({
         latitude,
         longitude,
         time: timestamp,
+        duration,
       }),
     );
 
@@ -83,7 +85,7 @@ const SelectedDataItem = ({
           <h6>{date}</h6>
           <ul>
             <li>{time}</li>
-            {/* <li>{travelling ? 'Travelling' : duration}</li> */}
+            {duration && <li>{duration} Minutes</li>}
           </ul>
         </div>
         {isTrace && (
