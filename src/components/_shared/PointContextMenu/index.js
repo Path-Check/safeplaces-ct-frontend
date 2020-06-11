@@ -24,16 +24,18 @@ import applicationSelectors from 'ducks/application/selectors';
 const PointContextMenu = ({
   pointId: id,
   closeAction,
-  time,
+  time: timestamp,
   latitude,
   longitude,
-  renderDateTime = false,
+  renderDateTime = true,
 }) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
+  const date = moment(timestamp).format('MMMM D, YYYY');
+  const time = moment(timestamp).format('h:mma');
 
   const handleClick = e => {
     const _Target = e.target;
@@ -74,8 +76,8 @@ const PointContextMenu = ({
       </button>
       {renderDateTime && (
         <div className={pointContextMenuHeader}>
-          <span>{moment.utc(time).format('ddd, MMM d, yyyy')}</span>
-          <span>{moment.utc(time).format('HH:mm')}</span>
+          <span>{date}</span>
+          <span>{time}</span>
         </div>
       )}
       <ul>
