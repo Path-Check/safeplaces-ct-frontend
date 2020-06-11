@@ -170,6 +170,7 @@ const PointEditor = ({ isEdit }) => {
           <span>or</span>
           <Button
             fullWidth
+            secondary
             onClick={() => {
               dispatch(mapActions.locationSelect(true));
             }}

@@ -36,7 +36,7 @@ function DateInput({
 
   return (
     <div className={styles.dateInputWrapper}>
-      {label && <label labelFor={id}>{label}</label>}
+      {label && <label htmlFor={id}>{label}</label>}
       <div className={styles.dateInput}>
         <FontAwesomeIcon className={styles.icon} icon={faCalendarAlt} />
         <DatePicker

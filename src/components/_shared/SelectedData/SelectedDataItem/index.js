@@ -129,8 +129,7 @@ SelectedDataItem.propTypes = {
   latLng: PropTypes.array,
   date: PropTypes.string,
   time: PropTypes.string,
-  duration: PropTypes.bool,
-  travelling: PropTypes.string,
+  duration: PropTypes.number,
   selectedItem: PropTypes.string,
 };
 
