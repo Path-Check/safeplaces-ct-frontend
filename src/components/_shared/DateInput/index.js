@@ -19,6 +19,8 @@ function DateInput({
   id,
   label,
   name,
+  minDate,
+  maxDate,
 }) {
   const initialValue = displayValue ? moment(displayValue).toDate() : '';
 
@@ -33,21 +35,27 @@ function DateInput({
   };
 
   return (
-    <div className={styles.dateInput}>
-      <FontAwesomeIcon className={styles.icon} icon={faCalendarAlt} />
+    <div className={styles.dateInputWrapper}>
       {label && <label labelFor={id}>{label}</label>}
-      <DatePicker
-        selected={selectedValue ? moment(selectedValue).toDate() : initialValue}
-        showTimeSelect
-        onChange={date => handleDateChange(date)}
-        timeFormat="HH:mm"
-        timeIntervals={5}
-        className="datePicker"
-        dateFormat="MM/dd/yyyy  -  HH:mm"
-        required
-        id={id}
-        name={name}
-      />
+      <div className={styles.dateInput}>
+        <FontAwesomeIcon className={styles.icon} icon={faCalendarAlt} />
+        <DatePicker
+          selected={
+            selectedValue ? moment(selectedValue).toDate() : initialValue
+          }
+          showTimeSelect
+          onChange={date => handleDateChange(date)}
+          timeFormat="h:mma"
+          timeIntervals={5}
+          className="datePicker"
+          dateFormat="MM/dd/yyyy  -  h:mma"
+          minDate={minDate}
+          maxDate={maxDate}
+          required
+          id={id}
+          name={name}
+        />
+      </div>
     </div>
   );
 }

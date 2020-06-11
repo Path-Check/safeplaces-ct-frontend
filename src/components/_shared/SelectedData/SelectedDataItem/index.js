@@ -48,11 +48,12 @@ const SelectedDataItem = ({
   const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
   const [showContentMenu, setShowContentMenu] = useState(false);
   const date = moment(timestamp).format('ddd, MMMM D, YYYY');
-  const time = moment(timestamp).format('hh:mm');
+  const time = moment(timestamp).format('h:mma');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
     [`${selectedDataItemHighlighted}`]: isHighlighted,
   });
+  const friendlyDuration = formattedDuration(duration);
 
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
@@ -100,10 +101,9 @@ const SelectedDataItem = ({
             <li>
               <FontAwesomeIcon icon={faClock} /> {time}
             </li>
-            {duration && (
+            {friendlyDuration && (
               <li>
-                <FontAwesomeIcon icon={faHourglass} />{' '}
-                {formattedDuration(duration)}
+                <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
               </li>
             )}
           </ul>

@@ -169,6 +169,7 @@ const PointEditor = ({ isEdit }) => {
           />
           <span>or</span>
           <Button
+            fullWidth
             onClick={() => {
               dispatch(mapActions.locationSelect(true));
             }}
@@ -182,6 +183,7 @@ const PointEditor = ({ isEdit }) => {
             type="dateFrom"
             id="dateFrom"
             label="From"
+            maxDate={moment(selectedLocation?.to).toDate()}
             handleChange={handleChange}
             displayValue={isEdit ? selectedLocation?.to : null}
             selectedValue={selectedLocation?.from}
@@ -193,13 +195,14 @@ const PointEditor = ({ isEdit }) => {
             type="dateTo"
             id="dateTo"
             label="To"
+            minDate={moment(selectedLocation?.from).toDate()}
             handleChange={handleChange}
             displayValue={isEdit ? selectedLocation?.from : null}
             selectedValue={selectedLocation?.to}
           />
         </div>
 
-        <Button type="submit" disabled={isDisabled}>
+        <Button type="submit" fullWidth disabled={isDisabled}>
           Save Data
         </Button>
       </form>
