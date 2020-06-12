@@ -1,7 +1,7 @@
 #from selenium.webdriver.remote import webdriver
 from selenium import webdriver
 #from selenium.webdriver.chrome import options
-from page_objects import EntryPage, LoginPage, RedactionPage, ContactTracePage, AddNewRecordPage, AddDataToRecordPage, StageForPublishingPage, PublishDataPage, SettingsPage, Tools
+from page_objects import EntryPage, LoginPage, RedactionPage, ContactTracePage, AddNewRecordPage, AddDataToRecordPage, StageForPublishingPage, PublishDataPage, SelectDataPage, SubmitDataPage, SettingsPage, Tools
 import unittest
 import os
 
@@ -66,10 +66,48 @@ class TestRedaction(unittest.TestCase):
         point_editor_page.enter_location('-122.19732036472264, 37.718665250290684')
         point_editor_page.enter_date('06/08/2020 07:00')
         point_editor_page.close()
+        # add a point again but this time save the data
+        # contact_trace_page.more()
+        # contact_trace_page.add_data_point()
+        # point_editor_page = AddDataToRecordPage(self.driver)
+        # point_editor_page.enter_location('-122.19732036472264, 37.718665250290684')
+        # point_editor_page.enter_date('06/08/2020 07:00')
+        # point_editor_page.save_data()
+        # stage for publishing and abort by clicking the no consent button
+        # contact_trace_page.stage_for_publishing()
+        # stage_publish_page = StageForPublishing(self.driver)
+        # stage_publish_page.no_consent()
+        # stage for publishing and click the yes consent button to stage
+        # contact_trace_page.stage_for_publishing()
+        # stage_publish_page = StageForPublishing(self.driver)
+        # stage_publish_page.yes_consent()
+        # entry_page.open_publish()
+        # publish_data_page = PublishDataPage(self.driver)
+        # publish_date_page.publish_data()
+        # select_data_page = SelectDataPage(self.driver)
+        # select_data_page.select_item()
+        # select_data_page.open_seleted()
+        # contact_trace_page.submit_publish()
+        # submit_data_page = SubmitDataPage(self.driver)
+        # submit_data_page.cancel()
+        # contact_trace_page.submit_publish()
+        # submit_data_page = SubmitDataPage(self.driver)
+        # submit_data_page.submit()
         entry_page.open_settings()
         settings_page = SettingsPage(self.driver)
         settings_page.logout
        
+    # leave test_ out of the method name until ready to make this one live
+    def publish(self):
+        # stage for publishing and abort by clicking the no consent button
+        # contact_trace_page.stage_for_publishing()
+        # stage_publish_page = StageForPublishing(self.driver)
+        # stage_publish_page.no_consent()
+        # stage for publishing and click the yes consent button to stage
+        # contact_trace_page.stage_for_publishing()
+        # stage_publish_page = StageForPublishing(self.driver)
+        # stage_publish_page.yes_consent()
+        
     # leaving test_ out of the method name until the SUT works
     def settings(self):
         login_page = LoginPage(self.driver)
