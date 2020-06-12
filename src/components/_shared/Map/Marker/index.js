@@ -14,11 +14,13 @@ import PointContextMenu from 'components/_shared/PointContextMenu';
 import pointsSelectors from 'ducks/points/selectors';
 import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
+import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
 
 const MapMarker = ({
   latitude,
   longitude,
   time: timestamp,
+  duration,
   pointId,
   alternate,
 }) => {
@@ -29,6 +31,8 @@ const MapMarker = ({
   );
   const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
   const [showContentMenu, setShowContentMenu] = useState(false);
+
+  const friendlyDuration = formattedDuration(duration);
 
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
@@ -58,6 +62,8 @@ const MapMarker = ({
       {showContentMenu && !alternate && (
         <PointContextMenu
           renderDateTime
+          bottom
+          duration={friendlyDuration}
           {...activePoint}
           closeAction={() => setShowContentMenu(false)}
         />

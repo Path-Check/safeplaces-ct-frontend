@@ -117,6 +117,8 @@ const SelectedDataItem = ({
       {showContentMenu && isHighlighted && (
         <PointContextMenu
           {...activePoint}
+          renderDateTime={false}
+          duration={friendlyDuration}
           closeAction={() => setShowContentMenu(false)}
         />
       )}

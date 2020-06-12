@@ -21,6 +21,7 @@ function DateInput({
   name,
   minDate,
   maxDate,
+  placeholder,
 }) {
   const initialValue = displayValue ? moment(displayValue).toDate() : '';
 
@@ -51,6 +52,7 @@ function DateInput({
           dateFormat="MM/dd/yyyy  -  h:mma"
           minDate={minDate}
           maxDate={maxDate}
+          placeholderText={placeholder}
           required
           id={id}
           name={name}

@@ -1,20 +1,25 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import classNames from 'classnames';
 import moment from 'moment';
 
 import {
   pointContextMenu,
   pointContextMenuHeader,
   pointContextMenuClose,
+  pointContextMenuBottom,
 } from './PointContextMenu.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEdit,
   faMinusCircle,
+  faCalendarAlt,
+  faClock,
   faTrash,
   faTimes,
+  faHourglass,
 } from '@fortawesome/pro-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
@@ -25,10 +30,17 @@ const PointContextMenu = ({
   pointId: id,
   closeAction,
   time: timestamp,
+  duration,
   latitude,
   longitude,
   renderDateTime = true,
+  bottom,
 }) => {
+  const classes = classNames({
+    [`${pointContextMenu}`]: true,
+    [`${pointContextMenuBottom}`]: bottom,
+  });
+
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
@@ -62,7 +74,7 @@ const PointContextMenu = ({
   }
 
   return (
-    <div className={pointContextMenu} ref={containerRef}>
+    <div className={classes} ref={containerRef}>
       <button
         className={pointContextMenuClose}
         type="button"
@@ -75,10 +87,19 @@ const PointContextMenu = ({
         <FontAwesomeIcon icon={faTimes} />
       </button>
       {renderDateTime && (
-        <div className={pointContextMenuHeader}>
-          <span>{date}</span>
-          <span>{time}</span>
-        </div>
+        <ul className={pointContextMenuHeader}>
+          <li>
+            <FontAwesomeIcon icon={faCalendarAlt} /> {date}
+          </li>
+          <li>
+            <FontAwesomeIcon icon={faClock} /> {time}
+          </li>
+          {duration && (
+            <li>
+              <FontAwesomeIcon icon={faHourglass} /> {duration}
+            </li>
+          )}
+        </ul>
       )}
       <ul>
         {/* <li>
