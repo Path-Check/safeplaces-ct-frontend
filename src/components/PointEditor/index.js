@@ -14,6 +14,7 @@ import {
   pointEditorHeader,
   closeAction,
   timeControls,
+  durationControls,
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -179,30 +180,33 @@ const PointEditor = ({ isEdit }) => {
           </Button>
         </div>
 
-        <div className={timeControls}>
-          <DateInput
-            type="dateFrom"
-            id="dateFrom"
-            label="From"
-            maxDate={moment(selectedLocation?.to).toDate()}
-            handleChange={handleChange}
-            displayValue={isEdit ? selectedLocation?.to : null}
-            selectedValue={selectedLocation?.from}
-          />
+        <div className={durationControls}>
+          <h5>Duration</h5>
+          <div className={timeControls}>
+            <DateInput
+              type="dateFrom"
+              id="dateFrom"
+              label="Start"
+              maxDate={moment(selectedLocation?.to).toDate()}
+              handleChange={handleChange}
+              displayValue={isEdit ? selectedLocation?.to : null}
+              selectedValue={selectedLocation?.from}
+              placeholder="01/01/2020  -  12:00AM"
+            />
+          </div>
+          <div className={timeControls}>
+            <DateInput
+              type="dateTo"
+              id="dateTo"
+              label="End"
+              minDate={moment(selectedLocation?.from).toDate()}
+              handleChange={handleChange}
+              displayValue={isEdit ? selectedLocation?.from : null}
+              selectedValue={selectedLocation?.to}
+              placeholder="01/01/2020  -  12:05AM"
+            />
+          </div>
         </div>
-
-        <div className={timeControls}>
-          <DateInput
-            type="dateTo"
-            id="dateTo"
-            label="To"
-            minDate={moment(selectedLocation?.from).toDate()}
-            handleChange={handleChange}
-            displayValue={isEdit ? selectedLocation?.from : null}
-            selectedValue={selectedLocation?.to}
-          />
-        </div>
-
         <Button type="submit" fullWidth disabled={isDisabled}>
           Save Data
         </Button>
