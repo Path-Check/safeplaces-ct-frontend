@@ -6,7 +6,7 @@ const initialState = {
   status: '',
   error: null,
   record: null,
-  externalId: null,
+  externalId: '',
   accessCode: null,
   updateExtIDError: null
 };

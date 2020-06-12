@@ -22,6 +22,7 @@ import { useSelector } from 'react-redux';
 const RedactorToolsHeader = ({ currentRecord }) => {
   const dispatch = useDispatch();
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const [showModal, setShowModal] = useState(false);
   const [showEditRecordButton, setEditRecordButton] = useState(false);
   const [externalInpuValue, setInputValue] = useState("");
@@ -40,6 +41,8 @@ const RedactorToolsHeader = ({ currentRecord }) => {
   if (!activeCase) {
     return null;
   }
+
+  const _id = externalId ? externalId : activeCase;
 
   const EditRecordButton = () => (
     <div className={selectedEditContextMenu}>
@@ -67,7 +70,7 @@ const RedactorToolsHeader = ({ currentRecord }) => {
         {/* <button type="button" onClick={handleBack} title="Back to home screen">
         <FontAwesomeIcon icon={faChevronLeft} />
       </button> */}
-        <h3>Record ID: {activeCase}</h3>
+        <h3>Record ID: {_id}</h3>
         <button
           className={selectedfaEllipsisVIcon}
           //onClick={() => setShowModal(true)}
