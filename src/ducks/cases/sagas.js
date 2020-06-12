@@ -124,8 +124,8 @@ function* enrichCase({ caseId }) {
       accessCode,
       caseId,
     });
-
-    console.log(response);
+    yield put(applicationActions.updateStatus('CASE FETCHED'));
+    return response;
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -141,9 +141,13 @@ function* checkCaseGPSDataSaga() {
   const caseId = yield select(casesSelectors.getActiveCase);
 
   try {
-    yield call(enrichCase, {
+    const response = yield call(enrichCase, {
       caseId,
     });
+    yield put(pointsActions.updatePoints(response.data.concernPoints));
+    yield put(casesActions.setCase(caseId));
+    yield put(applicationActions.renderEditor(true));
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (e) {
     yield put(
       applicationActions.notification({
