@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
 
+import { useSelector, useDispatch } from 'react-redux';
+import applicationSelectors from 'ducks/application/selectors';
+import applicationActions from 'ducks/application/actions';
+import PublishToolActions from 'views/Publish/Actions/ToolActions';
+import PublishLoadActions from 'views/Publish/Actions/LoadActions';
+
 import { publish } from './Publish.module.scss';
 
 import Map from 'components/_shared/Map';
 import RedactorTools from 'components/_shared/RedactorTools';
 import SidebarWrapper from 'components/_shared/Sidebar/SidebarWrapper';
 import SidebarHeader from 'components/_shared/Sidebar/SidebarHeader';
-import PublishToolActions from 'views/Publish/Actions/ToolActions';
-import PublishLoadActions from 'views/Publish/Actions/LoadActions';
 import RecordsTable from 'components/_shared/RecordsTable';
-import applicationSelectors from 'ducks/application/selectors';
-import { useSelector, useDispatch } from 'react-redux';
-import applicationActions from 'ducks/application/actions';
-
 import PublishData from 'views/Publish/PublishData';
+import ErrorBoundary from 'components/_global/errorBoundary';
 
 const Publish = ({ record }) => {
   const dispatch = useDispatch();
@@ -48,7 +49,9 @@ const Publish = ({ record }) => {
             </>
           )}
         </SidebarWrapper>
-        <Map />
+        <ErrorBoundary>
+          <Map />
+        </ErrorBoundary>
       </div>
       {appStatus === 'SUBMIT FOR PUBLISHING' && <PublishData />}
       {appStatus === 'CASES ADDED' && <RecordsTable />}
