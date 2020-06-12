@@ -187,6 +187,8 @@ class ContactTracePage(Page):
     load_existing_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button.styles_button__1QQUp.styles_buttonSecondary__3onvZ.undefined')
     more_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div > button > svg > path')
     add_data_point_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div.SelectedDataContextMenu_selectedDataContextMenu__7joml > ul > li > button')
+    stage_publish_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.TracerActions_sidebarActions__1spu4 > button')
+    submit_publish_button = (By.CSS_SELECTOR, '#root > div > div.Publish_publish__3dr_z > aside > div.PublishActions_sidebarActions__3GWKS > button')
     
     def add_new_record(self):
         self.find_element(self.add_new_record_button).click()
@@ -200,6 +202,12 @@ class ContactTracePage(Page):
     def add_data_point(self):
         self.find_element(self.add_data_point_button).click()
 
+    def stage_for_publishing(self):
+        self.find_element(self.stage_publish_button).click()
+        
+    def submit_for_publishing(self):
+        self.find_element(self.submit_publish_button).click()
+        
 class AddNewRecordPage(Page):
     check_data_upload_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(4) > button')
     create_record_manually_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(6) > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
@@ -242,17 +250,37 @@ class StageForPublishingPage(Page):
     no_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
     
     def yes_consent(self):
-        self.find_element(yes_consent_button).click()
+        self.find_element(self.yes_consent_button).click()
     
     def no_consent(self):
-        self.find_element(no_consent_button).click()
+        self.find_element(self.no_consent_button).click()
     
 class PublishDataPage(Page):
     load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
+    open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
     
     def publish_data(self):
-        self.find_element(load_data_button).click()
+        self.find_element(self.load_data_button).click()
 
+    def open_selected(self):
+        self.find_element(self.open_selected_button).click()
+    
+class SelectDataPage(Page):
+    select_checkbox = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > table > tbody > tr > th > div > label > span')
+    
+    def select_item(self):
+        self.find_element(self.select_checkbox).click()
+    
+class SubmitDataPage(Page):
+    submit_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div.PublishData_PublishDataActions__1OVeJ > button:nth-child(1)')
+    cancel_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div.PublishData_PublishDataActions__1OVeJ > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
+
+    def submit(self):
+        self.find_element(self.submit_button).click()
+    
+    def cancel(self):
+        self.find_element(self.cancel_button).click()
+    
 class SettingsPage(Page):
     configuration_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(1) > a')
     logout_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(2) > a')
