@@ -6,7 +6,7 @@ export const formattedDuration = duration => {
   }
 
   if (duration < 59) {
-    return `${duration} mins`;
+    return `${duration} min`;
   } else if (duration > 720) {
     return 'Over 12 hours';
   } else {
@@ -18,6 +18,6 @@ export const formattedDuration = duration => {
       .utc(moment.duration(duration, 'minutes').asMilliseconds())
       .format('m');
 
-    return `${hours} hrs ${minutes} mins`;
+    return `${hours} hrs ${minutes} min`;
   }
 };

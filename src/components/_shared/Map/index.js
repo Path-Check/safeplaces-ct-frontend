@@ -62,7 +62,7 @@ export default function Map({ setMap }) {
   const initial = new WebMercatorViewport({
     width: 800,
     height: 800,
-  });
+  }).fitBounds(bounds);
 
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 

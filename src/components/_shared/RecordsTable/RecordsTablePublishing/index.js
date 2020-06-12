@@ -43,10 +43,12 @@ const RecordsTablePublishing = ({ isPublishing }) => {
       <table className={table}>
         <thead>
           <tr>
-            <th colSpan="1">Select</th>
+            <th colSpan="1" style={{ textAlign: ' center' }}>
+              Select
+            </th>
             <th colSpan="1">Record ID</th>
             <th colSpan="2">Processing Date</th>
-            <th colSpan="1">Contact Tracer ID</th>
+            <th colSpan="2">Contact Tracer ID</th>
           </tr>
         </thead>
       </table>

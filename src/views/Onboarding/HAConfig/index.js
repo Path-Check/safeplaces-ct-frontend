@@ -168,6 +168,7 @@ const HAConfig = () => {
           height="72px"
           type="submit"
           disabled={!formCompleted}
+          secondary
         >
           Save &amp; Continue
         </Button>

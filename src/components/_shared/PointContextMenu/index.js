@@ -1,20 +1,25 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import classNames from 'classnames';
 import moment from 'moment';
 
 import {
   pointContextMenu,
   pointContextMenuHeader,
   pointContextMenuClose,
+  pointContextMenuBottom,
 } from './PointContextMenu.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEdit,
   faMinusCircle,
+  faCalendarAlt,
+  faClock,
   faTrash,
   faTimes,
+  faHourglass,
 } from '@fortawesome/pro-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
@@ -24,16 +29,25 @@ import applicationSelectors from 'ducks/application/selectors';
 const PointContextMenu = ({
   pointId: id,
   closeAction,
-  time,
+  time: timestamp,
+  duration,
   latitude,
   longitude,
-  renderDateTime = false,
+  renderDateTime = true,
+  bottom,
 }) => {
+  const classes = classNames({
+    [`${pointContextMenu}`]: true,
+    [`${pointContextMenuBottom}`]: bottom,
+  });
+
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
+  const date = moment(timestamp).format('MMMM D, YYYY');
+  const time = moment(timestamp).format('h:mma');
 
   const handleClick = e => {
     const _Target = e.target;
@@ -60,7 +74,7 @@ const PointContextMenu = ({
   }
 
   return (
-    <div className={pointContextMenu} ref={containerRef}>
+    <div className={classes} ref={containerRef}>
       <button
         className={pointContextMenuClose}
         type="button"
@@ -73,10 +87,19 @@ const PointContextMenu = ({
         <FontAwesomeIcon icon={faTimes} />
       </button>
       {renderDateTime && (
-        <div className={pointContextMenuHeader}>
-          <span>{moment.utc(time).format('ddd, MMM d, yyyy')}</span>
-          <span>{moment.utc(time).format('HH:mm')}</span>
-        </div>
+        <ul className={pointContextMenuHeader}>
+          <li>
+            <FontAwesomeIcon icon={faCalendarAlt} /> {date}
+          </li>
+          <li>
+            <FontAwesomeIcon icon={faClock} /> {time}
+          </li>
+          {duration && (
+            <li>
+              <FontAwesomeIcon icon={faHourglass} /> {duration}
+            </li>
+          )}
+        </ul>
       )}
       <ul>
         {/* <li>
