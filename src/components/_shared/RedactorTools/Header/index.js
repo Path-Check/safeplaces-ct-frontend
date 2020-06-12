@@ -2,9 +2,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux'
-import { redactorToolsHeader, selectedfaEllipsisVIcon, ModalButton, inputText } from './header.module.scss';
+import {
+  redactorToolsHeader,
+  selectedfaEllipsisVIcon,
+  ModalButton,
+  inputText,
+  selectedEditContextMenu,
+  selectedEditContextMenuAction
+} from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft, faEllipsisV, faEdit } from '@fortawesome/pro-solid-svg-icons';
 import { Button, TextInput } from '@wfp/ui'
 import Modal from '../../../_global/Modal';
 import Dialog from '../../../_shared/Dialog';
@@ -16,6 +23,7 @@ const RedactorToolsHeader = ({ currentRecord }) => {
   const dispatch = useDispatch();
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const [showModal, setShowModal] = useState(false);
+  const [showEditRecordButton, setEditRecordButton] = useState(false);
   const [externalInpuValue, setInputValue] = useState("");
 
   const handleBack = () => console.log('go back');
@@ -33,6 +41,26 @@ const RedactorToolsHeader = ({ currentRecord }) => {
     return null;
   }
 
+  const EditRecordButton = () => (
+    <div className={selectedEditContextMenu}>
+      <ul>
+        <li>
+          <button
+            className={selectedEditContextMenuAction}
+            type="button"
+            onClick={() => {
+              setShowModal(true);
+              setEditRecordButton(false);
+            }}
+          >
+            <FontAwesomeIcon icon={faEdit} />
+            Edit Record ID
+          </button>
+        </li>
+      </ul>
+    </div>
+  );
+
   return (
     <>
       <header className={redactorToolsHeader}>
@@ -42,20 +70,23 @@ const RedactorToolsHeader = ({ currentRecord }) => {
         <h3>Record ID: {activeCase}</h3>
         <button
           className={selectedfaEllipsisVIcon}
-          onClick={() => setShowModal(true)}
+          //onClick={() => setShowModal(true)}
+          onClick={() => setEditRecordButton(true)}
           type="button"
         >
           <FontAwesomeIcon icon={faEllipsisV} />
         </button>
       </header>
+
+      {showEditRecordButton && (<EditRecordButton />)}
       {showModal && (
         <Modal>
           <Dialog width="650px">
             <header>
               <h3>Edit Record ID</h3>
               <p>
-                If you are using a System to manage your patients and already
-                have an ID for this patient, please enter it
+                If you are using a system to manage your patients and already
+                have an ID for this patient, please enter it below.
               </p>
             </header>
             <TextInput
@@ -64,17 +95,22 @@ const RedactorToolsHeader = ({ currentRecord }) => {
               onChange={onChangeHandler}
               value={externalInpuValue}
             />
-            <Button type="button" className={ModalButton} onClick={onSubmit}>
-              Save Record ID
-            </Button>
-            <br />
-            <Button
-              type="button"
-              className={ModalButton}
-              onClick={() => setShowModal(false)}
-            >
-              Cancel
-            </Button>
+            <div className={ModalButton}>
+              <Button
+                type="button"
+                onClick={onSubmit}
+              >
+                Save Record ID
+              </Button>
+              <br />
+              <Button
+                type="button"
+                style={{ background: '#f8f8ff', borderColor: '#6979f8', color: '#6979f8' }}
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </Button>
+            </div>
           </Dialog>
         </Modal>
       )}
