@@ -47,6 +47,15 @@ class TestRedaction(unittest.TestCase):
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
 
+    def test_invalid_login(self):
+        tools = Tools()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        entry_page.open_page()
+        login_page = LoginPage(self.driver)
+        login_page.login_invalid()
+        # confirm we're still at the login page by confirming that we can still enter an invalid login
+        login_page.login_invalid()
+
     def test_contact_trace(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
@@ -67,20 +76,11 @@ class TestRedaction(unittest.TestCase):
         point_editor_page.enter_date('06/08/2020 07:00')
         point_editor_page.close()
         # add a point again but this time save the data
-        # contact_trace_page.more()
-        # contact_trace_page.add_data_point()
-        # point_editor_page = AddDataToRecordPage(self.driver)
-        # point_editor_page.enter_location('-122.19732036472264, 37.718665250290684')
-        # point_editor_page.enter_date('06/08/2020 07:00')
+        # point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00')
         # point_editor_page.save_data()
-        # stage for publishing and abort by clicking the no consent button
-        # contact_trace_page.stage_for_publishing()
         # stage_publish_page = StageForPublishing(self.driver)
-        # stage_publish_page.no_consent()
-        # stage for publishing and click the yes consent button to stage
-        # contact_trace_page.stage_for_publishing()
-        # stage_publish_page = StageForPublishing(self.driver)
-        # stage_publish_page.yes_consent()
+        # stage_publish_page.stage_no_consent()
+        # stage_publish_page.stage_yes_consent()
         # entry_page.open_publish()
         # publish_data_page = PublishDataPage(self.driver)
         # publish_date_page.publish_data()
