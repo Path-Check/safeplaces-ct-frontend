@@ -22,13 +22,16 @@ const Publish = ({ record }) => {
     applicationSelectors.getRenderEditor(state),
   );
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-
+  const appMode = useSelector(state => applicationSelectors.getMode(state));
   useEffect(() => {
     dispatch({
       type: 'RESET_VIEW',
     });
-    dispatch(applicationActions.setMode('publish'));
   }, []);
+
+  useEffect(() => {
+    dispatch(applicationActions.setMode('publish'));
+  }, [appMode]);
 
   return (
     <>
