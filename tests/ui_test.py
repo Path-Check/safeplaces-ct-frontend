@@ -114,8 +114,10 @@ class TestRedaction(unittest.TestCase):
         settings_page.set_api_endpoint('https://s3.aws.com/bucket_name/safepaths.json')
         settings_page.set_privacy_policy_URL('https://www.cdc.gov/other/privacy.html')
         # set retention policy slider to 50% of the way across, which would be 15 days
-        # commented out until we find how to get ActionChains working
-        # settings_page.set_retention_policy('50')
+        actionChains = ActionChains(webdriver)
+        percent = '50'
+        width = data_retention_slider_track.size['width']
+        move.click_and_hold(self.sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
         settings_page.reset_gps_coordinates
         settings_page.save_and_continue
         
