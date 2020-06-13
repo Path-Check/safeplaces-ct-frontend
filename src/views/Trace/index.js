@@ -17,6 +17,7 @@ import applicationSelectors from 'ducks/application/selectors';
 import StageForPublishing from 'views/Trace/StageForPublishing';
 import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import applicationActions from 'ducks/application/actions';
+import ErrorBoundary from 'components/_global/errorBoundary';
 
 const Trace = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,9 @@ const Trace = () => {
             </>
           )}
         </SidebarWrapper>
-        <Map />
+        <ErrorBoundary>
+          <Map />
+        </ErrorBoundary>
       </div>
       <AddNewRecord />
       <RecordAdded />
