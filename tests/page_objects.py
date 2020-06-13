@@ -80,6 +80,25 @@ class LoginPage(Page):
 
         self.driver.implicitly_wait(30)
 
+    def login_invalid(self):
+        self.driver.implicitly_wait(3)
+
+        try:
+            self.find_element(self.username).send_keys("invalid")
+            self.find_element(self.password).send_keys("invalid")
+            self.find_element(self.login_btn).click()
+        except Exception as e:
+            pass
+
+        try:
+            self.find_element(self.api_key).click()
+            self.find_element(self.api_key).send_keys('AIzaSyBvm-T7hqlAtAcQqPy0nOS1CSmXJQeZSPI')
+            self.find_element(self.submit).click()
+        except Exception as e:
+            pass
+
+        self.driver.implicitly_wait(30)
+
 
 class RedactionPage(Page):
     load_file_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_header__hJUf6 > div.styles_buttons__xEkBq > div > button')
@@ -244,6 +263,15 @@ class AddDataToRecordPage(Page):
     def close(self):
         self.find_element(self.close_point_editor_button).click()
     
+    def add_data_point(self, location, date):
+        contact_trace_page = ContactTracePage(self.driver)
+        contact_trace_page.add_new_record()
+        add_record_page = AddNewRecordPage(self.driver)
+        add_record_page.create_manually()
+        contact_trace_page.more()
+        contact_trace_page.add_data_point()
+        enter_location(self, location)
+        enter_date(self, date)
     
 class StageForPublishingPage(Page):
     yes_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button:nth-child(1)')
@@ -254,6 +282,16 @@ class StageForPublishingPage(Page):
     
     def no_consent(self):
         self.find_element(self.no_consent_button).click()
+    
+    def stage_no_consent(self):
+        contact_trace_page = ContactTracePage(self.driver)
+        contact_trace_page.stage_for_publishing()
+        self.no_consent()
+    
+    def stage_yes_consent(self):
+        contact_trace_page = ContactTracePage(self.driver)
+        contact_trace_page.stage_for_publishing()
+        self.yes_consent()
     
 class PublishDataPage(Page):
     load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
@@ -267,9 +305,13 @@ class PublishDataPage(Page):
     
 class SelectDataPage(Page):
     select_checkbox = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > table > tbody > tr > th > div > label > span')
-    
+    open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
+
     def select_item(self):
         self.find_element(self.select_checkbox).click()
+    
+    def open_selected(self):
+        self.find_element(self.open_selected_button).click()
     
 class SubmitDataPage(Page):
     submit_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div.PublishData_PublishDataActions__1OVeJ > button:nth-child(1)')
