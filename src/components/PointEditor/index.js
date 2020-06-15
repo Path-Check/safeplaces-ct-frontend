@@ -8,13 +8,14 @@ import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
-import { setMinutes, setHours } from 'date-fns';
 
 import {
   convertToHoursMins,
   convertToMins,
   canSubmit,
   validateTimeDuration,
+  returnMaxTime,
+  returnMinTime,
 } from 'components/PointEditor/_helpers';
 
 import {
@@ -164,11 +165,8 @@ const PointEditor = ({ isEdit }) => {
             label="Date - Time"
             minDate={new Date('2019-12-31T12:05:00-05:00')}
             maxDate={now}
-            minTime={setHours(setMinutes(new Date(), 0), 0)}
-            maxTime={setHours(
-              setMinutes(now, now.getMinutes()),
-              now.getHours(),
-            )}
+            minTime={returnMinTime()}
+            maxTime={returnMaxTime(selectedLocation?.time)}
             handleChange={handleChange}
             displayValue={isEdit ? activePoint?.time : null}
             selectedValue={selectedLocation?.time}

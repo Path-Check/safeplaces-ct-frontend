@@ -1,3 +1,7 @@
+import { setMinutes, setHours, isToday } from 'date-fns';
+
+import moment from 'moment';
+
 export const convertToHoursMins = ({ duration }) => {
   if (!duration) {
     return [0, 0];
@@ -30,4 +34,17 @@ export const canSubmit = selectedLocation => {
 
 export const validateTimeDuration = ({ time, duration }) => {
   // check if time + duration is greater than current time
+};
+
+export const returnMinTime = () => setHours(setMinutes(new Date(), 0), 0);
+
+export const returnMaxTime = date => {
+  const now = new Date();
+
+  if (!date || isToday(moment(date).toDate())) {
+    debugger;
+    return setHours(setMinutes(now, now.getMinutes()), now.getHours());
+  } else {
+    return setHours(setMinutes(now, 55), 23);
+  }
 };
