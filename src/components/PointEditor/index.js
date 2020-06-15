@@ -166,8 +166,8 @@ const PointEditor = ({ isEdit }) => {
             maxDate={now}
             minTime={setHours(setMinutes(new Date(), 0), 0)}
             maxTime={setHours(
-              setMinutes(now, now.getMinutes() + localDuration[1]),
-              now.getHours() + localDuration[0],
+              setMinutes(now, now.getMinutes()),
+              now.getHours(),
             )}
             handleChange={handleChange}
             displayValue={isEdit ? activePoint?.time : null}
