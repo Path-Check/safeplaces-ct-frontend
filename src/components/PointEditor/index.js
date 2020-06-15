@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
-
 import { useSelector, useDispatch } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
@@ -52,15 +50,6 @@ const PointEditor = ({ isEdit }) => {
   const isDisabled = isEdit ? !selectedLocation : canSubmit(selectedLocation);
 
   useEffect(() => {
-    dispatch(
-      mapActions.updateLocation({
-        ...selectedLocation,
-        duration: convertToMins(localDuration),
-      }),
-    );
-  }, [localDuration]);
-
-  useEffect(() => {
     if (!isEdit) {
       return;
     }
@@ -69,28 +58,31 @@ const PointEditor = ({ isEdit }) => {
     setLocalDuration([hours, mins]);
   }, []);
 
+  useEffect(() => {
+    dispatch(
+      mapActions.updateLocation({
+        ...selectedLocation,
+        duration: convertToMins(localDuration),
+      }),
+    );
+  }, [localDuration]);
+
   const handleChange = (type, value) => {
-    switch (type) {
-      case 'latLng':
-        dispatch(
-          mapActions.updateLocation({
-            ...selectedLocation,
-            longitude: value.lng,
-            latitude: value.lat,
-          }),
-        );
-        break;
-      case 'time':
-        console.log(selectedLocation);
-        dispatch(
-          mapActions.updateLocation({
-            ...selectedLocation,
-            time: value,
-          }),
-        );
-        break;
-      default:
-        break;
+    if (type === 'latLng') {
+      dispatch(
+        mapActions.updateLocation({
+          ...selectedLocation,
+          longitude: value.lng,
+          latitude: value.lat,
+        }),
+      );
+    } else {
+      dispatch(
+        mapActions.updateLocation({
+          ...selectedLocation,
+          time: value,
+        }),
+      );
     }
   };
 
@@ -124,11 +116,6 @@ const PointEditor = ({ isEdit }) => {
   const handleSubmit = () => {
     const payload = generatePayload();
     const validDuration = validateTimeDuration(selectedLocation);
-
-    // if (!validDuration) {
-    //   console.log('prevent submit');
-    //   return;
-    // }
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
