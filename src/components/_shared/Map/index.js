@@ -53,31 +53,42 @@ export default function Map({ setMap }) {
     applicationSelectors.getRenderEditor(state),
   );
 
-  const boundsObject = useSelector(state => authSelectors.getBounds(state));
-  const bounds = [
-    [boundsObject.sw.longitude || 1, boundsObject.sw.latitude || 1],
-    [boundsObject.ne.longitude || 1, boundsObject.ne.latitude || 1],
-  ];
+  const fallbackViewport = {
+    latitude: 37.7577,
+    longitude: -122.4376,
+  };
 
-  const initial = new WebMercatorViewport({
-    width: 800,
-    height: 800,
-  }).fitBounds(bounds);
+  const boundsObject = useSelector(state => authSelectors.getBounds(state));
+  const withBounds =
+    boundsObject.sw.longitude &&
+    boundsObject.sw.latitude &&
+    boundsObject.ne.longitude &&
+    boundsObject.ne.latitude;
+
+  const initial = withBounds
+    ? new WebMercatorViewport({
+        width: 600,
+        height: 600,
+      }).fitBounds([
+        [boundsObject.sw.longitude, boundsObject.sw.latitude],
+        [boundsObject.ne.longitude, boundsObject.ne.latitude],
+      ])
+    : fallbackViewport;
 
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
   const onMapLoad = e => {
     setLoaded(true);
 
-    const bounds = [
-      [boundsObject.sw.longitude || 1, boundsObject.sw.latitude || 1],
-      [boundsObject.ne.longitude || 1, boundsObject.ne.latitude || 1],
-    ];
-
-    const focused = new WebMercatorViewport({
-      width: mapRef.current._width,
-      height: mapRef.current._height,
-    }).fitBounds(bounds);
+    const focused = withBounds
+      ? new WebMercatorViewport({
+          width: mapRef.current._width,
+          height: mapRef.current._height,
+        }).fitBounds([
+          [boundsObject.sw.longitude, boundsObject.sw.latitude],
+          [boundsObject.ne.longitude, boundsObject.ne.latitude],
+        ])
+      : fallbackViewport;
 
     const viewportCalc = {
       ...viewport,
@@ -89,7 +100,7 @@ export default function Map({ setMap }) {
   };
 
   useEffect(() => {
-    var zooming = {};
+    let zooming = {};
 
     if (!loaded) {
       return;
@@ -174,17 +185,13 @@ export default function Map({ setMap }) {
               <MapMarker {...p} key={i} />
             ))}
 
-            {selectedLocation &&
-              selectedLocation?.longitude &&
-              selectedLocation?.latitude && (
-                <MapMarker {...selectedLocation} alternate />
-              )}
+            {selectedLocation?.longitude && selectedLocation?.latitude && (
+              <MapMarker {...selectedLocation} alternate />
+            )}
 
-            {locationSelect &&
-              popupLocation?.longitude &&
-              popupLocation?.latitude && (
-                <PopupWrapper {...popupLocation} type={appStatus} />
-              )}
+            {popupLocation?.longitude && popupLocation?.latitude && (
+              <PopupWrapper {...popupLocation} type={appStatus} />
+            )}
 
             <NavigationControl
               className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
