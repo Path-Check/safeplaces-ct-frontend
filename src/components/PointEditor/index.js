@@ -8,6 +8,7 @@ import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
+import { setMinutes, setHours } from 'date-fns';
 
 import {
   convertToHoursMins,
@@ -36,6 +37,7 @@ import TextInput from '@wfp/ui/lib/components/TextInput';
 
 const PointEditor = ({ isEdit }) => {
   const dispatch = useDispatch();
+  const now = new Date();
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
@@ -160,7 +162,13 @@ const PointEditor = ({ isEdit }) => {
             type="time"
             id="time"
             label="Date - Time"
-            maxDate={new Date()}
+            minDate={new Date('2019-12-31T12:05:00-05:00')}
+            maxDate={now}
+            minTime={setHours(setMinutes(new Date(), 0), 0)}
+            maxTime={setHours(
+              setMinutes(now, now.getMinutes() + localDuration[1]),
+              now.getHours() + localDuration[0],
+            )}
             handleChange={handleChange}
             displayValue={isEdit ? activePoint?.time : null}
             selectedValue={selectedLocation?.time}
