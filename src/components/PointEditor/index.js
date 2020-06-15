@@ -45,7 +45,7 @@ const PointEditor = ({ isEdit }) => {
     mapSelectors.getLocation(state),
   );
   const initialLocation = isEdit
-    ? `${activePoint?.longitude}, ${activePoint?.latitude}`
+    ? `${activePoint?.latitude}, ${activePoint?.longitude}`
     : '';
 
   const [localDuration, setLocalDuration] = useState([0, 0]);
@@ -179,6 +179,7 @@ const PointEditor = ({ isEdit }) => {
         </div>
 
         <div className={durationControls}>
+          <h6>Duration</h6>
           <div className={durationControl}>
             <TextInput
               id="durationHours"
@@ -190,6 +191,7 @@ const PointEditor = ({ isEdit }) => {
               value={localDuration[0]}
               defaultValue={localDuration[0]}
             />
+            <label htmlFor="durationHours">Hours</label>
           </div>
           <div className={durationControl}>
             <TextInput
@@ -197,12 +199,13 @@ const PointEditor = ({ isEdit }) => {
               name="durationMinutes"
               onChange={handleDuration}
               step="5"
-              min="5"
+              min="0"
               max="55"
               type="number"
               value={localDuration[1]}
               defaultValue={localDuration[1]}
             />
+            <label htmlFor="durationMinutes">Minutes</label>
           </div>
         </div>
         <Button type="submit" fullWidth disabled={isDisabled}>
