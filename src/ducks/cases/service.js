@@ -53,17 +53,9 @@ const casesService = {
     });
   },
   deleteCase: ({ caseId }) => {
-    console.log({
-      method: 'DELETE',
-      url: `${REACT_APP_API_URL}case`,
-      data: {
-        caseId,
-      },
-    });
-
     return axios({
-      method: 'DELETE',
-      url: `${REACT_APP_API_URL}case`,
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/delete`,
       data: {
         caseId,
       },
