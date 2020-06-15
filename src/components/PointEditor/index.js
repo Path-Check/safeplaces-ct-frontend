@@ -125,6 +125,11 @@ const PointEditor = ({ isEdit }) => {
     const payload = generatePayload();
     const validDuration = validateTimeDuration(selectedLocation);
 
+    // if (!validDuration) {
+    //   console.log('prevent submit');
+    //   return;
+    // }
+
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
     } else {
@@ -137,8 +142,6 @@ const PointEditor = ({ isEdit }) => {
     dispatch(pointsActions.setSelectedPoint(null));
     dispatch(mapActions.updateLocation(null));
   };
-
-  console.log(selectedLocation);
 
   return (
     <>
@@ -189,7 +192,6 @@ const PointEditor = ({ isEdit }) => {
               min="0"
               type="number"
               value={localDuration[0]}
-              defaultValue={localDuration[0]}
             />
             <label htmlFor="durationHours">Hours</label>
           </div>
@@ -203,7 +205,6 @@ const PointEditor = ({ isEdit }) => {
               max="55"
               type="number"
               value={localDuration[1]}
-              defaultValue={localDuration[1]}
             />
             <label htmlFor="durationMinutes">Minutes</label>
           </div>

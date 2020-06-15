@@ -31,6 +31,18 @@ $mobile-bottom-swipe-height: 75px;
   $ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
   $ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
 
+  .App {
+    input {
+      background: rgb(248, 248, 255);
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      height: 44px;
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+
   p {
     margin-bottom: 15px;
   }
