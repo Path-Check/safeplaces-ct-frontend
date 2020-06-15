@@ -40,6 +40,7 @@ const DrawEditor = () => {
   const [mode, setMode] = useState(null);
   const [geometry, setGeometry] = useState(null);
   const points = useSelector(state => pointsSelectors.getPoints(state));
+  const [newPoints, setNewPoints] = useState(null);
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
@@ -56,7 +57,6 @@ const DrawEditor = () => {
   };
 
   const handleUpdate = ({ data }) => {
-    console.log(data);
     if (!data || data.length < 1) {
       return;
     }
@@ -91,14 +91,7 @@ const DrawEditor = () => {
   };
 
   const onApply = () => {
-    const targetArray = filteredPoints.length > 0 ? filteredPoints : points;
-    const filterdPoints = targetArray.filter(p => inside(toPoint(p), geometry));
-
-    if (filterdPoints?.length > 0) {
-      dispatch(pointsActions.setFilteredPoints(filterdPoints));
-    } else {
-      console.error('no points present in this geography');
-    }
+    dispatch(pointsActions.setFilteredPoints(newPoints));
 
     resetGeometry(true);
   };
@@ -113,6 +106,13 @@ const DrawEditor = () => {
   }, [renderTools]);
 
   useEffect(() => {
+    if (!geometry) {
+      return;
+    }
+    const targetArray = filteredPoints.length > 0 ? filteredPoints : points;
+    const newPoints = targetArray.filter(p => inside(toPoint(p), geometry));
+
+    setNewPoints(newPoints);
     handleModeSelection('');
   }, [geometry]);
 
@@ -168,7 +168,7 @@ const DrawEditor = () => {
       </div>
       {geometry && (
         <div className={editorNavControls}>
-          <button onClick={onApply}>
+          <button onClick={onApply} disabled={newPoints?.length < 1}>
             Apply Selection <FontAwesomeIcon icon={faCheck} />
           </button>
           <button onClick={() => handleDelete()}>
