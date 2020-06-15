@@ -123,6 +123,13 @@ const DrawEditor = () => {
         style={{ width: '100%', height: '100%' }}
         clickRadius={12}
         onUpdate={map => handleUpdate(map)}
+        featureStyle={({ feature, state }) => {
+          return {
+            stroke: '#4051DB',
+            strokeWidth: 2,
+            fill: 'rgba(105, 121, 248, 0.5)',
+          };
+        }}
         mode={mode}
       />
       <div className={editorNav}>

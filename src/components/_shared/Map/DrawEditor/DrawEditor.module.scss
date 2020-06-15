@@ -34,16 +34,21 @@
 
 .editorNavControls {
   position: absolute;
-  right: 20px;
-  bottom: 30px;
+  right: 40px;
+  bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fff;
-  border-radius: 24px;
+  border-radius: 6px;
 
   button {
+    font-size: 18px;
     height: 46px;
     padding: 0 15px;
+
+    &:last-of-type {
+      border-left: 1px solid rgba(0, 0, 0, 0.15);
+    }
   }
 }
