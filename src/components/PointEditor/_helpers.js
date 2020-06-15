@@ -42,7 +42,6 @@ export const returnMaxTime = date => {
   const now = new Date();
 
   if (!date || isToday(moment(date).toDate())) {
-    debugger;
     return setHours(setMinutes(now, now.getMinutes()), now.getHours());
   } else {
     return setHours(setMinutes(now, 55), 23);
