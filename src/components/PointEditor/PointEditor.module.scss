@@ -6,17 +6,14 @@
   border-radius: 6px;
   background: #ffffff;
   padding: 20px;
-
-  button {
-    width: 100%;
-  }
+  z-index: 13;
 }
 
 .pointEditorHeader {
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   .closeAction {
     position: absolute;
@@ -36,7 +33,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 
   span {
     display: inline-block;
@@ -46,7 +45,7 @@
 
 .timeControls {
   display: flex;
-  margin: 0 0 30px;
+  margin: 0 0 10px;
 
   // > div {
   //   &:first-of-type {
@@ -56,4 +55,12 @@
   //     margin-left: 10px;
   //   }
   // }
+}
+
+.durationControls {
+  margin-bottom: 15px;
+
+  h5 {
+    margin-bottom: 10px;
+  }
 }

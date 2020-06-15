@@ -12,7 +12,7 @@ import {
 } from './DurationFilter.module.scss';
 
 const DurationFilter = () => {
-  const times = [15, 30, 45, 60];
+  const times = [10, 15, 20, 25, 30, 45, 60];
   const [checked, setChecked] = useState(false);
   const [duration, setDuration] = useState(times[0]);
 

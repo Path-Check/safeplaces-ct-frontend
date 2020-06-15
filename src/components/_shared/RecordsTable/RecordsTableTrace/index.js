@@ -36,7 +36,7 @@ const RecordsTableTrace = () => {
         <table className={table}>
           <tbody>
             {cases.map(r => (
-              <Record key={r.caseId} {...r} />
+              <Record key={`case-trace-${r.id}`} {...r} />
             ))}
           </tbody>
         </table>

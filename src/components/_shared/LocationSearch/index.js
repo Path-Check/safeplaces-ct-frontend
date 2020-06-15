@@ -51,6 +51,7 @@ const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
             {...getInputProps({
               placeholder: 'Search Location',
             })}
+            required
           />
           {suggestions?.length > 0 && (
             <LocationSuggestions

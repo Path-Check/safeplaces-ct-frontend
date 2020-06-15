@@ -1,12 +1,18 @@
 .siteHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 30px;
-  height: 75px;
   position: fixed;
+  padding: 20px 10px;
   width: 100%;
   z-index: 3;
+  text-align: center;
+
+  @media screen and (min-width: 700px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    height: 75px;
+    text-align: left;
+  }
 }
 
 .loggedIn {

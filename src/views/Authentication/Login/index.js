@@ -10,7 +10,6 @@ import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
 
 import authActions from 'ducks/auth/actions';
-import Notifications from '../../../components/_global/Notifications';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,7 +24,6 @@ const Login = () => {
   useEffect(() => {
     if (currentUser) {
       const { completedOnboarding } = currentUser;
-      console.log(history);
 
       if (token && completedOnboarding) {
         history.push(location.state?.referrer || 'trace');
@@ -96,14 +94,6 @@ const Login = () => {
                   )}
                 </Button>
               </div>
-              {/* Since we are Persisting the state its not needed for now
-              <div className={styles.rememberMeContainer}>
-                <Checkbox
-                  label="Remember Me"
-                  id="rememberMe"
-                  onChange={test => console.log(test)}
-                />
-              </div> */}
               <p className={styles.disclaimer}>
                 If you are a Health Authority member but you still don’t have an
                 account, please contact your HA admin.
@@ -112,7 +102,6 @@ const Login = () => {
           </form>
         </div>
       </div>
-      <Notifications />
     </div>
   );
 };

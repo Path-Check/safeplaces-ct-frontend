@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
-import TimeInput from 'components/_shared/TimeInput';
-import TextInput from '@wfp/ui/lib/components/TextInput';
-import DurationInput from 'components/DurationInput';
+
 import LocationSearchInput from 'components/_shared/LocationSearch';
+
+import moment from 'moment';
 
 import {
   pointEditor,
@@ -14,6 +14,7 @@ import {
   pointEditorHeader,
   closeAction,
   timeControls,
+  durationControls,
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,9 +26,8 @@ import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
-import applicationSelectors from 'ducks/application/selectors';
 
-const PointEditor = () => {
+const PointEditor = ({ isEdit }) => {
   const dispatch = useDispatch();
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
@@ -35,28 +35,45 @@ const PointEditor = () => {
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const isEdit = appStatus === 'EDIT POINT';
-  const isAdd = appStatus === 'ADD POINT';
-
-  if (!isAdd && !isEdit) {
-    return null;
-  }
-
   const initialLocation = isEdit
-    ? `${activePoint.longitude}, ${activePoint.latitude}`
+    ? `${activePoint?.longitude}, ${activePoint?.latitude}`
     : '';
-
   const addValidation =
     !selectedLocation?.latitude ||
     !selectedLocation?.longitude ||
-    !selectedLocation?.time;
-
+    !selectedLocation?.from ||
+    !selectedLocation?.to;
   const editValidation = !selectedLocation;
+  const isDisabled = isEdit ? editValidation : addValidation;
 
-  const isDisabled = isAdd ? addValidation : editValidation;
+  const returnEndTime = () => {
+    let from = null;
+    let duration = null;
+
+    if (!activePoint || !activePoint.duration || !activePoint.time) {
+      return null;
+    }
+
+    from = activePoint.time;
+    duration = activePoint.duration;
+
+    return moment(from).add(duration, 'minutes');
+  };
+
+  useEffect(() => {
+    if (isEdit) {
+      dispatch(
+        mapActions.updateLocation({
+          from: activePoint?.time,
+          to: returnEndTime(),
+        }),
+      );
+    }
+  }, []);
 
   const handleChange = (type, data) => {
+    console.log(selectedLocation);
+
     switch (type) {
       case 'latLng':
         dispatch(
@@ -67,12 +84,20 @@ const PointEditor = () => {
           }),
         );
         break;
-      case 'date':
-        console.log(data);
+      case 'dateFrom':
+        console.log(selectedLocation);
         dispatch(
           mapActions.updateLocation({
             ...selectedLocation,
-            time: data,
+            from: data,
+          }),
+        );
+        break;
+      case 'dateTo':
+        dispatch(
+          mapActions.updateLocation({
+            ...selectedLocation,
+            to: data,
           }),
         );
         break;
@@ -82,17 +107,41 @@ const PointEditor = () => {
     }
   };
 
-  const handleSubmit = () => {
-    let payload = {
-      ...selectedLocation,
-    };
+  const returnDuration = (from, to) => {
+    const minutes = moment(to).diff(moment(from), 'minutes');
 
+    if (!from || !to) {
+      return null;
+    }
+
+    return minutes;
+  };
+
+  const generatePayload = () => {
     if (isEdit) {
-      payload = {
+      return {
         ...activePoint,
         ...selectedLocation,
+        time: selectedLocation.from || activePoint.time,
+        duration: returnDuration(
+          selectedLocation.from || activePoint.time,
+          selectedLocation.to,
+        ),
       };
+    } else {
+      return {
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
+        time: selectedLocation.from,
+        duration: returnDuration(selectedLocation.from, selectedLocation.to),
+      };
+    }
+  };
 
+  const handleSubmit = () => {
+    const payload = generatePayload();
+
+    if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
     } else {
       dispatch(pointsActions.addPoint(payload));
@@ -107,7 +156,7 @@ const PointEditor = () => {
 
   return (
     <>
-      <div className={pointEditor}>
+      <form className={pointEditor} onSubmit={handleSubmit}>
         <div className={pointEditorHeader}>
           <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
           <button className={closeAction} onClick={handleClose}>
@@ -121,6 +170,8 @@ const PointEditor = () => {
           />
           <span>or</span>
           <Button
+            fullWidth
+            secondary
             onClick={() => {
               dispatch(mapActions.locationSelect(true));
             }}
@@ -129,24 +180,43 @@ const PointEditor = () => {
           </Button>
         </div>
 
-        <div className={timeControls}>
-          <DateInput
-            handleChange={handleChange}
-            displayValue={isEdit ? activePoint.time : null}
-          />
+        <div className={durationControls}>
+          <h5>Duration</h5>
+          <div className={timeControls}>
+            <DateInput
+              type="dateFrom"
+              id="dateFrom"
+              label="Start"
+              maxDate={moment(selectedLocation?.to).toDate()}
+              handleChange={handleChange}
+              displayValue={isEdit ? selectedLocation?.to : null}
+              selectedValue={selectedLocation?.from}
+              placeholder="01/01/2020  -  12:00AM"
+            />
+          </div>
+          <div className={timeControls}>
+            <DateInput
+              type="dateTo"
+              id="dateTo"
+              label="End"
+              minDate={moment(selectedLocation?.from).toDate()}
+              handleChange={handleChange}
+              displayValue={isEdit ? selectedLocation?.from : null}
+              selectedValue={selectedLocation?.to}
+              placeholder="01/01/2020  -  12:05AM"
+            />
+          </div>
         </div>
-
-        <Button onClick={handleSubmit} type="submit" disabled={isDisabled}>
+        <Button type="submit" fullWidth disabled={isDisabled}>
           Save Data
         </Button>
-      </div>
+      </form>
     </>
   );
 };
 
 PointEditor.propTypes = {
   isEdit: PropTypes.bool,
-  appStatus: PropTypes.string,
 };
 
 export default PointEditor;
