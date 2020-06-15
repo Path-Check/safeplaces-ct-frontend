@@ -40,6 +40,9 @@ const DrawEditor = () => {
   const [mode, setMode] = useState(null);
   const [geometry, setGeometry] = useState(null);
   const points = useSelector(state => pointsSelectors.getPoints(state));
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
+  );
 
   const resetGeometry = (closeTools = false) => {
     if (editorRef && editorRef.current) {
@@ -88,7 +91,8 @@ const DrawEditor = () => {
   };
 
   const onApply = () => {
-    const filterdPoints = points.filter(p => inside(toPoint(p), geometry));
+    const targetArray = filteredPoints.length > 0 ? filteredPoints : points;
+    const filterdPoints = targetArray.filter(p => inside(toPoint(p), geometry));
 
     if (filterdPoints?.length > 0) {
       dispatch(pointsActions.setFilteredPoints(filterdPoints));
