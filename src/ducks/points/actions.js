@@ -25,6 +25,10 @@ const pointsActions = {
     type: pointsTypes.ADD_POINT,
     point,
   }),
+  setDateRange: data => ({
+    type: pointsTypes.SET_DATE_RANGE,
+    data,
+  }),
 };
 
 export default pointsActions;
