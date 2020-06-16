@@ -26,7 +26,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
   const stagedCases = cases.filter(c => c.state === 'staging');
 
   const handleChange = (checked, e) => {
-    const caseId = e.target.id;
+    const caseId = parseInt(e.target.id, 10);
     let ids = [];
 
     if (caseIds.includes(caseId)) {

@@ -7,7 +7,12 @@ import { faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
 
 import classNames from 'classnames';
 
-import { marker, markerAlt, markerExpanded } from './Marker.module.scss';
+import {
+  marker,
+  markerAlt,
+  markerExpanded,
+  markerIcon,
+} from './Marker.module.scss';
 
 import PointContextMenu from 'components/_shared/PointContextMenu';
 
@@ -57,7 +62,7 @@ const MapMarker = ({
   return (
     <Marker className={classes} latitude={latitude} longitude={longitude}>
       <button onClick={handleClick} ref={markerRef}>
-        <FontAwesomeIcon icon={faMapMarkerAlt} />
+        <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
       </button>
       {showContentMenu && !alternate && (
         <PointContextMenu

@@ -21,6 +21,8 @@ function DateInput({
   name,
   minDate,
   maxDate,
+  minTime,
+  maxTime,
   placeholder,
 }) {
   const initialValue = displayValue ? moment(displayValue).toDate() : '';
@@ -50,6 +52,8 @@ function DateInput({
           timeIntervals={5}
           className="datePicker"
           dateFormat="MM/dd/yyyy  -  h:mma"
+          minTime={minTime}
+          maxTime={maxTime}
           minDate={minDate}
           maxDate={maxDate}
           placeholderText={placeholder}

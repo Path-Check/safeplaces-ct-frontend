@@ -34,7 +34,7 @@ const AddNewRecord = () => {
   }
 
   return (
-    <Modal closeAction={() => dispatch(casesActions.deleteCase())}>
+    <Modal>
       <Dialog width="650px">
         <FocusTrap active={activeCase?.caseId}>
           <div>

@@ -16,16 +16,26 @@ function* deletePoint({ id }) {
   try {
     yield call(pointsService.delete, id);
     const currentPoints = yield select(pointsSelectors.getPoints);
-
-    // filter using ID
+    const currentFilteredPoints = yield select(
+      pointsSelectors.getFilteredPoints,
+    );
     const points = currentPoints.filter(p => p.pointId !== id);
 
+    if (currentFilteredPoints.length) {
+      const filteredPoints = currentFilteredPoints.filter(
+        p => p.pointId !== id,
+      );
+      yield put(pointsActions.setFilteredPoints(filteredPoints));
+    }
+
     yield put(pointsActions.updatePoints(points));
+
     yield put(
       applicationActions.notification({
         title: `Point Deleted`,
       }),
     );
+
     yield put(pointsActions.setSelectedPoint(null));
   } catch (error) {
     console.log(error);
