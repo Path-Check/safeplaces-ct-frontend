@@ -27,8 +27,8 @@ const DeletePoints = () => {
         <header className={deletePointsWrapper}>
           <h3>Delete Multiple Points</h3>
           <p>
-            Are you sure you want to delete {filteredPoints.length} from{' '}
-            {points.length}?
+            Are you sure you want to delete {filteredPoints.length} points from{' '}
+            {points.length} points?
           </p>
         </header>
         <div className={deletePointsBody}>
