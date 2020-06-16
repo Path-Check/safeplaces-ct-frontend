@@ -42,9 +42,9 @@ const FilterData = ({ children }) => {
         }
       >
         <div className={filterBodyMain}>{children}</div>
-        <div className={filterBodyActions}>
+        {/* <div className={filterBodyActions}>
           <Button small>Apply</Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

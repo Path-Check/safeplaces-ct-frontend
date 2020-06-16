@@ -10,8 +10,16 @@ import {
 
 import classNames from 'classnames';
 
-const Checkbox = ({ label, onChange, align, id, name }) => {
-  const [checked, setChecked] = useState(false);
+const Checkbox = ({
+  label,
+  onChange,
+  align,
+  id,
+  name,
+  isChecked = false,
+  disabled,
+}) => {
+  const [checked, setChecked] = useState(isChecked);
 
   const containerClasses = classNames({
     [`${checkboxContainer}`]: true,
@@ -33,18 +41,13 @@ const Checkbox = ({ label, onChange, align, id, name }) => {
           onChange={onCheck}
           checked={checked}
           className="input"
+          disabled={disabled}
         />
         <span className={checkboxCustom} />
       </label>
-      <span
-        className={inputTitle}
-        onClick={onCheck}
-        onKeyPress={onCheck}
-        role="button"
-        tabIndex={0}
-      >
+      <label className={inputTitle} tabIndex={0} htmlFor={id}>
         {label}
-      </span>
+      </label>
     </div>
   );
 };
