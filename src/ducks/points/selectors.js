@@ -17,7 +17,7 @@ const pointsSelectors = {
 
     const singleDateFilter = p =>
       moment(moment(p.time).format(currentDateFormat)).isSame(
-        moment(singleDate, 'ddd, MMMM D, YYYY'),
+        moment(singleDate, currentDateFormat),
       );
 
     const dateFilter = singleDate ? singleDateFilter : dateRangeFilter;

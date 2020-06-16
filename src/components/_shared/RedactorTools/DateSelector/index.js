@@ -84,12 +84,6 @@ const DateSelector = ({ dates }) => {
   //   [dates, dispatch, isSingleDate],
   // );
 
-  // useEffect(() => {
-  //   if (checkSingleDate) {
-  //     dispatch(pointsActions.setSingleDate([dates[0]]));
-  //   }
-  // }, [checkSingleDate, dates, dispatch]);
-
   useEffect(() => {
     console.log('reload');
   });
