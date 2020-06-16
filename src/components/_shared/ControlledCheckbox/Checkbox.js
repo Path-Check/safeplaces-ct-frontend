@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import {
   checkboxContainer,
+  checkboxContainerDisabled,
   checkboxLabel,
   checkboxCustom,
   alignLeft,
@@ -10,17 +11,23 @@ import {
 
 import classNames from 'classnames';
 
-const Checkbox = ({ label, onChange, align, id, name }) => {
-  const [checked, setChecked] = useState(false);
-
+const Checkbox = ({
+  label,
+  onChange,
+  align,
+  id,
+  name,
+  isChecked = false,
+  disabled,
+}) => {
   const containerClasses = classNames({
     [`${checkboxContainer}`]: true,
+    [`${checkboxContainerDisabled}`]: disabled,
     [`${alignLeft}`]: align === 'left',
   });
 
   const onCheck = e => {
-    setChecked(!checked);
-    onChange(!checked, e);
+    onChange(e);
   };
 
   return (
@@ -31,20 +38,15 @@ const Checkbox = ({ label, onChange, align, id, name }) => {
           id={id}
           name={name}
           onChange={onCheck}
-          checked={checked}
+          checked={isChecked}
           className="input"
+          disabled={disabled}
         />
         <span className={checkboxCustom} />
       </label>
-      <span
-        className={inputTitle}
-        onClick={onCheck}
-        onKeyPress={onCheck}
-        role="button"
-        tabIndex={0}
-      >
+      <label className={inputTitle} tabIndex={0} htmlFor={id}>
         {label}
-      </span>
+      </label>
     </div>
   );
 };

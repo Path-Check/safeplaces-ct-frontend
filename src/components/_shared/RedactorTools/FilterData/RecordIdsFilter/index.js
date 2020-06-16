@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import Checkbox from 'components/_shared/Checkbox/Checkbox';
+import Checkbox from 'components/_shared/ControlledCheckbox/Checkbox';
 import pointsSelectors from 'ducks/points/selectors';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,20 +12,35 @@ const RecordIdsFilter = () => {
   const cases = useSelector(state => casesSelectors.getActiveCase(state));
   const [localCases, setLocalCases] = useState(cases);
   const points = useSelector(state => pointsSelectors.getPoints(state));
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
+  );
 
   useEffect(() => {
-    dispatch(
-      pointsActions.setFilteredPoints(
-        points.filter(({ caseId }) => localCases.includes(caseId)),
-      ),
-    );
+    if (localCases.length === cases.length) {
+      dispatch(pointsActions.setFilteredPoints([]));
+    } else {
+      dispatch(
+        pointsActions.setFilteredPoints(
+          points.filter(({ caseId }) => localCases.includes(caseId)),
+        ),
+      );
+    }
   }, [localCases]);
 
-  const handleChange = (checked, e) => {
-    if (checked) {
-      setLocalCases([...localCases, parseInt(e.target.name)]);
-    } else {
+  useEffect(() => {
+    console.log(filteredPoints);
+
+    if (filteredPoints.length < 1) {
+      setLocalCases(cases);
+    }
+  }, [filteredPoints]);
+
+  const handleChange = e => {
+    if (localCases.includes(parseInt(e.target.name))) {
       setLocalCases(localCases.filter(c => c !== parseInt(e.target.name)));
+    } else {
+      setLocalCases([...localCases, parseInt(e.target.name)]);
     }
   };
 
