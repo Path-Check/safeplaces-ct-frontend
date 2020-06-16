@@ -21,21 +21,23 @@ import moment from 'moment';
 
 const DateSelector = ({ dates }) => {
   const checkSingleDate = dates?.length === 1;
-  const [isSingleDate, setIsSingleDate] = useState(checkSingleDate);
+  // const [isSingleDate, setIsSingleDate] = useState(checkSingleDate);
   // const [dateRange, setDateRange] = useState([]);
-  const [singleDate, setSingleDate] = useState();
+  // const [singleDate, setSingleDate] = useState();
   const dispatch = useDispatch();
   const points = useSelector(state => pointsSelectors.getPoints(state));
   const dateRange = useSelector(state => pointsSelectors.getDateRange(state));
+  const singleDate = useSelector(state => pointsSelectors.getSingleDate(state));
+  const isSingleDate = !!singleDate;
   const currentDateFormat = 'ddd, MMMM D, YYYY';
 
-  const filterSingleDatePoints = useCallback(() => {
-    return points.filter(p =>
-      moment(moment(p.time).format(currentDateFormat)).isSame(
-        moment(singleDate, 'ddd, MMMM D, YYYY'),
-      ),
-    );
-  }, [points, singleDate]);
+  // const filterSingleDatePoints = useCallback(() => {
+  //   return points.filter(p =>
+  //     moment(moment(p.time).format(currentDateFormat)).isSame(
+  //       moment(singleDate, 'ddd, MMMM D, YYYY'),
+  //     ),
+  //   );
+  // }, [points]);
 
   // const filterRangeDatePoints = useCallback(() => {
   //   return points.filter(p =>
@@ -82,13 +84,47 @@ const DateSelector = ({ dates }) => {
   //   [dates, dispatch, isSingleDate],
   // );
 
-  const handleChange = value => {
-    if (isSingleDate) {
-      setSingleDate(dates[value]);
+  // useEffect(() => {
+  //   if (checkSingleDate) {
+  //     dispatch(pointsActions.setSingleDate([dates[0]]));
+  //   }
+  // }, [checkSingleDate, dates, dispatch]);
+
+  useEffect(() => {
+    console.log('reload');
+  });
+
+  // useEffect(() => {
+  //   if (checkSingleDate) {
+  //     dispatch(pointsActions.setSingleDate(dates[0]));
+  //   }
+  // }, [checkSingleDate, dates, dispatch]);
+
+  const handleChange = useCallback(
+    value => {
+      console.log('handleChange');
+      if (isSingleDate) {
+        console.log('isSingleDate');
+        // setSingleDate(dates[value]);
+        dispatch(pointsActions.setSingleDate(dates[value]));
+      } else {
+        // setDateRange([dates[value[0]], dates[value[1]]]);
+        dispatch(
+          pointsActions.setDateRange([dates[value[0]], dates[value[1]]]),
+        );
+      }
+    },
+    [dates, dispatch, isSingleDate],
+  );
+
+  const setSingleDate = value => {
+    console.log(`setSingleDate ${value}`);
+    if (value) {
+      dispatch(pointsActions.setSingleDate([dates[0]]));
     } else {
-      // setDateRange([dates[value[0]], dates[value[1]]]);
-      dispatch(pointsActions.setDateRange([dates[value[0]], dates[value[1]]]));
+      dispatch(pointsActions.setDateRange([dates[0], dates[dates.length - 1]]));
     }
+    // console.log(value);
   };
 
   return (
@@ -97,7 +133,7 @@ const DateSelector = ({ dates }) => {
         <h5 className={dateSelectorTitle}>
           <FontAwesomeIcon icon={faCalendarDay} /> Date Selection
         </h5>
-        <SingleDateToggle onChange={setIsSingleDate} isChecked={isSingleDate} />
+        <SingleDateToggle onChange={setSingleDate} isChecked={isSingleDate} />
       </div>
       <div>
         {isSingleDate ? (

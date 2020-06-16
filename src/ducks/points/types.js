@@ -6,6 +6,7 @@ const pointsTypes = {
   EDIT_POINT: 'safeplaces/cases/EDIT_POINT',
   ADD_POINT: 'safeplaces/cases/ADD_POINT',
   SET_DATE_RANGE: 'safeplaces/cases/SET_DATE_RANGE',
+  SET_SINGLE_DATE: 'safeplaces/cases/SET_SINGLE_DATE',
 };
 
 export default pointsTypes;

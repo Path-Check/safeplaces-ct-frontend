@@ -5,6 +5,7 @@ const initialState = {
   filteredPoints: [],
   activePoint: null,
   dateRange: [],
+  singleDate: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -29,6 +30,13 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         dateRange: data,
+        singleDate: initialState.singleDate,
+      };
+    case pointsTypes.SET_SINGLE_DATE:
+      return {
+        ...state,
+        singleDate: data,
+        dateRange: initialState.dateRange,
       };
     default:
       return state;

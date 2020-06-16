@@ -29,6 +29,10 @@ const pointsActions = {
     type: pointsTypes.SET_DATE_RANGE,
     data,
   }),
+  setSingleDate: data => ({
+    type: pointsTypes.SET_SINGLE_DATE,
+    data,
+  }),
 };
 
 export default pointsActions;
