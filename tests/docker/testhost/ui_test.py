@@ -42,12 +42,12 @@ class TestRedaction(unittest.TestCase):
         else:
             self.driver = webdriver.Remote(command_executor=self.sel_url, options=chrome_options)
 
-    def test_app_loads(self):
+    def app_loads(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
 
-    def test_contact_trace(self):
+    def contact_trace(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
