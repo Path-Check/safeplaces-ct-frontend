@@ -47,18 +47,25 @@ function* deletePoints() {
   const points = yield select(pointsSelectors.getPoints);
 
   try {
-    yield call(pointsService.deletePoints, filteredPoints);
+    yield call(
+      pointsService.deletePoints,
+      filteredPoints.map(({ pointId }) => pointId),
+    );
 
     const diff = differenceBy(points, filteredPoints, 'pointId');
     yield put(pointsActions.updatePoints(diff));
     yield put(pointsActions.setFilteredPoints([]));
+
     yield put(
       applicationActions.notification({
         title: `${filteredPoints.length} Point(s) Deleted`,
       }),
     );
     yield put(pointsActions.setSelectedPoint(null));
+
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
+    yield put(applicationActions.updateStatus('DELETE POINTS'));
     yield put(
       applicationActions.notification({
         title: 'Unable to delete points',
@@ -66,8 +73,6 @@ function* deletePoints() {
       }),
     );
   }
-
-  yield put(applicationActions.updateStatus('DELETE POINTS'));
 }
 
 function* updatePoint({ point, type }) {

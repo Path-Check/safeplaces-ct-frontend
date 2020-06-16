@@ -12,12 +12,12 @@ const pointsService = {
       },
     });
   },
-  deletePoints: points => {
+  deletePoints: pointIds => {
     return axios({
       method: 'POST',
       url: `${REACT_APP_API_URL}case/points/delete`,
       data: {
-        points,
+        pointIds,
       },
     });
   },
