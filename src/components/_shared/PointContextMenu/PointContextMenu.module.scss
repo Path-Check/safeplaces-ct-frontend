@@ -53,10 +53,10 @@
 }
 
 .pointContextMenuBottom {
-  bottom: calc(100% + 7.5px);
+  bottom: calc(100% + 20px);
   top: auto;
   right: auto;
-  left: 0;
+  left: -20px;
 
   &:before {
     content: '';
