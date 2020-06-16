@@ -12,6 +12,15 @@ const pointsService = {
       },
     });
   },
+  deletePoints: points => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/points/delete`,
+      data: {
+        points,
+      },
+    });
+  },
   edit: data => {
     return axios({
       method: 'PUT',
