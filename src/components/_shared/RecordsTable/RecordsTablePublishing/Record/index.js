@@ -32,7 +32,9 @@ const Record = ({
       <th colSpan="1">
         <Checkbox id={id} name={id} onChange={onChange} />
       </th>
-      <td colSpan="1">{id}</td>
+      <td colSpan="1">
+        <label htmlFor={id}>{id}</label>
+      </td>
       <td colSpan="2">
         <time dateTime={processingDate}>{processDateFriendly}</time>
       </td>

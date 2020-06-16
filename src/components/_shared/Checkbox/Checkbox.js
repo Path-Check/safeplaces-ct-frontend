@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import {
   checkboxContainer,
+  checkboxContainerDisabled,
   checkboxLabel,
   checkboxCustom,
   alignLeft,
@@ -23,6 +24,7 @@ const Checkbox = ({
 
   const containerClasses = classNames({
     [`${checkboxContainer}`]: true,
+    [`${checkboxContainerDisabled}`]: disabled,
     [`${alignLeft}`]: align === 'left',
   });
 

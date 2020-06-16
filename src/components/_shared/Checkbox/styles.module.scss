@@ -23,6 +23,7 @@
   height: 24px;
   width: 24px;
   color: #41dca4;
+  cursor: pointer;
 }
 
 .checkboxLabel input {
@@ -50,7 +51,7 @@
 }
 
 .checkboxLabel input:disabled ~ .checkboxCustom {
-  color: grey;
+  color: #d6d6da;
   background-color: #ffffff;
   border: 2px solid currentColor;
   transition: unset;
@@ -107,4 +108,8 @@
   transform: scale(3);
   opacity: 0;
   z-index: 999;
+}
+
+.checkboxContainerDisabled {
+  color: #d6d6da;
 }
