@@ -16,13 +16,14 @@ const RedactorTools = () => {
   return (
     <>
       <RedactorToolsHeader />
-      <>
-        {points?.length > 1 && <DateSelector dates={dates} />}
-        {/* <FilterData>
-          <DurationFilter />
-          <TravellingFilter />
-        </FilterData> */}
-      </>
+      {points?.length > 1 && (
+        <>
+          <DateSelector dates={dates} />}
+          <FilterData>
+            <DurationFilter />
+          </FilterData>
+        </>
+      )}
       <SelectedDataList />
     </>
   );

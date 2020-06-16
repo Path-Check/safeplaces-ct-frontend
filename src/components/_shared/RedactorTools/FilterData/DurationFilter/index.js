@@ -11,20 +11,40 @@ import {
   durationFilterSliderActive,
 } from './DurationFilter.module.scss';
 
+import { useDispatch, useSelector } from 'react-redux';
+import pointsSelectors from 'ducks/points/selectors';
+import pointsActions from 'ducks/points/actions';
+
 const DurationFilter = () => {
-  const times = [10, 15, 20, 25, 30, 45, 60];
+  const dispatch = useDispatch();
+  const times = [10, 15, 30, 45, 60];
   const [checked, setChecked] = useState(false);
   const [duration, setDuration] = useState(times[0]);
+  const points = useSelector(state => pointsSelectors.getPoints(state));
 
   const handleChange = value => {
-    setDuration(times[value - 1]);
+    setDuration(times[value]);
   };
 
   useEffect(() => {
     if (checked) {
-      // fire API call with duration
+      handleFilter();
+    } else {
+      dispatch(pointsActions.setFilteredPoints(points));
     }
   }, [checked]);
+
+  const handleFilter = () => {
+    const filterPoints = points.filter(
+      ({ duration: pointDuration }) => pointDuration <= duration,
+    );
+
+    dispatch(pointsActions.setFilteredPoints(filterPoints));
+  };
+
+  useEffect(() => {
+    handleFilter();
+  }, [duration]);
 
   const sliderClasses = classNames({
     [`${durationFilterSlider}`]: true,
@@ -43,7 +63,7 @@ const DurationFilter = () => {
         <Slider
           min={1}
           step={1}
-          max={4}
+          max={times.length}
           onChange={handleChange}
           disabled={!checked}
         />
