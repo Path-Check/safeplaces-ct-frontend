@@ -40,16 +40,6 @@ export default function reducer(state = initialState, action) {
         singleDate: data,
         dateRange: initialState.dateRange,
       };
-    // case pointsTypes.USE_DURATION:
-    //   return {
-    //     ...state,
-    //     useDurationFilter: data,
-    //   };
-    // case pointsTypes.SET_DURATION:
-    //   return {
-    //     ...state,
-    //     duration: data,
-    //   };
     case pointsTypes.SET_FILTERS:
       return {
         ...state,

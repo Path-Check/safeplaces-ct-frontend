@@ -14,7 +14,6 @@ const pointsSelectors = {
       useDurationFilter,
     } = state.points;
     const dateRangeFilter = p =>
-      // !singleDate &&
       dateRange.length === 0 ||
       moment(moment(p.time).format(currentDateFormat)).isBetween(
         moment(dateRange[0], currentDateFormat),

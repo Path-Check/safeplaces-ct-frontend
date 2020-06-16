@@ -33,14 +33,6 @@ const pointsActions = {
     type: pointsTypes.SET_SINGLE_DATE,
     data,
   }),
-  // setUseDuration: data => ({
-  //   type: pointsTypes.USE_DURATION,
-  //   data,
-  // }),
-  // setDuration: data => ({
-  //   type: pointsTypes.SET_DURATION,
-  //   data,
-  // }),
   setFilters: data => ({
     type: pointsTypes.SET_FILTERS,
     data,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -11,10 +11,6 @@ import {
   durationFilterSliderActive,
 } from './DurationFilter.module.scss';
 
-import { useDispatch, useSelector } from 'react-redux';
-import pointsSelectors from 'ducks/points/selectors';
-import pointsActions from 'ducks/points/actions';
-
 const DurationFilter = ({
   duration,
   setDuration,
@@ -22,47 +18,14 @@ const DurationFilter = ({
   checked,
   setChecked,
 }) => {
-  // const dispatch = useDispatch();
-  // const times = [10, 15, 30, 45, 60];
-  // const [checked, setChecked] = useState(false);
-  // const [duration, setDuration] = useState(times[0]);
-  // const points = useSelector(state => pointsSelectors.getPoints(state));
-  // const checked = useSelector(state =>
-  //   pointsSelectors.getUseDurationFilter(state),
-  // );
-
   const handleChange = value => {
     setDuration(times[value]);
   };
-
-  // useEffect(() => {
-  //   if (checked) {
-  //     handleFilter();
-  //   } else {
-  //     dispatch(pointsActions.setFilteredPoints(points));
-  //   }
-  // }, [checked, dispatch, handleFilter, points]);
-
-  // const handleFilter = useCallback(() => {
-  //   const filterPoints = points.filter(
-  //     ({ duration: pointDuration }) => pointDuration <= duration,
-  //   );
-
-  //   dispatch(pointsActions.setFilteredPoints(filterPoints));
-  // });
-
-  // useEffect(() => {
-  //   handleFilter();
-  // }, [duration, handleFilter]);
 
   const sliderClasses = classNames({
     [`${durationFilterSlider}`]: true,
     [`${durationFilterSliderActive}`]: checked,
   });
-
-  // const setChecked = value => {
-  //   dispatch(pointsActions.setUseDuration(value));
-  // };
 
   return (
     <div className={durationFilter}>

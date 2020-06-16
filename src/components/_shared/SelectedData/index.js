@@ -32,13 +32,6 @@ const SelectedDataList = () => {
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
-  // console.log('filteredPoints');
-  // console.log(filteredPoints);
-
-  // const renderedPoints = filteredPoints.length ? filteredPoints : points;
-  // console.log('renderedPoints');
-  // console.log(renderedPoints);
-
   const noFilteredPoints =
     useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
 

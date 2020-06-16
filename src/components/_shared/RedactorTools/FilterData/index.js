@@ -21,7 +21,6 @@ import Button from 'components/_shared/Button';
 
 const FilterData = ({ children, applyFilters }) => {
   const [filtersVisible, setFiltersVisible] = useState(false);
-  // const [duration, setDuration] = useState(durationTimes[0]);
 
   return (
     <div className={filterData}>
