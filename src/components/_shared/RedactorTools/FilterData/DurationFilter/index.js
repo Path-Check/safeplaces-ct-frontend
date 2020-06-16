@@ -61,9 +61,9 @@ const DurationFilter = () => {
       />
       <div className={sliderClasses}>
         <Slider
-          min={1}
+          min={0}
+          max={times.length - 1}
           step={1}
-          max={times.length}
           onChange={handleChange}
           disabled={!checked}
         />
