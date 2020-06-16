@@ -6,6 +6,8 @@ const initialState = {
   activePoint: null,
   dateRange: [],
   singleDate: null,
+  useDurationFilter: false,
+  duration: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -37,6 +39,21 @@ export default function reducer(state = initialState, action) {
         ...state,
         singleDate: data,
         dateRange: initialState.dateRange,
+      };
+    // case pointsTypes.USE_DURATION:
+    //   return {
+    //     ...state,
+    //     useDurationFilter: data,
+    //   };
+    // case pointsTypes.SET_DURATION:
+    //   return {
+    //     ...state,
+    //     duration: data,
+    //   };
+    case pointsTypes.SET_FILTERS:
+      return {
+        ...state,
+        ...data,
       };
     default:
       return state;

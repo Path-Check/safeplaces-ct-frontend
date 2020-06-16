@@ -32,7 +32,12 @@ const SelectedDataList = () => {
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
-  const renderedPoints = filteredPoints.length ? filteredPoints : points;
+  // console.log('filteredPoints');
+  // console.log(filteredPoints);
+
+  // const renderedPoints = filteredPoints.length ? filteredPoints : points;
+  // console.log('renderedPoints');
+  // console.log(renderedPoints);
 
   const noFilteredPoints =
     useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
@@ -52,7 +57,7 @@ const SelectedDataList = () => {
         <div className={selectedDataHeaderInfo}>
           {activeCase && points.length > 0 && (
             <p className={selectedDataSelection}>
-              {renderedPoints?.length} of {points?.length}
+              {filteredPoints?.length} of {points?.length}
             </p>
           )}
           {isPublish && noFilteredPoints ? null : (
@@ -73,9 +78,9 @@ const SelectedDataList = () => {
           />
         )}
       </div>
-      {renderedPoints?.length > 0 && (
+      {filteredPoints?.length > 0 && (
         <ul className={selectedDataList}>
-          {renderedPoints?.map(p => (
+          {filteredPoints?.map(p => (
             <SelectedDataItem key={p.pointId} {...p} />
           ))}
         </ul>
