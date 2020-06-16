@@ -33,7 +33,7 @@ const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
 
   useEffect(() => {
     selectedLocation?.longitude &&
-      setValue(`${selectedLocation?.longitude}, ${selectedLocation?.latitude}`);
+      setValue(`${selectedLocation?.latitude}, ${selectedLocation?.longitude}`);
   }, []);
 
   return (
