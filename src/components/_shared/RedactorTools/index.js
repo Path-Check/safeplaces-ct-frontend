@@ -18,7 +18,7 @@ const RedactorTools = () => {
       <RedactorToolsHeader />
       {points?.length > 1 && (
         <>
-          <DateSelector dates={dates} />}
+          <DateSelector dates={dates} />
           <FilterData>
             <DurationFilter />
           </FilterData>
