@@ -27,13 +27,13 @@ const DeletePoints = () => {
         <header className={deletePointsWrapper}>
           <h3>Delete Multiple Points</h3>
           <p>
-            Are you sure you want to delete {filteredPoints.length} points from{' '}
-            {points.length} points?
+            Are you sure you want to delete {filteredPoints.length} point(s)
+            from {points.length} point(s)?
           </p>
         </header>
         <div className={deletePointsBody}>
           <Button large onClick={() => dispatch(pointsActions.deletePoints())}>
-            Yes, Delete {filteredPoints.length} Points
+            Yes, Delete {filteredPoints.length} Point(s)
           </Button>
           <Button
             large

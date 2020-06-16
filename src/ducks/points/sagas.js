@@ -49,11 +49,9 @@ function* deletePoints() {
   try {
     yield call(pointsService.deletePoints, filteredPoints);
 
-    const diff = differenceBy(points, filteredPoints, 'caseId');
-
-    yield put(pointsActions.setSelectedPoint([]));
+    const diff = differenceBy(points, filteredPoints, 'pointId');
     yield put(pointsActions.updatePoints(diff));
-
+    yield put(pointsActions.setFilteredPoints([]));
     yield put(
       applicationActions.notification({
         title: `${filteredPoints.length} Point(s) Deleted`,
@@ -69,7 +67,7 @@ function* deletePoints() {
     );
   }
 
-  yield put(applicationActions.updateStatus('CASE ACTIVE'));
+  yield put(applicationActions.updateStatus('DELETE POINTS'));
 }
 
 function* updatePoint({ point, type }) {
