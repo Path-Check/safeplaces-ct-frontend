@@ -23,7 +23,9 @@ const Record = ({ id, state, onChange, staged_at, contact_tracer_id }) => {
       <th colSpan="1">
         <Checkbox id={id} name={id} onChange={onChange} />
       </th>
-      <td colSpan="1">{id}</td>
+      <td colSpan="1">
+        <label htmlFor={id}>{id}</label>
+      </td>
       <td colSpan="2">
         <time dateTime={staged_at}>{processDateFriendly}</time>
       </td>
