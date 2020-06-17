@@ -198,7 +198,6 @@ function* publishCases() {
     yield put(
       applicationActions.notification({
         title: `${cases.length} record(s) have been downloaded to your API endpoint`,
-        text: 'Please try again.',
       }),
     );
   } catch (error) {

@@ -57,6 +57,11 @@ const PointEditor = ({ isEdit }) => {
       return;
     }
 
+    if (!activePoint) {
+      console.error('no active point');
+      return;
+    }
+
     const [hours, mins] = convertToHoursMins(activePoint);
     setLocalDuration([hours, mins]);
   }, []);
