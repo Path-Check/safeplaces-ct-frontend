@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Marker } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,7 +7,12 @@ import { faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
 
 import classNames from 'classnames';
 
-import { marker, markerAlt, markerExpanded } from './Marker.module.scss';
+import {
+  marker,
+  markerAlt,
+  markerExpanded,
+  markerIcon,
+} from './Marker.module.scss';
 
 import PointContextMenu from 'components/_shared/PointContextMenu';
 
@@ -43,10 +48,18 @@ const MapMarker = ({
         latitude,
         longitude,
         time: timestamp,
+        duration,
       }),
     );
+
     setShowContentMenu(!showContentMenu);
   };
+
+  useEffect(() => {
+    if (!activePoint) {
+      setShowContentMenu(false);
+    }
+  }, [activePoint]);
 
   const classes = classNames({
     [`${marker}`]: true,
@@ -57,7 +70,7 @@ const MapMarker = ({
   return (
     <Marker className={classes} latitude={latitude} longitude={longitude}>
       <button onClick={handleClick} ref={markerRef}>
-        <FontAwesomeIcon icon={faMapMarkerAlt} />
+        <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
       </button>
       {showContentMenu && !alternate && (
         <PointContextMenu

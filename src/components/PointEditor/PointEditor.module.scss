@@ -47,20 +47,26 @@
   display: flex;
   margin: 0 0 10px;
 
-  // > div {
-  //   &:first-of-type {
-  //     margin-right: 10px;
-  //   }
-  //   &:last-of-type {
-  //     margin-left: 10px;
-  //   }
-  // }
+  label {
+    font-weight: 600;
+  }
 }
 
 .durationControls {
-  margin-bottom: 15px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'a a'
+    'b c';
+  margin-bottom: 20px;
 
-  h5 {
-    margin-bottom: 10px;
+  h6 {
+    grid-area: a;
+    font-size: 14px;
+  }
+
+  label {
+    font-size: 14px;
   }
 }
