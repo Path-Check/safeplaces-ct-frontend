@@ -9,18 +9,10 @@ import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
 import { returnFormattedDate } from 'helpers/dateTime';
 
-const Record = ({
-  id,
-  updated_at,
-  updatedAt,
-  state,
-  expires_at,
-  expiresAt,
-  onChange,
-}) => {
+const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
   const dispatch = useDispatch();
-  const updateDate = updated_at || updatedAt;
-  const expirationDate = expiresAt || expires_at;
+  const updateDate = updatedAt;
+  const expirationDate = expiresAt;
   const unpublished = state.toLowerCase() === 'unpublished';
   const updated = returnFormattedDate(updateDate);
   const expires = returnFormattedDate(expirationDate);
@@ -34,13 +26,13 @@ const Record = ({
     <tr className={recordClasses}>
       <td colSpan="1">
         {!unpublished ? (
-          id
+          caseId
         ) : (
           <button
             className={styles.recordAction}
-            onClick={() => dispatch(casesActions.loadCasePoints(id))}
+            onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
           >
-            {id}
+            {caseId}
           </button>
         )}
       </td>
