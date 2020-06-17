@@ -46,23 +46,21 @@ const RedactorTools = () => {
       <RedactorToolsHeader />
       <>
         {points?.length > 1 && <DateSelector dates={dates} />}
-        {isPublish && (
-          <FilterData applyFilters={applyFilters}>
-            <RecordIdsFilter />
-            {points?.length > 1 && (
-              <>
-                <DurationFilter
-                  duration={duration}
-                  setDuration={setDuration}
-                  checked={useDurationFilter}
-                  setChecked={setUseDurationFilter}
-                  times={durationTimes}
-                />
-                <TravellingFilter />
-              </>
-            )}
-          </FilterData>
-        )}
+        <FilterData applyFilters={applyFilters}>
+          {isPublish && <RecordIdsFilter />}
+          {points?.length > 1 && (
+            <>
+              <DurationFilter
+                duration={duration}
+                setDuration={setDuration}
+                checked={useDurationFilter}
+                setChecked={setUseDurationFilter}
+                times={durationTimes}
+              />
+              <TravellingFilter />
+            </>
+          )}
+        </FilterData>
       </>
       <SelectedDataList />
     </>
