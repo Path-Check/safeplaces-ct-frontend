@@ -31,23 +31,27 @@ const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
 
   return (
     <tr className={recordClasses}>
-      <td colSpan="1">
-        {!unpublished ? (
-          caseId
-        ) : (
-          <button
-            className={styles.recordAction}
-            onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
-          >
-            {caseId}
-          </button>
-        )}
-      </td>
-      <td colSpan="2">
-        <time dateTime={updated}>{updated}</time>
-      </td>
-      <td colSpan="1">{friendlyStatuses[state]}</td>
-      <td colSpan="2">{expires}</td>
+      {caseId && (
+        <td colSpan="1">
+          {!unpublished ? (
+            caseId
+          ) : (
+            <button
+              className={styles.recordAction}
+              onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
+            >
+              {caseId}
+            </button>
+          )}
+        </td>
+      )}
+      {updated && (
+        <td colSpan="2">
+          <time dateTime={updated}>{updated}</time>
+        </td>
+      )}
+      {state && <td colSpan="1">{friendlyStatuses[state]}</td>}
+      {expires && <td colSpan="2">{expires}</td>}
     </tr>
   );
 };

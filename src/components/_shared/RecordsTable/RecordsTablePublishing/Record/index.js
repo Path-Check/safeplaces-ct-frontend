@@ -18,12 +18,16 @@ const Record = ({ caseId, state, onChange, stagedAt, contactTracerId }) => {
 
   return (
     <tr className={recordClasses}>
-      <th colSpan="1">
-        <Checkbox id={caseId} name={caseId} onChange={onChange} />
-      </th>
-      <td colSpan="1">
-        <label htmlFor={caseId}>{caseId}</label>
-      </td>
+      {caseId && (
+        <>
+          <th colSpan="1">
+            <Checkbox id={caseId} name={caseId} onChange={onChange} />
+          </th>
+          <td colSpan="1">
+            <label htmlFor={caseId}>{caseId}</label>
+          </td>
+        </>
+      )}
       <td colSpan="2">
         <time dateTime={processed}>{processed}</time>
       </td>
