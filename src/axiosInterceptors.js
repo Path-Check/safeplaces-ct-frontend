@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import authTypes from './ducks/auth/types';
+
 export default {
   setupInterceptors: store => {
     axios.interceptors.request.use(
@@ -25,7 +27,7 @@ export default {
         // catches if the session ended!
         if (error.response.status === 401) {
           localStorage.clear();
-          store.dispatch({ type: 'LOGOUT', data: true });
+          store.dispatch({ type: authTypes.login.LOGOUT, data: true });
         }
         return Promise.reject(error);
       },

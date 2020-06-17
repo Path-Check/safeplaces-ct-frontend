@@ -5,12 +5,14 @@ import { tableWrapper, table, tableMain } from '../recordsTable.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Button from 'components/_shared/Button';
+import { useSelector, useDispatch } from 'react-redux';
 import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';
-import { useSelector, useDispatch } from 'react-redux';
-import Record from './Record';
 import casesActions from 'ducks/cases/actions';
+
+import Button from 'components/_shared/Button';
+import Record from './Record';
+
 const RecordsTableTrace = () => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getCases(state));
@@ -36,7 +38,7 @@ const RecordsTableTrace = () => {
         <table className={table}>
           <tbody>
             {cases.map(r => (
-              <Record key={r.caseId} {...r} />
+              <Record key={`case-trace-${r.id}`} {...r} />
             ))}
           </tbody>
         </table>

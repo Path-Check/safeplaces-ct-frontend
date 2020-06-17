@@ -26,6 +26,10 @@ const casesActions = {
     type: casesTypes.LOAD_CASE_POINTS,
     caseId,
   }),
+  loadMultiCasePoints: caseId => ({
+    type: casesTypes.LOAD_MULTICASE_POINTS,
+    caseId,
+  }),
   enrichCase: data => ({
     type: casesTypes.ENRICH_CASE,
     data,

@@ -65,7 +65,7 @@ const Login = () => {
               <div className={styles.buttonContainer}>
                 <Button
                   text="Log in"
-                  onClick={onSubmit}
+                  type="submit"
                   width="100%"
                   height="72px"
                 />

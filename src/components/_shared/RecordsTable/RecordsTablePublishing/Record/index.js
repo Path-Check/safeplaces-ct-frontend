@@ -1,27 +1,16 @@
 /* eslint-disable camelcase */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
-import moment from 'moment';
-
 import styles from './record.module.scss';
 import Checkbox from 'components/_shared/Checkbox/Checkbox';
+import { returnFormattedDate } from 'helpers/dateTime';
 
-const Record = ({
-  id,
-  updatedAt,
-  state,
-  expiresAt,
-  onChange,
-  processingDate,
-  contact_tracer_id,
-}) => {
-  const processDateFriendly = moment(processingDate).format(
-    'ddd, MMMM D, YYYY - h:ma',
-  );
+const Record = ({ caseId, state, onChange, stagedAt, contactTracerId }) => {
+  const processDate = stagedAt;
+  const processed = returnFormattedDate(processDate);
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,
@@ -29,23 +18,22 @@ const Record = ({
 
   return (
     <tr className={recordClasses}>
-      <th colSpan="1">
-        <Checkbox id={id} name={id} onChange={onChange} />
-      </th>
-      <td colSpan="1">{id}</td>
+      {caseId && (
+        <>
+          <th colSpan="1">
+            <Checkbox id={caseId} name={caseId} onChange={onChange} />
+          </th>
+          <td colSpan="1">
+            <label htmlFor={caseId}>{caseId}</label>
+          </td>
+        </>
+      )}
       <td colSpan="2">
-        <time dateTime={processingDate}>{processDateFriendly}</time>
+        <time dateTime={processed}>{processed}</time>
       </td>
-      <td colSpan="1">{contact_tracer_id ? `${contact_tracer_id}` : 'N/A'}</td>
+      <td colSpan="2">{contactTracerId ? `${contactTracerId}` : 'N/A'}</td>
     </tr>
   );
-};
-
-Record.propTypes = {
-  id: PropTypes.number,
-  updatedAt: PropTypes.string,
-  status: PropTypes.string,
-  expiresIn: PropTypes.string,
 };
 
 export default Record;

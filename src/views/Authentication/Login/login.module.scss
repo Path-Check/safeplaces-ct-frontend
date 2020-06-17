@@ -1,4 +1,4 @@
-@import "scss/global";
+@import 'scss/global';
 
 .login {
   display: flex;
@@ -37,7 +37,7 @@
     width: 100%;
   }
 
-  [class="page-title"] {
+  [class='page-title'] {
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: $spacing-xl;
@@ -46,7 +46,7 @@
     }
   }
 
-  [class="wfp--form-item"] {
+  [class='wfp--form-item'] {
     margin-bottom: 24px;
 
     input {
@@ -105,12 +105,10 @@
   position: relative;
 
   img {
-    right: -5%;
-    overflow: hidden;
-    width: 140vh;
-    position: absolute;
-    height: 140vh;
-    top: -22%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right;
   }
 }
 
@@ -127,6 +125,6 @@
   justify-content: center;
 }
 
-[class="wfp--loading__svg"] {
+[class='wfp--loading__svg'] {
   stroke: white !important;
 }

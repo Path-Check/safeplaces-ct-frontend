@@ -1,13 +1,23 @@
 .navMenu {
   display: flex;
+  margin-top: 15px;
+
+  @media screen and (min-width: 700px) {
+    margin: 0;
+  }
 }
 
 .navMenuItem {
-  margin-left: 40px;
-  font-size: 20px;
+  margin-left: 20px;
+  font-size: 16px;
   text-decoration: none;
 
   color: rgba(248, 248, 255, 0.75);
+
+  @media screen and (min-width: 1200px) {
+    font-size: 20px;
+    margin-left: 40px;
+  }
 }
 
 .active {

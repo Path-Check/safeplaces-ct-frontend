@@ -1,5 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 
+import differenceBy from 'lodash/differenceBy';
+
 import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import pointsTypes from 'ducks/points/types';
@@ -14,29 +16,73 @@ function* deletePoint({ id }) {
   try {
     yield call(pointsService.delete, id);
     const currentPoints = yield select(pointsSelectors.getPoints);
-
-    // filter using ID
+    const currentFilteredPoints = yield select(
+      pointsSelectors.getFilteredPoints,
+    );
     const points = currentPoints.filter(p => p.pointId !== id);
 
+    if (currentFilteredPoints.length) {
+      const filteredPoints = currentFilteredPoints.filter(
+        p => p.pointId !== id,
+      );
+      yield put(pointsActions.setFilteredPoints(filteredPoints));
+    }
+
     yield put(pointsActions.updatePoints(points));
+
     yield put(
       applicationActions.notification({
         title: `Point Deleted`,
       }),
     );
+
     yield put(pointsActions.setSelectedPoint(null));
   } catch (error) {
     console.log(error);
 
     yield put(
       applicationActions.notification({
-        title: 'Unable to delete point',
+        title: 'Unable to delete point. ',
         text: 'Please try again.',
       }),
     );
   }
 
   yield put(applicationActions.updateStatus('CASE ACTIVE'));
+}
+
+function* deletePoints() {
+  yield put(applicationActions.updateStatus('BUSY'));
+  const filteredPoints = yield select(pointsSelectors.getFilteredPoints);
+  const points = yield select(pointsSelectors.getPoints);
+
+  try {
+    yield call(
+      pointsService.deletePoints,
+      filteredPoints.map(({ pointId }) => pointId),
+    );
+
+    const diff = differenceBy(points, filteredPoints, 'pointId');
+    yield put(pointsActions.updatePoints(diff));
+    yield put(pointsActions.setFilteredPoints([]));
+
+    yield put(
+      applicationActions.notification({
+        title: `${filteredPoints.length} Point(s) Deleted`,
+      }),
+    );
+    yield put(pointsActions.setSelectedPoint(null));
+
+    yield put(applicationActions.updateStatus('IDLE'));
+  } catch (error) {
+    yield put(applicationActions.updateStatus('DELETE POINTS'));
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to delete points',
+        text: 'Please try again.',
+      }),
+    );
+  }
 }
 
 function* updatePoint({ point, type }) {
@@ -48,14 +94,10 @@ function* updatePoint({ point, type }) {
 
   let data = null;
 
-  console.log(isEdit);
-  console.log(caseId);
-
   try {
     if (isEdit) {
       data = {
         ...point,
-        duration: 5,
       };
 
       const response = yield call(pointsService.edit, data);
@@ -66,10 +108,7 @@ function* updatePoint({ point, type }) {
     } else {
       data = {
         caseId,
-        point: {
-          ...point,
-          duration: 5,
-        },
+        point,
       };
 
       const response = yield call(pointsService.add, data);
@@ -93,16 +132,19 @@ function* updatePoint({ point, type }) {
   } catch (error) {
     yield put(
       applicationActions.notification({
-        title: `Unable to ${isEdit ? 'edit' : 'add'} point`,
+        title: `Unable to ${isEdit ? 'edit' : 'add'} point. `,
         text: 'Please try again.',
       }),
     );
-    yield put(applicationActions.updateStatus('ADD POINT'));
+    yield put(
+      applicationActions.updateStatus(isEdit ? 'EDIT POINT' : 'ADD POINT'),
+    );
   }
 }
 
 export default function* pointsSagas() {
   yield takeEvery(pointsTypes.DELETE_POINT, deletePoint);
+  yield takeEvery(pointsTypes.DELETE_POINTS, deletePoints);
   yield takeEvery(pointsTypes.EDIT_POINT, updatePoint);
   yield takeEvery(pointsTypes.ADD_POINT, updatePoint);
 }

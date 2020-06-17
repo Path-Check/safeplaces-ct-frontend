@@ -1,9 +1,19 @@
 @import 'scss/global';
 
-.dateInput {
+.dateInput,
+.dateInputWrapper {
   position: relative;
   width: 100%;
+  margin-bottom: 5px;
 
+  label {
+    display: block;
+    margin-bottom: 7.5px;
+    font-size: 14px;
+  }
+}
+
+.dateInput {
   input {
     background: #f8f8ff;
     border: 2px solid rgba(0, 0, 0, 0.1);
