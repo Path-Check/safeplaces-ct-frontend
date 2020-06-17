@@ -15,8 +15,10 @@ import SidebarHeader from 'components/_shared/Sidebar/SidebarHeader';
 import RecordsTable from 'components/_shared/RecordsTable';
 import PublishData from 'views/Publish/PublishData';
 import ErrorBoundary from 'components/_global/errorBoundary';
+import { useLastLocation } from 'react-router-last-location';
 
 const Publish = ({ record }) => {
+  const { pathname } = useLastLocation();
   const dispatch = useDispatch();
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
@@ -24,14 +26,16 @@ const Publish = ({ record }) => {
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const appMode = useSelector(state => applicationSelectors.getMode(state));
   useEffect(() => {
-    dispatch({
-      type: 'RESET_VIEW',
-    });
-  }, []);
+    if (!pathname.includes('settings')) {
+      dispatch({
+        type: 'RESET_VIEW',
+      });
+    }
+  }, [pathname]);
 
   useEffect(() => {
     dispatch(applicationActions.setMode('publish'));
-  }, [appMode]);
+  }, [appMode, dispatch]);
 
   return (
     <>
