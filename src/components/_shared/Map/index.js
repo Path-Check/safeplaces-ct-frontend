@@ -132,15 +132,15 @@ export default function Map({ setMap }) {
         zooming = new WebMercatorViewport({
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
-          zoom: 10,
         }).fitBounds(bounds, {
-          padding: 20,
+          padding: 30,
           offset: [40, 40],
         });
       }
       const viewportCalc = {
         ...viewport,
         ...zooming,
+        zoom: 10,
         transitionDuration: 500,
       };
       if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
