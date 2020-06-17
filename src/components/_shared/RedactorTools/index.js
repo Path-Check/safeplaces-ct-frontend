@@ -57,7 +57,6 @@ const RedactorTools = () => {
                   setChecked={setUseDurationFilter}
                   times={durationTimes}
                 />
-                <TravellingFilter />
               </>
             )}
           </FilterData>
