@@ -35,9 +35,7 @@ export default function Map({ setMap }) {
     mapSelectors.getLocationSelect(state),
   );
 
-  const renderedPoints = useSelector(state =>
-    pointsSelectors.getPsoints(state),
-  );
+  const renderedPoints = useSelector(state => pointsSelectors.getPoints(state));
 
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const renderPointEditor =
