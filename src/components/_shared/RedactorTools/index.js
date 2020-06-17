@@ -22,14 +22,16 @@ const RedactorTools = () => {
       <RedactorToolsHeader />
       <>
         {points?.length > 1 && <DateSelector dates={dates} />}
-        {(points?.length > 1 || isPublish) && (
-          <>
-            <FilterData>
-              {isPublish && <RecordIdsFilter />}
-              {/* <DurationFilter />
-            <TravellingFilter /> */}
-            </FilterData>
-          </>
+        {isPublish && (
+          <FilterData>
+            <RecordIdsFilter />
+            {points?.length > 1 && (
+              <>
+                <DurationFilter />
+                <TravellingFilter />
+              </>
+            )}
+          </FilterData>
         )}
       </>
       <SelectedDataList />
