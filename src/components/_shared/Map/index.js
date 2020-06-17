@@ -60,10 +60,10 @@ export default function Map({ setMap }) {
 
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
   const withBounds =
-    boundsObject.sw.longitude &&
-    boundsObject.sw.latitude &&
-    boundsObject.ne.longitude &&
-    boundsObject.ne.latitude;
+    boundsObject?.sw?.longitude &&
+    boundsObject?.sw?.latitude &&
+    boundsObject?.ne?.longitude &&
+    boundsObject?.ne?.latitude;
 
   const initial = withBounds
     ? new WebMercatorViewport({
