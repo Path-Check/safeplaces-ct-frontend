@@ -45,6 +45,12 @@ export default function reducer(state = initialState, action) {
         ...state,
         ...data,
       };
+    case pointsTypes.CLEAR_FILTERS:
+      return {
+        ...state,
+        useDurationFilter: initialState.useDurationFilter,
+        duration: initialState.duration,
+      };
     default:
       return state;
   }

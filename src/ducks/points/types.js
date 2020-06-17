@@ -8,6 +8,7 @@ const pointsTypes = {
   SET_DATE_RANGE: 'safeplaces/cases/SET_DATE_RANGE',
   SET_SINGLE_DATE: 'safeplaces/cases/SET_SINGLE_DATE',
   SET_FILTERS: 'safeplaces/cases/SET_FILTERS',
+  CLEAR_FILTERS: 'safeplaces/cases/CLEAR_FILTERS',
 };
 
 export default pointsTypes;

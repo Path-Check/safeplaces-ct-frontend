@@ -37,6 +37,9 @@ const pointsActions = {
     type: pointsTypes.SET_FILTERS,
     data,
   }),
+  clearFilters: () => ({
+    type: pointsTypes.CLEAR_FILTERS,
+  }),
 };
 
 export default pointsActions;
