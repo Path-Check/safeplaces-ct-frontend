@@ -19,7 +19,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/_shared/Button';
 
-const FilterData = ({ children }) => {
+const FilterData = ({ children, applyFilters }) => {
   const [filtersVisible, setFiltersVisible] = useState(false);
 
   return (
@@ -43,7 +43,9 @@ const FilterData = ({ children }) => {
       >
         <div className={filterBodyMain}>{children}</div>
         <div className={filterBodyActions}>
-          <Button small>Apply</Button>
+          <Button small onClick={applyFilters}>
+            Apply
+          </Button>
         </div>
       </div>
     </div>

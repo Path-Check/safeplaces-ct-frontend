@@ -4,6 +4,10 @@ const initialState = {
   points: [],
   filteredPoints: [],
   activePoint: null,
+  dateRange: [],
+  singleDate: null,
+  useDurationFilter: false,
+  duration: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -23,6 +27,29 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         filteredPoints: data,
+      };
+    case pointsTypes.SET_DATE_RANGE:
+      return {
+        ...state,
+        dateRange: data,
+        singleDate: initialState.singleDate,
+      };
+    case pointsTypes.SET_SINGLE_DATE:
+      return {
+        ...state,
+        singleDate: data,
+        dateRange: initialState.dateRange,
+      };
+    case pointsTypes.SET_FILTERS:
+      return {
+        ...state,
+        ...data,
+      };
+    case pointsTypes.CLEAR_FILTERS:
+      return {
+        ...state,
+        useDurationFilter: initialState.useDurationFilter,
+        duration: initialState.duration,
       };
     default:
       return state;

@@ -25,6 +25,21 @@ const pointsActions = {
     type: pointsTypes.ADD_POINT,
     point,
   }),
+  setDateRange: data => ({
+    type: pointsTypes.SET_DATE_RANGE,
+    data,
+  }),
+  setSingleDate: data => ({
+    type: pointsTypes.SET_SINGLE_DATE,
+    data,
+  }),
+  setFilters: data => ({
+    type: pointsTypes.SET_FILTERS,
+    data,
+  }),
+  clearFilters: () => ({
+    type: pointsTypes.CLEAR_FILTERS,
+  }),
 };
 
 export default pointsActions;

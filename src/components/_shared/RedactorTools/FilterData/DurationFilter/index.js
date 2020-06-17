@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -11,40 +11,16 @@ import {
   durationFilterSliderActive,
 } from './DurationFilter.module.scss';
 
-import { useDispatch, useSelector } from 'react-redux';
-import pointsSelectors from 'ducks/points/selectors';
-import pointsActions from 'ducks/points/actions';
-
-const DurationFilter = () => {
-  const dispatch = useDispatch();
-  const times = [10, 15, 30, 45, 60];
-  const [checked, setChecked] = useState(false);
-  const [duration, setDuration] = useState(times[0]);
-  const points = useSelector(state => pointsSelectors.getPoints(state));
-
+const DurationFilter = ({
+  duration,
+  setDuration,
+  times,
+  checked,
+  setChecked,
+}) => {
   const handleChange = value => {
     setDuration(times[value]);
   };
-
-  useEffect(() => {
-    if (checked) {
-      handleFilter();
-    } else {
-      dispatch(pointsActions.setFilteredPoints(points));
-    }
-  }, [checked]);
-
-  const handleFilter = () => {
-    const filterPoints = points.filter(
-      ({ duration: pointDuration }) => pointDuration <= duration,
-    );
-
-    dispatch(pointsActions.setFilteredPoints(filterPoints));
-  };
-
-  useEffect(() => {
-    handleFilter();
-  }, [duration]);
 
   const sliderClasses = classNames({
     [`${durationFilterSlider}`]: true,
