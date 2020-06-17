@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-spl-fe
+  labels:
+    app: prod-spl-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prod-spl-fe
+  template:
+    metadata:
+      labels:
+        app: prod-spl-fe
+    spec:
+      containers:
+        - name: prod-spl-fe
+          image: gcr.io/PROJECT_ID/IMAGE:TAG
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: PORT
+            value: "3000"
+          ports:
+            - name: react
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: react
+            initialDelaySeconds: 20
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: react
+            initialDelaySeconds: 30
+            periodSeconds: 2
