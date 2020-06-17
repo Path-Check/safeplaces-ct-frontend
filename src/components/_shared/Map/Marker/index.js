@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Marker } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -48,10 +48,18 @@ const MapMarker = ({
         latitude,
         longitude,
         time: timestamp,
+        duration,
       }),
     );
+
     setShowContentMenu(!showContentMenu);
   };
+
+  useEffect(() => {
+    if (!activePoint) {
+      setShowContentMenu(false);
+    }
+  }, [activePoint]);
 
   const classes = classNames({
     [`${marker}`]: true,
