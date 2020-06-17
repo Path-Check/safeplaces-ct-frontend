@@ -1,0 +1,115 @@
+@import 'scss/global';
+
+.checkboxContainer {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.alignLeft {
+  justify-content: flex-start;
+}
+
+.inputTitle {
+  font-size: 18px;
+  line-height: 24px;
+  margin-left: 12px;
+}
+
+.checkboxLabel {
+  position: relative;
+  height: 24px;
+  width: 24px;
+  color: #41dca4;
+  cursor: pointer;
+}
+
+.checkboxLabel input {
+  position: absolute;
+  opacity: 0;
+}
+
+.checkboxLabel .checkboxCustom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  transition: all 0.3s ease-out;
+  border: 2px solid currentColor;
+}
+
+.checkboxLabel input:checked ~ .checkboxCustom {
+  background-color: #ffffff;
+  border-radius: 4px;
+  transform: rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+.checkboxLabel input:disabled ~ .checkboxCustom {
+  color: #d6d6da;
+  background-color: #ffffff;
+  border: 2px solid currentColor;
+  transition: unset;
+
+  &:after,
+  &:before {
+    transition: unset;
+  }
+}
+
+.checkboxLabel .checkboxCustom::after {
+  position: absolute;
+  content: '';
+  left: 12px;
+  top: 12px;
+  height: 0;
+  width: 0;
+  border-radius: 4px;
+  border: solid currentColor;
+  border-width: 0 3px 3px 0;
+  transform: scale(0);
+  opacity: 1;
+  transition: all 0.3s ease-out;
+}
+
+.checkboxLabel input:checked ~ .checkboxCustom::after {
+  transform: rotate(45deg) scale(1);
+  opacity: 1;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 12px;
+  border: solid currentColor;
+  border-width: 0 4px 4px 0;
+  border-radius: 0;
+}
+
+.checkboxLabel .checkboxCustom::before {
+  position: absolute;
+  content: '';
+  left: 1px;
+  top: 1px;
+  width: 0;
+  height: 0;
+  border-radius: 4px;
+  border: 2px solid #ffffff;
+  transform: scale(0);
+}
+
+.checkboxLabel input:checked ~ .checkboxCustom::before {
+  width: 10px;
+  height: 10px;
+  border-radius: 4px;
+  transform: scale(3);
+  opacity: 0;
+  z-index: 999;
+}
+
+.checkboxContainerDisabled {
+  color: #d6d6da;
+}

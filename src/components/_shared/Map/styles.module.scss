@@ -1,0 +1,21 @@
+@import 'scss/global';
+
+.map {
+  height: calc(100vh - 75px);
+  width: 100%;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.mapCtrl {
+  margin-left: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+.geocoder {
+  position: absolute;
+  z-index: 1;
+  width: 50%;
+  left: calc(50% - 180px);
+  top: 10px;
+}

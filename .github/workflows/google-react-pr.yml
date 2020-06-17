@@ -1,0 +1,100 @@
+
+
+name: Run UI Tests
+
+on:
+  pull_request:
+    branches:
+      - dev
+  push:
+    branches:
+      - ui_tests
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GITHUB_SHA: ${{ github.sha }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+
+  prepare-containers:
+    name: Prepare Frontend & Testhost
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Checkout
+
+    # - name: Registry Login
+    #   uses: actions-hub/docker/login@master
+    #   env:
+    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+
+    
+    - name: Prepare Testhost
+      working-directory: ./tests/docker/testhost
+      run: |
+        ./prepare.sh
+
+    - name: Build Testhost Container
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: pathcheck/safeplaces-testhost
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: "${{ github.sha }} ,latest"
+        workdir: tests/docker/testhost
+
+    - name: Pull Latest SafePlaces Image.
+      run: docker pull pathcheck/safeplaces-frontend:latest 
+    
+
+    - name: Build Frontend Container
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: pathcheck/safeplaces-frontend
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: "${{ github.sha }} ,latest"
+
+  run-ui-tests:
+    name: Run UI Tests
+    runs-on: ubuntu-latest
+    #needs: prepare-containers
+    container: pathcheck/safeplaces-testhost:latest
+    env:
+      BASE_TEST_URL: 'http://apphost:3000'
+      SELENIUM_URL: 'http://selenium:4444/wd/hub'
+    # defaults:
+    #   run:
+    #     working-directory: ./tests/docker/testhost
+    
+
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        volumes:
+        - /dev/shm:/dev/shm
+        ports:
+        - 4444:4444
+      apphost:
+        image: pathcheck/safeplaces-frontend:latest
+        ports:
+          - 3000:3000
+
+    steps:
+
+
+    - name: setup 
+      uses: actions/checkout@v2
+
+    - name: Run Unit Test
+      shell: sh
+      working-directory: ./tests/docker/testhost
+      run: |
+        pytest   
+      

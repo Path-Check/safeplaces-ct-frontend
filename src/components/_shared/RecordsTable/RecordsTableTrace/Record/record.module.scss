@@ -1,0 +1,24 @@
+.record {
+  width: 100%;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+  line-height: 1.2;
+
+  &:last-of-type {
+    border: none;
+  }
+}
+
+.recordAction {
+  font-style: inherit;
+  color: #2434b6;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  padding: 0;
+  border-bottom: 1px solid #2434b6;
+}
+
+.staged {
+  font-style: italic;
+}

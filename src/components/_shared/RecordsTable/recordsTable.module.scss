@@ -1,0 +1,55 @@
+@import 'scss/defaults.scss';
+@import 'scss/palette.scss';
+
+.tableWrapper {
+  overflow: auto;
+  border-radius: 8px;
+}
+
+.table {
+  table-layout: fixed;
+  width: 100%;
+
+  tfoot,
+  thead {
+    background-color: $bgA;
+    width: 100%;
+
+    td,
+    th {
+      text-align: left;
+      padding: 15px 20px;
+    }
+  }
+
+  thead {
+    font-weight: 500;
+  }
+
+  tbody {
+    overflow: auto;
+  }
+
+  th {
+    font-size: 20px;
+  }
+}
+
+.tableMain {
+  box-shadow: inset 0 10px 5px -8px rgba(0, 0, 0, 0.25),
+    inset 0 -10px 5px -10px rgba(0, 0, 0, 0.25);
+  background-color: $white;
+  height: 400px;
+  max-height: calc(80vh - 140px);
+  overflow: auto;
+
+  td,
+  th {
+    padding: 20px;
+    text-align: left;
+  }
+}
+
+.tableAction {
+  margin-right: 20px;
+}

@@ -1,0 +1,6 @@
+{
+  "extends": ["react-app", "standard", "plugin:prettier/recommended"],
+  "rules": {
+    "no-unused-vars": 1
+  }
+}

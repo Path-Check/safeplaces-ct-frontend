@@ -1,72 +1,82 @@
-# Safe Places
+# Safeplaces frontend
 
-A toolkit for public health, built on top of data shared by users of [Private Kit](https://github.com/tripleblindmarket/private-kit)
+The application is a offline-first PWA. All the functionality should be available without having an API so no data is getting shared until you push to an API.
 
-## Project Status
+### Technology used
 
-[![Project Status: WIP – The project is still under development and will reach a Minimum Viable Product stage soon.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+- react.js
+- redux (redux-persist with localStorage to store all data on the device, redux-saga)
+- mapbox.gl
+- css modules with scss
+- jest for testing
 
-The project is still under development and will reach a Minimum Viable Product (MVP) stage soon.  
-*Note*: There can be breaking changes to the developing code until the MVP is released.
+### Structure
 
-## Server
+- use [ducks](https://github.com/erikras/ducks-modular-redux) scheme for redux implementation
 
-A server implementation can be easily built to host these tools. See how in the [Server API documentation](Safe-Places-Server.md).
+## Workflow
 
-## Tools
+## Roadmap
 
-### [Location Viewer/Scrubber](https://raw.githack.com/tripleblindmarket/safe-places/master/location-scrubber/index.html)
+- implement all features from the MVP-version
+- specs for API
+- specs for JSON file
+- calendar
 
-Tool to visualize and redact time/location data. Intended for use in Contact Tracing.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
--   Input: JSON exported/shared from Private Kit.
+## Install
 
--   Output: Redacted JSON of time/location data.
+clone the repository using the `dev_react` branch
 
-NOTE: The app requires a Google Maps Javascript API key to work fully
+Copy the `.env.template` file in the parent directory and rename it to `.env` file in the parent directory. In order to make the application work correctly you have to enter API keys for Mapbox and Google places. If you don't want to register new ones feel free to ask for working credentials in the Slack channel.
 
-<img  src="examples/Redaction_Tool_screenshot.png">
+```
+REACT_APP_GOOGLE_PLACES_KEY=GOOGLE_API_KEY_WITH_PLACES_ENABLED
+REACT_APP_GOOGLE_PLACES_LANGUAGE=en
+REACT_APP_MAPBOX_KEY=MAPBOX_API_KEY
+REACT_APP_API_URL=REACT_APP_API_URL
+```
 
-### [Publisher](https://raw.githack.com/tripleblindmarket/safe-places/master/publisher/index.html)
+## Available Scripts
 
-Tool to combind and publish redacted time/location data files. Intended for use by Healthcare Authorities.
+In the project directory, you can run:
 
--   Input: Redacted JSON time/location files.
+### `yarn start`
 
--   Output: `safe-paths.json` -- a file ready for posting on a webserver to be consumed by Private Kit : Safe Paths
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-NOTE: The app requires a Google Maps Javascript API key to work fully
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-<img  src="examples/Publishing_Tool_screenshot.png">
+### `yarn test`
 
-## Transpiling to ES5
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Before deployment run the following command to transpile JS code to ES5. Files in `js_es5` will be updated
+### `yarn build`
 
-> _npm run build_
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Deploying SafePlaces
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-  <!-- TOC -->
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
--   Deployment
-    -   [How to build SafePlaces docker container](#how-to-build-safeplaces-docker-container)
-    -   [How to run the SafePlaces container](#how-to-run-the-safeplaces--container)
-    -   [How to use SafePlaces](#how-to-use-safeplaces)
-    <!-- /TOC -->
+### `yarn eject`
 
-#### How to build SafePlaces docker container
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-> _docker build -t safe-places:latest ._
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-###### _Note: The container requires no state of persistence to run. All data is persisted within the browser_
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-#### How to run the SafePlaces container
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-> _docker run --rm --name safeplaces -it -p 80:80 safe-places:latest_
+## Learn More
 
-###### _Note: The "--rm" flag will ensure that the docker container is deleted and cleaned up upon termination_
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-#### How to use SafePlaces
-
--   Open you browser and load the url http://localhost:8080
+To learn React, check out the [React documentation](https://reactjs.org/).
