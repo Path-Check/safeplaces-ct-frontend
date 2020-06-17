@@ -5,10 +5,6 @@ const pointsActions = {
     type: pointsTypes.POINTS,
     points,
   }),
-  setFilteredPoints: data => ({
-    type: pointsTypes.FILTER_POINTS,
-    data,
-  }),
   setSelectedPoint: data => ({
     type: pointsTypes.ACTIVE_POINT,
     data,
@@ -28,6 +24,21 @@ const pointsActions = {
   addPoint: point => ({
     type: pointsTypes.ADD_POINT,
     point,
+  }),
+  setDateRange: data => ({
+    type: pointsTypes.SET_DATE_RANGE,
+    data,
+  }),
+  setSingleDate: data => ({
+    type: pointsTypes.SET_SINGLE_DATE,
+    data,
+  }),
+  setFilters: data => ({
+    type: pointsTypes.SET_FILTERS,
+    data,
+  }),
+  clearFilters: () => ({
+    type: pointsTypes.CLEAR_FILTERS,
   }),
 };
 

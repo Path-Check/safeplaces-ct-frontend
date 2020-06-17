@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -11,20 +11,16 @@ import {
   durationFilterSliderActive,
 } from './DurationFilter.module.scss';
 
-const DurationFilter = () => {
-  const times = [10, 15, 20, 25, 30, 45, 60];
-  const [checked, setChecked] = useState(false);
-  const [duration, setDuration] = useState(times[0]);
-
+const DurationFilter = ({
+  duration,
+  setDuration,
+  times,
+  checked,
+  setChecked,
+}) => {
   const handleChange = value => {
-    setDuration(times[value - 1]);
+    setDuration(times[value]);
   };
-
-  useEffect(() => {
-    if (checked) {
-      // fire API call with duration
-    }
-  }, [checked]);
 
   const sliderClasses = classNames({
     [`${durationFilterSlider}`]: true,
@@ -41,9 +37,9 @@ const DurationFilter = () => {
       />
       <div className={sliderClasses}>
         <Slider
-          min={1}
+          min={0}
+          max={times.length - 1}
           step={1}
-          max={4}
           onChange={handleChange}
           disabled={!checked}
         />
