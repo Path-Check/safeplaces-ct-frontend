@@ -9,17 +9,24 @@ import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
 import { returnFormattedDate } from 'helpers/dateTime';
 
+const friendlyStatuses = {
+  published: 'Published',
+  unpublished: 'In Progress',
+  staging: 'Staged For Publishing',
+};
+
 const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
   const dispatch = useDispatch();
   const updateDate = updatedAt;
   const expirationDate = expiresAt;
   const unpublished = state.toLowerCase() === 'unpublished';
+  const staged = state.toLowerCase() !== 'unpublished';
   const updated = returnFormattedDate(updateDate);
   const expires = returnFormattedDate(expirationDate);
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,
-    [`${styles.unpublished}`]: unpublished,
+    [`${styles.staged}`]: staged,
   });
 
   return (
@@ -39,7 +46,7 @@ const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
       <td colSpan="2">
         <time dateTime={updated}>{updated}</time>
       </td>
-      <td colSpan="1">{state}</td>
+      <td colSpan="1">{friendlyStatuses[state]}</td>
       <td colSpan="2">{expires}</td>
     </tr>
   );
