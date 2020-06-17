@@ -13,9 +13,7 @@ name: Deploy SafePlaces React to GKE
 on:
   push:
     branches:
-      - dev_react_automation
-      - dev_react
-      - dev
+      - staging
 
 # Environment variables available to all jobs and steps in this workflow
 env:
