@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, {
+  ScaleControl,
   NavigationControl,
   WebMercatorViewport,
 } from 'react-map-gl';
@@ -34,17 +35,9 @@ export default function Map({ setMap }) {
     mapSelectors.getLocationSelect(state),
   );
 
-  const pointsOfConcern = useSelector(state =>
-    pointsSelectors.getPoints(state),
+  const renderedPoints = useSelector(state =>
+    pointsSelectors.getPsoints(state),
   );
-
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
-
-  const renderedPoints = filteredPoints.length
-    ? filteredPoints
-    : pointsOfConcern;
 
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const renderPointEditor =
@@ -132,13 +125,14 @@ export default function Map({ setMap }) {
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
         }).fitBounds(bounds, {
-          padding: 20,
+          padding: 30,
           offset: [40, 40],
         });
       }
       const viewportCalc = {
         ...viewport,
         ...zooming,
+        zoom: 10,
         transitionDuration: 500,
       };
       if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
@@ -181,6 +175,7 @@ export default function Map({ setMap }) {
       >
         {editorMode && (
           <>
+            <ScaleControl maxWidth={100} unit={'metric'} />
             {renderedPoints.map((p, i) => (
               <MapMarker {...p} key={i} />
             ))}
