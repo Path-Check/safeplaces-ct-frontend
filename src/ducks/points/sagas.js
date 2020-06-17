@@ -1,5 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 
+import differenceBy from 'lodash/differenceBy';
+
 import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import pointsTypes from 'ducks/points/types';
@@ -47,6 +49,40 @@ function* deletePoint({ id }) {
   }
 
   yield put(applicationActions.updateStatus('CASE ACTIVE'));
+}
+
+function* deletePoints() {
+  yield put(applicationActions.updateStatus('BUSY'));
+  const filteredPoints = yield select(pointsSelectors.getFilteredPoints);
+  const points = yield select(pointsSelectors.getPoints);
+
+  try {
+    yield call(
+      pointsService.deletePoints,
+      filteredPoints.map(({ pointId }) => pointId),
+    );
+
+    const diff = differenceBy(points, filteredPoints, 'pointId');
+    yield put(pointsActions.updatePoints(diff));
+    yield put(pointsActions.setFilteredPoints([]));
+
+    yield put(
+      applicationActions.notification({
+        title: `${filteredPoints.length} Point(s) Deleted`,
+      }),
+    );
+    yield put(pointsActions.setSelectedPoint(null));
+
+    yield put(applicationActions.updateStatus('IDLE'));
+  } catch (error) {
+    yield put(applicationActions.updateStatus('DELETE POINTS'));
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to delete points',
+        text: 'Please try again.',
+      }),
+    );
+  }
 }
 
 function* updatePoint({ point, type }) {
@@ -108,6 +144,7 @@ function* updatePoint({ point, type }) {
 
 export default function* pointsSagas() {
   yield takeEvery(pointsTypes.DELETE_POINT, deletePoint);
+  yield takeEvery(pointsTypes.DELETE_POINTS, deletePoints);
   yield takeEvery(pointsTypes.EDIT_POINT, updatePoint);
   yield takeEvery(pointsTypes.ADD_POINT, updatePoint);
 }
