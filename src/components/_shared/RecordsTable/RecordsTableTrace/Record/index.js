@@ -10,7 +10,7 @@ import casesActions from 'ducks/cases/actions';
 import { returnFormattedDate } from 'helpers/dateTime';
 
 const Record = ({
-  id,
+  caseId,
   updated_at,
   updatedAt,
   state,
@@ -34,15 +34,15 @@ const Record = ({
     <tr className={recordClasses}>
       <td colSpan="1">
         {!unpublished ? (
-          id
+          caseId
         ) : (
-          <button
-            className={styles.recordAction}
-            onClick={() => dispatch(casesActions.loadCasePoints(id))}
-          >
-            {id}
-          </button>
-        )}
+            <button
+              className={styles.recordAction}
+              onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
+            >
+              {caseId}
+            </button>
+          )}
       </td>
       <td colSpan="2">
         <time dateTime={updated}>{updated}</time>
@@ -54,7 +54,7 @@ const Record = ({
 };
 
 Record.propTypes = {
-  id: PropTypes.number,
+  caseId: PropTypes.number,
   updatedAt: PropTypes.string,
   status: PropTypes.string,
   expiresIn: PropTypes.string,
