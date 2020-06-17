@@ -2,7 +2,6 @@ import pointsTypes from './types';
 
 const initialState = {
   points: [],
-  filteredPoints: [],
   activePoint: null,
   dateRange: [],
   singleDate: null,
@@ -22,11 +21,6 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         activePoint: data,
-      };
-    case pointsTypes.FILTER_POINTS:
-      return {
-        ...state,
-        filteredPoints: data,
       };
     case pointsTypes.SET_DATE_RANGE:
       return {
