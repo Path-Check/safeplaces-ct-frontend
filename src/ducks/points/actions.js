@@ -5,10 +5,6 @@ const pointsActions = {
     type: pointsTypes.POINTS,
     points,
   }),
-  setFilteredPoints: data => ({
-    type: pointsTypes.FILTER_POINTS,
-    data,
-  }),
   setSelectedPoint: data => ({
     type: pointsTypes.ACTIVE_POINT,
     data,
