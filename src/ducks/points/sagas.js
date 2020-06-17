@@ -42,7 +42,7 @@ function* deletePoint({ id }) {
 
     yield put(
       applicationActions.notification({
-        title: 'Unable to delete point',
+        title: 'Unable to delete point. ',
         text: 'Please try again.',
       }),
     );
@@ -132,7 +132,7 @@ function* updatePoint({ point, type }) {
   } catch (error) {
     yield put(
       applicationActions.notification({
-        title: `Unable to ${isEdit ? 'edit' : 'add'} point`,
+        title: `Unable to ${isEdit ? 'edit' : 'add'} point. `,
         text: 'Please try again.',
       }),
     );
