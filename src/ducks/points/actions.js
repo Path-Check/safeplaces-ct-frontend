@@ -17,10 +17,6 @@ const pointsActions = {
     type: pointsTypes.DELETE_POINT,
     id,
   }),
-  deletePoints: id => ({
-    type: pointsTypes.DELETE_POINTS,
-    id,
-  }),
   editPoint: point => ({
     type: pointsTypes.EDIT_POINT,
     point,

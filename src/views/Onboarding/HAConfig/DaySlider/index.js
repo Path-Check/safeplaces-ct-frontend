@@ -3,7 +3,7 @@ import Slider from 'rc-slider';
 import styles from './styles.module.scss';
 
 const DaySlider = ({ id, handleChange, value }) => {
-  const [day, setDay] = useState(value || 14);
+  const [day, setDay] = useState(value || 0);
 
   const onChange = d => {
     setDay(d);

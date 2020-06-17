@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
+import PropTypes from 'prop-types';
+
 import {
   selectedDataContextMenu,
   selectedDataContextMenuAction,
@@ -19,7 +21,13 @@ import applicationSelectors from 'ducks/application/selectors';
 import pointsActions from 'ducks/points/actions';
 import pointsSelectors from 'ducks/points/selectors';
 
-const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
+const SelectedDataContextMenu = ({
+  closeAction,
+  addAction,
+  deleteAllAction,
+  pointsLength,
+  deselectAllAction,
+}) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
@@ -78,25 +86,29 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
                 Unselect All
               </button>
             </li> */}
-            {isTrace && (
+            {/* {isTrace && (
               <li>
                 <button
                   type="button"
-                  onClick={() =>
-                    dispatch(applicationActions.updateStatus('DELETE POINTS'))
-                  }
+                  onClick={() => deleteAllAction()}
                   className={selectedDataContextMenuAction}
                 >
                   <FontAwesomeIcon icon={faTrash} />
                   Delete All Selected
                 </button>
               </li>
-            )}
+            )} */}
           </>
         )}
       </ul>
     </div>
   );
+};
+
+SelectedDataContextMenu.propTypes = {
+  deleteAction: PropTypes.func,
+  editAction: PropTypes.func,
+  deselectAction: PropTypes.func,
 };
 
 export default SelectedDataContextMenu;

@@ -2,15 +2,15 @@ import { setMinutes, setHours, isToday } from 'date-fns';
 
 import moment from 'moment';
 
-export const convertToHoursMins = point => {
-  if (!point || !point.duration) {
+export const convertToHoursMins = ({ duration }) => {
+  if (!duration) {
     return [0, 0];
   }
 
-  if (point.duration < 60) {
-    return [0, point.duration];
+  if (duration < 60) {
+    return [0, duration];
   } else {
-    return [Math.floor(point.duration / 60), point.duration % 60];
+    return [Math.floor(duration / 60), duration % 60];
   }
 };
 

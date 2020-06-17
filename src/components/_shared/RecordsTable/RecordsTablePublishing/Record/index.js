@@ -4,20 +4,15 @@ import React from 'react';
 
 import classNames from 'classnames';
 
+import moment from 'moment';
+
 import styles from './record.module.scss';
 import Checkbox from 'components/_shared/Checkbox/Checkbox';
-import { returnFormattedDate } from 'helpers/dateTime';
 
-const Record = ({
-  id,
-  state,
-  onChange,
-  staged_at,
-  stagedAt,
-  contact_tracer_id,
-}) => {
-  const processDate = staged_at || stagedAt;
-  const processed = returnFormattedDate(processDate);
+const Record = ({ id, state, onChange, staged_at, contact_tracer_id }) => {
+  const processDateFriendly = moment(staged_at).format(
+    'ddd, MMMM D, YYYY - h:ma',
+  );
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,
@@ -32,7 +27,7 @@ const Record = ({
         <label htmlFor={id}>{id}</label>
       </td>
       <td colSpan="2">
-        <time dateTime={processed}>{processed}</time>
+        <time dateTime={staged_at}>{processDateFriendly}</time>
       </td>
       <td colSpan="2">{contact_tracer_id ? `${contact_tracer_id}` : 'N/A'}</td>
     </tr>

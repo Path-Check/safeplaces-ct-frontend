@@ -25,7 +25,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
 import applicationSelectors from 'ducks/application/selectors';
-import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
 
 const PointContextMenu = ({
   pointId: id,
@@ -97,8 +96,7 @@ const PointContextMenu = ({
           </li>
           {duration && (
             <li>
-              <FontAwesomeIcon icon={faHourglass} />{' '}
-              {formattedDuration(duration)}
+              <FontAwesomeIcon icon={faHourglass} /> {duration}
             </li>
           )}
         </ul>

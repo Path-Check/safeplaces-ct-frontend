@@ -7,23 +7,19 @@ import moment from 'moment';
 import styles from './record.module.scss';
 import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
-import { returnFormattedDate } from 'helpers/dateTime';
 
 const Record = ({
   id,
-  updated_at,
   updatedAt,
   state,
-  expires_at,
   expiresAt,
+  isPublishing,
   onChange,
 }) => {
   const dispatch = useDispatch();
-  const updateDate = updated_at || updatedAt;
-  const expirationDate = expiresAt || expires_at;
   const unpublished = state.toLowerCase() === 'unpublished';
-  const updated = returnFormattedDate(updateDate);
-  const expires = returnFormattedDate(expirationDate);
+  const updated = moment(updatedAt).format('ddd, MMMM D, YYYY - h:ma');
+  const expires = moment(expiresAt).format('ddd, MMMM D, YYYY - h:ma');
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,

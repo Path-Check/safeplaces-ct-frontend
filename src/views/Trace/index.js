@@ -12,7 +12,6 @@ import TracerLoadActions from 'views/Trace/Actions/LoadActions';
 import AddNewRecord from 'views/Trace/AddNewRecord';
 
 import RecordAdded from 'views/Trace/RecordAdded';
-import DeletePoints from 'views/Trace/DeletePoints';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
 import StageForPublishing from 'views/Trace/StageForPublishing';
@@ -62,7 +61,7 @@ const Trace = () => {
       <RecordAdded />
 
       {appStatus === 'CASES ADDED' && <RecordsTable />}
-      {appStatus === 'DELETE POINTS' && <DeletePoints />}
+
       {appStatus === 'STAGE CASE' && <StageForPublishing />}
     </>
   );

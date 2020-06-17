@@ -11,8 +11,6 @@ const RedactorToolsHeader = ({ currentRecord }) => {
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const dispatch = useDispatch();
 
-  console.log(activeCase);
-
   if (!activeCase) {
     return null;
   }
@@ -30,13 +28,7 @@ const RedactorToolsHeader = ({ currentRecord }) => {
       >
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
-      {Array.isArray(activeCase) ? (
-        <>
-          {activeCase.length} Record{activeCase.length > 1 ? 's' : ''} Loaded
-        </>
-      ) : (
-        <h3>Record ID: {activeCase}</h3>
-      )}
+      <h3>Record ID: {activeCase}</h3>
     </header>
   );
 };
