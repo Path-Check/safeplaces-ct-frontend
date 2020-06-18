@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, {
   NavigationControl,
   WebMercatorViewport,
+  ScaleControl,
 } from 'react-map-gl';
 import PopupWrapper from './Popup';
 
@@ -12,7 +13,6 @@ import getBounds from 'components/_shared/Map/getBounds';
 
 import { defaultMapStyle } from 'components/_shared/Map/config';
 
-import Notifications from 'components/_global/Notifications';
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
 import pointsSelectors from 'ducks/points/selectors';
@@ -132,7 +132,6 @@ export default function Map({ setMap }) {
     if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
       setViewport(viewportCalc);
     }
-
   }, [
     filteredPoints.length,
     dateRange,
@@ -142,7 +141,6 @@ export default function Map({ setMap }) {
     loaded,
     selectedLocation,
   ]);
-
 
   useEffect(() => {
     if (!locationSelect && popupLocation) {
@@ -176,6 +174,7 @@ export default function Map({ setMap }) {
           }
         }}
       >
+        <ScaleControl maxWidth={100} unit={'metric'} />
         {editorMode && (
           <>
             {filteredPoints.map((p, i) => (
