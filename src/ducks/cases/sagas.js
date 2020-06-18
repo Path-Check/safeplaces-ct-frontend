@@ -8,7 +8,7 @@ import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
 import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
-import { mapPoints } from 'helpers/pointsUtils'
+import { mapPoints } from 'helpers/pointsUtils';
 
 function* addCases({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -99,7 +99,7 @@ function* loadCasePoints({ type, caseId }) {
       data,
     });
 
-    const mappedPoints = mapPoints(response.data.concernPoints)
+    const mappedPoints = mapPoints(response.data.concernPoints);
 
     yield put(casesActions.setCase(caseId));
     yield put(pointsActions.updatePoints(mappedPoints));
@@ -147,7 +147,7 @@ function* checkCaseGPSDataSaga() {
     const response = yield call(enrichCase, {
       caseId,
     });
-    const mappedPoints = mapPoints(response.data.concernPoints)
+    const mappedPoints = mapPoints(response.data.concernPoints);
     yield put(pointsActions.updatePoints(mappedPoints));
     yield put(casesActions.setCase(caseId));
     yield put(applicationActions.renderEditor(true));
@@ -276,17 +276,22 @@ function* updateExternalId({ externalId }) {
 function* setRecordId() {
   const activeCaseId = yield select(casesSelectors.getActiveCase);
 
-  if (Array.isArray(activeCaseId)) {
+  if (!activeCaseId && Array.isArray(activeCaseId)) {
     return;
   }
 
   const cases = yield select(casesSelectors.getCases);
 
-  const { externalId } = cases.find(({ caseId }) => activeCaseId === caseId);
-
-  if (externalId) {
-    yield put(casesActions.setExternalId(externalId));
+  if (!cases || cases?.length < 1) {
+    return;
   }
+
+  const targetCase = cases.find(({ caseId }) => activeCaseId === caseId);
+
+  if (!targetCase) {
+    return;
+  }
+  yield put(casesActions.setExternalId(targetCase.externalId));
 }
 
 export default function* casesSagas() {

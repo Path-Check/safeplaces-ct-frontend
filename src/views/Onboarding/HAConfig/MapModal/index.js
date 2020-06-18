@@ -4,23 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import Map from '../Map';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
 const MapModal = ({ open, openMapModal, confirmBounds, regionCoordinates }) => {
   const node = useRef(null);
 
-  useEffect(() => {
-    function handleKeyDown(e) {
-      if (e.key === 'Escape') {
-        openMapModal(false);
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [openMapModal]);
-
+  useCloseOnEscape(() => openMapModal(false));
   useOnClickOutside(node, () => openMapModal(false));
 
   return open ? (
