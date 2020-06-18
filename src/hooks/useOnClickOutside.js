@@ -3,9 +3,13 @@ import { useEffect, useCallback } from 'react';
 export const useOnClickOutside = (ref, callback) => {
   const handleClick = useCallback(
     event => {
+      console.log(ref);
+
       if (!ref.current || ref.current.contains(event.target)) {
         return;
       }
+
+      console.log('here');
 
       callback();
     },
