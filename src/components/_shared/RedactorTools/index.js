@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import RedactorToolsHeader from 'components/_shared/RedactorTools/Header';
 import DateSelector from 'components/_shared/RedactorTools/DateSelector';
@@ -44,6 +44,11 @@ const RedactorTools = () => {
 
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
+
+
+  useEffect(() => {
+    setUseDurationFilter(useDurationFilterStore)
+  }, [useDurationFilterStore])
 
   return (
     <>
