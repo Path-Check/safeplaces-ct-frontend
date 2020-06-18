@@ -29,8 +29,6 @@ const RecordIdsFilter = () => {
   }, [localCases]);
 
   useEffect(() => {
-    console.log(filteredPoints);
-
     if (filteredPoints.length < 1) {
       setLocalCases(cases);
     }

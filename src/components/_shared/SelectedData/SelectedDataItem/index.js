@@ -127,7 +127,7 @@ const SelectedDataItem = ({
 };
 
 SelectedDataItem.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   latLng: PropTypes.array,
   date: PropTypes.string,
   time: PropTypes.string,

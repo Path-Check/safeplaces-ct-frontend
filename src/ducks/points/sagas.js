@@ -28,8 +28,6 @@ function* deletePoint({ id }) {
 
     yield put(pointsActions.setSelectedPoint(null));
   } catch (error) {
-    console.log(error);
-
     yield put(
       applicationActions.notification({
         title: 'Unable to delete point. ',

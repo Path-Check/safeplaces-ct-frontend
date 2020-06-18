@@ -31,7 +31,6 @@ const Trace = () => {
   const mode = useSelector(state => applicationSelectors.getMode(state));
 
   useEffect(() => {
-    console.log('here');
     if (!pathname.includes('settings')) {
       dispatch({
         type: 'RESET_VIEW',
