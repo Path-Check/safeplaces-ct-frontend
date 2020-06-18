@@ -29,8 +29,6 @@ const colorScale = {
 };
 
 const returnColor = duration => {
-  console.log(duration);
-
   if (duration < 15) {
     return colorScale.light;
   } else if (duration < 60) {

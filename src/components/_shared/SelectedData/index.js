@@ -24,28 +24,31 @@ import pointsActions from '../../../ducks/points/actions';
 const SelectedDataList = () => {
   const [showContentMenu, setShowContentMenu] = useState(false);
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
-  const isFiltered = useSelector(state => pointsSelectors.isFiltered(state));
   const dispatch = useDispatch();
   const points = useSelector(state => pointsSelectors.getPoints(state));
+
+  const activeFilters = useSelector(state =>
+    pointsSelectors.getActiveFilters(state),
+  );
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
-  const noFilteredPoints =
-    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
+  const hiddenPoints = points.filter(({ hidden }) => hidden);
 
   return (
     <div className={selectedDataWrapper}>
-      {points.length > 1 && isFiltered && (
-        <button
-          onClick={() => dispatch(pointsActions.clearFilters())}
-          className={clearFilters}
-        >
-          Clear all filters
-        </button>
-      )}
+      {activeFilters ||
+        (hiddenPoints.length > 0 && (
+          <button
+            onClick={() => dispatch(pointsActions.clearFilters())}
+            className={clearFilters}
+          >
+            Clear all filters
+          </button>
+        ))}
       <div className={selectedDataHeader}>
         <h5>Selected Data</h5>
         <div className={selectedDataHeaderInfo}>
