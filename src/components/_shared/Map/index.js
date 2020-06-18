@@ -131,7 +131,6 @@ export default function Map({ setMap }) {
     if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
       setViewport(viewportCalc);
     }
-
   }, [
     filteredPoints.length,
     dateRange,
