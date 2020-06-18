@@ -9,6 +9,7 @@ const pointsTypes = {
   SET_GEOMETRY: 'safeplaces/cases/SET_GEOMETRY',
   SET_SINGLE_DATE: 'safeplaces/cases/SET_SINGLE_DATE',
   SET_FILTERS: 'safeplaces/cases/SET_FILTERS',
+  SET_RECORD_IDS: 'safeplaces/cases/SET_RECORD_IDS',
   CLEAR_FILTERS: 'safeplaces/cases/CLEAR_FILTERS',
   HIDE_POINT: 'safeplaces/cases/HIDE_POINT',
 };
