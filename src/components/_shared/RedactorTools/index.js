@@ -19,19 +19,14 @@ const RedactorTools = () => {
   return (
     <>
       <RedactorToolsHeader />
-      {/* <>
+      <>
         {points?.length > 1 && <DateSelector dates={dates} />}
         {isPublish && (
           <FilterData>
             <RecordIdsFilter />
-            {points?.length > 1 && (
-              <>
-                <DurationFilter />
-              </>
-            )}
           </FilterData>
         )}
-      </> */}
+      </>
       <SelectedDataList />
     </>
   );

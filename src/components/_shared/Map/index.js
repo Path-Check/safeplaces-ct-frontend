@@ -133,14 +133,12 @@ export default function Map({ setMap }) {
           width: mapRef.current._width, // mapObject.offsetWidth,
           height: mapRef.current._height, // mapObject.offsetHeight
         }).fitBounds(bounds, {
-          padding: 30,
-          offset: [40, 40],
+          padding: 20,
         });
       }
       const viewportCalc = {
         ...viewport,
         ...zooming,
-        zoom: 10,
         transitionDuration: 500,
       };
       if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
