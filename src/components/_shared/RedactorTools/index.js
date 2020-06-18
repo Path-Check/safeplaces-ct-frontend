@@ -39,9 +39,6 @@ const RedactorTools = () => {
 
   const handleCheck = e => {
     const checked = e.target.checked;
-
-    console.log(checked);
-
     setUseDurationFilter(checked);
   };
 
