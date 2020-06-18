@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, data, points } = action;
+  const { type, data, points, id } = action;
   switch (type) {
     case pointsTypes.POINTS:
       return {
@@ -44,6 +44,17 @@ export default function reducer(state = initialState, action) {
         ...state,
         useDurationFilter: initialState.useDurationFilter,
         duration: initialState.duration,
+      };
+    case pointsTypes.CLEAR_FILTERS:
+      return {
+        ...state,
+        useDurationFilter: initialState.useDurationFilter,
+        duration: initialState.duration,
+      };
+    case pointsTypes.HIDE_POINT:
+      return {
+        ...state,
+        points: state.points.map(point => point.id === id ? { ...point, hidden: true } : point)
       };
     default:
       return state;

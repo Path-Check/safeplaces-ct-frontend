@@ -132,8 +132,6 @@ export default function Map({ setMap }) {
       setViewport(viewportCalc);
     }
 
-    console.log('filteredPoints')
-    console.log(filteredPoints)
   }, [
     filteredPoints.length,
     dateRange,
