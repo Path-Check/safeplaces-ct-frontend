@@ -9,46 +9,49 @@ import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
 import { returnFormattedDate } from 'helpers/dateTime';
 
-const Record = ({
-  id,
-  updated_at,
-  updatedAt,
-  state,
-  expires_at,
-  expiresAt,
-  onChange,
-}) => {
+const friendlyStatuses = {
+  published: 'Published',
+  unpublished: 'In Progress',
+  staging: 'Staged For Publishing',
+};
+
+const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
   const dispatch = useDispatch();
-  const updateDate = updated_at || updatedAt;
-  const expirationDate = expiresAt || expires_at;
+  const updateDate = updatedAt;
+  const expirationDate = expiresAt;
   const unpublished = state.toLowerCase() === 'unpublished';
+  const staged = state.toLowerCase() !== 'unpublished';
   const updated = returnFormattedDate(updateDate);
   const expires = returnFormattedDate(expirationDate);
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,
-    [`${styles.unpublished}`]: unpublished,
+    [`${styles.staged}`]: staged,
   });
 
   return (
     <tr className={recordClasses}>
-      <td colSpan="1">
-        {!unpublished ? (
-          id
-        ) : (
-          <button
-            className={styles.recordAction}
-            onClick={() => dispatch(casesActions.loadCasePoints(id))}
-          >
-            {id}
-          </button>
-        )}
-      </td>
-      <td colSpan="2">
-        <time dateTime={updated}>{updated}</time>
-      </td>
-      <td colSpan="1">{state}</td>
-      <td colSpan="2">{expires}</td>
+      {caseId && (
+        <td colSpan="1">
+          {!unpublished ? (
+            caseId
+          ) : (
+            <button
+              className={styles.recordAction}
+              onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
+            >
+              {caseId}
+            </button>
+          )}
+        </td>
+      )}
+      {updated && (
+        <td colSpan="2">
+          <time dateTime={updated}>{updated}</time>
+        </td>
+      )}
+      {state && <td colSpan="1">{friendlyStatuses[state]}</td>}
+      {expires && <td colSpan="2">{expires}</td>}
     </tr>
   );
 };
