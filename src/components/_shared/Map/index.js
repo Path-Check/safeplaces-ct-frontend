@@ -102,8 +102,6 @@ export default function Map({ setMap }) {
   useEffect(() => {
     let zooming = {};
 
-    console.log('here');
-
     if (!loaded) {
       return;
     }
