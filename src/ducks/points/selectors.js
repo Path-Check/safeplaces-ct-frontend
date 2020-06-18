@@ -68,13 +68,7 @@ const pointsSelectors = {
       useDurationFilter,
     } = state.points;
 
-    return (
-      useDurationFilter ||
-      duration ||
-      geometry ||
-      singleDate ||
-      dateRange.length > 0
-    );
+    return useDurationFilter || geometry || singleDate || dateRange.length > 0;
   },
   getPointsDates: state => {
     const sortedArray = state.points.points.sort(
