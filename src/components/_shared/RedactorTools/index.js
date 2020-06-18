@@ -37,6 +37,14 @@ const RedactorTools = () => {
     );
   };
 
+  const handleCheck = e => {
+    const checked = e.target.checked;
+
+    console.log(checked);
+
+    setUseDurationFilter(checked);
+  };
+
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
@@ -54,7 +62,7 @@ const RedactorTools = () => {
                   duration={duration}
                   setDuration={setDuration}
                   checked={useDurationFilter}
-                  setChecked={setUseDurationFilter}
+                  setChecked={handleCheck}
                   times={durationTimes}
                 />
               </>
