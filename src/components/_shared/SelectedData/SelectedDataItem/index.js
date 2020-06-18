@@ -69,10 +69,6 @@ const SelectedDataItem = ({
       }),
     );
 
-    if (!isTrace) {
-      return;
-    }
-
     setShowContentMenu(!showContentMenu);
   };
 
@@ -108,11 +104,9 @@ const SelectedDataItem = ({
             )}
           </ul>
         </div>
-        {isTrace && (
-          <div className={selectedDataMenuAction} type="button">
-            <FontAwesomeIcon icon={faEllipsisV} />
-          </div>
-        )}
+        <div className={selectedDataMenuAction} type="button">
+          <FontAwesomeIcon icon={faEllipsisV} />
+        </div>
       </button>
       {showContentMenu && isHighlighted && (
         <PointContextMenu

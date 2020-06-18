@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import applicationSelectors from 'ducks/application/selectors';
 import pointsActions from 'ducks/points/actions';
 import pointsSelectors from 'ducks/points/selectors';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
   const containerRef = useRef();
@@ -29,23 +30,7 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
   const noFilteredPoints =
     useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
 
-  const handleClick = e => {
-    const _Target = e.target;
-
-    if (!containerRef.current) return;
-
-    if (!containerRef.current.contains(_Target)) {
-      closeAction();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClick);
-
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  }, [handleClick]);
+  useOnClickOutside(containerRef, () => closeAction());
 
   return (
     <div className={selectedDataContextMenu} ref={containerRef}>

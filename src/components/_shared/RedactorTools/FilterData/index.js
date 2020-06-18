@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   faCaretUp,
@@ -18,12 +18,16 @@ import {
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/_shared/Button';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const FilterData = ({ children, applyFilters }) => {
+  const containerRef = useRef();
   const [filtersVisible, setFiltersVisible] = useState(false);
 
+  useOnClickOutside(containerRef, () => setFiltersVisible(false));
+
   return (
-    <div className={filterData}>
+    <div className={filterData} ref={containerRef}>
       <div className={filterDataHeader}>
         <h5>
           <FontAwesomeIcon icon={faFilter} /> Filter Data
@@ -43,7 +47,13 @@ const FilterData = ({ children, applyFilters }) => {
       >
         <div className={filterBodyMain}>{children}</div>
         <div className={filterBodyActions}>
-          <Button small onClick={applyFilters}>
+          <Button
+            small
+            onClick={() => {
+              applyFilters();
+              setFiltersVisible(false);
+            }}
+          >
             Apply
           </Button>
         </div>

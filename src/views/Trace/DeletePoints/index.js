@@ -22,7 +22,7 @@ const DeletePoints = () => {
   const points = useSelector(state => pointsSelectors.getPoints(state));
 
   return (
-    <Modal>
+    <Modal closeAction={() => dispatch(applicationActions.updateStatus(''))}>
       <Dialog width="650px">
         <header className={deletePointsWrapper}>
           <h3>Delete Multiple Points</h3>

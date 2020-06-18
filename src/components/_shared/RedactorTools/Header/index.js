@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,15 +18,19 @@ import casesSelectors from 'ducks/cases/selectors';
 import caseAction from 'ducks/cases/actions';
 import EditRecordModal from './EditRecordModal';
 import applicationSelectors from 'ducks/application/selectors';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
+  const containerRef = useRef();
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const mode = useSelector(state => applicationSelectors.getMode(state));
   const [showModal, setShowModal] = useState(false);
   const [showEditRecordButton, setEditRecordButton] = useState(false);
   const [externalInputValue, setInputValue] = useState('');
+
+  useOnClickOutside(containerRef, () => setEditRecordButton(false));
 
   const onChangeHandler = event => {
     setInputValue(event.target.value);
@@ -67,7 +71,7 @@ const RedactorToolsHeader = () => {
 
   return (
     <>
-      <header className={redactorToolsHeader}>
+      <header className={redactorToolsHeader} ref={containerRef}>
         <button
           type="button"
           onClick={() =>
@@ -98,9 +102,9 @@ const RedactorToolsHeader = () => {
             <FontAwesomeIcon icon={faEllipsisV} />
           </button>
         )}
+        {showEditRecordButton && <EditRecordButton />}
       </header>
 
-      {showEditRecordButton && <EditRecordButton />}
       <EditRecordModal
         onSubmit={onSubmit}
         externalInputValue={externalInputValue}
