@@ -8,3 +8,8 @@ export const toPoint = point => ({
     coordinates: [point.longitude, point.latitude],
   },
 });
+
+export const returnGeoPoints = points => ({
+  type: 'FeatureCollection',
+  features: points.map((point, index) => toPoint(point)),
+});

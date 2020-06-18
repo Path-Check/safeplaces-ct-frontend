@@ -2,12 +2,16 @@ import pointsTypes from './types';
 
 const initialState = {
   points: [],
-  filteredPoints: [],
   activePoint: null,
+  dateRange: [],
+  singleDate: null,
+  useDurationFilter: false,
+  duration: null,
+  geometry: null,
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, data, points } = action;
+  const { type, data, points, geometry } = action;
   switch (type) {
     case pointsTypes.POINTS:
       return {
@@ -19,10 +23,34 @@ export default function reducer(state = initialState, action) {
         ...state,
         activePoint: data,
       };
-    case pointsTypes.FILTER_POINTS:
+    case pointsTypes.SET_DATE_RANGE:
       return {
         ...state,
-        filteredPoints: data,
+        dateRange: data,
+        singleDate: initialState.singleDate,
+      };
+    case pointsTypes.SET_SINGLE_DATE:
+      return {
+        ...state,
+        singleDate: data,
+        dateRange: initialState.dateRange,
+      };
+    case pointsTypes.SET_GEOMETRY:
+      return {
+        ...state,
+        geometry,
+      };
+    case pointsTypes.SET_FILTERS:
+      return {
+        ...state,
+        ...data,
+      };
+    case pointsTypes.CLEAR_FILTERS:
+      return {
+        ...state,
+        useDurationFilter: initialState.useDurationFilter,
+        duration: initialState.duration,
+        geometry: initialState.geometry,
       };
     default:
       return state;

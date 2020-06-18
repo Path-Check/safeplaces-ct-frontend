@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-import PropTypes from 'prop-types';
-
 import {
   selectedDataContextMenu,
   selectedDataContextMenuAction,
@@ -21,24 +19,15 @@ import applicationSelectors from 'ducks/application/selectors';
 import pointsActions from 'ducks/points/actions';
 import pointsSelectors from 'ducks/points/selectors';
 
-const SelectedDataContextMenu = ({
-  closeAction,
-  addAction,
-  deleteAllAction,
-  pointsLength,
-  deselectAllAction,
-}) => {
+const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
 
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
-  const points = useSelector(state => pointsSelectors.getPoints(state));
-  const noFilteredPoints = filteredPoints.length < 1;
+  const noFilteredPoints =
+    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
 
   const handleClick = e => {
     const _Target = e.target;
@@ -56,7 +45,7 @@ const SelectedDataContextMenu = ({
     return () => {
       document.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [handleClick]);
 
   return (
     <div className={selectedDataContextMenu} ref={containerRef}>
@@ -77,41 +66,37 @@ const SelectedDataContextMenu = ({
           </li>
         )}
 
-        {!noFilteredPoints && filteredPoints.length !== points.length && (
+        {!noFilteredPoints && (
           <>
-            <li>
+            {/* <li>
               <button
                 type="button"
-                onClick={() => dispatch(pointsActions.setFilteredPoints([]))}
+                onClick={() => dispatch(pointsActions.clearFilters())}
                 className={selectedDataContextMenuAction}
               >
                 <FontAwesomeIcon icon={faMinusCircle} />
                 Unselect All
               </button>
-            </li>
-            {/* {isTrace && (
+            </li> */}
+            {isTrace && (
               <li>
                 <button
                   type="button"
-                  onClick={() => deleteAllAction()}
+                  onClick={() =>
+                    dispatch(applicationActions.updateStatus('DELETE POINTS'))
+                  }
                   className={selectedDataContextMenuAction}
                 >
                   <FontAwesomeIcon icon={faTrash} />
                   Delete All Selected
                 </button>
               </li>
-            )} */}
+            )}
           </>
         )}
       </ul>
     </div>
   );
-};
-
-SelectedDataContextMenu.propTypes = {
-  deleteAction: PropTypes.func,
-  editAction: PropTypes.func,
-  deselectAction: PropTypes.func,
 };
 
 export default SelectedDataContextMenu;

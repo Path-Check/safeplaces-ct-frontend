@@ -1,24 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'components/_shared/Button';
-import DateInput from 'components/_shared/DateInput';
-
-import LocationSearchInput from 'components/_shared/LocationSearch';
-
-import moment from 'moment';
-
-import {
-  pointEditor,
-  locationControls,
-  pointEditorHeader,
-  closeAction,
-  timeControls,
-  durationControls,
-} from './PointEditor.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs, faTimes } from '@fortawesome/pro-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
@@ -27,8 +9,36 @@ import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
 
+import {
+  convertToHoursMins,
+  convertToMins,
+  canSubmit,
+  validateTimeDuration,
+  returnMaxTime,
+  returnMinTime,
+} from 'components/PointEditor/_helpers';
+
+import {
+  pointEditor,
+  locationControls,
+  pointEditorHeader,
+  closeAction,
+  timeControls,
+  durationControls,
+  durationControl,
+} from './PointEditor.module.scss';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrosshairs, faTimes } from '@fortawesome/pro-solid-svg-icons';
+
+import Button from 'components/_shared/Button';
+import DateInput from 'components/_shared/DateInput';
+import LocationSearchInput from 'components/_shared/LocationSearch';
+import TextInput from '@wfp/ui/lib/components/TextInput';
+
 const PointEditor = ({ isEdit }) => {
   const dispatch = useDispatch();
+  const now = new Date();
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
@@ -36,85 +46,62 @@ const PointEditor = ({ isEdit }) => {
     mapSelectors.getLocation(state),
   );
   const initialLocation = isEdit
-    ? `${activePoint?.longitude}, ${activePoint?.latitude}`
+    ? `${activePoint?.latitude}, ${activePoint?.longitude}`
     : '';
-  const addValidation =
-    !selectedLocation?.latitude ||
-    !selectedLocation?.longitude ||
-    !selectedLocation?.from ||
-    !selectedLocation?.to;
-  const editValidation = !selectedLocation;
-  const isDisabled = isEdit ? editValidation : addValidation;
 
-  const returnEndTime = () => {
-    let from = null;
-    let duration = null;
-
-    if (!activePoint || !activePoint.duration || !activePoint.time) {
-      return null;
-    }
-
-    from = activePoint.time;
-    duration = activePoint.duration;
-
-    return moment(from).add(duration, 'minutes');
-  };
+  const [localDuration, setLocalDuration] = useState([0, 0]);
+  const isDisabled = isEdit ? !selectedLocation : canSubmit(selectedLocation);
 
   useEffect(() => {
-    if (isEdit) {
+    if (!isEdit) {
+      return;
+    }
+
+    if (!activePoint) {
+      console.error('no active point');
+      return;
+    }
+
+    const [hours, mins] = convertToHoursMins(activePoint);
+    setLocalDuration([hours, mins]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(
+      mapActions.updateLocation({
+        ...selectedLocation,
+        duration: convertToMins(localDuration),
+      }),
+    );
+  }, [localDuration]);
+
+  const handleChange = (type, value) => {
+    if (type === 'latLng') {
       dispatch(
         mapActions.updateLocation({
-          from: activePoint?.time,
-          to: returnEndTime(),
+          ...selectedLocation,
+          longitude: value.lng,
+          latitude: value.lat,
+        }),
+      );
+    } else {
+      dispatch(
+        mapActions.updateLocation({
+          ...selectedLocation,
+          time: value,
         }),
       );
     }
-  }, []);
-
-  const handleChange = (type, data) => {
-    console.log(selectedLocation);
-
-    switch (type) {
-      case 'latLng':
-        dispatch(
-          mapActions.updateLocation({
-            ...selectedLocation,
-            longitude: data.lng,
-            latitude: data.lat,
-          }),
-        );
-        break;
-      case 'dateFrom':
-        console.log(selectedLocation);
-        dispatch(
-          mapActions.updateLocation({
-            ...selectedLocation,
-            from: data,
-          }),
-        );
-        break;
-      case 'dateTo':
-        dispatch(
-          mapActions.updateLocation({
-            ...selectedLocation,
-            to: data,
-          }),
-        );
-        break;
-
-      default:
-        break;
-    }
   };
 
-  const returnDuration = (from, to) => {
-    const minutes = moment(to).diff(moment(from), 'minutes');
+  const handleDuration = e => {
+    const target = e.target;
 
-    if (!from || !to) {
-      return null;
+    if (target.name === 'durationHours') {
+      setLocalDuration([parseInt(e.target.value, 10), localDuration[1]]);
+    } else {
+      setLocalDuration([localDuration[0], parseInt(e.target.value, 10)]);
     }
-
-    return minutes;
   };
 
   const generatePayload = () => {
@@ -122,24 +109,21 @@ const PointEditor = ({ isEdit }) => {
       return {
         ...activePoint,
         ...selectedLocation,
-        time: selectedLocation.from || activePoint.time,
-        duration: returnDuration(
-          selectedLocation.from || activePoint.time,
-          selectedLocation.to,
-        ),
+        duration: convertToMins(localDuration),
       };
     } else {
       return {
         latitude: selectedLocation.latitude,
         longitude: selectedLocation.longitude,
-        time: selectedLocation.from,
-        duration: returnDuration(selectedLocation.from, selectedLocation.to),
+        time: selectedLocation.time,
+        duration: convertToMins(localDuration),
       };
     }
   };
 
   const handleSubmit = () => {
     const payload = generatePayload();
+    const validDuration = validateTimeDuration(selectedLocation);
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
@@ -179,32 +163,48 @@ const PointEditor = ({ isEdit }) => {
             <FontAwesomeIcon icon={faCrosshairs} /> Select from Map
           </Button>
         </div>
+        <div className={timeControls}>
+          <DateInput
+            type="time"
+            id="time"
+            label="Date - Time"
+            minDate={new Date('2019-12-31T12:05:00-05:00')}
+            maxDate={now}
+            minTime={returnMinTime()}
+            maxTime={returnMaxTime(selectedLocation?.time)}
+            handleChange={handleChange}
+            displayValue={isEdit ? activePoint?.time : null}
+            selectedValue={selectedLocation?.time}
+            placeholder="01/01/2020 - 12:00AM"
+          />
+        </div>
 
         <div className={durationControls}>
-          <h5>Duration</h5>
-          <div className={timeControls}>
-            <DateInput
-              type="dateFrom"
-              id="dateFrom"
-              label="Start"
-              maxDate={moment(selectedLocation?.to).toDate()}
-              handleChange={handleChange}
-              displayValue={isEdit ? selectedLocation?.to : null}
-              selectedValue={selectedLocation?.from}
-              placeholder="01/01/2020  -  12:00AM"
+          <h6>Duration</h6>
+          <div className={durationControl}>
+            <TextInput
+              id="durationHours"
+              name="durationHours"
+              onChange={handleDuration}
+              step="1"
+              min="0"
+              type="number"
+              value={localDuration[0]}
             />
+            <label htmlFor="durationHours">Hours</label>
           </div>
-          <div className={timeControls}>
-            <DateInput
-              type="dateTo"
-              id="dateTo"
-              label="End"
-              minDate={moment(selectedLocation?.from).toDate()}
-              handleChange={handleChange}
-              displayValue={isEdit ? selectedLocation?.from : null}
-              selectedValue={selectedLocation?.to}
-              placeholder="01/01/2020  -  12:05AM"
+          <div className={durationControl}>
+            <TextInput
+              id="durationMinutes"
+              name="durationMinutes"
+              onChange={handleDuration}
+              step="5"
+              min="0"
+              max="55"
+              type="number"
+              value={localDuration[1]}
             />
+            <label htmlFor="durationMinutes">Minutes</label>
           </div>
         </div>
         <Button type="submit" fullWidth disabled={isDisabled}>

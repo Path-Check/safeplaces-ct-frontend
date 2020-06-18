@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useLastLocation } from 'react-router-last-location';
 
 import { tracer } from './Tracer.module.scss';
 
@@ -12,6 +13,7 @@ import TracerLoadActions from 'views/Trace/Actions/LoadActions';
 import AddNewRecord from 'views/Trace/AddNewRecord';
 
 import RecordAdded from 'views/Trace/RecordAdded';
+import DeletePoints from 'views/Trace/DeletePoints';
 import RecordsTable from 'components/_shared/RecordsTable';
 import applicationSelectors from 'ducks/application/selectors';
 import StageForPublishing from 'views/Trace/StageForPublishing';
@@ -20,6 +22,7 @@ import applicationActions from 'ducks/application/actions';
 import ErrorBoundary from 'components/_global/errorBoundary';
 
 const Trace = () => {
+  const { pathname } = useLastLocation();
   const dispatch = useDispatch();
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
@@ -28,11 +31,14 @@ const Trace = () => {
   const mode = useSelector(state => applicationSelectors.getMode(state));
 
   useEffect(() => {
-    dispatch({
-      type: 'RESET_VIEW',
-    });
-    dispatch(applicationActions.setMode('trace'));
-  }, [mode]);
+    console.log('here');
+    if (!pathname.includes('settings')) {
+      dispatch({
+        type: 'RESET_VIEW',
+      });
+      dispatch(applicationActions.setMode('trace'));
+    }
+  }, [pathname, mode]);
 
   return (
     <>
@@ -61,7 +67,7 @@ const Trace = () => {
       <RecordAdded />
 
       {appStatus === 'CASES ADDED' && <RecordsTable />}
-
+      {appStatus === 'DELETE POINTS' && <DeletePoints />}
       {appStatus === 'STAGE CASE' && <StageForPublishing />}
     </>
   );

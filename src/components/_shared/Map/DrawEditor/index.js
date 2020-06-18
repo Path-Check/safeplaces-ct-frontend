@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+import { toPoint } from 'components/_shared/Map/_helpers';
+import inside from '@turf/inside';
+
 import {
   Editor,
   DrawPolygonMode,
@@ -27,10 +30,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Toggle from 'components/_shared/ToggleControl';
 
-import inside from '@turf/inside';
 import pointsSelectors from 'ducks/points/selectors';
 import { useSelector, useDispatch } from 'react-redux';
-import { toPoint } from 'components/_shared/Map/_helpers';
+
 import pointsActions from 'ducks/points/actions';
 
 const DrawEditor = () => {
@@ -91,8 +93,9 @@ const DrawEditor = () => {
   };
 
   const onApply = () => {
-    dispatch(pointsActions.setFilteredPoints(newPoints));
-
+    if (geometry) {
+      dispatch(pointsActions.setGeometry(geometry));
+    }
     resetGeometry(true);
   };
 

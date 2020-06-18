@@ -53,17 +53,9 @@ const casesService = {
     });
   },
   deleteCase: ({ caseId }) => {
-    console.log({
-      method: 'DELETE',
-      url: `${REACT_APP_API_URL}case`,
-      data: {
-        caseId,
-      },
-    });
-
     return axios({
-      method: 'DELETE',
-      url: `${REACT_APP_API_URL}case`,
+      method: 'POST',
+      url: `${REACT_APP_API_URL}case/delete`,
       data: {
         caseId,
       },
@@ -84,6 +76,16 @@ const casesService = {
       url: `${REACT_APP_API_URL}case/stage`,
       data: {
         caseId,
+      },
+    });
+  },
+  updateExternalCaseId: async ({ caseId, externalId }) => {
+    return await axios({
+      method: 'PUT',
+      url: `${REACT_APP_API_URL}case`,
+      data: {
+        caseId,
+        externalId,
       },
     });
   },
