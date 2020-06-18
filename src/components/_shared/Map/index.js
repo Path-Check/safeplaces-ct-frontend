@@ -102,6 +102,8 @@ export default function Map({ setMap }) {
   useEffect(() => {
     let zooming = {};
 
+    console.log('here');
+
     if (!loaded) {
       return;
     }
@@ -119,8 +121,7 @@ export default function Map({ setMap }) {
         width: mapRef.current._width, // mapObject.offsetWidth,
         height: mapRef.current._height, // mapObject.offsetHeight
       }).fitBounds(bounds, {
-        padding: 20,
-        offset: [40, 40],
+        offset: [20, 20],
       });
     }
     const viewportCalc = {
