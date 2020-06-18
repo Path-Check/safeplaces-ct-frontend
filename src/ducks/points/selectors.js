@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import moment from "moment";
 import { toPoint } from "components/_shared/Map/_helpers";
 import inside from "@turf/inside";
@@ -72,6 +73,9 @@ const pointsSelectors = {
   getSingleDate: (state) => state.points.singleDate,
   getUseDurationFilter: (state) => state.points.useDurationFilter,
   getDuration: (state) => state.points.duration,
+  isFiltered: (state) => !!state.points.useDurationFilter ||
+    !!state.points.geometry ||
+    !!_.find(state.points.points, point => point.hidden)
 };
 
 export default pointsSelectors;
