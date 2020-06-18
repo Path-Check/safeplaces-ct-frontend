@@ -44,12 +44,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         useDurationFilter: initialState.useDurationFilter,
         duration: initialState.duration,
-      };
-    case pointsTypes.CLEAR_FILTERS:
-      return {
-        ...state,
-        useDurationFilter: initialState.useDurationFilter,
-        duration: initialState.duration,
+        points: state.points.map(point => ({ ...point, hidden: false }))
       };
     case pointsTypes.HIDE_POINT:
       return {
