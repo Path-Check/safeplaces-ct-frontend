@@ -4,7 +4,6 @@ import RedactorToolsHeader from 'components/_shared/RedactorTools/Header';
 import DateSelector from 'components/_shared/RedactorTools/DateSelector';
 import FilterData from 'components/_shared/RedactorTools/FilterData';
 import DurationFilter from 'components/_shared/RedactorTools/FilterData/DurationFilter';
-import TravellingFilter from 'components/_shared/RedactorTools/FilterData/TravellingFilter';
 import RecordIdsFilter from 'components/_shared/RedactorTools/FilterData/RecordIdsFilter';
 import SelectedDataList from 'components/_shared/SelectedData';
 import { useSelector } from 'react-redux';
@@ -25,12 +24,6 @@ const RedactorTools = () => {
         {isPublish && (
           <FilterData>
             <RecordIdsFilter />
-            {points?.length > 1 && (
-              <>
-                <DurationFilter />
-                <TravellingFilter />
-              </>
-            )}
           </FilterData>
         )}
       </>

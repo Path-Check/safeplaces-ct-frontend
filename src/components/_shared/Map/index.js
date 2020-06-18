@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, {
+  ScaleControl,
   NavigationControl,
   WebMercatorViewport,
 } from 'react-map-gl';
@@ -133,7 +134,6 @@ export default function Map({ setMap }) {
           height: mapRef.current._height, // mapObject.offsetHeight
         }).fitBounds(bounds, {
           padding: 20,
-          offset: [40, 40],
         });
       }
       const viewportCalc = {
@@ -181,6 +181,7 @@ export default function Map({ setMap }) {
       >
         {editorMode && (
           <>
+            <ScaleControl maxWidth={100} unit={'metric'} />
             {renderedPoints.map((p, i) => (
               <MapMarker {...p} key={i} />
             ))}

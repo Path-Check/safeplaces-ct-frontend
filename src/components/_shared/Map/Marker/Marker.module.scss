@@ -1,27 +1,26 @@
 .marker {
   > button {
     padding: 0;
+  }
 
-    .markerIcon {
-      height: 30px;
-      width: 20px;
-      transform: translate(-10px, -20px);
-      color: #ff5656;
-    }
+  .markerIcon {
+    height: 30px;
+    width: 20px;
+    transform: translate(-10px, -20px);
+    color: #ff5656;
   }
 }
+
 .markerExpanded {
   z-index: 2;
 
-  > button {
-    .markerIcon {
-      transform: translate(-12.5px, -30px);
-      height: 40px;
-      width: 30px;
-      color: #4051db;
-    }
+  .markerIcon {
+    transform: translate(-12.5px, -30px);
+    height: 40px;
+    width: 30px;
   }
 }
+
 .markerAlt {
   > button {
     pointer-events: none;
