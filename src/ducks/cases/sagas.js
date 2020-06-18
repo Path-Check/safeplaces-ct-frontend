@@ -271,6 +271,11 @@ function* updateExternalId({ externalId }) {
 
 function* setRecordId() {
   const activeCaseId = yield select(casesSelectors.getActiveCase);
+
+  if (Array.isArray(activeCaseId)) {
+    return;
+  }
+
   const cases = yield select(casesSelectors.getCases);
 
   const { externalId } = cases.find(({ caseId }) => activeCaseId === caseId);
