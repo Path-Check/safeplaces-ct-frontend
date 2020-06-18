@@ -53,7 +53,7 @@ const SelectedDataList = () => {
               {filteredPoints?.length} of {points?.length}
             </p>
           )}
-          {isPublish || noFilteredPoints ? null : (
+          {!isPublish && (
             <button
               className={selectedDataAction}
               onClick={() => setShowContentMenu(!showContentMenu)}
