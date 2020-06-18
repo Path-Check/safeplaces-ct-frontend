@@ -44,6 +44,10 @@ const pointsActions = {
   clearFilters: () => ({
     type: pointsTypes.CLEAR_FILTERS,
   }),
+  hidePoint: id => ({
+    type: pointsTypes.HIDE_POINT,
+    id,
+  }),
 };
 
 export default pointsActions;

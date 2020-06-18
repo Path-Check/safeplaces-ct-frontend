@@ -69,12 +69,12 @@ export default function Map({ setMap }) {
 
   const initial = withBounds
     ? new WebMercatorViewport({
-        width: 600,
-        height: 600,
-      }).fitBounds([
-        [boundsObject.sw.longitude, boundsObject.sw.latitude],
-        [boundsObject.ne.longitude, boundsObject.ne.latitude],
-      ])
+      width: 600,
+      height: 600,
+    }).fitBounds([
+      [boundsObject.sw.longitude, boundsObject.sw.latitude],
+      [boundsObject.ne.longitude, boundsObject.ne.latitude],
+    ])
     : fallbackViewport;
 
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
@@ -84,12 +84,12 @@ export default function Map({ setMap }) {
 
     const focused = withBounds
       ? new WebMercatorViewport({
-          width: mapRef.current._width,
-          height: mapRef.current._height,
-        }).fitBounds([
-          [boundsObject.sw.longitude, boundsObject.sw.latitude],
-          [boundsObject.ne.longitude, boundsObject.ne.latitude],
-        ])
+        width: mapRef.current._width,
+        height: mapRef.current._height,
+      }).fitBounds([
+        [boundsObject.sw.longitude, boundsObject.sw.latitude],
+        [boundsObject.ne.longitude, boundsObject.ne.latitude],
+      ])
       : fallbackViewport;
 
     const viewportCalc = {
@@ -121,8 +121,7 @@ export default function Map({ setMap }) {
         width: mapRef.current._width, // mapObject.offsetWidth,
         height: mapRef.current._height, // mapObject.offsetHeight
       }).fitBounds(bounds, {
-        padding: 20,
-        offset: [40, 40],
+        offset: [20, 20],
       });
     }
     const viewportCalc = {

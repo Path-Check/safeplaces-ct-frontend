@@ -26,6 +26,8 @@ const EditRecordModal = ({
           placeholder="Enter A Record ID"
           onChange={onChangeHandler}
           value={externalInputValue}
+          labelText=""
+          id="recordId"
         />
         <div className={ModalButton}>
           <Button type="button" onClick={onSubmit}>
