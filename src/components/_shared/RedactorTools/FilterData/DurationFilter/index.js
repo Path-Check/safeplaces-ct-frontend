@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Slider from 'rc-slider';
-import Checkbox from 'components/_shared/Checkbox/Checkbox';
 
 import {
   durationFilter,
   durationFilterSlider,
   durationFilterSliderActive,
 } from './DurationFilter.module.scss';
+import Checkbox from 'components/_shared/ControlledCheckbox/Checkbox';
 
 const DurationFilter = ({
   duration,
@@ -34,6 +34,7 @@ const DurationFilter = ({
         label="Hide data less than duration"
         id="durationFilter"
         align="left"
+        isChecked={checked}
       />
       <div className={sliderClasses}>
         <Slider
