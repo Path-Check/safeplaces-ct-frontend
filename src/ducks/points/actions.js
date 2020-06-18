@@ -37,6 +37,10 @@ const pointsActions = {
     type: pointsTypes.SET_FILTERS,
     data,
   }),
+  setGeometry: geometry => ({
+    type: pointsTypes.SET_GEOMETRY,
+    geometry,
+  }),
   clearFilters: () => ({
     type: pointsTypes.CLEAR_FILTERS,
   }),

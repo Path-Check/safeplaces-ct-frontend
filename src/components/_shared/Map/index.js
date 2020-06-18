@@ -20,6 +20,8 @@ import PointEditor from 'components/PointEditor';
 import applicationSelectors from 'ducks/application/selectors';
 import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
+import DrawEditor from 'components/_shared/Map/DrawEditor';
+
 import { returnGeoPoints } from 'components/_shared/Map/_helpers';
 
 export default function Map({ setMap }) {
@@ -187,6 +189,10 @@ export default function Map({ setMap }) {
             {popupLocation?.longitude && popupLocation?.latitude && (
               <PopupWrapper {...popupLocation} type={appStatus} />
             )}
+
+            {appStatus !== 'EDIT POINT' &&
+              appStatus !== 'ADD POINT' &&
+              filteredPoints?.length > 1 && <DrawEditor />}
 
             <NavigationControl
               className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}

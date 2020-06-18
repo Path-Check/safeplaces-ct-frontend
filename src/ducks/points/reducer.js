@@ -7,10 +7,11 @@ const initialState = {
   singleDate: null,
   useDurationFilter: false,
   duration: null,
+  geometry: null,
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, data, points, id } = action;
+  const { type, data, points, geometry, id } = action;
   switch (type) {
     case pointsTypes.POINTS:
       return {
@@ -34,6 +35,11 @@ export default function reducer(state = initialState, action) {
         singleDate: data,
         dateRange: initialState.dateRange,
       };
+    case pointsTypes.SET_GEOMETRY:
+      return {
+        ...state,
+        geometry,
+      };
     case pointsTypes.SET_FILTERS:
       return {
         ...state,
@@ -44,6 +50,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         useDurationFilter: initialState.useDurationFilter,
         duration: initialState.duration,
+        geometry: initialState.geometry,
         points: state.points.map(point => ({ ...point, hidden: false }))
       };
     case pointsTypes.HIDE_POINT:
