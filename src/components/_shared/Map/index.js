@@ -145,7 +145,7 @@ export default function Map({ setMap }) {
         setViewport(viewportCalc);
       }
     }
-  }, [renderedPoints, loaded, selectedLocation]);
+  }, [loaded, selectedLocation]);
 
   useEffect(() => {
     if (!locationSelect && popupLocation) {
