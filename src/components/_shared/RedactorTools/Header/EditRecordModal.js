@@ -12,7 +12,7 @@ const EditRecordModal = ({
   setShowModal,
 }) => {
   return showModal ? (
-    <Modal>
+    <Modal closeAction={() => setShowModal(false)}>
       <Dialog width="650px">
         <header>
           <h3>Edit Record ID</h3>
