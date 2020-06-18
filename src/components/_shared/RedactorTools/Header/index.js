@@ -17,11 +17,13 @@ import {
 import casesSelectors from 'ducks/cases/selectors';
 import caseAction from 'ducks/cases/actions';
 import EditRecordModal from './EditRecordModal';
+import applicationSelectors from 'ducks/application/selectors';
 
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
+  const mode = useSelector(state => applicationSelectors.getMode(state));
   const [showModal, setShowModal] = useState(false);
   const [showEditRecordButton, setEditRecordButton] = useState(false);
   const [externalInputValue, setInputValue] = useState('');
@@ -77,15 +79,25 @@ const RedactorToolsHeader = () => {
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
-        <h3>Record ID: {_id}</h3>
-        <button
-          className={selectedfaEllipsisVIcon}
-          // onClick={() => setShowModal(true)}
-          onClick={() => setEditRecordButton(true)}
-          type="button"
-        >
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </button>
+        <h3 title={externalId || ''}>
+          {Array.isArray(activeCase) ? (
+            <>
+              {activeCase.length} Record{activeCase.length > 1 ? 's' : ''}{' '}
+              Loaded
+            </>
+          ) : (
+            <>Record ID: {_id}</>
+          )}
+        </h3>
+        {mode === 'trace' && (
+          <button
+            className={selectedfaEllipsisVIcon}
+            onClick={() => setEditRecordButton(true)}
+            type="button"
+          >
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </button>
+        )}
       </header>
 
       {showEditRecordButton && <EditRecordButton />}

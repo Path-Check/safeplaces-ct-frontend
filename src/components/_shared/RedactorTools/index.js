@@ -52,7 +52,7 @@ const RedactorTools = () => {
         <>
           <DateSelector dates={dates} />
           <FilterData applyFilters={applyFilters}>
-            {isPublish && <RecordIdsFilter />}
+            {/* {isPublish && <RecordIdsFilter />} */}
             {points?.length > 1 && (
               <>
                 <DurationFilter

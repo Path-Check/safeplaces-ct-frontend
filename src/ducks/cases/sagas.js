@@ -245,28 +245,38 @@ function* updateExternalId({ externalId }) {
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    const response = yield call(casesService.updateExternalCaseId, { caseId, externalId });
+    const response = yield call(casesService.updateExternalCaseId, {
+      caseId,
+      externalId,
+    });
+
+    yield put(casesActions.setExternalId(response.data.case.externalId));
+
     yield put(
-      casesActions.updExternalCaseIdSuccess(
-        response.data.case
-      )
+      applicationActions.notification({
+        title: `${caseId}'s external ID is now set to ${externalId}.`,
+      }),
     );
-
-    yield put(
-      applicationActions.notification({
-        title: `The external id ${externalId} has been set successfully`
-      })
-    )
-    yield put(applicationActions.updateStatus('EXTERNAL ID UPDATED'));
-
   } catch (error) {
-    yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
-        title: `Trouble updating id ${caseId}`,
-        text: ' - Please try again.',
-      }));
-    yield put(casesActions.updExternalCaseIdFailure(error));
+        title: `Unable to update the external ID for ${caseId}.`,
+        text: ' Please try again.',
+      }),
+    );
+  }
+
+  yield put(applicationActions.updateStatus('IDLE'));
+}
+
+function* setRecordId() {
+  const activeCaseId = yield select(casesSelectors.getActiveCase);
+  const cases = yield select(casesSelectors.getCases);
+
+  const { externalId } = cases.find(({ caseId }) => activeCaseId === caseId);
+
+  if (externalId) {
+    yield put(casesActions.setExternalId(externalId));
   }
 }
 
@@ -276,6 +286,7 @@ export default function* casesSagas() {
   yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
   yield takeEvery(casesTypes.PUBLISH_CASES, publishCases);
   yield takeEvery(casesTypes.STAGE_CASE, stageCase);
+  yield takeEvery(casesTypes.SET_ACTIVE_CASE, setRecordId);
   yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.LOAD_MULTICASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);

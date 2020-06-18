@@ -18,16 +18,19 @@
   margin-left: 311px;
 }
 
-header h3{
-  text-align: center;
+header h3 {
+  text-overflow: ellipsis;
+  width: 275px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-header p{
+header p {
   margin-top: 20px;
 }
 
-.ModalButton Button{
-  margin-bottom:10px;
+.ModalButton Button {
+  margin-bottom: 10px;
   font-size: 16px !important;
   width: 250px;
   height: 60px;
@@ -36,7 +39,7 @@ header p{
   border-radius: 8px;
 }
 
-.inputText{
+.inputText {
   margin-bottom: 12px;
   border-radius: 5px;
 }
