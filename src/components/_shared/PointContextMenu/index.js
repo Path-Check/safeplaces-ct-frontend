@@ -118,7 +118,10 @@ const PointContextMenu = ({
           </li>
         )}
         <li>
-          <button type="button" onClick={() => dispatch(pointsActions.hidePoint(id))}>
+          <button
+            type="button"
+            onClick={() => dispatch(pointsActions.hidePoint(id))}
+          >
             <FontAwesomeIcon icon={faMinusCircle} />
             Unselect
           </button>
