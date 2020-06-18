@@ -8,6 +8,7 @@ import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
 import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
+import { mapPoints } from 'helpers/pointsUtils'
 
 function* addCases({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -98,8 +99,10 @@ function* loadCasePoints({ type, caseId }) {
       data,
     });
 
+    const mappedPoints = mapPoints(response.data.concernPoints)
+
     yield put(casesActions.setCase(caseId));
-    yield put(pointsActions.updatePoints(response.data.concernPoints));
+    yield put(pointsActions.updatePoints(mappedPoints));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
@@ -144,7 +147,8 @@ function* checkCaseGPSDataSaga() {
     const response = yield call(enrichCase, {
       caseId,
     });
-    yield put(pointsActions.updatePoints(response.data.concernPoints));
+    const mappedPoints = mapPoints(response.data.concernPoints)
+    yield put(pointsActions.updatePoints(mappedPoints));
     yield put(casesActions.setCase(caseId));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));

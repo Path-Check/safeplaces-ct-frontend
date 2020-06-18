@@ -117,6 +117,12 @@ const PointContextMenu = ({
             </button>
           </li>
         )}
+        <li>
+          <button type="button" onClick={() => dispatch(pointsActions.hidePoint(id))}>
+            <FontAwesomeIcon icon={faMinusCircle} />
+            Unselect
+          </button>
+        </li>
         {isTrace && (
           <li>
             <button

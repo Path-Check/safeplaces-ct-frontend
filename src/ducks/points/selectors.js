@@ -31,8 +31,9 @@ const pointsSelectors = {
     const durationFilter = p => {
       return !useDurationFilter || (duration && p.duration >= duration);
     };
+    const hiddenFilter = p => !p.hidden
     return points
-      .filter(p => dateFilter(p) && durationFilter(p))
+      .filter(p => dateFilter(p) && durationFilter(p) && hiddenFilter(p))
       .sort((a, b) => moment(b.time) - moment(a.time));
   },
   getActivePoint: state => state.points.activePoint,

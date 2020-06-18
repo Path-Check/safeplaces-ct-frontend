@@ -9,6 +9,7 @@ import pointsService from 'ducks/points/service';
 import pointsSelectors from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
+import { mapPoints } from 'helpers/pointsUtils'
 
 function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -89,8 +90,9 @@ function* updatePoint({ point, type }) {
 
       const response = yield call(pointsService.edit, data);
       const points = currentPoints.filter(p => p.pointId !== point.pointId);
+      const mappedPoints = mapPoints([...points, response.data.concernPoint])
       yield put(
-        pointsActions.updatePoints([...points, response.data.concernPoint]),
+        pointsActions.updatePoints(mappedPoints),
       );
     } else {
       data = {
@@ -99,11 +101,12 @@ function* updatePoint({ point, type }) {
       };
 
       const response = yield call(pointsService.add, data);
+      const mappedPoints = mapPoints([
+        response.data.concernPoint,
+        ...currentPoints,
+      ])
       yield put(
-        pointsActions.updatePoints([
-          response.data.concernPoint,
-          ...currentPoints,
-        ]),
+        pointsActions.updatePoints(mappedPoints),
       );
     }
 
