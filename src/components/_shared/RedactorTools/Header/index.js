@@ -1,40 +1,39 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import {
   redactorToolsHeader,
-  selectedfaEllipsisVIcon,
-  ModalButton,
-  inputText,
   selectedEditContextMenu,
-  selectedEditContextMenuAction
+  selectedEditContextMenuAction,
+  selectedfaEllipsisVIcon,
 } from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faEllipsisV, faEdit } from '@fortawesome/pro-solid-svg-icons';
-import { Button, TextInput } from '@wfp/ui'
-import Modal from '../../../_global/Modal';
-import Dialog from '../../../_shared/Dialog';
+import {
+  faChevronLeft,
+  faEdit,
+  faEllipsisV,
+} from '@fortawesome/pro-solid-svg-icons';
 import casesSelectors from 'ducks/cases/selectors';
 import caseAction from 'ducks/cases/actions';
-import { useSelector } from 'react-redux';
+import EditRecordModal from './EditRecordModal';
 
-const RedactorToolsHeader = ({ currentRecord }) => {
+const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const [showModal, setShowModal] = useState(false);
   const [showEditRecordButton, setEditRecordButton] = useState(false);
-  const [externalInpuValue, setInputValue] = useState("");
+  const [externalInputValue, setInputValue] = useState('');
 
-  const handleBack = () => console.log('go back');
-  const onChangeHandler = (event) => {
+  const onChangeHandler = event => {
     setInputValue(event.target.value);
   };
 
   const onSubmit = async () => {
     if (activeCase) {
-      dispatch(caseAction.updExternalCaseIdRequest(externalInpuValue));
+      dispatch(caseAction.updExternalCaseIdRequest(externalInputValue));
+      setShowModal(false);
     }
   };
 
@@ -42,7 +41,7 @@ const RedactorToolsHeader = ({ currentRecord }) => {
     return null;
   }
 
-  const _id = externalId ? externalId : activeCase;
+  const _id = externalId || activeCase;
 
   const EditRecordButton = () => (
     <div className={selectedEditContextMenu}>
@@ -67,13 +66,21 @@ const RedactorToolsHeader = ({ currentRecord }) => {
   return (
     <>
       <header className={redactorToolsHeader}>
-        {/* <button type="button" onClick={handleBack} title="Back to home screen">
-        <FontAwesomeIcon icon={faChevronLeft} />
-      </button> */}
+        <button
+          type="button"
+          onClick={() =>
+            dispatch({
+              type: 'RESET_VIEW',
+            })
+          }
+          title="Back to home screen"
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
         <h3>Record ID: {_id}</h3>
         <button
           className={selectedfaEllipsisVIcon}
-          //onClick={() => setShowModal(true)}
+          // onClick={() => setShowModal(true)}
           onClick={() => setEditRecordButton(true)}
           type="button"
         >
@@ -81,42 +88,14 @@ const RedactorToolsHeader = ({ currentRecord }) => {
         </button>
       </header>
 
-      {showEditRecordButton && (<EditRecordButton />)}
-      {showModal && (
-        <Modal>
-          <Dialog width="650px">
-            <header>
-              <h3>Edit Record ID</h3>
-              <p>
-                If you are using a system to manage your patients and already
-                have an ID for this patient, please enter it below.
-              </p>
-            </header>
-            <TextInput
-              className={inputText}
-              placeholder="Enter A Record ID"
-              onChange={onChangeHandler}
-              value={externalInpuValue}
-            />
-            <div className={ModalButton}>
-              <Button
-                type="button"
-                onClick={onSubmit}
-              >
-                Save Record ID
-              </Button>
-              <br />
-              <Button
-                type="button"
-                style={{ background: '#f8f8ff', borderColor: '#6979f8', color: '#6979f8' }}
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </Dialog>
-        </Modal>
-      )}
+      {showEditRecordButton && <EditRecordButton />}
+      <EditRecordModal
+        onSubmit={onSubmit}
+        externalInputValue={externalInputValue}
+        onChangeHandler={onChangeHandler}
+        setShowModal={setShowModal}
+        showModal={showModal}
+      />
     </>
   );
 };
