@@ -10,6 +10,7 @@
     }
   }
 }
+
 .markerExpanded {
   z-index: 2;
 
@@ -18,10 +19,10 @@
       transform: translate(-12.5px, -30px);
       height: 40px;
       width: 30px;
-      color: #4051db;
     }
   }
 }
+
 .markerAlt {
   > button {
     pointer-events: none;
