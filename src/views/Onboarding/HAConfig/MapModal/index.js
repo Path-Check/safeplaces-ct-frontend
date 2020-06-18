@@ -3,28 +3,25 @@ import styles from './styles.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import Map from '../Map';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const MapModal = ({ open, openMapModal, confirmBounds, regionCoordinates }) => {
   const node = useRef(null);
 
-  const handleClick = useCallback(
-    e => {
-      if (node && node.current && !node.current.contains(e.target)) {
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
         openMapModal(false);
       }
-    },
-    [node, openMapModal],
-  );
+    }
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [handleClick]);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [openMapModal]);
 
-  useEffect(() => {
-    document.addEventListener('keypress', handleClick);
-    return () => document.removeEventListener('keypress', handleClick);
-  }, [handleClick]);
+  useOnClickOutside(node, () => openMapModal(false));
 
   return open ? (
     <div className={styles.modal} ref={node}>
