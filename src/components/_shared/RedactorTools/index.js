@@ -20,7 +20,7 @@ const RedactorTools = () => {
   return (
     <>
       <RedactorToolsHeader />
-      <>
+      {/* <>
         {points?.length > 1 && <DateSelector dates={dates} />}
         {isPublish && (
           <FilterData>
@@ -33,7 +33,7 @@ const RedactorTools = () => {
             )}
           </FilterData>
         )}
-      </>
+      </> */}
       <SelectedDataList />
     </>
   );
