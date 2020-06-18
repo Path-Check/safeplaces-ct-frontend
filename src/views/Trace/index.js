@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useLastLocation } from 'react-router-last-location';
 
 import { tracer } from './Tracer.module.scss';
 
@@ -21,6 +22,7 @@ import applicationActions from 'ducks/application/actions';
 import ErrorBoundary from 'components/_global/errorBoundary';
 
 const Trace = () => {
+  const { pathname } = useLastLocation();
   const dispatch = useDispatch();
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
@@ -29,11 +31,14 @@ const Trace = () => {
   const mode = useSelector(state => applicationSelectors.getMode(state));
 
   useEffect(() => {
-    dispatch({
-      type: 'RESET_VIEW',
-    });
-    dispatch(applicationActions.setMode('trace'));
-  }, [mode]);
+    console.log('here');
+    if (!pathname.includes('settings')) {
+      dispatch({
+        type: 'RESET_VIEW',
+      });
+      dispatch(applicationActions.setMode('trace'));
+    }
+  }, [pathname, mode]);
 
   return (
     <>

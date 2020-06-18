@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, {
-  ScaleControl,
   NavigationControl,
   WebMercatorViewport,
 } from 'react-map-gl';
@@ -21,6 +20,7 @@ import PointEditor from 'components/PointEditor';
 import applicationSelectors from 'ducks/application/selectors';
 import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
+import { returnGeoPoints } from 'components/_shared/Map/_helpers';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
@@ -35,17 +35,16 @@ export default function Map({ setMap }) {
     mapSelectors.getLocationSelect(state),
   );
 
-  const pointsOfConcern = useSelector(state =>
-    pointsSelectors.getPoints(state),
-  );
-
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
 
-  const renderedPoints = filteredPoints.length
-    ? filteredPoints
-    : pointsOfConcern;
+  const singleDate = useSelector(state => pointsSelectors.getSingleDate(state));
+  const dateRange = useSelector(state => pointsSelectors.getDateRange(state));
+  const duration = useSelector(state => pointsSelectors.getDuration(state));
+  const useDuration = useSelector(state =>
+    pointsSelectors.getUseDurationFilter(state),
+  );
 
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const renderPointEditor =
@@ -107,45 +106,43 @@ export default function Map({ setMap }) {
       return;
     }
 
-    const pointsToZoom = selectedLocation
-      ? [...renderedPoints, { ...selectedLocation, id: 'newLocation' }]
-      : renderedPoints;
+    const pointsToZoom = returnGeoPoints(
+      selectedLocation
+        ? [...filteredPoints, { ...selectedLocation, id: 'newLocation' }]
+        : filteredPoints,
+    );
 
-    const points = {
-      type: 'FeatureCollection',
-      features: pointsToZoom.map((point, index) => ({
-        type: 'Feature',
-        properties: {
-          id: point.pointId,
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [point.longitude, point.latitude],
-        },
-      })),
+    const bounds = getBounds(pointsToZoom);
+
+    if (bounds) {
+      zooming = new WebMercatorViewport({
+        width: mapRef.current._width, // mapObject.offsetWidth,
+        height: mapRef.current._height, // mapObject.offsetHeight
+      }).fitBounds(bounds, {
+        padding: 20,
+        offset: [40, 40],
+      });
+    }
+    const viewportCalc = {
+      ...viewport,
+      ...zooming,
+      transitionDuration: 500,
     };
 
-    if (points) {
-      const bounds = getBounds(points);
-
-      if (bounds) {
-        zooming = new WebMercatorViewport({
-          width: mapRef.current._width, // mapObject.offsetWidth,
-          height: mapRef.current._height, // mapObject.offsetHeight
-        }).fitBounds(bounds, {
-          padding: 20,
-        });
-      }
-      const viewportCalc = {
-        ...viewport,
-        ...zooming,
-        transitionDuration: 500,
-      };
-      if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
-        setViewport(viewportCalc);
-      }
+    if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
+      setViewport(viewportCalc);
     }
-  }, [renderedPoints, loaded, selectedLocation]);
+
+  }, [
+    filteredPoints.length,
+    dateRange,
+    duration,
+    singleDate,
+    useDuration,
+    loaded,
+    selectedLocation,
+  ]);
+
 
   useEffect(() => {
     if (!locationSelect && popupLocation) {
@@ -181,8 +178,7 @@ export default function Map({ setMap }) {
       >
         {editorMode && (
           <>
-            <ScaleControl maxWidth={100} unit={'metric'} />
-            {renderedPoints.map((p, i) => (
+            {filteredPoints.map((p, i) => (
               <MapMarker {...p} key={i} />
             ))}
 

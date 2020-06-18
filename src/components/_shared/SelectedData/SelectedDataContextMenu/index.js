@@ -45,7 +45,7 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
     return () => {
       document.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [handleClick]);
 
   return (
     <div className={selectedDataContextMenu} ref={containerRef}>
@@ -71,7 +71,7 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
             {/* <li>
               <button
                 type="button"
-                onClick={() => dispatch(pointsActions.setFilteredPoints([]))}
+                onClick={() => dispatch(pointsActions.clearFilters())}
                 className={selectedDataContextMenuAction}
               >
                 <FontAwesomeIcon icon={faMinusCircle} />

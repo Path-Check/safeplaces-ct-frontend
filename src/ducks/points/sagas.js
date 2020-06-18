@@ -16,17 +16,7 @@ function* deletePoint({ id }) {
   try {
     yield call(pointsService.delete, id);
     const currentPoints = yield select(pointsSelectors.getPoints);
-    const currentFilteredPoints = yield select(
-      pointsSelectors.getFilteredPoints,
-    );
     const points = currentPoints.filter(p => p.pointId !== id);
-
-    if (currentFilteredPoints.length) {
-      const filteredPoints = currentFilteredPoints.filter(
-        p => p.pointId !== id,
-      );
-      yield put(pointsActions.setFilteredPoints(filteredPoints));
-    }
 
     yield put(pointsActions.updatePoints(points));
 
@@ -64,7 +54,6 @@ function* deletePoints() {
 
     const diff = differenceBy(points, filteredPoints, 'pointId');
     yield put(pointsActions.updatePoints(diff));
-    yield put(pointsActions.setFilteredPoints([]));
 
     yield put(
       applicationActions.notification({

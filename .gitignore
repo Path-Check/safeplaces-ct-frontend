@@ -27,3 +27,6 @@ yarn-error.log*
 .now
 .env
 /.idea/
+
+# editor configs
+.editorconfig
