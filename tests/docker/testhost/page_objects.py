@@ -129,7 +129,6 @@ class ContactTracePage(Page):
     more_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div > button > svg > path')
     add_data_point_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div.SelectedDataContextMenu_selectedDataContextMenu__7joml > ul > li > button')
     stage_publish_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.TracerActions_sidebarActions__1spu4 > button')
-    submit_publish_button = (By.CSS_SELECTOR, '#root > div > div.Publish_publish__3dr_z > aside > div.PublishActions_sidebarActions__3GWKS > button')
     
     def add_new_record(self):
         self.find_element(self.add_new_record_button).click()
@@ -146,9 +145,6 @@ class ContactTracePage(Page):
     def stage_for_publishing(self):
         self.find_element(self.stage_publish_button).click()
         
-    def submit_for_publishing(self):
-        self.find_element(self.submit_publish_button).click()
-        
 class AddNewRecordPage(Page):
     check_data_upload_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(4) > button')
     create_record_manually_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(6) > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
@@ -163,7 +159,9 @@ class AddDataToRecordPage(Page):
     search_location = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > div > input[type=text]')
     select_from_map_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > button')
     use_location_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div:nth-child(1)')
-    date_picker = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_timeControls__3lzO7 > div > div.react-datepicker-wrapper > div > input')
+    date_picker = (By.ID, 'time')
+    duration_hours = (By.NAME, 'durationHours')
+    duration_minutes = (By.NAME, 'durationMinutes')
     save_data_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > button')
     close_point_editor_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_pointEditorHeader__2-aPg > button > svg > path')
     
@@ -178,6 +176,12 @@ class AddDataToRecordPage(Page):
     
     def enter_date(self, date):
         self.find_element(self.date_picker).send_keys(date)
+
+    def enter_duration_hours(self, hours):
+        self.find_element(self.duration_hours).send_keys(hours)
+
+    def enter_duration_minutes(self, minutes):
+        self.find_element(self.duration_hours).send_keys(minutes)
 
     def save_data(self):
         self.find_element(self.save_data_button).click()
@@ -218,12 +222,16 @@ class StageForPublishingPage(Page):
 class PublishDataPage(Page):
     load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
     open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
+    submit_publish_button = (By.CSS_SELECTOR, '#root > div > div.Publish_publish__3dr_z > aside > div.PublishActions_sidebarActions__3GWKS > button')
     
     def publish_data(self):
         self.find_element(self.load_data_button).click()
 
     def open_selected(self):
         self.find_element(self.open_selected_button).click()
+        
+    def submit_for_publishing(self):
+        self.find_element(self.submit_publish_button).click()
     
 class SelectDataPage(Page):
     select_checkbox = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > table > tbody > tr > th > div > label > span')
@@ -253,8 +261,8 @@ class SettingsPage(Page):
     reference_website_URL = (By.ID, 'referenceWebsiteUrl')
     api_endpoint = (By.ID, 'apiEndpoint')
     privacy_policy_URL = (By.ID, 'privacyPolicyUrl')
-    data_retention_slider_track = (By.CSS_SELECTOR, '#root > div > div > div > div > form > div:nth-child(6) > div > div > div.rc-slider-track')
-    data_retention_slider_handle = (By.CSS_SELECTOR, '#root > div > div > div > div > form > div:nth-child(6) > div > div > div.rc-slider-handle')
+    data_retention_slider_track = (By.CLASS_NAME, 'rc-slider-track')
+    data_retention_slider_handle = (By.CLASS_NAME, 'rc-slider-handle')
     reset_gps_button = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(7) > div > button')
     save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
     
