@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLastLocation } from 'react-router-last-location';
 
-import { tracer } from './Tracer.module.scss';
-
 import Map from 'components/_shared/Map';
 import RedactorTools from 'components/_shared/RedactorTools';
 import SidebarWrapper from 'components/_shared/Sidebar/SidebarWrapper';
@@ -20,8 +18,11 @@ import StageForPublishing from 'views/Trace/StageForPublishing';
 import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import applicationActions from 'ducks/application/actions';
 import ErrorBoundary from 'components/_global/errorBoundary';
+import PublishData from 'views/Publish/PublishData';
 
-const Trace = () => {
+import { viewWrapper } from './ViewWrapper.module.scss';
+
+const ViewWrapper = ({ viewType, title, intro }) => {
   const { pathname } = useLastLocation();
   const dispatch = useDispatch();
   const renderEditor = useSelector(state =>
@@ -35,13 +36,13 @@ const Trace = () => {
       dispatch({
         type: 'RESET_VIEW',
       });
-      dispatch(applicationActions.setMode('trace'));
+      dispatch(applicationActions.setMode(viewType));
     }
   }, [pathname, mode]);
 
   return (
     <>
-      <div className={tracer}>
+      <div className={viewWrapper}>
         <SidebarWrapper>
           {renderEditor ? (
             <>
@@ -50,10 +51,7 @@ const Trace = () => {
             </>
           ) : (
             <>
-              <SidebarHeader
-                title="Contact Trace"
-                copy="Review and edit patient location data during a contact trace interview."
-              />
+              <SidebarHeader title={title} intro={intro} />
               <TracerLoadActions />
             </>
           )}
@@ -68,8 +66,9 @@ const Trace = () => {
       {appStatus === 'CASES ADDED' && <RecordsTable />}
       {appStatus === 'DELETE POINTS' && <DeletePoints />}
       {appStatus === 'STAGE CASE' && <StageForPublishing />}
+      {appStatus === 'SUBMIT FOR PUBLISHING' && <PublishData />}
     </>
   );
 };
 
-export default Trace;
+export default ViewWrapper;
