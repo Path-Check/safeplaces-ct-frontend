@@ -26,21 +26,16 @@ const SelectedDataList = () => {
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const dispatch = useDispatch();
   const points = useSelector(state => pointsSelectors.getPoints(state));
-
-  const activeFilters = useSelector(state =>
-    pointsSelectors.getActiveFilters(state),
-  );
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
+  const hiddenPoints = points.filter(({ hidden }) => hidden);
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
-  const hiddenPoints = points.filter(({ hidden }) => hidden);
-
   return (
     <div className={selectedDataWrapper}>
-      {(activeFilters || hiddenPoints.length > 0) && (
+      {(points.length !== filteredPoints.length || hiddenPoints.length > 0) && (
         <button
           onClick={() => dispatch(pointsActions.clearFilters())}
           className={clearFilters}

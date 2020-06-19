@@ -20,6 +20,7 @@ const RedactorTools = () => {
   const durationStore = useSelector(state =>
     pointsSelectors.getDuration(state),
   );
+  const [filterRecordIds, setFilterRecordIds] = useState(false);
   const [duration, setDuration] = useState(durationStore || durationTimes[0]);
   const useDurationFilterStore = useSelector(state =>
     pointsSelectors.getUseDurationFilter(state),
@@ -35,6 +36,7 @@ const RedactorTools = () => {
         useDurationFilter,
       }),
     );
+    setFilterRecordIds(true);
   };
 
   const handleCheck = e => {
@@ -45,10 +47,9 @@ const RedactorTools = () => {
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
-
   useEffect(() => {
-    setUseDurationFilter(useDurationFilterStore)
-  }, [useDurationFilterStore])
+    setUseDurationFilter(useDurationFilterStore);
+  }, [useDurationFilterStore]);
 
   return (
     <>
@@ -57,7 +58,12 @@ const RedactorTools = () => {
         <>
           <DateSelector dates={dates} />
           <FilterData applyFilters={applyFilters}>
-            {/* {isPublish && <RecordIdsFilter />} */}
+            {isPublish && (
+              <RecordIdsFilter
+                filterRecordIds={filterRecordIds}
+                setFilterRecordIds={setFilterRecordIds}
+              />
+            )}
             {points?.length > 1 && (
               <>
                 <DurationFilter

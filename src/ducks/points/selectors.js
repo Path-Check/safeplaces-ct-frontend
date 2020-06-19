@@ -16,6 +16,7 @@ const pointsSelectors = {
       singleDate,
       geometry,
       duration,
+      recordIds,
       useDurationFilter,
     } = state.points;
     const dateRangeFilter = p =>
@@ -26,6 +27,9 @@ const pointsSelectors = {
         undefined,
         '[]',
       );
+
+    const recordIdFilter = p =>
+      recordIds && recordIds.length ? recordIds.includes(p.caseId) : p;
 
     const singleDateFilter = p =>
       moment(moment(p.time).format(currentDateFormat)).isSame(
@@ -54,22 +58,12 @@ const pointsSelectors = {
           dateFilter(p) &&
           durationFilter(p) &&
           hiddenFilter(p) &&
+          recordIdFilter(p) &&
           geometryFilter(p),
       )
       .sort((a, b) => moment(b.time) - moment(a.time));
   },
   getActivePoint: state => state.points.activePoint,
-  getActiveFilters: state => {
-    const {
-      dateRange,
-      singleDate,
-      geometry,
-      duration,
-      useDurationFilter,
-    } = state.points;
-
-    return useDurationFilter || geometry || singleDate || dateRange.length > 0;
-  },
   getPointsDates: state => {
     const sortedArray = state.points.points.sort(
       (a, b) => moment(a.time) - moment(b.time),

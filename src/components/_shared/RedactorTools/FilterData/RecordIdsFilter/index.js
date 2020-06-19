@@ -1,38 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Checkbox from 'components/_shared/ControlledCheckbox/Checkbox';
-import pointsSelectors from 'ducks/points/selectors';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import casesSelectors from 'ducks/cases/selectors';
 import pointsActions from 'ducks/points/actions';
 
-const RecordIdsFilter = () => {
+const RecordIdsFilter = ({ filterRecordIds, setFilterRecordIds }) => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getActiveCase(state));
   const [localCases, setLocalCases] = useState(cases);
-  const points = useSelector(state => pointsSelectors.getPoints(state));
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
 
   useEffect(() => {
-    if (localCases.length === cases.length) {
-      dispatch(pointsActions.setFilteredPoints([]));
-    } else {
-      dispatch(
-        pointsActions.setFilteredPoints(
-          points.filter(({ caseId }) => localCases.includes(caseId)),
-        ),
-      );
+    if (filterRecordIds) {
+      dispatch(pointsActions.setRecordIds(localCases));
+      setFilterRecordIds(false);
     }
-  }, [localCases]);
-
-  useEffect(() => {
-    if (filteredPoints.length < 1) {
-      setLocalCases(cases);
-    }
-  }, [filteredPoints]);
+  }, [dispatch, filterRecordIds, localCases, setFilterRecordIds]);
 
   const handleChange = e => {
     if (localCases.includes(parseInt(e.target.name))) {

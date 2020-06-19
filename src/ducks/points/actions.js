@@ -37,6 +37,10 @@ const pointsActions = {
     type: pointsTypes.SET_FILTERS,
     data,
   }),
+  setRecordIds: recordIds => ({
+    type: pointsTypes.SET_RECORD_IDS,
+    recordIds,
+  }),
   setGeometry: geometry => ({
     type: pointsTypes.SET_GEOMETRY,
     geometry,
