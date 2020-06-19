@@ -198,6 +198,8 @@ class AddDataToRecordPage(Page):
         contact_trace_page.add_data_point()
         enter_location(self, location)
         enter_date(self, date)
+        enter_duraction_hours(self, hours)
+        enter_duraction_minutes(self, minutes)
     
 class StageForPublishingPage(Page):
     yes_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button:nth-child(1)')
