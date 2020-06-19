@@ -9,12 +9,10 @@ import applicationActions from 'ducks/application/actions';
 import RecordsTablePublishing from 'components/_shared/RecordsTable/RecordsTablePublishing';
 import RecordsTableTrace from 'components/_shared/RecordsTable/RecordsTableTrace';
 import FocusTrap from 'focus-trap-react';
-import applicationSelectors from 'ducks/application/selectors';
 
-const RecordsTable = () => {
+const RecordsTable = ({ mode }) => {
   const dispatch = useDispatch();
-  const isPublishing =
-    useSelector(state => applicationSelectors.getMode(state)) === 'publish';
+  const isPublishing = mode === 'publish';
 
   return (
     <FocusTrap>
