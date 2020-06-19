@@ -59,8 +59,6 @@ const MapMarker = ({
 
   const friendlyDuration = formattedDuration(duration);
 
-  useOnClickOutside(markerRef, () => setShowContentMenu(false));
-
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
 
