@@ -1,36 +1,39 @@
 .container {
   display: flex;
-  justify-content: flex-start;
   align-items: flex-start;
-  height: 100%;
+  height: calc(100vh - 75px);
+  overflow: hidden;
 }
 
 .sidebarContainer {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  min-width: 375px;
-  max-width: 375px;
   background: #ffffff;
-  border: 0.5px solid rgba(0, 0, 0, 0.2);
-  padding: 110px 20px 20px;
-  top: 0;
-  height: 100%;
-}
-
-.sidebarWrapper {
+  padding: 36px 20px;
   flex: 1;
 }
 
+.sidebarWrapper {
+  flex: 0 1 25%;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.sidebarWrapper,
 .contentContainer {
-  flex: 5;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.contentContainer {
+  flex: 0 1 75%;
+
+  > div {
+    height: auto;
+  }
 }
 
 .option {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 342px;
   height: 42px;
   padding: 5px;
   font-style: normal;
@@ -38,11 +41,11 @@
   font-size: 18px;
   text-decoration: none;
   line-height: 24px;
-  color: #3C475B;
+  color: #3c475b;
   margin-bottom: 10px;
 
   &:hover {
-    background: #E5E7FA;
+    background: #e5e7fa;
     border-radius: 6px;
   }
 }

@@ -24,21 +24,18 @@ import pointsActions from '../../../ducks/points/actions';
 const SelectedDataList = () => {
   const [showContentMenu, setShowContentMenu] = useState(false);
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
-  const isFiltered = useSelector(state => pointsSelectors.isFiltered(state));
   const dispatch = useDispatch();
   const points = useSelector(state => pointsSelectors.getPoints(state));
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
+  const hiddenPoints = points.filter(({ hidden }) => hidden);
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
-  const noFilteredPoints =
-    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
-
   return (
     <div className={selectedDataWrapper}>
-      {points.length > 1 && isFiltered && (
+      {(points.length !== filteredPoints.length || hiddenPoints.length > 0) && (
         <button
           onClick={() => dispatch(pointsActions.clearFilters())}
           className={clearFilters}

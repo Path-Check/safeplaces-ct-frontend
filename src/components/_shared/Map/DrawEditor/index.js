@@ -182,7 +182,7 @@ const DrawEditor = () => {
             Apply Selection <FontAwesomeIcon icon={faCheck} />
           </button>
           <button onClick={() => handleDelete()}>
-            Discard Selection <FontAwesomeIcon icon={faTrash} />
+            Cancel Selection <FontAwesomeIcon icon={faTrash} />
           </button>
         </div>
       )}

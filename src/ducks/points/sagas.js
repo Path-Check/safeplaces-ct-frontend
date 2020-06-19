@@ -9,7 +9,7 @@ import pointsService from 'ducks/points/service';
 import pointsSelectors from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
-import { mapPoints } from 'helpers/pointsUtils'
+import { mapPoints } from 'helpers/pointsUtils';
 
 function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -60,6 +60,7 @@ function* deletePoints() {
       }),
     );
     yield put(pointsActions.setSelectedPoint(null));
+    yield put(pointsActions.clearFilters());
 
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
@@ -90,10 +91,8 @@ function* updatePoint({ point, type }) {
 
       const response = yield call(pointsService.edit, data);
       const points = currentPoints.filter(p => p.pointId !== point.pointId);
-      const mappedPoints = mapPoints([...points, response.data.concernPoint])
-      yield put(
-        pointsActions.updatePoints(mappedPoints),
-      );
+      const mappedPoints = mapPoints([...points, response.data.concernPoint]);
+      yield put(pointsActions.updatePoints(mappedPoints));
     } else {
       data = {
         caseId,
@@ -104,10 +103,8 @@ function* updatePoint({ point, type }) {
       const mappedPoints = mapPoints([
         response.data.concernPoint,
         ...currentPoints,
-      ])
-      yield put(
-        pointsActions.updatePoints(mappedPoints),
-      );
+      ]);
+      yield put(pointsActions.updatePoints(mappedPoints));
     }
 
     yield put(mapActions.updateLocation(null));

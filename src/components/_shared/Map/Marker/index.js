@@ -20,6 +20,7 @@ import pointsSelectors from 'ducks/points/selectors';
 import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
 import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const colorScale = {
   darkest: '#980f0f',
@@ -29,8 +30,6 @@ const colorScale = {
 };
 
 const returnColor = duration => {
-  console.log(duration);
-
   if (duration < 15) {
     return colorScale.light;
   } else if (duration < 60) {
@@ -59,6 +58,8 @@ const MapMarker = ({
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const friendlyDuration = formattedDuration(duration);
+
+  useOnClickOutside(markerRef, () => setShowContentMenu(false));
 
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
