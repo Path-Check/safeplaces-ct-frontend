@@ -8,13 +8,15 @@
   z-index: 1;
 
   :global .mapboxgl-ctrl-scale {
+    position: absolute;
+    left: 10px;
+    top: 10px;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     font-size: 14px;
     padding: 5px 10px;
     border-radius: 6px;
     border: none;
-    margin: 2.5px;
     font-weight: 400;
   }
 }
