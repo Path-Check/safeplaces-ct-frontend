@@ -8,6 +8,7 @@ import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
 import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
+import { mapPoints } from 'helpers/pointsUtils';
 
 function* addCases({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -98,8 +99,10 @@ function* loadCasePoints({ type, caseId }) {
       data,
     });
 
+    const mappedPoints = mapPoints(response.data.concernPoints);
+
     yield put(casesActions.setCase(caseId));
-    yield put(pointsActions.updatePoints(response.data.concernPoints));
+    yield put(pointsActions.updatePoints(mappedPoints));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
@@ -144,7 +147,8 @@ function* checkCaseGPSDataSaga() {
     const response = yield call(enrichCase, {
       caseId,
     });
-    yield put(pointsActions.updatePoints(response.data.concernPoints));
+    const mappedPoints = mapPoints(response.data.concernPoints);
+    yield put(pointsActions.updatePoints(mappedPoints));
     yield put(casesActions.setCase(caseId));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
@@ -240,13 +244,65 @@ function* stageCase() {
   }
 }
 
+function* updateExternalId({ externalId }) {
+  const caseId = yield select(casesSelectors.getActiveCase);
+  yield put(applicationActions.updateStatus('BUSY'));
+
+  try {
+    const response = yield call(casesService.updateExternalCaseId, {
+      caseId,
+      externalId,
+    });
+
+    yield put(casesActions.setExternalId(response.data.case.externalId));
+
+    yield put(
+      applicationActions.notification({
+        title: `${caseId}'s external ID is now set to ${externalId}.`,
+      }),
+    );
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: `Unable to update the external ID for ${caseId}.`,
+        text: ' Please try again.',
+      }),
+    );
+  }
+
+  yield put(applicationActions.updateStatus('IDLE'));
+}
+
+function* setRecordId() {
+  const activeCaseId = yield select(casesSelectors.getActiveCase);
+
+  if (!activeCaseId && Array.isArray(activeCaseId)) {
+    return;
+  }
+
+  const cases = yield select(casesSelectors.getCases);
+
+  if (!cases || cases?.length < 1) {
+    return;
+  }
+
+  const targetCase = cases.find(({ caseId }) => activeCaseId === caseId);
+
+  if (!targetCase) {
+    return;
+  }
+  yield put(casesActions.setExternalId(targetCase.externalId));
+}
+
 export default function* casesSagas() {
   yield takeEvery(casesTypes.FETCH_CASE, addCase);
   yield takeEvery(casesTypes.FETCH_CASES, addCases);
   yield takeEvery(casesTypes.DELETE_CASE, deleteCase);
   yield takeEvery(casesTypes.PUBLISH_CASES, publishCases);
   yield takeEvery(casesTypes.STAGE_CASE, stageCase);
+  yield takeEvery(casesTypes.SET_ACTIVE_CASE, setRecordId);
   yield takeEvery(casesTypes.LOAD_CASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.LOAD_MULTICASE_POINTS, loadCasePoints);
   yield takeEvery(casesTypes.CHECK_CASE_GPS_DATA, checkCaseGPSDataSaga);
+  yield takeEvery(casesTypes.externalID.REQUEST, updateExternalId);
 }

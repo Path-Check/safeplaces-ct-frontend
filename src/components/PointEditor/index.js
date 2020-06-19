@@ -189,6 +189,7 @@ const PointEditor = ({ isEdit }) => {
               step="1"
               min="0"
               type="number"
+              labelText=""
               value={localDuration[0]}
             />
             <label htmlFor="durationHours">Hours</label>
@@ -202,6 +203,7 @@ const PointEditor = ({ isEdit }) => {
               min="0"
               max="55"
               type="number"
+              labelText=""
               value={localDuration[1]}
             />
             <label htmlFor="durationMinutes">Minutes</label>

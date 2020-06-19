@@ -12,3 +12,75 @@
     padding: 0;
   }
 }
+
+.selectedfaEllipsisVIcon {
+  position: absolute;
+  margin-left: 311px;
+}
+
+header h3 {
+  text-overflow: ellipsis;
+  width: 275px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+header p {
+  margin-top: 20px;
+}
+
+.ModalButton Button {
+  margin-bottom: 10px;
+  font-size: 16px !important;
+  width: 250px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.inputText {
+  margin-bottom: 12px;
+  border-radius: 5px;
+}
+
+.selectedEditContextMenu {
+  position: absolute;
+  top: 5px;
+  left: calc(100% - 60px);
+  min-width: 240px;
+  padding: 7.5px;
+  background-color: #fff;
+  box-shadow: 0.5px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  z-index: 2;
+
+  button {
+    padding: 7.5px;
+  }
+
+  svg {
+    min-width: 30px;
+    margin-right: 5px;
+  }
+}
+
+.selectedEditContextMenuAction {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 18px;
+  width: 100%;
+  text-align: left;
+  color: #3c475b;
+
+  svg {
+    font-size: 26px;
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: #e5e7fa;
+  }
+}

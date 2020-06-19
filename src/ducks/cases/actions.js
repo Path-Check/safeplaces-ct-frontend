@@ -44,6 +44,22 @@ const casesActions = {
   publishCases: () => ({
     type: casesTypes.PUBLISH_CASES,
   }),
+  setExternalId: externalId => ({
+    type: casesTypes.SET_EXTERNAL_ID,
+    externalId,
+  }),
+  updExternalCaseIdRequest: externalId => ({
+    type: casesTypes.externalID.REQUEST,
+    externalId,
+  }),
+  updExternalCaseIdSuccess: externalId => ({
+    type: casesTypes.externalID.SUCCESS,
+    externalId,
+  }),
+  updExternalCaseIdFailure: error => ({
+    type: casesTypes.externalID.FAILURE,
+    error,
+  }),
 };
 
 export default casesActions;

@@ -29,19 +29,15 @@ const SelectedDataList = () => {
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
+  const hiddenPoints = points.filter(({ hidden }) => hidden);
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
-  const renderedPoints = filteredPoints.length ? filteredPoints : points;
-
-  const noFilteredPoints =
-    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
-
   return (
     <div className={selectedDataWrapper}>
-      {filteredPoints.length > 0 && (
+      {(points.length !== filteredPoints.length || hiddenPoints.length > 0) && (
         <button
-          onClick={() => dispatch(pointsActions.setFilteredPoints([]))}
+          onClick={() => dispatch(pointsActions.clearFilters())}
           className={clearFilters}
         >
           Clear all filters
@@ -52,10 +48,10 @@ const SelectedDataList = () => {
         <div className={selectedDataHeaderInfo}>
           {activeCase && points.length > 0 && (
             <p className={selectedDataSelection}>
-              {renderedPoints?.length} of {points?.length}
+              {filteredPoints?.length} of {points?.length}
             </p>
           )}
-          {isPublish && noFilteredPoints ? null : (
+          {!isPublish && (
             <button
               className={selectedDataAction}
               onClick={() => setShowContentMenu(!showContentMenu)}
@@ -73,9 +69,9 @@ const SelectedDataList = () => {
           />
         )}
       </div>
-      {renderedPoints?.length > 0 && (
+      {filteredPoints?.length > 0 && (
         <ul className={selectedDataList}>
-          {renderedPoints?.map(p => (
+          {filteredPoints?.map(p => (
             <SelectedDataItem key={p.pointId} {...p} />
           ))}
         </ul>

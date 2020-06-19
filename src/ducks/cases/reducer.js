@@ -6,11 +6,21 @@ const initialState = {
   status: '',
   error: null,
   record: null,
+  externalId: '',
   accessCode: null,
+  updateExtIDError: null,
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, status, data, caseId, accessCode } = action;
+  const {
+    type,
+    status,
+    data,
+    caseId,
+    accessCode,
+    externalId,
+    updateExtIDError,
+  } = action;
   switch (type) {
     case casesTypes.STATUS:
       return { ...state, status: status };
@@ -29,6 +39,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         activeCase: caseId,
       };
+    case casesTypes.SET_EXTERNAL_ID:
+      return {
+        ...state,
+        externalId,
+      };
     case casesTypes.SET_ACCESS_CODE:
       return {
         ...state,
@@ -41,6 +56,26 @@ export default function reducer(state = initialState, action) {
           ...state.record,
           points: data,
         },
+      };
+    }
+    case casesTypes.externalID.REQUEST: {
+      return {
+        ...state,
+        fetching: true,
+      };
+    }
+    case casesTypes.externalID.SUCCESS: {
+      return {
+        ...state,
+        fetching: false,
+        externalId,
+      };
+    }
+    case casesTypes.externalID.FAILURE: {
+      return {
+        ...state,
+        fetching: false,
+        error: updateExtIDError,
       };
     }
     default:

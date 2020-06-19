@@ -9,6 +9,7 @@ import pointsService from 'ducks/points/service';
 import pointsSelectors from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
+import { mapPoints } from 'helpers/pointsUtils';
 
 function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -16,17 +17,7 @@ function* deletePoint({ id }) {
   try {
     yield call(pointsService.delete, id);
     const currentPoints = yield select(pointsSelectors.getPoints);
-    const currentFilteredPoints = yield select(
-      pointsSelectors.getFilteredPoints,
-    );
     const points = currentPoints.filter(p => p.pointId !== id);
-
-    if (currentFilteredPoints.length) {
-      const filteredPoints = currentFilteredPoints.filter(
-        p => p.pointId !== id,
-      );
-      yield put(pointsActions.setFilteredPoints(filteredPoints));
-    }
 
     yield put(pointsActions.updatePoints(points));
 
@@ -38,8 +29,6 @@ function* deletePoint({ id }) {
 
     yield put(pointsActions.setSelectedPoint(null));
   } catch (error) {
-    console.log(error);
-
     yield put(
       applicationActions.notification({
         title: 'Unable to delete point. ',
@@ -64,7 +53,6 @@ function* deletePoints() {
 
     const diff = differenceBy(points, filteredPoints, 'pointId');
     yield put(pointsActions.updatePoints(diff));
-    yield put(pointsActions.setFilteredPoints([]));
 
     yield put(
       applicationActions.notification({
@@ -72,6 +60,7 @@ function* deletePoints() {
       }),
     );
     yield put(pointsActions.setSelectedPoint(null));
+    yield put(pointsActions.clearFilters());
 
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
@@ -102,9 +91,8 @@ function* updatePoint({ point, type }) {
 
       const response = yield call(pointsService.edit, data);
       const points = currentPoints.filter(p => p.pointId !== point.pointId);
-      yield put(
-        pointsActions.updatePoints([...points, response.data.concernPoint]),
-      );
+      const mappedPoints = mapPoints([...points, response.data.concernPoint]);
+      yield put(pointsActions.updatePoints(mappedPoints));
     } else {
       data = {
         caseId,
@@ -112,12 +100,11 @@ function* updatePoint({ point, type }) {
       };
 
       const response = yield call(pointsService.add, data);
-      yield put(
-        pointsActions.updatePoints([
-          response.data.concernPoint,
-          ...currentPoints,
-        ]),
-      );
+      const mappedPoints = mapPoints([
+        response.data.concernPoint,
+        ...currentPoints,
+      ]);
+      yield put(pointsActions.updatePoints(mappedPoints));
     }
 
     yield put(mapActions.updateLocation(null));

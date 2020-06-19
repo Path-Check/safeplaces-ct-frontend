@@ -1,12 +1,13 @@
 .sidebarWrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   height: 100%;
+  height: calc(100vh - 75px);
   width: 375px;
   background: #f8f8ff;
   box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.05);
   position: relative;
   z-index: 13;
   padding: 20px;
+  overflow: auto;
 }

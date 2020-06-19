@@ -72,11 +72,7 @@ const Login = () => {
                 {fetching && <InlineLoading />}
               </div>
               <div className={styles.rememberMeContainer}>
-                <Checkbox
-                  label="Remember Me"
-                  id="rememberMe"
-                  onChange={test => console.log(test)}
-                />
+                <Checkbox label="Remember Me" id="rememberMe" />
               </div>
               <p className={styles.disclaimer}>
                 If you are a Health Authority member but you still don’t have an

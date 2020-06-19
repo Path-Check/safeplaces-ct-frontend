@@ -20,6 +20,26 @@ import pointsSelectors from 'ducks/points/selectors';
 import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
 import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
+
+const colorScale = {
+  darkest: '#980f0f',
+  dark: '#d53737',
+  regular: '#ff5656',
+  light: '#f96464',
+};
+
+const returnColor = duration => {
+  if (duration < 15) {
+    return colorScale.light;
+  } else if (duration < 60) {
+    return colorScale.regular;
+  } else if (duration < 720) {
+    return colorScale.dark;
+  } else {
+    return colorScale.darkest;
+  }
+};
 
 const MapMarker = ({
   latitude,
@@ -38,6 +58,8 @@ const MapMarker = ({
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const friendlyDuration = formattedDuration(duration);
+
+  useOnClickOutside(markerRef, () => setShowContentMenu(false));
 
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
@@ -70,7 +92,11 @@ const MapMarker = ({
   return (
     <Marker className={classes} latitude={latitude} longitude={longitude}>
       <button onClick={handleClick} ref={markerRef}>
-        <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
+        <FontAwesomeIcon
+          icon={faMapMarkerAlt}
+          className={markerIcon}
+          style={!alternate && { color: returnColor(duration) }}
+        />
       </button>
       {showContentMenu && !alternate && (
         <PointContextMenu

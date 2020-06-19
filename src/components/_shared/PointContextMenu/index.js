@@ -26,6 +26,7 @@ import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
 import applicationSelectors from 'ducks/application/selectors';
 import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const PointContextMenu = ({
   pointId: id,
@@ -50,25 +51,7 @@ const PointContextMenu = ({
   const date = moment(timestamp).format('MMMM D, YYYY');
   const time = moment(timestamp).format('h:mma');
 
-  const handleClick = e => {
-    const _Target = e.target;
-
-    if (!containerRef.current) return;
-
-    if (!containerRef.current.contains(_Target)) {
-      closeAction();
-      // dispatch(applicationActions.updateStatus(''));
-      // dispatch(pointsActions.setSelectedPoint(null));
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClick);
-
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  }, []);
+  useOnClickOutside(containerRef, () => closeAction());
 
   if (appStatus === 'EDIT POINT') {
     return null;
@@ -104,12 +87,6 @@ const PointContextMenu = ({
         </ul>
       )}
       <ul>
-        {/* <li>
-          <button type="button" onClick={() => console.log('oi oi')}>
-            <FontAwesomeIcon icon={faMinusCircle} />
-            Unselect
-          </button>
-        </li> */}
         {isTrace && (
           <li>
             <button
@@ -123,6 +100,15 @@ const PointContextMenu = ({
             </button>
           </li>
         )}
+        <li>
+          <button
+            type="button"
+            onClick={() => dispatch(pointsActions.hidePoint(id))}
+          >
+            <FontAwesomeIcon icon={faMinusCircle} />
+            Unselect
+          </button>
+        </li>
         {isTrace && (
           <li>
             <button

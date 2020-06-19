@@ -7,7 +7,7 @@
     height: 30px;
     width: 20px;
     transform: translate(-10px, -20px);
-    color: #ff5656;
+    color: #4051db;
   }
 }
 
@@ -15,9 +15,9 @@
   z-index: 2;
 
   .markerIcon {
-    transform: translate(-12.5px, -30px);
+    transform: translate(-12.5px, -32px);
     height: 40px;
-    width: 30px;
+    width: 32px;
   }
 }
 
@@ -25,9 +25,5 @@
   > button {
     pointer-events: none;
     cursor: not-allowed;
-  }
-
-  .markerIcon {
-    color: #4051db;
   }
 }
