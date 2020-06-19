@@ -11,18 +11,13 @@ import RedactorTools from 'components/_shared/RedactorTools';
 import SidebarWrapper from 'components/_shared/Sidebar/SidebarWrapper';
 import SidebarHeader from 'components/_shared/Sidebar/SidebarHeader';
 import TracerLoadActions from 'views/Trace/Actions/LoadActions';
-import AddNewRecord from 'views/Trace/AddNewRecord';
-import RecordAdded from 'views/Trace/RecordAdded';
-import DeletePoints from 'views/Trace/DeletePoints';
-import RecordsTable from 'components/_shared/RecordsTable';
-import StageForPublishing from 'views/Trace/StageForPublishing';
 import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import ErrorBoundary from 'components/_global/errorBoundary';
-import PublishData from 'views/Publish/PublishData';
 
 import { viewWrapper } from './ViewWrapper.module.scss';
 import PublishToolActions from 'views/Publish/Actions/ToolActions';
 import PublishLoadActions from 'views/Publish/Actions/LoadActions';
+import ModalSwitch from 'components/_global/Modal/ModalSwitch';
 
 const ViewWrapper = ({ viewType, title, intro }) => {
   const { pathname } = useLastLocation();
@@ -63,13 +58,7 @@ const ViewWrapper = ({ viewType, title, intro }) => {
           <Map />
         </ErrorBoundary>
       </div>
-      <AddNewRecord />
-      <RecordAdded />
-
-      {appStatus === 'CASES ADDED' && <RecordsTable mode={mode} />}
-      {appStatus === 'DELETE POINTS' && <DeletePoints />}
-      {appStatus === 'STAGE CASE' && <StageForPublishing />}
-      {appStatus === 'SUBMIT FOR PUBLISHING' && <PublishData />}
+      <ModalSwitch mode={mode} status={appStatus} />
     </>
   );
 };
