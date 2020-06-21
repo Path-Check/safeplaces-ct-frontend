@@ -212,7 +212,7 @@ class AddDataToRecordPage(Page):
     def close(self):
         self.find_element(self.close_point_editor_button).click()
     
-    def add_data_point(self, location, date):
+    def add_data_point(self, location, date, hours, minutes):
         contact_trace_page = ContactTracePage(self.driver)
         contact_trace_page.add_new_record()
         add_record_page = AddNewRecordPage(self.driver)
