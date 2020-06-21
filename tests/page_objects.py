@@ -56,7 +56,8 @@ class EntryPage(Page):
 class LoginPage(Page):
     username = (By.ID, 'email-input')
     password = (By.ID, 'pass-input')
-    login_btn = (By.CSS_SELECTOR, '#root > div > div.login_login__2GcqT > div.login_loginFormContainer__16rwU > div > form > div.login_submitWrapper__3fdbp > div > button')
+    login_btn = (By.XPATH, '//*[@type="submit"]')
+    # login_btn = (By.CSS_SELECTOR, '#root > div > div.login_login__2GcqT > div.login_loginFormContainer__16rwU > div > form > div.login_submitWrapper__3fdbp > div > button')
     # login_btn = (By.ID, 'login')
     api_key = (By.ID, 'api-key')
     submit = (By.ID, 'submit')
