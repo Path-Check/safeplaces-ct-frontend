@@ -276,8 +276,10 @@ class SubmitDataPage(Page):
         self.find_element(self.cancel_button).click()
     
 class SettingsPage(Page):
-    configuration_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(1) > a')
-    logout_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(2) > a')
+    configuration_button = (By.XPATH, '//a[@href="/settings/organizatio"]')
+    # configuration_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(1) > a')
+    logout_button = (By.XPATH, '//a[@href="/login"]')
+    # logout_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(2) > a')
     health_authority_name = (By.ID, 'name')
     information_website_URL = (By.ID, 'informationWebsiteUrl')
     reference_website_URL = (By.ID, 'referenceWebsiteUrl')
