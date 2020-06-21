@@ -27,7 +27,7 @@ class TestRedaction(unittest.TestCase):
         if 'BASE_TEST_URL' in os.environ.copy():
             self.base_url = os.environ['BASE_TEST_URL']
         else:
-            self.base_url = 'https://dev.safeplaces.extremesolution.com/'
+            self.base_url = 'https://safeplaces.extremesolution.com/'
         if 'SELENIUM_URL' in os.environ.copy():
             self.sel_url = os.environ['SELENIUM_URL']
         else:
