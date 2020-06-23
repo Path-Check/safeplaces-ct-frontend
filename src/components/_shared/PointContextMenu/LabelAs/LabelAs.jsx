@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import TextInput from '@wfp/ui/lib/components/TextInput';
 
@@ -20,6 +20,8 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import pointsActions from 'ducks/points/actions';
+import { useDispatch } from 'react-redux';
 
 const Options = [
   {
@@ -36,14 +38,24 @@ const Options = [
   },
 ];
 
-const LabelAs = ({ currentLabel }) => {
+const LabelAs = ({ currentLabel, points }) => {
+  const dispatch = useDispatch();
+  const [customLabel, setCustomLabel] = useState();
+
   return (
     <div className={labelAsWrapper}>
       <ul>
         {Options.map(({ icon, tag }) => (
           <li className={labelAsWrapperOption}>
             <button
-              setTag={() => console.log('set tag')}
+              onClick={() =>
+                dispatch(
+                  pointsActions.setPointsLabel({
+                    label: tag,
+                    points,
+                  }),
+                )
+              }
               disabled={tag === currentLabel}
             >
               <FontAwesomeIcon icon={icon} /> {tag}
@@ -63,12 +75,19 @@ const LabelAs = ({ currentLabel }) => {
           labelText=""
           name="labelAs"
           placeholder="Dave's Diner"
+          onChange={e => setCustomLabel(e.target.value)}
         />
-        <Button>
-          <FontAwesomeIcon
-            setTag={() => console.log('set tag')}
-            icon={faChevronRight}
-          />
+        <Button
+          onClick={() =>
+            dispatch(
+              pointsActions.setPointsLabel({
+                label: customLabel,
+                points,
+              }),
+            )
+          }
+        >
+          <FontAwesomeIcon icon={faChevronRight} />
         </Button>
       </div>
     </div>

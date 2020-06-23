@@ -41,6 +41,10 @@ const pointsActions = {
     type: pointsTypes.SET_RECORD_IDS,
     recordIds,
   }),
+  setPointsLabel: data => ({
+    type: pointsTypes.SET_LABEL,
+    data,
+  }),
   setGeometry: geometry => ({
     type: pointsTypes.SET_GEOMETRY,
     geometry,

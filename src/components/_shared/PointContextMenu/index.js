@@ -117,7 +117,7 @@ const PointContextMenu = ({
             <FontAwesomeIcon icon={faMinusCircle} />
             Label location as <FontAwesomeIcon icon={faChevronRight} />
           </button>
-          {showLabelAs && <LabelAs />}
+          {showLabelAs && <LabelAs points={[id]} />}
         </li>
         {isTrace && (
           <li>

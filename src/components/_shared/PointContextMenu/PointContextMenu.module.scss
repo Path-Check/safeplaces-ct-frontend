@@ -28,7 +28,7 @@
   li {
     position: relative;
 
-    button {
+    > button {
       font-size: 18px;
       padding: 7.5px;
       width: 100%;
@@ -44,7 +44,7 @@
     }
   }
 
-  button {
+  > button {
     display: inline-flex;
     cursor: pointer;
     background: none;

@@ -129,12 +129,15 @@ function* updatePoint({ point, type }) {
   }
 }
 
-function* setPointLabel({ label }) {
+function* setPointLabel({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
 
+  console.log(data);
+
   try {
-    const response = yield call(pointsService.setLabel, label);
-    yield put(pointsActions.setSelectedPoint(response.date.concernPoint));
+    const response = yield call(pointsService.setLabel, data);
+
+    console.log(response);
   } catch (error) {
     yield put(applicationActions.updateStatus('IDLE'));
   }
