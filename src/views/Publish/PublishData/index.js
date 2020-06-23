@@ -23,7 +23,9 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
   const apiEndpoint = useSelector(state => authSelectors.getApiEndpoint(state));
 
   return (
-    <Modal>
+    <Modal
+      closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
+    >
       <Dialog width="650px">
         <header className={PublishDataHeader}>
           <h3 className={PublishDataTitle}>Submit Data For Publishing</h3>

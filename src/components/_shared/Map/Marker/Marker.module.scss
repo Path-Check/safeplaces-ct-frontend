@@ -1,13 +1,23 @@
 .marker {
   > button {
-    font-size: 30px;
-    background: none;
-    outline: none;
-    border: none;
+    padding: 0;
+  }
 
-    svg {
-      color: #ff5656;
-    }
+  .markerIcon {
+    height: 30px;
+    width: 20px;
+    transform: translate(-10px, -20px);
+    color: #4051db;
+  }
+}
+
+.markerExpanded {
+  z-index: 2;
+
+  .markerIcon {
+    transform: translate(-12.5px, -32px);
+    height: 40px;
+    width: 32px;
   }
 }
 
@@ -15,15 +25,5 @@
   > button {
     pointer-events: none;
     cursor: not-allowed;
-
-    svg {
-      color: #4051db;
-    }
-  }
-}
-
-.markerExpanded {
-  > button {
-    font-size: 40px;
   }
 }

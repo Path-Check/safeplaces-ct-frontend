@@ -40,23 +40,26 @@ export default function Map({ confirmBounds }) {
   const geocoderContainerRef = useRef();
   const [map, setMap] = useState(null);
 
-  const boundsObject = useSelector(state => authSelectors.getBounds(state));
-  const bounds = boundsObject && [
-    [boundsObject.sw.longitude, boundsObject.sw.latitude],
-    [boundsObject.ne.longitude, boundsObject.ne.latitude],
-  ];
-
   const fallbackViewport = {
     latitude: 37.7577,
     longitude: -122.4376,
-    zoom: 8,
   };
 
-  const initial = bounds
+  const boundsObject = useSelector(state => authSelectors.getBounds(state));
+  const withBounds =
+    boundsObject?.sw?.longitude &&
+    boundsObject?.sw?.latitude &&
+    boundsObject?.ne?.longitude &&
+    boundsObject?.ne?.latitude;
+
+  const initial = withBounds
     ? new WebMercatorViewport({
         width: 800,
         height: 800,
-      }).fitBounds(bounds)
+      }).fitBounds([
+        [boundsObject.sw.longitude, boundsObject.sw.latitude],
+        [boundsObject.ne.longitude, boundsObject.ne.latitude],
+      ])
     : fallbackViewport;
 
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });

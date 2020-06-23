@@ -15,7 +15,7 @@ import {
 
 import Button from 'components/_shared/Button';
 import casesSelectors from 'ducks/cases/selectors';
-import applicationSelectors from 'ducks/application/selectors';
+
 import applicationActions from 'ducks/application/actions';
 import casesActions from 'ducks/cases/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,16 +25,15 @@ import FocusTrap from 'focus-trap-react';
 
 const AddNewRecord = () => {
   const dispatch = useDispatch();
-  const status = useSelector(state => applicationSelectors.getStatus(state));
+
   const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
   const accessCode = useSelector(state => casesSelectors.getAccessCode(state));
 
-  if (status !== 'CASE FETCHED') {
-    return null;
-  }
-
   return (
-    <Modal closeAction={() => dispatch(casesActions.deleteCase())}>
+    <Modal
+      showCloseAction={false}
+      closeAction={() => dispatch(casesActions.deleteCase())}
+    >
       <Dialog width="650px">
         <FocusTrap active={activeCase?.caseId}>
           <div>

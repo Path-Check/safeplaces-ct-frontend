@@ -4,7 +4,12 @@ import classNames from 'classnames';
 
 import moment from 'moment';
 
-import { faMapMarkerAlt, faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faMapMarkerAlt,
+  faEllipsisV,
+  faHourglass,
+  faClock,
+} from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
@@ -24,11 +29,14 @@ import applicationActions from 'ducks/application/actions';
 import mapActions from 'ducks/map/actions';
 import applicationSelectors from 'ducks/application/selectors';
 
+import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
+
 const SelectedDataItem = ({
   pointId,
   latitude,
   longitude,
   time: timestamp,
+  duration,
 }) => {
   const dispatch = useDispatch();
   const itemRef = useRef();
@@ -40,11 +48,12 @@ const SelectedDataItem = ({
   const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
   const [showContentMenu, setShowContentMenu] = useState(false);
   const date = moment(timestamp).format('ddd, MMMM D, YYYY');
-  const time = moment(timestamp).format('hh:mm');
+  const time = moment(timestamp).format('h:mma');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
     [`${selectedDataItemHighlighted}`]: isHighlighted,
   });
+  const friendlyDuration = formattedDuration(duration);
 
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
@@ -56,12 +65,9 @@ const SelectedDataItem = ({
         latitude,
         longitude,
         time: timestamp,
+        duration,
       }),
     );
-
-    if (!isTrace) {
-      return;
-    }
 
     setShowContentMenu(!showContentMenu);
   };
@@ -75,6 +81,12 @@ const SelectedDataItem = ({
     }
   }, [showContentMenu]);
 
+  useEffect(() => {
+    if (!isHighlighted) {
+      setShowContentMenu(false);
+    }
+  }, [isHighlighted]);
+
   return (
     <div className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
@@ -82,19 +94,25 @@ const SelectedDataItem = ({
         <div className={selectedDataContent}>
           <h6>{date}</h6>
           <ul>
-            <li>{time}</li>
-            {/* <li>{travelling ? 'Travelling' : duration}</li> */}
+            <li>
+              <FontAwesomeIcon icon={faClock} /> {time}
+            </li>
+            {friendlyDuration && (
+              <li>
+                <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
+              </li>
+            )}
           </ul>
         </div>
-        {isTrace && (
-          <div className={selectedDataMenuAction} type="button">
-            <FontAwesomeIcon icon={faEllipsisV} />
-          </div>
-        )}
+        <div className={selectedDataMenuAction} type="button">
+          <FontAwesomeIcon icon={faEllipsisV} />
+        </div>
       </button>
-      {showContentMenu && (
+      {showContentMenu && isHighlighted && (
         <PointContextMenu
           {...activePoint}
+          renderDateTime={false}
+          duration={friendlyDuration}
           closeAction={() => setShowContentMenu(false)}
         />
       )}
@@ -103,12 +121,11 @@ const SelectedDataItem = ({
 };
 
 SelectedDataItem.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   latLng: PropTypes.array,
   date: PropTypes.string,
   time: PropTypes.string,
-  duration: PropTypes.bool,
-  travelling: PropTypes.string,
+  duration: PropTypes.number,
   selectedItem: PropTypes.string,
 };
 

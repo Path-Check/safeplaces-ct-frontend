@@ -15,16 +15,15 @@ const getBounds = currentPoints => {
     if (bounds._sw && bounds._ne.lng) {
       var boundsArray;
 
-      console.log('bounds', bounds, bounds._sw.lng === bounds._ne.lng);
       if (bounds._sw.lng === bounds._ne.lng) {
         boundsArray = [
-          [bounds._sw.lng + 0.01, bounds._sw.lat + 0.01],
-          [bounds._ne.lng - 0.01, bounds._ne.lat - 0.01],
+          [bounds._sw.lng - 0.01, bounds._sw.lat - 0.01],
+          [bounds._ne.lng + 0.01, bounds._ne.lat + 0.01],
         ];
       } else {
         boundsArray = [
-          [bounds._sw.lng, bounds._sw.lat],
-          [bounds._ne.lng, bounds._ne.lat],
+          [bounds._sw.lng - 0.01, bounds._sw.lat - 0.01],
+          [bounds._ne.lng + 0.01, bounds._ne.lat + 0.01],
         ];
       }
       return boundsArray;

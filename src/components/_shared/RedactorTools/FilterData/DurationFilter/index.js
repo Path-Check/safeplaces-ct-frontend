@@ -1,30 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Slider from 'rc-slider';
-import Checkbox from 'components/_shared/Checkbox/Checkbox';
 
 import {
   durationFilter,
   durationFilterSlider,
   durationFilterSliderActive,
 } from './DurationFilter.module.scss';
+import Checkbox from 'components/_shared/ControlledCheckbox/Checkbox';
 
-const DurationFilter = () => {
-  const times = [15, 30, 45, 60];
-  const [checked, setChecked] = useState(false);
-  const [duration, setDuration] = useState(times[0]);
-
+const DurationFilter = ({
+  duration,
+  setDuration,
+  times,
+  checked,
+  setChecked,
+}) => {
   const handleChange = value => {
-    setDuration(times[value - 1]);
+    setDuration(times[value]);
   };
-
-  useEffect(() => {
-    if (checked) {
-      // fire API call with duration
-    }
-  }, [checked]);
 
   const sliderClasses = classNames({
     [`${durationFilterSlider}`]: true,
@@ -38,12 +34,13 @@ const DurationFilter = () => {
         label="Hide data less than duration"
         id="durationFilter"
         align="left"
+        isChecked={checked}
       />
       <div className={sliderClasses}>
         <Slider
-          min={1}
+          min={0}
+          max={times.length - 1}
           step={1}
-          max={4}
           onChange={handleChange}
           disabled={!checked}
         />

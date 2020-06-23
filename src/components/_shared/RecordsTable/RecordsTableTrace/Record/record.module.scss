@@ -1,6 +1,7 @@
 .record {
   width: 100%;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+  line-height: 1.2;
 
   &:last-of-type {
     border: none;
@@ -18,6 +19,6 @@
   border-bottom: 1px solid #2434b6;
 }
 
-.unpublished {
+.staged {
   font-style: italic;
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { ConnectedRouter } from 'connected-react-router';
-
-import { ToastProvider } from 'react-toast-notifications';
+import { LastLocationProvider } from 'react-router-last-location';
 
 import { history } from './store';
 import { useSelector } from 'react-redux';
@@ -15,6 +14,7 @@ import Loader from 'components/_shared/Loader';
 import Notifications from 'components/_global/Notifications';
 
 import Router from './Router';
+
 function App() {
   const token = useSelector(state => authSelectors.getToken(state));
   const isOnboarded =
@@ -23,8 +23,10 @@ function App() {
   return (
     <div className="App">
       <ConnectedRouter history={history}>
-        <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
-        <Router token={token} />
+        <LastLocationProvider>
+          <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
+          <Router token={token} />
+        </LastLocationProvider>
       </ConnectedRouter>
       <Loader />
 
