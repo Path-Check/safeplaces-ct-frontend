@@ -16,7 +16,7 @@ import {
   validateTimeDuration,
   returnMaxTime,
   returnMinTime,
-} from 'components/PointEditor/_helpers';
+} from 'components/_shared/PointEditor/_helpers';
 
 import {
   pointEditor,
