@@ -21,6 +21,7 @@ import {
   faTimes,
   faChevronRight,
   faHourglass,
+  faTag,
 } from '@fortawesome/pro-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
@@ -114,7 +115,7 @@ const PointContextMenu = ({
         </li>
         <li>
           <button type="button" onClick={() => setShowLabelAs(true)}>
-            <FontAwesomeIcon icon={faMinusCircle} />
+            <FontAwesomeIcon icon={faTag} />
             Label location as <FontAwesomeIcon icon={faChevronRight} />
           </button>
           {showLabelAs && <LabelAs points={[id]} />}

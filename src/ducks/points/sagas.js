@@ -10,6 +10,7 @@ import pointsSelectors from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
 import { mapPoints } from 'helpers/pointsUtils';
+import tagsActions from 'ducks/tags/actions';
 
 function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -131,6 +132,7 @@ function* updatePoint({ point, type }) {
 
 function* setPointLabel({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
+  yield put(tagsActions.setTags(data.label));
 
   console.log(data);
 

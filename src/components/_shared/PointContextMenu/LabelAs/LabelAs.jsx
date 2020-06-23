@@ -17,11 +17,16 @@ import {
   faUniversity,
   faPiggyBank,
   faChevronRight,
+  faPrescription,
+  faPrescriptionBottle,
+  faTag,
 } from '@fortawesome/pro-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import pointsActions from 'ducks/points/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { faGasPump } from '@fortawesome/pro-regular-svg-icons';
+import tagsSelectors from 'ducks/tags/selectors';
 
 const Options = [
   {
@@ -36,10 +41,19 @@ const Options = [
     icon: faPiggyBank,
     tag: 'Bank',
   },
+  {
+    icon: faPrescriptionBottle,
+    tag: 'Pharmacy',
+  },
+  {
+    icon: faGasPump,
+    tag: 'Gas Station',
+  },
 ];
 
 const LabelAs = ({ currentLabel, points }) => {
   const dispatch = useDispatch();
+  const tags = useSelector(state => tagsSelectors.getTags(state));
   const [customLabel, setCustomLabel] = useState();
 
   return (
@@ -68,6 +82,30 @@ const LabelAs = ({ currentLabel, points }) => {
             </button>
           </li>
         ))}
+        {tags?.length > 0 &&
+          tags.map(tag => (
+            <li className={labelAsWrapperOption}>
+              <button
+                onClick={() =>
+                  dispatch(
+                    pointsActions.setPointsLabel({
+                      label: tag,
+                      points,
+                    }),
+                  )
+                }
+                disabled={tag === currentLabel}
+              >
+                <FontAwesomeIcon icon={faTag} /> {tag}
+                {tag === currentLabel && (
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={labelAsWrapperOptionCheck}
+                  />
+                )}
+              </button>
+            </li>
+          ))}
       </ul>
       <div className={inputWrapper}>
         <TextInput

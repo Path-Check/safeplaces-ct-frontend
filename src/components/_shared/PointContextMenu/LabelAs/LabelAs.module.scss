@@ -8,14 +8,10 @@
   border-radius: 6px;
   z-index: 3;
   width: 250px;
-
-  li {
-    margin-bottom: 5px;
-  }
 }
 
 .inputWrapper {
-  margin-bottom: 15px;
+  margin-top: 15px;
   position: relative;
 
   input {
@@ -49,4 +45,9 @@
 
 .labelAsWrapperOptionCheck {
   margin-left: auto;
+}
+
+.previousTags {
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
 }
