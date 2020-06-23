@@ -118,7 +118,9 @@ const PointContextMenu = ({
             <FontAwesomeIcon icon={faTag} />
             Label location as <FontAwesomeIcon icon={faChevronRight} />
           </button>
-          {showLabelAs && <LabelAs points={[id]} />}
+          {showLabelAs && (
+            <LabelAs points={[id]} closeCallback={() => closeAction()} />
+          )}
         </li>
         {isTrace && (
           <li>

@@ -51,10 +51,20 @@ const Options = [
   },
 ];
 
-const LabelAs = ({ currentLabel, points }) => {
+const LabelAs = ({ currentLabel, points, closeCallback }) => {
   const dispatch = useDispatch();
   const tags = useSelector(state => tagsSelectors.getTags(state));
   const [customLabel, setCustomLabel] = useState();
+
+  const handleConfirm = tag => {
+    dispatch(
+      pointsActions.setPointsLabel({
+        label: tag,
+        points,
+      }),
+    );
+    closeCallback();
+  };
 
   return (
     <div className={labelAsWrapper}>
@@ -62,14 +72,7 @@ const LabelAs = ({ currentLabel, points }) => {
         {Options.map(({ icon, tag }) => (
           <li className={labelAsWrapperOption}>
             <button
-              onClick={() =>
-                dispatch(
-                  pointsActions.setPointsLabel({
-                    label: tag,
-                    points,
-                  }),
-                )
-              }
+              onClick={() => handleConfirm(tag)}
               disabled={tag === currentLabel}
             >
               <FontAwesomeIcon icon={icon} /> {tag}
@@ -86,14 +89,7 @@ const LabelAs = ({ currentLabel, points }) => {
           tags.map(tag => (
             <li className={labelAsWrapperOption}>
               <button
-                onClick={() =>
-                  dispatch(
-                    pointsActions.setPointsLabel({
-                      label: tag,
-                      points,
-                    }),
-                  )
-                }
+                onClick={() => handleConfirm(tag)}
                 disabled={tag === currentLabel}
               >
                 <FontAwesomeIcon icon={faTag} /> {tag}
@@ -116,14 +112,8 @@ const LabelAs = ({ currentLabel, points }) => {
           onChange={e => setCustomLabel(e.target.value)}
         />
         <Button
-          onClick={() =>
-            dispatch(
-              pointsActions.setPointsLabel({
-                label: customLabel,
-                points,
-              }),
-            )
-          }
+          disabled={!customLabel}
+          onClick={() => handleConfirm(customLabel)}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </Button>
