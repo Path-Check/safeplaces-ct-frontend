@@ -59,8 +59,8 @@ const LabelAs = ({ currentLabel, points, closeCallback }) => {
   const handleConfirm = tag => {
     dispatch(
       pointsActions.setPointsLabel({
-        label: tag,
-        points,
+        nickname: tag,
+        pointIds: points,
       }),
     );
     closeCallback();

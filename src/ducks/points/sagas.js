@@ -134,8 +134,6 @@ function* setPointLabel({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
   yield put(tagsActions.setTags(data.label));
 
-  console.log(data);
-
   try {
     const response = yield call(pointsService.setLabel, data);
 

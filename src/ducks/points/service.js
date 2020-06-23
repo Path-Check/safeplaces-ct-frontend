@@ -30,8 +30,8 @@ const pointsService = {
   },
   setLabel: data => {
     return axios({
-      method: 'POST',
-      url: `${REACT_APP_API_URL}case/point`,
+      method: 'PUT',
+      url: `${REACT_APP_API_URL}case/points`,
       data,
     });
   },
