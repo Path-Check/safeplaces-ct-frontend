@@ -16,7 +16,7 @@ const RecordIdsFilter = ({ filterRecordIds, setFilterRecordIds }) => {
       dispatch(pointsActions.setRecordIds(localCases));
       setFilterRecordIds(false);
     }
-  }, [dispatch, filterRecordIds, localCases, setFilterRecordIds]);
+  }, [localCases]);
 
   const handleChange = e => {
     if (localCases.includes(parseInt(e.target.name))) {

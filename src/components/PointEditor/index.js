@@ -64,7 +64,7 @@ const PointEditor = ({ isEdit }) => {
 
     const [hours, mins] = convertToHoursMins(activePoint);
     setLocalDuration([hours, mins]);
-  }, [activePoint, isEdit]);
+  }, []);
 
   useEffect(() => {
     dispatch(
@@ -73,7 +73,7 @@ const PointEditor = ({ isEdit }) => {
         duration: convertToMins(localDuration),
       }),
     );
-  }, [dispatch, localDuration, selectedLocation]);
+  }, [localDuration]);
 
   const handleChange = (type, value) => {
     if (type === 'latLng') {

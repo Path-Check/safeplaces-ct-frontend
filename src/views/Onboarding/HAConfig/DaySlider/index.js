@@ -11,7 +11,7 @@ const DaySlider = ({ id, handleChange, value }) => {
 
   useEffect(() => {
     handleChange({ target: { value: day, id } });
-  }, [day, handleChange, id]);
+  }, [day]);
 
   return (
     <div className={styles.container} id="day-slider">
