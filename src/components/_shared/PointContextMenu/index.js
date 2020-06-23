@@ -19,6 +19,7 @@ import {
   faClock,
   faTrash,
   faTimes,
+  faChevronRight,
   faHourglass,
 } from '@fortawesome/pro-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -107,6 +108,15 @@ const PointContextMenu = ({
           >
             <FontAwesomeIcon icon={faMinusCircle} />
             Unselect
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            onClick={() => dispatch(pointsActions.hidePoint(id))}
+          >
+            <FontAwesomeIcon icon={faMinusCircle} />
+            Label as <FontAwesomeIcon icon={faChevronRight} />
           </button>
         </li>
         {isTrace && (
