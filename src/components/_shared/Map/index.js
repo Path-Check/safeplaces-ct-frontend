@@ -16,13 +16,14 @@ import { defaultMapStyle } from 'components/_shared/Map/config';
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
 import pointsSelectors from 'ducks/points/selectors';
-import PointEditor from 'components/PointEditor';
+
 import applicationSelectors from 'ducks/application/selectors';
 import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
 import DrawEditor from 'components/_shared/Map/DrawEditor';
 
 import { returnGeoPoints } from 'components/_shared/Map/_helpers';
+import PointEditor from 'components/_shared/PointEditor';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
