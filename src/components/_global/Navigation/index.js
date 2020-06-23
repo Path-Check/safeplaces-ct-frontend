@@ -10,6 +10,7 @@ const Navigation = () => (
     <ul className={styles.navMenu}>
       <li>
         <NavLink
+          id="contact-trace"
           className={styles.navMenuItem}
           activeClassName={styles.active}
           to="/trace"
@@ -17,6 +18,7 @@ const Navigation = () => (
           Contact Trace
         </NavLink>
         <NavLink
+          id="publish-data"
           className={styles.navMenuItem}
           activeClassName={styles.active}
           to="/publish"
@@ -26,6 +28,7 @@ const Navigation = () => (
       </li>
       <li>
         <NavLink
+          id="settings"
           className={styles.navMenuItem}
           activeClassName={styles.active}
           strict

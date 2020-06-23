@@ -31,10 +31,15 @@ const DeletePoints = () => {
           </p>
         </header>
         <div className={deletePointsBody}>
-          <Button large onClick={() => dispatch(pointsActions.deletePoints())}>
+          <Button
+            id="yes-delete-points"
+            large
+            onClick={() => dispatch(pointsActions.deletePoints())}
+          >
             Yes, Delete {filteredPoints.length} Point(s)
           </Button>
           <Button
+            id="cancel-button"
             large
             secondary
             onClick={() => dispatch(applicationActions.updateStatus(''))}

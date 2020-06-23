@@ -54,6 +54,7 @@ const AddNewRecord = () => {
                 <p className={AddNewRecordCode}>{accessCode}</p>
                 <div className={AddNewRecordActions}>
                   <Button
+                    id="check-data-upload"
                     large
                     onClick={() => dispatch(casesActions.checkCaseGPSData())}
                   >
@@ -66,6 +67,7 @@ const AddNewRecord = () => {
             <div className={AddNewRecordActions}>
               {activeCase && (
                 <Button
+                  id="create-record-manually"
                   secondary
                   large
                   onClick={() => {
@@ -77,6 +79,7 @@ const AddNewRecord = () => {
                 </Button>
               )}{' '}
               <button
+                id="add-record-close"
                 icon={faTimes}
                 className={closeIcon}
                 onClick={() => dispatch(casesActions.deleteCase())}
