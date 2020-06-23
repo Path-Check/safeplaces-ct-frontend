@@ -34,7 +34,7 @@ const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
   useEffect(() => {
     selectedLocation?.longitude &&
       setValue(`${selectedLocation?.latitude}, ${selectedLocation?.longitude}`);
-  }, []);
+  }, [selectedLocation]);
 
   return (
     <PlacesAutocomplete
@@ -45,6 +45,7 @@ const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div className={locationSearch}>
           <input
+            id="search-location"
             style={{
               width: '100%',
             }}

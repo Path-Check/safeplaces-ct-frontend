@@ -53,6 +53,7 @@ const SelectedDataList = () => {
           )}
           {!isPublish && (
             <button
+              id="selected-data-more-menu"
               className={selectedDataAction}
               onClick={() => setShowContentMenu(!showContentMenu)}
               type="button"

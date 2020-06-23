@@ -84,7 +84,12 @@ const Login = () => {
             />
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
-                <Button width="100%" height="72px" type="submit">
+                <Button
+                  id="login-button"
+                  width="100%"
+                  height="72px"
+                  type="submit"
+                >
                   {fetching ? (
                     <div className={styles.loadingContainer}>
                       <InlineLoading className={styles.loading} />

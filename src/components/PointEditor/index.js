@@ -64,7 +64,7 @@ const PointEditor = ({ isEdit }) => {
 
     const [hours, mins] = convertToHoursMins(activePoint);
     setLocalDuration([hours, mins]);
-  }, []);
+  }, [activePoint, isEdit]);
 
   useEffect(() => {
     dispatch(
@@ -73,7 +73,7 @@ const PointEditor = ({ isEdit }) => {
         duration: convertToMins(localDuration),
       }),
     );
-  }, [localDuration]);
+  }, [dispatch, localDuration, selectedLocation]);
 
   const handleChange = (type, value) => {
     if (type === 'latLng') {
@@ -143,7 +143,7 @@ const PointEditor = ({ isEdit }) => {
       <form className={pointEditor} onSubmit={handleSubmit}>
         <div className={pointEditorHeader}>
           <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
-          <button className={closeAction} onClick={handleClose}>
+          <button id="close" className={closeAction} onClick={handleClose}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>
@@ -154,6 +154,7 @@ const PointEditor = ({ isEdit }) => {
           />
           <span>or</span>
           <Button
+            id="select-from-map"
             fullWidth
             secondary
             onClick={() => {
@@ -209,7 +210,7 @@ const PointEditor = ({ isEdit }) => {
             <label htmlFor="durationMinutes">Minutes</label>
           </div>
         </div>
-        <Button type="submit" fullWidth disabled={isDisabled}>
+        <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
           Save Data
         </Button>
       </form>

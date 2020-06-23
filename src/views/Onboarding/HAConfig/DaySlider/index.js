@@ -11,10 +11,10 @@ const DaySlider = ({ id, handleChange, value }) => {
 
   useEffect(() => {
     handleChange({ target: { value: day, id } });
-  }, [day]);
+  }, [day, handleChange, id]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="day-slider">
       <Slider
         ariaLabelForHandle={day}
         min={0}

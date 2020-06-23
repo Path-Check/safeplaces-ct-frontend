@@ -54,6 +54,7 @@ const RedactorToolsHeader = () => {
       <ul>
         <li>
           <button
+            id="edit-record-id"
             className={selectedEditContextMenuAction}
             type="button"
             onClick={() => {
@@ -73,6 +74,7 @@ const RedactorToolsHeader = () => {
     <>
       <header className={redactorToolsHeader} ref={containerRef}>
         <button
+          id="go-back"
           type="button"
           onClick={() =>
             dispatch({
@@ -95,6 +97,7 @@ const RedactorToolsHeader = () => {
         </h3>
         {mode === 'trace' && (
           <button
+            id="more-menu-button"
             className={selectedfaEllipsisVIcon}
             onClick={() => setEditRecordButton(true)}
             type="button"

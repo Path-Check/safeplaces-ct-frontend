@@ -48,7 +48,10 @@ const RecordsTableTrace = () => {
         <tfoot>
           <tr>
             <td colSpan="4">
-              <Button onClick={() => dispatch(casesActions.fetchCase())}>
+              <Button
+                id="add-new-record-from-modal"
+                onClick={() => dispatch(casesActions.fetchCase())}
+              >
                 <FontAwesomeIcon icon={faPlus} /> Add New Record
               </Button>
             </td>
