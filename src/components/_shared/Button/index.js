@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 const Button = ({
+  id = '',
   width,
   height,
   disabled = false,
@@ -33,11 +34,12 @@ const Button = ({
   );
 
   return to ? (
-    <Link className={btnClasses} to={to} style={{ width, height }}>
+    <Link id={id} className={btnClasses} to={to} style={{ width, height }}>
       {children}
     </Link>
   ) : (
     <button
+      id={id}
       className={btnClasses}
       style={{ width, height }}
       disabled={disabled}

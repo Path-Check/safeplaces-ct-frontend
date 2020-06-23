@@ -14,7 +14,7 @@ const DaySlider = ({ id, handleChange, value }) => {
   }, [day]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="day-slider">
       <Slider
         ariaLabelForHandle={day}
         min={0}

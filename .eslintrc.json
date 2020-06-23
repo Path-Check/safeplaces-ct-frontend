@@ -1,6 +1,7 @@
 {
   "extends": ["react-app", "standard", "plugin:prettier/recommended"],
   "rules": {
+    "react-hooks/exhaustive-deps": 0,
     "no-unused-vars": 1
   }
 }

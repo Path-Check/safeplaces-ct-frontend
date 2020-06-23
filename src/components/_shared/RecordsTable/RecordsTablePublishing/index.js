@@ -53,7 +53,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
         </thead>
       </table>
       <div className={tableMain}>
-        <table className={table}>
+        <table id="records-table" className={table}>
           <tbody>
             {stagedCases.map(r => (
               <Record
@@ -72,6 +72,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
             <td colSpan="4">
               <>
                 <Button
+                  id="open-selected-data"
                   className={tableAction}
                   disabled={caseIds.length < 1}
                   onClick={() =>

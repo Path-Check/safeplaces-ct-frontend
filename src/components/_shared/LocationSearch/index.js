@@ -45,6 +45,7 @@ const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div className={locationSearch}>
           <input
+            id="search-location"
             style={{
               width: '100%',
             }}
