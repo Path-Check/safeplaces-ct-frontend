@@ -143,7 +143,11 @@ const PointEditor = ({ isEdit }) => {
       <form className={pointEditor} onSubmit={handleSubmit}>
         <div className={pointEditorHeader}>
           <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
-          <button id="close" className={closeAction} onClick={handleClose}>
+          <button
+            id="point-editor-close"
+            className={closeAction}
+            onClick={handleClose}
+          >
             <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>

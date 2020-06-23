@@ -79,7 +79,7 @@ const AddNewRecord = () => {
                 </Button>
               )}{' '}
               <button
-                id="close-modal"
+                id="add-record-close"
                 icon={faTimes}
                 className={closeIcon}
                 onClick={() => dispatch(casesActions.deleteCase())}
