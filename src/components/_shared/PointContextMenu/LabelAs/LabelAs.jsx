@@ -39,20 +39,6 @@ const Options = [
 const LabelAs = ({ currentLabel }) => {
   return (
     <div className={labelAsWrapper}>
-      <div className={inputWrapper}>
-        <TextInput
-          id="labelAs"
-          labelText=""
-          name="labelAs"
-          placeholder="Dave's Diner"
-        />
-        <Button>
-          <FontAwesomeIcon
-            setTag={() => console.log('set tag')}
-            icon={faChevronRight}
-          />
-        </Button>
-      </div>
       <ul>
         {Options.map(({ icon, tag }) => (
           <li className={labelAsWrapperOption}>
@@ -71,6 +57,20 @@ const LabelAs = ({ currentLabel }) => {
           </li>
         ))}
       </ul>
+      <div className={inputWrapper}>
+        <TextInput
+          id="labelAs"
+          labelText=""
+          name="labelAs"
+          placeholder="Dave's Diner"
+        />
+        <Button>
+          <FontAwesomeIcon
+            setTag={() => console.log('set tag')}
+            icon={faChevronRight}
+          />
+        </Button>
+      </div>
     </div>
   );
 };

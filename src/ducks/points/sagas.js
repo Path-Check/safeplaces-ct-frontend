@@ -129,9 +129,21 @@ function* updatePoint({ point, type }) {
   }
 }
 
+function* setPointLabel({ label }) {
+  yield put(applicationActions.updateStatus('BUSY'));
+
+  try {
+    const response = yield call(pointsService.setLabel, label);
+    yield put(pointsActions.setSelectedPoint(response.date.concernPoint));
+  } catch (error) {
+    yield put(applicationActions.updateStatus('IDLE'));
+  }
+}
+
 export default function* pointsSagas() {
   yield takeEvery(pointsTypes.DELETE_POINT, deletePoint);
   yield takeEvery(pointsTypes.DELETE_POINTS, deletePoints);
   yield takeEvery(pointsTypes.EDIT_POINT, updatePoint);
   yield takeEvery(pointsTypes.ADD_POINT, updatePoint);
+  yield takeEvery(pointsTypes.SET_LABEL, setPointLabel);
 }

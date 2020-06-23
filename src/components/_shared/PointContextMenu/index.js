@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
@@ -28,6 +28,7 @@ import applicationActions from 'ducks/application/actions';
 import applicationSelectors from 'ducks/application/selectors';
 import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
 
 const PointContextMenu = ({
   pointId: id,
@@ -46,6 +47,7 @@ const PointContextMenu = ({
 
   const containerRef = useRef();
   const dispatch = useDispatch();
+  const [showLabelAs, setShowLabelAs] = useState(false);
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
@@ -111,13 +113,11 @@ const PointContextMenu = ({
           </button>
         </li>
         <li>
-          <button
-            type="button"
-            onClick={() => dispatch(pointsActions.hidePoint(id))}
-          >
+          <button type="button" onClick={() => setShowLabelAs(true)}>
             <FontAwesomeIcon icon={faMinusCircle} />
-            Label as <FontAwesomeIcon icon={faChevronRight} />
+            Label location as <FontAwesomeIcon icon={faChevronRight} />
           </button>
+          {showLabelAs && <LabelAs />}
         </li>
         {isTrace && (
           <li>
