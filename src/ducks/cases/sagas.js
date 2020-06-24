@@ -87,7 +87,7 @@ function* loadCasePoints({ type, caseId }) {
     case casesTypes.LOAD_MULTICASE_POINTS:
       service = 'fetchMultiPoints';
       data = {
-        caseIds: caseId,
+        caseIds: caseId.map(c => c.caseId),
       };
       break;
     default:

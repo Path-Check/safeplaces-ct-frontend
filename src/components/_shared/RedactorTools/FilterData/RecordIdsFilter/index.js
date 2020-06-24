@@ -9,36 +9,37 @@ import pointsActions from 'ducks/points/actions';
 const RecordIdsFilter = ({ filterRecordIds, setFilterRecordIds }) => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getActiveCase(state));
-  const [localCases, setLocalCases] = useState(cases);
+  const [caseIds, setCaseIds] = useState(cases.map(c => c.caseId));
 
   useEffect(() => {
     if (filterRecordIds) {
-      dispatch(pointsActions.setRecordIds(localCases));
+      dispatch(pointsActions.setRecordIds(caseIds));
       setFilterRecordIds(false);
     }
-  }, [localCases]);
+  }, [filterRecordIds]);
 
   const handleChange = e => {
-    if (localCases.includes(parseInt(e.target.name))) {
-      setLocalCases(localCases.filter(c => c !== parseInt(e.target.name)));
+    if (caseIds.includes(parseInt(e.target.name))) {
+      setCaseIds(caseIds.filter(c => c !== parseInt(e.target.name)));
     } else {
-      setLocalCases([...localCases, parseInt(e.target.name)]);
+      setCaseIds([...caseIds, parseInt(e.target.name)]);
     }
   };
 
   return (
     <div>
-      {cases?.map(record => (
-        <Checkbox
-          onChange={handleChange}
-          disabled={localCases.length === 1 && localCases[0] === record}
-          id={record}
-          name={record}
-          isChecked={localCases.includes(record)}
-          align="left"
-          label={`Record ${record}`}
-        />
-      ))}
+      {cases?.length > 0 &&
+        cases.map(c => (
+          <Checkbox
+            onChange={handleChange}
+            disabled={caseIds.length === 1 && caseIds[0] === c.caseId}
+            id={c.caseId}
+            name={c.caseId}
+            isChecked={caseIds.includes(c.caseId)}
+            align="left"
+            label={`Record ${c.externalId}`}
+          />
+        ))}
     </div>
   );
 };
