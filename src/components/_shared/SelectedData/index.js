@@ -23,7 +23,9 @@ import pointsActions from '../../../ducks/points/actions';
 
 const SelectedDataList = () => {
   const [showContentMenu, setShowContentMenu] = useState(false);
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const activeCases = useSelector(state =>
+    casesSelectors.getActiveCases(state),
+  );
   const dispatch = useDispatch();
   const points = useSelector(state => pointsSelectors.getPoints(state));
   const filteredPoints = useSelector(state =>
@@ -46,7 +48,7 @@ const SelectedDataList = () => {
       <div className={selectedDataHeader}>
         <h5>Selected Data</h5>
         <div className={selectedDataHeaderInfo}>
-          {activeCase && points.length > 0 && (
+          {activeCases && points.length > 0 && (
             <p className={selectedDataSelection}>
               {filteredPoints?.length} of {points?.length}
             </p>

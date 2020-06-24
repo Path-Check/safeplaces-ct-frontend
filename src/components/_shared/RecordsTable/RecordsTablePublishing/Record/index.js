@@ -8,9 +8,17 @@ import styles from './record.module.scss';
 import Checkbox from 'components/_shared/Checkbox/Checkbox';
 import { returnFormattedDate } from 'helpers/dateTime';
 
-const Record = ({ caseId, state, onChange, stagedAt, contactTracerId }) => {
+const Record = ({
+  caseId,
+  state,
+  externalId,
+  onChange,
+  stagedAt,
+  contactTracerId,
+}) => {
   const processDate = stagedAt;
   const processed = returnFormattedDate(processDate);
+  const _Id = externalId || caseId;
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,
@@ -23,8 +31,10 @@ const Record = ({ caseId, state, onChange, stagedAt, contactTracerId }) => {
           <th colSpan="1">
             <Checkbox id={caseId} name={caseId} onChange={onChange} />
           </th>
-          <td colSpan="1">
-            <label htmlFor={caseId}>{caseId}</label>
+          <td colSpan="2">
+            <label title={_Id} htmlFor={caseId}>
+              {_Id}
+            </label>
           </td>
         </>
       )}

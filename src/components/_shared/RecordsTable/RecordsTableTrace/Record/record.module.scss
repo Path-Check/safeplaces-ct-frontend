@@ -17,6 +17,10 @@
   font-size: 18px;
   padding: 0;
   border-bottom: 1px solid #2434b6;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .staged {

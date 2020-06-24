@@ -76,7 +76,11 @@ const RecordsTablePublishing = ({ isPublishing }) => {
                   className={tableAction}
                   disabled={caseIds.length < 1}
                   onClick={() =>
-                    dispatch(casesActions.loadMultiCasePoints(caseIds))
+                    dispatch(
+                      casesActions.loadMultiCasePoints(
+                        cases.filter(c => caseIds.includes(c.caseId)),
+                      ),
+                    )
                   }
                 >
                   Open Selected Data

@@ -26,7 +26,9 @@ import FocusTrap from 'focus-trap-react';
 const AddNewRecord = () => {
   const dispatch = useDispatch();
 
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const activeCases = useSelector(state =>
+    casesSelectors.getActiveCases(state),
+  );
   const accessCode = useSelector(state => casesSelectors.getAccessCode(state));
 
   return (
@@ -35,7 +37,7 @@ const AddNewRecord = () => {
       closeAction={() => dispatch(casesActions.deleteCase())}
     >
       <Dialog width="650px">
-        <FocusTrap active={activeCase?.caseId}>
+        <FocusTrap active={activeCases?.caseId}>
           <div>
             <header className={AddNewRecordHeader}>
               <h3 className={AddNewRecordTitle}>Add New Record</h3>
@@ -65,7 +67,7 @@ const AddNewRecord = () => {
               </>
             )}
             <div className={AddNewRecordActions}>
-              {activeCase && (
+              {activeCases && (
                 <Button
                   id="create-record-manually"
                   secondary
