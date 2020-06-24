@@ -8,7 +8,7 @@ import pointsActions from 'ducks/points/actions';
 
 const RecordIdsFilter = ({ filterRecordIds, setFilterRecordIds }) => {
   const dispatch = useDispatch();
-  const cases = useSelector(state => casesSelectors.getActiveCase(state));
+  const cases = useSelector(state => casesSelectors.getActiveCases(state));
   const [caseIds, setCaseIds] = useState(cases.map(c => c.caseId));
 
   useEffect(() => {

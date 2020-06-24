@@ -23,7 +23,9 @@ import { useOnClickOutside } from 'hooks/useOnClickOutside';
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
   const containerRef = useRef();
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const activeCases = useSelector(state =>
+    casesSelectors.getActiveCases(state),
+  );
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const mode = useSelector(state => applicationSelectors.getMode(state));
   const [showModal, setShowModal] = useState(false);
@@ -37,17 +39,17 @@ const RedactorToolsHeader = () => {
   };
 
   const onSubmit = async () => {
-    if (activeCase) {
+    if (activeCases) {
       dispatch(caseAction.updExternalCaseIdRequest(externalInputValue));
       setShowModal(false);
     }
   };
 
-  if (!activeCase) {
+  if (!activeCases) {
     return null;
   }
 
-  const _id = externalId || activeCase;
+  const _id = externalId || activeCases;
 
   const EditRecordButton = () => (
     <div className={selectedEditContextMenu}>
@@ -86,9 +88,9 @@ const RedactorToolsHeader = () => {
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <h3 title={externalId || ''}>
-          {Array.isArray(activeCase) ? (
+          {Array.isArray(activeCases) ? (
             <>
-              {activeCase.length} Record{activeCase.length > 1 ? 's' : ''}{' '}
+              {activeCases.length} Record{activeCases.length > 1 ? 's' : ''}{' '}
               Loaded
             </>
           ) : (

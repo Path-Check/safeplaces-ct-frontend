@@ -73,7 +73,6 @@ function* addCase() {
 
 function* loadCasePoints({ type, caseId }) {
   yield put(applicationActions.updateStatus('BUSY'));
-  const accessCode = yield select(casesSelectors.getAccessCode);
   let service;
   let data;
 
@@ -141,7 +140,7 @@ function* enrichCase({ caseId }) {
 }
 
 function* checkCaseGPSDataSaga() {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
 
   try {
     const response = yield call(enrichCase, {
@@ -164,7 +163,7 @@ function* checkCaseGPSDataSaga() {
 }
 
 function* deleteCase() {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
 
   try {
     yield call(casesService.deleteCase, {
@@ -188,7 +187,7 @@ function* deleteCase() {
 }
 
 function* publishCases() {
-  const cases = yield select(casesSelectors.getActiveCase);
+  const cases = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -217,7 +216,7 @@ function* publishCases() {
 }
 
 function* stageCase() {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -245,7 +244,7 @@ function* stageCase() {
 }
 
 function* updateExternalId({ externalId }) {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
@@ -274,7 +273,7 @@ function* updateExternalId({ externalId }) {
 }
 
 function* setRecordId() {
-  const activeCaseId = yield select(casesSelectors.getActiveCase);
+  const activeCaseId = yield select(casesSelectors.getActiveCases);
 
   if (!activeCaseId && Array.isArray(activeCaseId)) {
     return;
