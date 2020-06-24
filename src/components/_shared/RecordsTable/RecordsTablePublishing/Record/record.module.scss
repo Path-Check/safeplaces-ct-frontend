@@ -5,6 +5,14 @@
   &:last-of-type {
     border: none;
   }
+
+  label {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+  }
 }
 
 .recordAction {

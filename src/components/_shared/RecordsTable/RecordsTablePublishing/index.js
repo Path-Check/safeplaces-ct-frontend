@@ -46,7 +46,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
             <th colSpan="1" style={{ textAlign: ' center' }}>
               Select
             </th>
-            <th colSpan="1">Record ID</th>
+            <th colSpan="2">Record ID</th>
             <th colSpan="2">Processing Date</th>
             <th colSpan="2">Contact Tracer ID</th>
           </tr>

@@ -27,7 +27,7 @@ const RecordsTableTrace = () => {
       <table className={table}>
         <thead>
           <tr>
-            <th colSpan="1">Record ID</th>
+            <th colSpan="2">Record ID</th>
             <th colSpan="2">Last Saved</th>
             <th colSpan="1">Status</th>
             <th colSpan="2">Expires</th>
