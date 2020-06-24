@@ -45,3 +45,9 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+@media (max-height: 827px) {
+  .selectedDataList {
+    height: 30vh;
+  }
+}
