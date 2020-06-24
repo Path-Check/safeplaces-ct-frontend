@@ -29,10 +29,10 @@ const Record = ({
       {caseId && (
         <>
           <th colSpan="1">
-            <Checkbox id={_Id} name={caseId} onChange={onChange} />
+            <Checkbox id={caseId} name={caseId} onChange={onChange} />
           </th>
           <td colSpan="2">
-            <label title={_Id} htmlFor={_Id}>
+            <label title={_Id} htmlFor={caseId}>
               {_Id}
             </label>
           </td>
