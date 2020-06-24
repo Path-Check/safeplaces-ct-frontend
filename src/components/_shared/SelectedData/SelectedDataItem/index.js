@@ -88,7 +88,7 @@ const SelectedDataItem = ({
   }, [isHighlighted]);
 
   return (
-    <div className={classes}>
+    <li className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
         <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
         <div className={selectedDataContent}>
@@ -116,7 +116,7 @@ const SelectedDataItem = ({
           closeAction={() => setShowContentMenu(false)}
         />
       )}
-    </div>
+    </li>
   );
 };
 
