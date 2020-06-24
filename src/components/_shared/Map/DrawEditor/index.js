@@ -131,6 +131,17 @@ const DrawEditor = () => {
         clickRadius={10}
         onUpdate={map => handleUpdate(map)}
         featureStyle={({ feature, state }) => {
+          console.log(state);
+
+          if (state === 'UNCOMMITTED' || state === 'SELECTED') {
+            return {
+              stroke: '#4051DB',
+              strokeWidth: 1,
+              fill: 'rgba(105, 121, 248, 0.2)',
+              strokeDasharray: '5,5',
+            };
+          }
+
           return {
             stroke: '#4051DB',
             strokeWidth: 2,
