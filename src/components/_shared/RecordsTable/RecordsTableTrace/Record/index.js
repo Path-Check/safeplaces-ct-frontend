@@ -15,14 +15,8 @@ const friendlyStatuses = {
   staging: 'Staged For Publishing',
 };
 
-const Record = ({
-  caseId,
-  externalId,
-  updatedAt,
-  state,
-  expiresAt,
-  onChange,
-}) => {
+const Record = ({ record }) => {
+  const { caseId, externalId, updatedAt, state, expiresAt } = record;
   const dispatch = useDispatch();
   const updateDate = updatedAt;
   const expirationDate = expiresAt;
@@ -47,7 +41,7 @@ const Record = ({
             <button
               title={_Id}
               className={styles.recordAction}
-              onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
+              onClick={() => dispatch(casesActions.loadCasePoints(record))}
             >
               {_Id}
             </button>

@@ -49,7 +49,7 @@ const RedactorToolsHeader = () => {
     return null;
   }
 
-  const _id = externalId || activeCases;
+  const _id = activeCases.externalId || activeCases.caseId;
 
   const EditRecordButton = () => (
     <div className={selectedEditContextMenu}>
