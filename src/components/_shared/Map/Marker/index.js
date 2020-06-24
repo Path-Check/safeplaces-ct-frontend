@@ -89,7 +89,11 @@ const MapMarker = ({
 
   return (
     <Marker className={classes} latitude={latitude} longitude={longitude}>
-      <button onClick={handleClick} ref={markerRef}>
+      <button
+        onClick={handleClick}
+        ref={markerRef}
+        id={`map-marker-${pointId}`}
+      >
         <FontAwesomeIcon
           icon={faMapMarkerAlt}
           className={markerIcon}
