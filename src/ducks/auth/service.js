@@ -10,40 +10,33 @@ const authService = {
       data,
     });
   },
-  getOrganization: async token => {
+  getOrganization: async () => {
     return axios({
       method: 'GET',
       url: `${REACT_APP_API_URL}organization`,
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
     });
   },
-  getOrganizationConfig: async token => {
+  getOrganizationConfig: async () => {
     return axios({
       method: 'GET',
       url: `${REACT_APP_API_URL}organization/configuration`,
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
     });
   },
   login: async data => {
     let orgRes = null;
     let user = null;
 
-    const {
-      data: { token },
-    } = await authService.getToken(data);
+    const response = await authService.getToken(data);
+    const { status } = response;
 
-    if (token) {
-      orgRes = await authService.getOrganizationConfig(token);
+    if (status === 200) {
+      orgRes = await authService.getOrganizationConfig();
       if (orgRes) {
         user = orgRes ? { ...orgRes.data } : null;
       }
     }
 
-    return { user, token };
+    return { user, token: status };
   },
   onboarding: data => {
     return axios({
