@@ -17,7 +17,6 @@ import {
   faUniversity,
   faPiggyBank,
   faChevronRight,
-  faPrescription,
   faPrescriptionBottle,
   faTag,
 } from '@fortawesome/pro-solid-svg-icons';
@@ -28,33 +27,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { faGasPump } from '@fortawesome/pro-regular-svg-icons';
 import tagsSelectors from 'ducks/tags/selectors';
 
-const Options = [
-  {
-    icon: faBuilding,
-    tag: 'Work',
-  },
-  {
-    icon: faUniversity,
-    tag: 'University',
-  },
-  {
-    icon: faPiggyBank,
-    tag: 'Bank',
-  },
-  {
-    icon: faPrescriptionBottle,
-    tag: 'Pharmacy',
-  },
-  {
-    icon: faGasPump,
-    tag: 'Gas Station',
-  },
-];
+const Options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
+
+const iconFromLabel = {
+  Work: faBuilding,
+  University: faUniversity,
+  Bank: faPiggyBank,
+  Pharmacy: faPrescriptionBottle,
+  'Gas Station': faGasPump,
+};
 
 const LabelAs = ({ currentLabel, points, closeCallback }) => {
   const dispatch = useDispatch();
   const tags = useSelector(state => tagsSelectors.getTags(state));
   const [customLabel, setCustomLabel] = useState();
+  const nicknames = tags.length ? new Set([...Options, ...tags]) : Options;
 
   const handleConfirm = tag => {
     dispatch(
@@ -69,13 +56,13 @@ const LabelAs = ({ currentLabel, points, closeCallback }) => {
   return (
     <div className={labelAsWrapper}>
       <ul>
-        {Options.map(({ icon, tag }) => (
+        {Array.from(nicknames).map(tag => (
           <li className={labelAsWrapperOption}>
             <button
               onClick={() => handleConfirm(tag)}
               disabled={tag === currentLabel}
             >
-              <FontAwesomeIcon icon={icon} /> {tag}
+              <FontAwesomeIcon icon={iconFromLabel[tag] || faTag} /> {tag}
               {tag === currentLabel && (
                 <FontAwesomeIcon
                   icon={faCheck}
@@ -85,23 +72,6 @@ const LabelAs = ({ currentLabel, points, closeCallback }) => {
             </button>
           </li>
         ))}
-        {tags?.length > 0 &&
-          tags.map(tag => (
-            <li className={labelAsWrapperOption}>
-              <button
-                onClick={() => handleConfirm(tag)}
-                disabled={tag === currentLabel}
-              >
-                <FontAwesomeIcon icon={faTag} /> {tag}
-                {tag === currentLabel && (
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    className={labelAsWrapperOptionCheck}
-                  />
-                )}
-              </button>
-            </li>
-          ))}
       </ul>
       <div className={inputWrapper}>
         <TextInput

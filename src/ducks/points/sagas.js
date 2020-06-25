@@ -132,7 +132,7 @@ function* updatePoint({ point, type }) {
 
 function* setPointLabel({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
-  yield put(tagsActions.setTags(data.label));
+  yield put(tagsActions.setTags(data.nickname));
 
   try {
     const response = yield call(pointsService.setLabel, data);
