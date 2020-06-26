@@ -38,6 +38,7 @@ const PointContextMenu = ({
   duration,
   latitude,
   longitude,
+  nickname,
   renderDateTime = true,
   bottom,
 }) => {
@@ -119,7 +120,11 @@ const PointContextMenu = ({
             Label location as <FontAwesomeIcon icon={faChevronRight} />
           </button>
           {showLabelAs && (
-            <LabelAs points={[id]} closeCallback={() => closeAction()} />
+            <LabelAs
+              currentNickname={nickname}
+              points={[id]}
+              closeCallback={() => closeAction()}
+            />
           )}
         </li>
         {isTrace && (

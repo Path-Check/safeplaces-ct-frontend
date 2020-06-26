@@ -9,6 +9,7 @@ import {
   faEllipsisV,
   faHourglass,
   faClock,
+  faTag,
 } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -37,6 +38,7 @@ const SelectedDataItem = ({
   longitude,
   time: timestamp,
   duration,
+  nickname,
 }) => {
   const dispatch = useDispatch();
   const itemRef = useRef();
@@ -100,6 +102,11 @@ const SelectedDataItem = ({
             {friendlyDuration && (
               <li>
                 <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
+              </li>
+            )}
+            {nickname && (
+              <li>
+                <FontAwesomeIcon icon={faTag} /> {nickname}
               </li>
             )}
           </ul>

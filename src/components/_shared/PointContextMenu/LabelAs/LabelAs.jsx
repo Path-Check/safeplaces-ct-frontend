@@ -37,16 +37,17 @@ const iconFromLabel = {
   'Gas Station': faGasPump,
 };
 
-const LabelAs = ({ currentLabel, points: pointIds, closeCallback }) => {
+const LabelAs = ({ currentNickname, points: pointIds, closeCallback }) => {
   const dispatch = useDispatch();
   const tags = useSelector(state => tagsSelectors.getTags(state));
   const [customLabel, setCustomLabel] = useState();
-  const nicknames = tags.length ? new Set([...options, ...tags]) : options;
+  const nicknames =
+    tags && tags.length ? new Set([...options, ...tags]) : options;
 
-  const handleConfirm = tag => {
+  const handleConfirm = nickname => {
     dispatch(
       pointsActions.setPointsLabel({
-        nickname: tag,
+        nickname,
         pointIds,
       }),
     );
@@ -60,10 +61,10 @@ const LabelAs = ({ currentLabel, points: pointIds, closeCallback }) => {
           <li className={labelAsWrapperOption}>
             <button
               onClick={() => handleConfirm(tag)}
-              disabled={tag === currentLabel}
+              disabled={tag === currentNickname}
             >
               <FontAwesomeIcon icon={iconFromLabel[tag] || faTag} /> {tag}
-              {tag === currentLabel && (
+              {tag === currentNickname && (
                 <FontAwesomeIcon
                   icon={faCheck}
                   className={labelAsWrapperOptionCheck}

@@ -48,6 +48,7 @@ const MapMarker = ({
   duration,
   pointId,
   alternate,
+  nickname,
 }) => {
   const dispatch = useDispatch();
   const markerRef = useRef();
@@ -69,6 +70,7 @@ const MapMarker = ({
         longitude,
         time: timestamp,
         duration,
+        nickname,
       }),
     );
 

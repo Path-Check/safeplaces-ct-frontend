@@ -78,7 +78,7 @@ function* deletePoints() {
 function* updatePoint({ point, type }) {
   const isEdit = type === pointsTypes.EDIT_POINT;
   const currentPoints = yield select(pointsSelectors.getPoints);
-  const caseId = yield select(casesSelectors.getActiveCases);
+  const { caseId } = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -136,8 +136,9 @@ function* setPointLabel({ data }) {
 
   try {
     const response = yield call(pointsService.setLabel, data);
-
-    console.log(response);
+    const concernPoints = response.data.concernPoints;
+    yield put(pointsActions.updatePoints(concernPoints));
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(applicationActions.updateStatus('IDLE'));
   }
