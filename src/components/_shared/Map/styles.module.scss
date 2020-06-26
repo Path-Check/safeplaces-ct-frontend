@@ -23,13 +23,37 @@
 }
 
 .mapCtrl {
-  margin-left: $spacing-md;
+  position: relative;
   margin-bottom: $spacing-md;
 }
+
 .geocoder {
   position: absolute;
   z-index: 1;
   width: 50%;
   left: calc(50% - 180px);
   top: 10px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  position: absolute;
+  z-index: 1;
+  right: 20px;
+  bottom: 30px;
+}
+
+.viewToggle {
+  box-shadow: 0 0 0 2px #0000001a;
+  background-color: #fff;
+  font-size: 14px;
+  padding: 0;
+  border-radius: 6px;
+  border: none;
+  font-weight: 400;
+  width: 29px;
+  height: 29px;
 }
