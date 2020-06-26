@@ -58,6 +58,8 @@ export default function reducer(state = initialState, action) {
         duration: initialState.duration,
         geometry: initialState.geometry,
         recordIds: initialState.recordIds,
+        singleDate: initialState.singleDate,
+        dateRange: initialState.dateRange,
         points: state.points.map(point => ({ ...point, hidden: false })),
       };
     case pointsTypes.HIDE_POINT:
