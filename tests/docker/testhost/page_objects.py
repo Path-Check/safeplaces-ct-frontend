@@ -188,7 +188,7 @@ class AddDataToRecordPage(Page):
         self.find_element(self.duration_hours).send_keys(hours)
 
     def enter_duration_minutes(self, minutes):
-        self.find_element(self.duration_hours).send_keys(minutes)
+        self.find_element(self.duration_minutes).send_keys(minutes)
 
     def save_data(self):
         self.find_element(self.save_data_button).click()
@@ -198,15 +198,15 @@ class AddDataToRecordPage(Page):
     
     def add_data_point(self, location, date, hours, minutes):
         contact_trace_page = ContactTracePage(self.driver)
-        contact_trace_page.add_new_record()
-        add_record_page = AddNewRecordPage(self.driver)
-        add_record_page.create_manually()
+        # contact_trace_page.add_new_record()
+        # add_record_page = AddNewRecordPage(self.driver)
+        # add_record_page.create_manually()
         contact_trace_page.more()
         contact_trace_page.add_data_point()
-        enter_location(self, location)
-        enter_date(self, date)
-        enter_duraction_hours(self, hours)
-        enter_duraction_minutes(self, minutes)
+        self.enter_location(location)
+        self.enter_date(date)
+        self.enter_duration_hours(hours)
+        self.enter_duration_minutes(minutes)
     
 class StageForPublishingPage(Page):
     yes_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button:nth-child(1)')
@@ -217,7 +217,7 @@ class StageForPublishingPage(Page):
     
     def no_consent(self):
         self.find_element(self.no_consent_button).click()
-        
+    
     def stage_no_consent(self):
         contact_trace_page = ContactTracePage(self.driver)
         contact_trace_page.stage_for_publishing()
@@ -227,7 +227,7 @@ class StageForPublishingPage(Page):
         contact_trace_page = ContactTracePage(self.driver)
         contact_trace_page.stage_for_publishing()
         self.yes_consent()
-      
+    
 class PublishDataPage(Page):
     load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
     open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
@@ -261,7 +261,7 @@ class SubmitDataPage(Page):
     
     def cancel(self):
         self.find_element(self.cancel_button).click()
-    
+       
 class SettingsPage(Page):
     configuration_button = (By.XPATH, '//a[@href="/settings/organizatio"]')
     # configuration_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(1) > a')
