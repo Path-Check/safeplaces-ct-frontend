@@ -73,15 +73,15 @@ class TestRedaction(unittest.TestCase):
         # if the test works this far, we can expand it later
         point_editor_page = AddDataToRecordPage(self.driver)
         point_editor_page.enter_location('-122.19732036472264, 37.718665250290684')
-        point_editor_page.enter_date('06/08/2020 07:00')
+        point_editor_page.enter_date('06/18/2020 07:00')
         point_editor_page.enter_duration_hours('0')
         point_editor_page.enter_duration_minutes('40')
         point_editor_page.close()
         
         # add a point again but this time save the data
-        # point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00', '0', '20')
-        # point_editor_page.save_data()
-        # stage_publish_page = StageForPublishing(self.driver)
+        point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00\r\n', '\t', '20')
+        point_editor_page.save_data()
+        # stage_publish_page = StageForPublishingPage(self.driver)
         # stage_publish_page.stage_no_consent()
         # stage_publish_page.stage_yes_consent()
         # entry_page.open_publish()
