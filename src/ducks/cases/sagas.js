@@ -71,9 +71,8 @@ function* addCase() {
   }
 }
 
-function* loadCasePoints({ type, caseId }) {
+function* loadCasePoints({ type, cases }) {
   yield put(applicationActions.updateStatus('BUSY'));
-  const accessCode = yield select(casesSelectors.getAccessCode);
   let service;
   let data;
 
@@ -81,13 +80,13 @@ function* loadCasePoints({ type, caseId }) {
     case casesTypes.LOAD_CASE_POINTS:
       service = 'fetchPoints';
       data = {
-        caseId,
+        caseId: cases.caseId,
       };
       break;
     case casesTypes.LOAD_MULTICASE_POINTS:
       service = 'fetchMultiPoints';
       data = {
-        caseIds: caseId,
+        caseIds: cases.map(c => c.caseId),
       };
       break;
     default:
@@ -101,12 +100,12 @@ function* loadCasePoints({ type, caseId }) {
 
     const mappedPoints = mapPoints(response.data.concernPoints);
 
-    yield put(casesActions.setCase(caseId));
+    yield put(casesActions.setCase(cases));
     yield put(pointsActions.updatePoints(mappedPoints));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
-    yield put(casesActions.setCase(caseId));
+    yield put(casesActions.setCase(cases));
     yield put(
       applicationActions.notification({
         title: 'Unable to retrieve location data.',
@@ -141,7 +140,7 @@ function* enrichCase({ caseId }) {
 }
 
 function* checkCaseGPSDataSaga() {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
 
   try {
     const response = yield call(enrichCase, {
@@ -164,7 +163,7 @@ function* checkCaseGPSDataSaga() {
 }
 
 function* deleteCase() {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
 
   try {
     yield call(casesService.deleteCase, {
@@ -188,7 +187,7 @@ function* deleteCase() {
 }
 
 function* publishCases() {
-  const cases = yield select(casesSelectors.getActiveCase);
+  const cases = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -217,7 +216,7 @@ function* publishCases() {
 }
 
 function* stageCase() {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -245,7 +244,7 @@ function* stageCase() {
 }
 
 function* updateExternalId({ externalId }) {
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const { caseId } = yield select(casesSelectors.getActiveCases);
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
@@ -254,7 +253,7 @@ function* updateExternalId({ externalId }) {
       externalId,
     });
 
-    yield put(casesActions.setExternalId(response.data.case.externalId));
+    yield put(casesActions.setCase(response.data.case));
 
     yield put(
       applicationActions.notification({
@@ -274,7 +273,7 @@ function* updateExternalId({ externalId }) {
 }
 
 function* setRecordId() {
-  const activeCaseId = yield select(casesSelectors.getActiveCase);
+  const activeCaseId = yield select(casesSelectors.getActiveCases);
 
   if (!activeCaseId && Array.isArray(activeCaseId)) {
     return;

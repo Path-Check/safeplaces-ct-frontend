@@ -1,8 +1,9 @@
 import React from 'react';
 import Modal from '../../../_global/Modal';
 import Dialog from '../../Dialog';
-import { Button, TextInput } from '@wfp/ui';
+import { TextInput } from '@wfp/ui';
 import { inputText, ModalButton } from './header.module.scss';
+import Button from 'components/_shared/Button';
 
 const EditRecordModal = ({
   showModal,
@@ -34,15 +35,7 @@ const EditRecordModal = ({
             Save Record ID
           </Button>
           <br />
-          <Button
-            type="button"
-            style={{
-              background: '#f8f8ff',
-              borderColor: '#6979f8',
-              color: '#6979f8',
-            }}
-            onClick={() => setShowModal(false)}
-          >
+          <Button type="button" secondary onClick={() => setShowModal(false)}>
             Cancel
           </Button>
         </div>

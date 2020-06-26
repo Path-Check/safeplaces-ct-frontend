@@ -38,6 +38,7 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
         {appStatus !== 'ADD POINT' && isTrace && (
           <li>
             <button
+              id="add-data-point"
               className={selectedDataContextMenuAction}
               type="button"
               onClick={() => {
@@ -66,6 +67,7 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
             {isTrace && (
               <li>
                 <button
+                  id="delete-selected"
                   type="button"
                   onClick={() =>
                     dispatch(applicationActions.updateStatus('DELETE POINTS'))

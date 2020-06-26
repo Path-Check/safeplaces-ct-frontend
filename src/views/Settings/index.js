@@ -14,7 +14,11 @@ const Settings = () => {
       <nav className={styles.sidebarWrapper}>
         <ul className={styles.sidebarContainer}>
           <li>
-            <NavLink className={styles.option} to="/settings/organization">
+            <NavLink
+              id="configuration"
+              className={styles.option}
+              to="/settings/organization"
+            >
               <FontAwesomeIcon className={styles.icon} icon={faTools} />
               Configuration
             </NavLink>
@@ -26,6 +30,7 @@ const Settings = () => {
           {/* </NavLink> */}
           <li>
             <NavLink
+              id="logout"
               className={styles.option}
               to="/login"
               onClick={() => dispatch(authActions.logout())}

@@ -23,7 +23,9 @@ import { useOnClickOutside } from 'hooks/useOnClickOutside';
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
   const containerRef = useRef();
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const activeCases = useSelector(state =>
+    casesSelectors.getActiveCases(state),
+  );
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const mode = useSelector(state => applicationSelectors.getMode(state));
   const [showModal, setShowModal] = useState(false);
@@ -37,23 +39,24 @@ const RedactorToolsHeader = () => {
   };
 
   const onSubmit = async () => {
-    if (activeCase) {
+    if (activeCases) {
       dispatch(caseAction.updExternalCaseIdRequest(externalInputValue));
       setShowModal(false);
     }
   };
 
-  if (!activeCase) {
+  if (!activeCases) {
     return null;
   }
 
-  const _id = externalId || activeCase;
+  const _id = activeCases.externalId || activeCases.caseId;
 
   const EditRecordButton = () => (
     <div className={selectedEditContextMenu}>
       <ul>
         <li>
           <button
+            id="edit-record-id"
             className={selectedEditContextMenuAction}
             type="button"
             onClick={() => {
@@ -73,6 +76,7 @@ const RedactorToolsHeader = () => {
     <>
       <header className={redactorToolsHeader} ref={containerRef}>
         <button
+          id="go-back"
           type="button"
           onClick={() =>
             dispatch({
@@ -84,9 +88,9 @@ const RedactorToolsHeader = () => {
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <h3 title={externalId || ''}>
-          {Array.isArray(activeCase) ? (
+          {Array.isArray(activeCases) ? (
             <>
-              {activeCase.length} Record{activeCase.length > 1 ? 's' : ''}{' '}
+              {activeCases.length} Record{activeCases.length > 1 ? 's' : ''}{' '}
               Loaded
             </>
           ) : (
@@ -95,6 +99,7 @@ const RedactorToolsHeader = () => {
         </h3>
         {mode === 'trace' && (
           <button
+            id="more-menu-button"
             className={selectedfaEllipsisVIcon}
             onClick={() => setEditRecordButton(true)}
             type="button"

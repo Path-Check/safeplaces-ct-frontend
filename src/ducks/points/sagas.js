@@ -78,7 +78,7 @@ function* deletePoints() {
 function* updatePoint({ point, type }) {
   const isEdit = type === pointsTypes.EDIT_POINT;
   const currentPoints = yield select(pointsSelectors.getPoints);
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const caseId = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 

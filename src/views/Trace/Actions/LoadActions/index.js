@@ -14,10 +14,17 @@ const TracerLoadActions = () => {
 
   return (
     <div className={sidebarActions}>
-      <Button onClick={() => dispatch(casesActions.fetchCase())}>
+      <Button
+        id="add-new-record"
+        onClick={() => dispatch(casesActions.fetchCase())}
+      >
         <FontAwesomeIcon icon={faPlus} /> Add New Record
       </Button>
-      <Button secondary onClick={() => dispatch(casesActions.fetchCases())}>
+      <Button
+        id="load-existing-record"
+        secondary
+        onClick={() => dispatch(casesActions.fetchCases())}
+      >
         Load Existing Record
       </Button>
     </div>

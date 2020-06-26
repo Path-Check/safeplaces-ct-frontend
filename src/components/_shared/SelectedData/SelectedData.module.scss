@@ -1,6 +1,5 @@
 .selectedDataWrapper {
   position: relative;
-  height: 100%;
 }
 
 .selectedDataHeader {
@@ -44,4 +43,10 @@
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+}
+
+@media (max-height: 827px) {
+  .selectedDataList {
+    max-height: 30vh;
+  }
 }
