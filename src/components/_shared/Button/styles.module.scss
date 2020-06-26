@@ -55,3 +55,14 @@
 .buttonFullWidth {
   width: 100%;
 }
+
+.buttonTertiary {
+  color: #4051db;
+  border: 2px solid #6979f8;
+  background: #fff;
+  padding: 10px;
+
+  svg {
+    margin-left: 0;
+  }
+}

@@ -3,43 +3,51 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toPoint } from 'components/_shared/Map/_helpers';
 import inside from '@turf/inside';
 
-import {
-  Editor,
-  DrawPolygonMode,
-  DrawRectangleMode,
-  DrawCircleFromCenterMode,
-  EditingMode,
-} from 'react-map-gl-draw';
+import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
 
 import {
   editorNav,
-  editorNavOption,
-  editorNavOptionActive,
   editorNavInner,
   editorNavControls,
+  editorHelpText,
 } from './DrawEditor.module.scss';
 
-import {
-  faDrawPolygon,
-  faDrawCircle,
-  faDrawSquare,
-  faCheck,
-  faTrash,
-} from '@fortawesome/pro-solid-svg-icons';
+import { faTrash, faTag, faFilter } from '@fortawesome/pro-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Toggle from 'components/_shared/ToggleControl';
 
 import pointsSelectors from 'ducks/points/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 
 import pointsActions from 'ducks/points/actions';
+import applicationActions from 'ducks/application/actions';
+import Button from 'components/_shared/Button';
+
+const returnActions = (amount, filterAction, closeAction, labelAction) => [
+  {
+    label: `Filter ${amount}
+  Points`,
+    icon: faFilter,
+    action: filterAction,
+  },
+  {
+    label: `Delete ${amount}
+  Points`,
+    icon: faTrash,
+    action: closeAction,
+  },
+  {
+    label: `Label ${amount}
+  Points`,
+    icon: faTag,
+    action: labelAction,
+  },
+];
 
 const DrawEditor = () => {
   const dispatch = useDispatch();
   const editorRef = useRef();
   const [renderTools, setRenderTools] = useState(false);
-  const [mode, setMode] = useState(null);
   const [geometry, setGeometry] = useState(null);
   const points = useSelector(state => pointsSelectors.getPoints(state));
   const [newPoints, setNewPoints] = useState(null);
@@ -71,27 +79,6 @@ const DrawEditor = () => {
     setGeometry(null);
   };
 
-  const handleModeSelection = type => {
-    if (geometry && type) {
-      resetGeometry();
-    }
-
-    switch (type) {
-      case 'circle':
-        setMode(new DrawCircleFromCenterMode());
-        break;
-      case 'rectangle':
-        setMode(new DrawRectangleMode());
-        break;
-      case 'polygon':
-        setMode(new DrawPolygonMode());
-        break;
-      default:
-        setMode('');
-        break;
-    }
-  };
-
   const onApply = () => {
     if (geometry) {
       dispatch(pointsActions.setGeometry(geometry));
@@ -100,23 +87,23 @@ const DrawEditor = () => {
   };
 
   useEffect(() => {
-    if (!renderTools) {
-      editorRef.current.deleteFeatures(0);
-      handleModeSelection('');
-    } else {
-      handleModeSelection('rectangle');
-    }
-  }, [renderTools]);
-
-  useEffect(() => {
     if (!geometry) {
       return;
     }
     const targetArray = filteredPoints.length > 0 ? filteredPoints : points;
-    const newPoints = targetArray.filter(p => inside(toPoint(p), geometry));
+    const selection = targetArray.filter(p => inside(toPoint(p), geometry));
+    console.log(selection);
 
-    setNewPoints(newPoints);
-    handleModeSelection('');
+    if (selection?.length > 0) {
+      setNewPoints(selection);
+    } else {
+      dispatch(
+        applicationActions.notification({
+          title: 'Please make a valid selection',
+        }),
+      );
+      resetGeometry();
+    }
   }, [geometry]);
 
   return (
@@ -128,11 +115,9 @@ const DrawEditor = () => {
           height: '100%',
           cursor: renderTools ? 'crosshair' : 'inherit',
         }}
-        clickRadius={10}
+        clickRadius={20}
         onUpdate={map => handleUpdate(map)}
         featureStyle={({ feature, state }) => {
-          console.log(state);
-
           if (state === 'UNCOMMITTED' || state === 'SELECTED') {
             return {
               stroke: '#4051DB',
@@ -148,58 +133,49 @@ const DrawEditor = () => {
             fill: 'rgba(105, 121, 248, 0.5)',
           };
         }}
-        mode={mode}
+        mode={renderTools && new DrawPolygonMode()}
       />
-      <div className={editorNav}>
-        {renderTools && (
-          <>
-            <button
-              className={`${editorNavOption} ${
-                mode instanceof DrawCircleFromCenterMode
-                  ? editorNavOptionActive
-                  : ''
-              }`}
-              onClick={() => handleModeSelection('circle')}
-            >
-              <FontAwesomeIcon icon={faDrawCircle} />
-            </button>
-            <button
-              className={`${editorNavOption} ${
-                mode instanceof DrawRectangleMode ? editorNavOptionActive : ''
-              }`}
-              onClick={() => handleModeSelection('rectangle')}
-            >
-              <FontAwesomeIcon icon={faDrawSquare} />
-            </button>
-            <button
-              className={`${editorNavOption} ${
-                mode instanceof DrawPolygonMode ? editorNavOptionActive : ''
-              }`}
-              onClick={() => handleModeSelection('polygon')}
-            >
-              <FontAwesomeIcon icon={faDrawPolygon} />
-            </button>
-          </>
-        )}
-        <div className={editorNavInner}>
-          <Toggle
-            onChange={() => setRenderTools(!renderTools)}
-            isChecked={renderTools}
-            name="multiToolSelect"
-            id="multiToolSelect"
-            label="Select Multiple Points"
-          />
+      {!renderTools && (
+        <div className={editorNav}>
+          <div className={editorNavInner}>
+            <Button tertiary onClick={() => setRenderTools(true)}>
+              Select Multiple Points
+            </Button>
+          </div>
         </div>
-      </div>
-      {geometry && (
-        <div className={editorNavControls}>
-          <button onClick={onApply} disabled={newPoints?.length < 1}>
-            Apply Selection <FontAwesomeIcon icon={faCheck} />
-          </button>
-          <button onClick={() => handleDelete()}>
-            Cancel Selection <FontAwesomeIcon icon={faTrash} />
+      )}
+      {!geometry && renderTools && (
+        <div className={editorHelpText}>
+          <p>
+            Use the polygon tool to draw around the data points you want to
+            select.
+          </p>
+          <button onClick={() => setRenderTools(false)}>
+            <FontAwesomeIcon icon={faTrash} /> Clear Selection
           </button>
         </div>
+      )}
+      {geometry && newPoints?.length > 0 && (
+        <ul className={editorNavControls}>
+          {returnActions(
+            newPoints.length,
+            () => console.log('filter'),
+            () => console.log('delete'),
+            () => console.log('label'),
+          ).map(({ label, icon, action }) => (
+            <li>
+              <Button tertiary onClick={() => action()}>
+                <FontAwesomeIcon icon={icon} /> {label}
+              </Button>
+            </li>
+          ))}
+
+          <li>
+            <Button primary onClick={() => handleDelete()}>
+              Cancel
+            </Button>
+          </li>
+        </ul>
       )}
     </>
   );

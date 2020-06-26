@@ -1,6 +1,7 @@
 .pointContextMenu {
   position: absolute;
-  min-width: max-content;
+  min-width: 200px;
+  max-width: max-content;
   right: 5px;
   top: 20px;
   padding: 10px 7.5px;
@@ -86,6 +87,7 @@
   position: absolute;
   top: 5px;
   right: 0;
+  z-index: 8;
 }
 
 .pointContextMenuHeader {

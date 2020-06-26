@@ -7,16 +7,6 @@
   justify-content: center;
 }
 
-.editorNavInner {
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  height: 46px;
-  padding: 10px;
-}
-
 .editorNavOption {
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -34,21 +24,31 @@
 
 .editorNavControls {
   position: absolute;
-  right: 40px;
-  bottom: 20px;
+  right: 15px;
+  top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  border-radius: 6px;
 
-  button {
-    font-size: 18px;
-    height: 46px;
-    padding: 0 15px;
+  li {
+    margin-left: 10px;
+  }
+}
 
-    &:last-of-type {
-      border-left: 1px solid rgba(0, 0, 0, 0.15);
-    }
+.editorHelpText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+  color: #fff;
+
+  p {
+    margin-bottom: 0;
   }
 }

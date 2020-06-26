@@ -89,6 +89,11 @@ const PointContextMenu = ({
               {formattedDuration(duration)}
             </li>
           )}
+          {nickname && (
+            <li>
+              <FontAwesomeIcon icon={faTag} /> {nickname}
+            </li>
+          )}
         </ul>
       )}
       <ul>
@@ -117,7 +122,7 @@ const PointContextMenu = ({
         <li>
           <button type="button" onClick={() => setShowLabelAs(true)}>
             <FontAwesomeIcon icon={faTag} />
-            Label location as <FontAwesomeIcon icon={faChevronRight} />
+            Label as <FontAwesomeIcon icon={faChevronRight} />
           </button>
           {showLabelAs && (
             <LabelAs
