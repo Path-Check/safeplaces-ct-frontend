@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { faGasPump } from '@fortawesome/pro-regular-svg-icons';
 import tagsSelectors from 'ducks/tags/selectors';
 
-const Options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
+const options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
 
 const iconFromLabel = {
   Work: faBuilding,
@@ -37,17 +37,17 @@ const iconFromLabel = {
   'Gas Station': faGasPump,
 };
 
-const LabelAs = ({ currentLabel, points, closeCallback }) => {
+const LabelAs = ({ currentLabel, points: pointIds, closeCallback }) => {
   const dispatch = useDispatch();
   const tags = useSelector(state => tagsSelectors.getTags(state));
   const [customLabel, setCustomLabel] = useState();
-  const nicknames = tags.length ? new Set([...Options, ...tags]) : Options;
+  const nicknames = tags.length ? new Set([...options, ...tags]) : options;
 
   const handleConfirm = tag => {
     dispatch(
       pointsActions.setPointsLabel({
         nickname: tag,
-        pointIds: points,
+        pointIds,
       }),
     );
     closeCallback();
