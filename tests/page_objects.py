@@ -29,11 +29,14 @@ class Page(object):
 class EntryPage(Page):
     btn_setup_case = (By.CSS_SELECTOR, '#root > div > div > button')
     loc_scrubber = (By.XPATH, '//a[@href="./location-scrubber/index.html"]')
-    contact_trace = (By.XPATH, '//a[@href="/trace"]')
+    contact_trace = (By.ID, 'contact-trace')
+    # contact_trace = (By.XPATH, '//a[@href="/trace"]')
     # contact_trace = (By.CSS_SELECTOR, '#root > div > header > nav > ul > li:nth-child(1) > a.navigation_navMenuItem__eAjx9.navigation_active__1RKN8')
-    publish_data = (By.XPATH, '//a[@href="/publish"]')
+    publish_data = (By.ID, 'publish-data')
+    #publish_data = (By.XPATH, '//a[@href="/publish"]')
     # publish_data = (By.CSS_SELECTOR, '#root > div > header > nav > ul > li:nth-child(1) > a:nth-child(2)')
-    settings_link = (By.XPATH, '//a[@href="/settings/"]')
+    settings_link = (By.ID, 'settings')
+    #settings_link = (By.XPATH, '//a[@href="/settings/"]')
     # settings_link = (By.CSS_SELECTOR, '#root > div > header > nav > ul > li:nth-child(2) > a')
 
     def open_page(self):
@@ -59,7 +62,8 @@ class EntryPage(Page):
 class LoginPage(Page):
     username = (By.ID, 'email-input')
     password = (By.ID, 'pass-input')
-    login_btn = (By.XPATH, '//*[@type="submit"]')
+    login_btn = (By.ID, 'login-button')
+    # login_btn = (By.XPATH, '//*[@type="submit"]')
     # login_btn = (By.CSS_SELECTOR, '#root > div > div.login_login__2GcqT > div.login_loginFormContainer__16rwU > div > form > div.login_submitWrapper__3fdbp > div > button')
     # login_btn = (By.ID, 'login')
     api_key = (By.ID, 'api-key')
@@ -144,11 +148,17 @@ class RedactionPage(Page):
     #     self.find_element(self.select_none_btn).click()
 
 class ContactTracePage(Page):
-    add_new_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button:nth-child(1)')
-    load_existing_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button.styles_button__1QQUp.styles_buttonSecondary__3onvZ.undefined')
-    more_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div > button > svg > path')
-    add_data_point_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div.SelectedDataContextMenu_selectedDataContextMenu__7joml > ul > li > button')
-    stage_publish_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.TracerActions_sidebarActions__1spu4 > button')
+    add_new_record_button = (By.ID, 'add-new-record')
+    load_existing_record_button = (By.ID, 'load-existing-record')
+    more_button = (By.ID, 'more-menu-button')
+    selected_more_button = (By.ID, 'selected-data-more-menu')
+    add_data_point_button = (By.ID, 'add-data-point')
+    stage_publish_button = (By.ID, 'stage-for-publishing')
+    # add_new_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button:nth-child(1)')
+    # load_existing_record_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button.styles_button__1QQUp.styles_buttonSecondary__3onvZ.undefined')
+    # more_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div > button > svg > path')
+    # add_data_point_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.SelectedData_selectedDataWrapper__3pJpt > div > div.SelectedDataContextMenu_selectedDataContextMenu__7joml > ul > li > button')
+    # stage_publish_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > aside > div.TracerActions_sidebarActions__1spu4 > button')
     
     def add_new_record(self):
         self.find_element(self.add_new_record_button).click()
@@ -159,6 +169,9 @@ class ContactTracePage(Page):
     def more(self):
         self.find_element(self.more_button).click()
     
+    def selected_more(self):
+        self.find_element(self.selected_more_button).click()
+    
     def add_data_point(self):
         self.find_element(self.add_data_point_button).click()
 
@@ -166,8 +179,10 @@ class ContactTracePage(Page):
         self.find_element(self.stage_publish_button).click()
         
 class AddNewRecordPage(Page):
-    check_data_upload_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(4) > button')
-    create_record_manually_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(6) > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
+    check_data_upload_button = (By.ID, 'check-data-upload')
+    create_record_manually_button = (By.ID, 'create-record-manually')
+    # check_data_upload_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(4) > button')
+    # create_record_manually_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > div:nth-child(6) > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
     
     def upload_data(self):
         self.find_element(self.check_data_upload_button).click()
@@ -176,16 +191,19 @@ class AddNewRecordPage(Page):
         self.find_element(self.create_record_manually_button).click()
     
 class AddDataToRecordPage(Page):
-    search_location = (By.XPATH, '//input[@placeholder="Search Location"]')
+    search_location = (By.ID, 'search-location')
+    # search_location = (By.XPATH, '//input[@placeholder="Search Location"]')
     # search_location = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > div > input[type=text]')
-    select_from_map_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > button')
+    select_from_map_button = (By.ID, 'select-from-map')
+    # select_from_map_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_locationControls__1u8jg > button')
     use_location_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div:nth-child(1)')
     date_picker = (By.ID, 'time')
     duration_hours = (By.NAME, 'durationHours')
     duration_minutes = (By.NAME, 'durationMinutes')
     save_data_button = (By.XPATH, '//*[@type="submit"]')
     # save_data_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > button')
-    close_point_editor_button = (By.XPATH, '//*[@id="root"]/div/div[1]/div/form/div[1]/button')
+    close_point_editor_button = (By.ID, 'point-editor-close')
+    # close_point_editor_button = (By.XPATH, '//*[@id="root"]/div/div[1]/div/form/div[1]/button')
     # close_point_editor_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div.PointEditor_pointEditor__3H7Fu > div.PointEditor_pointEditorHeader__2-aPg > button > svg > path')
     
     def enter_location(self, location):
@@ -225,8 +243,10 @@ class AddDataToRecordPage(Page):
         self.enter_duration_minutes(minutes)
     
 class StageForPublishingPage(Page):
-    yes_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button:nth-child(1)')
-    no_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
+    yes_consent_button = (By.ID, 'yes-consent')
+    no_consent_button = (By.ID, 'no-consent')
+    # yes_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button:nth-child(1)')
+    # no_consent_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
     
     def yes_consent(self):
         self.find_element(self.yes_consent_button).click()
@@ -245,11 +265,15 @@ class StageForPublishingPage(Page):
         self.yes_consent()
     
 class PublishDataPage(Page):
-    load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
-    open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
-    submit_publish_button = (By.CSS_SELECTOR, '#root > div > div.Publish_publish__3dr_z > aside > div.PublishActions_sidebarActions__3GWKS > button')
+    load_data_button = (By.ID, 'load-data-for-publishing')
+    # load_data_button = (By.CSS_SELECTOR, '#root > div > div > aside > div > button')
+    open_selected_button = (By.ID, 'open-selected-data')
+    # open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
+    submit_publish_button = (By.ID, 'submit-data-for-publishing')
+    publish_data_button = (By.ID, 'publish-data')
+    # submit_publish_button = (By.CSS_SELECTOR, '#root > div > div.Publish_publish__3dr_z > aside > div.PublishActions_sidebarActions__3GWKS > button')
     
-    def publish_data(self):
+    def load_data(self):
         self.find_element(self.load_data_button).click()
 
     def open_selected(self):
@@ -257,6 +281,9 @@ class PublishDataPage(Page):
         
     def submit_for_publishing(self):
         self.find_element(self.submit_publish_button).click()
+    
+    def publish_data(self):
+        self.find_element(self.publish_data_button).click()
     
 class SelectDataPage(Page):
     select_checkbox = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > table > tbody > tr > th > div > label > span')
@@ -281,14 +308,34 @@ class SubmitDataPage(Page):
 class SettingsPage(Page):
     configuration_button = (By.XPATH, '//a[@href="/settings/organizatio"]')
     # configuration_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(1) > a')
-    logout_button = (By.XPATH, '//a[@href="/login"]')
+    logout_button = (By.ID, 'logout')
+    # logout_button = (By.XPATH, '//a[@href="/login"]')
     # logout_button = (By.CSS_SELECTOR, '#root > div > div > nav > ul > li:nth-child(2) > a')
     health_authority_name = (By.ID, 'name')
     information_website_URL = (By.ID, 'informationWebsiteUrl')
     reference_website_URL = (By.ID, 'referenceWebsiteUrl')
     api_endpoint = (By.ID, 'apiEndpoint')
     privacy_policy_URL = (By.ID, 'privacyPolicyUrl')
+    data_retention_slider = (By.ID, 'day-slider')
     data_retention_slider_track = (By.CLASS_NAME, 'rc-slider-track')
+    data_retention_slider_handle = (By.CLASS_NAME, 'rc-slider-handle')
+    reset_gps_button = (By.ID, 'reset-gps')
+    # reset_gps_button = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(7) > div > button')
+    save_continue_button = (By.ID, 'save-continue')
+    # save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
+    
+    def publish_data(self):
+        self.find_element(self.load_data_button).click()
+
+    def open_selected(self):
+        self.find_element(self.open_selected_button).click()
+        
+    def submit_for_publishing(self):
+        self.find_element(self.submit_publish_button).click()
+    
+    def publish_data(self):
+        self.find_element(self.publish_data_button).click()
+    
     data_retention_slider_handle = (By.CLASS_NAME, 'rc-slider-handle')
     reset_gps_button = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(7) > div > button')
     save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
