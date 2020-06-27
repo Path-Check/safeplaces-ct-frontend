@@ -28,6 +28,8 @@ const DateSelector = ({ dates }) => {
   useEffect(() => {
     if (checkSingleDate && !singleDate && !dateRange[0]) {
       dispatch(pointsActions.setSingleDate(dates[0]));
+    } else if (!dateRange[0]) {
+      dispatch(pointsActions.setDateRange([dates[0], dates[dates.length - 1]]));
     }
   }, []); // eslint-disable-line
 
@@ -69,24 +71,24 @@ const DateSelector = ({ dates }) => {
             onAfterChange={handleChange}
           />
         ) : (
-          <Range
-            min={0}
-            max={dates.length - 1}
-            steps={dates.length}
-            allowCross={false}
-            onAfterChange={handleChange}
-          />
-        )}
+            <Range
+              min={0}
+              max={dates.length - 1}
+              steps={dates.length}
+              allowCross={false}
+              onAfterChange={handleChange}
+            />
+          )}
       </div>
       <div className={dateSelectorDates}>
         {isSingleDate ? (
           <span className={sliderValue}>{singleDate}</span>
         ) : (
-          <>
-            <span className={sliderValue}>{dateRange[0]}</span>
-            <span className={sliderValue}>{dateRange[1]}</span>
-          </>
-        )}
+            <>
+              <span className={sliderValue}>{dateRange[0]}</span>
+              <span className={sliderValue}>{dateRange[1]}</span>
+            </>
+          )}
       </div>
     </div>
   );
