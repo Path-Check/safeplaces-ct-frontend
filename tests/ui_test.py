@@ -32,13 +32,23 @@ class TestRedaction(unittest.TestCase):
             self.sel_url = os.environ['SELENIUM_URL']
         else:
             self.sel_url = 'http://172.17.0.2:4444/wd/hub'
+        if 'BROWSER' in os.environ.copy():
+            self.browser = os.environ['BROWSER']
+        else:
+            self.browser = 'CHROME'
 
 
         chrome_options = webdriver.ChromeOptions()
         prefs = {'download.default_directory': '/tmp'}
         chrome_options.add_experimental_option('prefs', prefs)
         if self.local_mode:
-            self.driver = webdriver.Chrome(chrome_options=chrome_options)
+            if (self.browser == 'FIREFOX'):
+                self.driver = webdriver.Firefox()
+            else:
+                if (self.browser == 'EDGE'):
+                    self.driver = webdriver.Edge()
+                else:
+                    self.driver = webdriver.Chrome(chrome_options=chrome_options)
         else:
             self.driver = webdriver.Remote(command_executor=self.sel_url, options=chrome_options)
 
