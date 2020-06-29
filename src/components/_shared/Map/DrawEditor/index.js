@@ -85,7 +85,7 @@ const DrawEditor = () => {
             return {
               stroke: '#4051DB',
               strokeWidth: 1,
-              fill: 'rgba(105, 121, 248, 0.2)',
+              fill: 'rgba(105, 121, 248, 0.24)',
               strokeDasharray: '5,5',
             };
           }
