@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 
 import TextInput from '@wfp/ui/lib/components/TextInput';
 
+import classNames from 'classnames';
+
 import {
   labelAsWrapper,
   inputWrapper,
   labelAsWrapperOption,
   labelAsWrapperOptionCheck,
+  labelAsWrapperBottom,
 } from './LabelAs.module.scss';
 
 import Button from 'components/_shared/Button';
@@ -37,13 +40,22 @@ const iconFromLabel = {
   'Gas Station': faGasPump,
 };
 
-const LabelAs = ({ currentNickname, points: pointIds, closeCallback }) => {
+const LabelAs = ({
+  renderAtBottom,
+  currentNickname,
+  points: pointIds,
+  closeCallback,
+}) => {
   const dispatch = useDispatch();
   const tags = useSelector(state => tagsSelectors.getTags(state));
   const [customLabel, setCustomLabel] = useState();
   const nicknames =
     tags && tags.length ? new Set([...options, ...tags]) : options;
 
+  const classes = classNames({
+    [`${labelAsWrapper}`]: true,
+    [`${labelAsWrapperBottom}`]: renderAtBottom,
+  });
   const handleConfirm = nickname => {
     dispatch(
       pointsActions.setPointsLabel({
@@ -56,7 +68,7 @@ const LabelAs = ({ currentNickname, points: pointIds, closeCallback }) => {
   };
 
   return (
-    <div className={labelAsWrapper}>
+    <div className={classes}>
       <ul>
         {Array.from(nicknames).map(tag => (
           <li className={labelAsWrapperOption}>
@@ -75,7 +87,10 @@ const LabelAs = ({ currentNickname, points: pointIds, closeCallback }) => {
           </li>
         ))}
       </ul>
-      <div className={inputWrapper}>
+      <form
+        className={inputWrapper}
+        onSubmit={() => handleConfirm(customLabel)}
+      >
         <TextInput
           id="labelAs"
           labelText=""
@@ -83,13 +98,10 @@ const LabelAs = ({ currentNickname, points: pointIds, closeCallback }) => {
           placeholder="Dave's Diner"
           onChange={e => setCustomLabel(e.target.value)}
         />
-        <Button
-          disabled={!customLabel}
-          onClick={() => handleConfirm(customLabel)}
-        >
+        <Button disabled={!customLabel} type="submit">
           <FontAwesomeIcon icon={faChevronRight} />
         </Button>
-      </div>
+      </form>
     </div>
   );
 };

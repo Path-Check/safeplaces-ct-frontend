@@ -26,26 +26,6 @@
     top: -10px;
   }
 
-  li {
-    position: relative;
-
-    > button {
-      text-align: left;
-      font-size: 18px;
-      padding: 7.5px;
-      width: 100%;
-
-      &:hover {
-        background: #e5e7fa;
-      }
-    }
-
-    svg {
-      min-width: 20px;
-      margin-right: 5px;
-    }
-  }
-
   > button {
     display: inline-flex;
     cursor: pointer;
@@ -53,6 +33,26 @@
     outline: none;
     border: none;
     font-size: 18px;
+  }
+}
+
+.pointContextMenuOption {
+  position: relative;
+
+  > button {
+    text-align: left;
+    font-size: 18px;
+    padding: 7.5px;
+    width: 100%;
+
+    &:hover {
+      background: #e5e7fa;
+    }
+  }
+
+  svg {
+    min-width: 20px;
+    margin-right: 5px;
   }
 }
 

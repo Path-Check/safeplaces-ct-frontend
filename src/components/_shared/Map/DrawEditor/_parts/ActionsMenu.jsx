@@ -57,6 +57,7 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
 
             {showLabelAs && type === 'label' && (
               <LabelAs
+                renderAtBottom
                 closeCallback={() => resetGeometry(true)}
                 points={pointIds}
               />

@@ -1,38 +1,54 @@
 .labelAsWrapper {
   position: absolute;
-  left: 0;
-  top: 10px;
-  padding: 10px;
+  left: calc(100% + 10px);
+  top: 0;
+  padding: 20px 10px 10px;
   background-color: #fff;
   box-shadow: 0.5px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   z-index: 3;
   width: 250px;
   font-size: 18px;
+
+  .inputWrapper {
+    margin-top: 15px;
+    position: relative;
+
+    input {
+      background: none;
+      border: none;
+      padding-right: 50px;
+      box-shadow: none;
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 40px;
+      border-radius: 0;
+      background: none;
+      border: none;
+
+      box-shadow: none;
+    }
+  }
 }
 
-.inputWrapper {
-  margin-top: 15px;
-  position: relative;
-
-  input {
-    padding-right: 50px;
-  }
-
-  button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 40px;
-    border-radius: 0;
-  }
+.labelAsWrapperBottom {
+  position: absolute;
+  top: 100%;
+  left: auto;
 }
 
 .labelAsWrapperOption {
+  margin-bottom: 10px;
+
   button {
     display: flex;
     font-size: 16px;
+    padding: 0;
 
     &:not([disabled]):hover {
       color: #384df6;

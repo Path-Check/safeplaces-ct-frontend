@@ -9,6 +9,7 @@ import {
   pointContextMenuHeader,
   pointContextMenuClose,
   pointContextMenuBottom,
+  pointContextMenuOption,
 } from './PointContextMenu.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -98,7 +99,7 @@ const PointContextMenu = ({
       )}
       <ul>
         {isTrace && (
-          <li>
+          <li className={pointContextMenuOption}>
             <button
               type="button"
               onClick={() =>
@@ -110,7 +111,7 @@ const PointContextMenu = ({
             </button>
           </li>
         )}
-        <li>
+        <li className={pointContextMenuOption}>
           <button
             type="button"
             onClick={() => dispatch(pointsActions.hidePoint(id))}
@@ -119,7 +120,7 @@ const PointContextMenu = ({
             Unselect
           </button>
         </li>
-        <li>
+        <li className={pointContextMenuOption}>
           <button type="button" onClick={() => setShowLabelAs(true)}>
             <FontAwesomeIcon icon={faTag} />
             Label as <FontAwesomeIcon icon={faChevronRight} />
@@ -133,7 +134,7 @@ const PointContextMenu = ({
           )}
         </li>
         {isTrace && (
-          <li>
+          <li className={pointContextMenuOption}>
             <button
               type="button"
               onClick={() => dispatch(pointsActions.deletePoint(id))}
