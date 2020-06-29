@@ -12,24 +12,23 @@ import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
 import DeletePoints from 'views/Trace/DeletePoints';
 
 const returnActions = (amount, filterAction, closeAction, labelAction) => [
-  {
-    label: `Filter ${amount}
-  Points`,
-    icon: faFilter,
-    action: filterAction,
-  },
-  {
-    label: `Delete ${amount}
-  Points`,
-    icon: faTrash,
-    action: closeAction,
-  },
+  // {
+  //   label: `Filter Selection`,
+  //   icon: faFilter,
+  //   action: filterAction,
+  // },
   {
     label: `Label ${amount}
   Points`,
     type: 'label',
     icon: faTag,
     action: labelAction,
+  },
+  {
+    label: `Delete ${amount}
+  Points`,
+    icon: faTrash,
+    action: closeAction,
   },
 ];
 
@@ -44,7 +43,10 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
       <ul className={editorNavControls}>
         {returnActions(
           newPoints.length,
-          () => dispatch(pointsActions.setGeometry(geometry)),
+          () => {
+            dispatch(pointsActions.setGeometry(geometry));
+            resetGeometry(true);
+          },
           () => setShowDeleteModal(true),
           () => setShowLabelAs(!showLabelAs),
         ).map(({ label, icon, action, type }) => (
@@ -63,7 +65,7 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
         ))}
         <li>
           <Button primary onClick={() => handleDelete()}>
-            Cancel
+            Clear Selection
           </Button>
         </li>
       </ul>
