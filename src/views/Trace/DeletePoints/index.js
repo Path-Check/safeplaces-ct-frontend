@@ -14,7 +14,7 @@ const DeletePoints = ({ closeAction, deleteAction, points }) => {
 
   return (
     <Modal closeAction={closeAction}>
-      <Dialog width="650px">
+      <Dialog>
         <header className={deletePointsWrapper}>
           <h3>Delete Multiple Points</h3>
           <p>
@@ -23,10 +23,10 @@ const DeletePoints = ({ closeAction, deleteAction, points }) => {
           </p>
         </header>
         <div className={deletePointsBody}>
-          <Button id="yes-delete-points" large onClick={deleteAction}>
+          <Button id="yes-delete-points" onClick={deleteAction}>
             Yes, Delete {count} Point(s)
           </Button>
-          <Button id="cancel-button" large secondary onClick={closeAction}>
+          <Button id="cancel-button" secondary onClick={closeAction}>
             Cancel
           </Button>
         </div>
