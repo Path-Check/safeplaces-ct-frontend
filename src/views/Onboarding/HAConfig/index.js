@@ -22,8 +22,9 @@ const HAConfig = () => {
   const [openMapModal, setOpenMapModal] = useState(false);
   const user = useSelector(state => authSelectors.getCurrentUser(state));
   const { handleSubmit, errors, register } = useForm({});
-
+  console.log(user);
   const [state, setState] = React.useState({
+    externalId: user && user.externalId,
     name: user && user.name,
     daysToRetainRecords: user && user.daysToRetainRecords,
     regionCoordinates: {
@@ -148,6 +149,7 @@ const HAConfig = () => {
             errors={errors}
             register={register}
             value={state[e.key]}
+            disabled={e.disabled}
             children={
               e.children &&
               e.children({
