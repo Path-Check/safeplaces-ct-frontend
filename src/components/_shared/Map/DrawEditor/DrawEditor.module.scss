@@ -48,6 +48,11 @@
   z-index: 99;
   color: #fff;
 
+  button {
+    color: currentColor;
+    text-decoration: underline;
+  }
+
   p {
     margin-bottom: 0;
   }

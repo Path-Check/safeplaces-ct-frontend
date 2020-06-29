@@ -17,8 +17,8 @@ const Login = () => {
   const token = useSelector(state => authSelectors.getToken(state));
   const { fetching } = useSelector(state => authSelectors.getLoginState(state));
   const history = useHistory();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('safeplaces@extremesolution.com');
+  const [password, setPassword] = useState('Wx$sRj3E');
   const location = useLocation();
 
   useEffect(() => {
@@ -63,6 +63,7 @@ const Login = () => {
             <TextInput
               id="email-input"
               onChange={onEmail}
+              value={email}
               autoCorrect="off"
               autoCapitalize="off"
               labelText="Email"
@@ -79,6 +80,7 @@ const Login = () => {
               autoCapitalize="off"
               labelText="Password"
               inputRef={register}
+              value={password}
               type="password"
               name="password"
             />
