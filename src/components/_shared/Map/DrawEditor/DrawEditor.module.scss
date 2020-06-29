@@ -1,7 +1,7 @@
 .editorNav {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 10px;
+  top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,8 +24,8 @@
 
 .editorNavControls {
   position: absolute;
-  right: 15px;
-  top: 20px;
+  right: 10px;
+  top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@
   top: 0;
   left: 0;
   right: 0;
-  padding: 15px 20px;
+  padding: 10px;
   background: rgba(0, 0, 0, 0.7);
   z-index: 99;
   color: #fff;
