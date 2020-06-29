@@ -51,6 +51,7 @@ const LabelAs = ({ currentNickname, points: pointIds, closeCallback }) => {
         pointIds,
       }),
     );
+
     closeCallback();
   };
 

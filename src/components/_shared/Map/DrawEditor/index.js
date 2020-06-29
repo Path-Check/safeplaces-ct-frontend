@@ -5,44 +5,13 @@ import inside from '@turf/inside';
 
 import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
 
-import {
-  editorNav,
-  editorNavInner,
-  editorNavControls,
-  editorHelpText,
-} from './DrawEditor.module.scss';
-
-import { faTrash, faTag, faFilter } from '@fortawesome/pro-solid-svg-icons';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import pointsSelectors from 'ducks/points/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 
-import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
-import Button from 'components/_shared/Button';
-
-const returnActions = (amount, filterAction, closeAction, labelAction) => [
-  {
-    label: `Filter ${amount}
-  Points`,
-    icon: faFilter,
-    action: filterAction,
-  },
-  {
-    label: `Delete ${amount}
-  Points`,
-    icon: faTrash,
-    action: closeAction,
-  },
-  {
-    label: `Label ${amount}
-  Points`,
-    icon: faTag,
-    action: labelAction,
-  },
-];
+import HelpBlock from 'components/_shared/Map/DrawEditor/_parts/HelpBlock';
+import ActionsMenu from 'components/_shared/Map/DrawEditor/_parts/ActionsMenu';
+import EditorNav from 'components/_shared/Map/DrawEditor/_parts/EditorNav';
 
 const DrawEditor = () => {
   const dispatch = useDispatch();
@@ -54,6 +23,8 @@ const DrawEditor = () => {
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
+
+  const permitDrawing = renderTools && !geometry;
 
   const resetGeometry = (closeTools = false) => {
     if (editorRef && editorRef.current) {
@@ -79,20 +50,12 @@ const DrawEditor = () => {
     setGeometry(null);
   };
 
-  const onApply = () => {
-    if (geometry) {
-      dispatch(pointsActions.setGeometry(geometry));
-    }
-    resetGeometry(true);
-  };
-
   useEffect(() => {
     if (!geometry) {
       return;
     }
     const targetArray = filteredPoints.length > 0 ? filteredPoints : points;
     const selection = targetArray.filter(p => inside(toPoint(p), geometry));
-    console.log(selection);
 
     if (selection?.length > 0) {
       setNewPoints(selection);
@@ -113,7 +76,7 @@ const DrawEditor = () => {
         style={{
           width: '100%',
           height: '100%',
-          cursor: renderTools ? 'crosshair' : 'inherit',
+          cursor: permitDrawing ? 'crosshair' : 'inherit',
         }}
         clickRadius={20}
         onUpdate={map => handleUpdate(map)}
@@ -133,49 +96,19 @@ const DrawEditor = () => {
             fill: 'rgba(105, 121, 248, 0.5)',
           };
         }}
-        mode={renderTools && new DrawPolygonMode()}
+        mode={permitDrawing && new DrawPolygonMode()}
       />
-      {!renderTools && (
-        <div className={editorNav}>
-          <div className={editorNavInner}>
-            <Button tertiary onClick={() => setRenderTools(true)}>
-              Select Multiple Points
-            </Button>
-          </div>
-        </div>
-      )}
+      {!renderTools && <EditorNav setRenderTools={setRenderTools} />}
       {!geometry && renderTools && (
-        <div className={editorHelpText}>
-          <p>
-            Use the polygon tool to draw around the data points you want to
-            select.
-          </p>
-          <button onClick={() => setRenderTools(false)}>
-            <FontAwesomeIcon icon={faTrash} /> Clear Selection
-          </button>
-        </div>
+        <HelpBlock setRenderTools={setRenderTools} />
       )}
       {geometry && newPoints?.length > 0 && (
-        <ul className={editorNavControls}>
-          {returnActions(
-            newPoints.length,
-            () => console.log('filter'),
-            () => console.log('delete'),
-            () => console.log('label'),
-          ).map(({ label, icon, action }) => (
-            <li>
-              <Button tertiary onClick={() => action()}>
-                <FontAwesomeIcon icon={icon} /> {label}
-              </Button>
-            </li>
-          ))}
-
-          <li>
-            <Button primary onClick={() => handleDelete()}>
-              Cancel
-            </Button>
-          </li>
-        </ul>
+        <ActionsMenu
+          resetGeometry={resetGeometry}
+          newPoints={newPoints}
+          handleDelete={handleDelete}
+          geometry={geometry}
+        />
       )}
     </>
   );

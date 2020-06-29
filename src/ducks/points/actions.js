@@ -13,8 +13,12 @@ const pointsActions = {
     type: pointsTypes.DELETE_POINT,
     id,
   }),
-  deletePoints: id => ({
-    type: pointsTypes.DELETE_POINTS,
+  deleteMultiplePoints: points => ({
+    type: pointsTypes.DELETE_MULTIPLE_POINTS,
+    points,
+  }),
+  deleteFilteredPoints: id => ({
+    type: pointsTypes.DELETE_FILTERED_POINTS,
     id,
   }),
   editPoint: point => ({
