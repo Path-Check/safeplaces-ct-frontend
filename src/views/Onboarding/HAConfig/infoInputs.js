@@ -50,6 +50,13 @@ const DaySliderFunc = ({ handleChange, id, value }) => (
 
 const infoInputs = [
   {
+    title: 'External ID',
+    subtitle: "This is the organization's external ID",
+    placeholder: '',
+    key: 'externalId',
+    disabled: true,
+  },
+  {
     title: 'Your Health Authority name',
     subtitle: 'This name will be visible to the general public',
     placeholder: 'Puerto Rico Department of Public Health',
