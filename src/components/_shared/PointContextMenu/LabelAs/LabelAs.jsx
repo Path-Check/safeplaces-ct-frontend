@@ -22,6 +22,7 @@ import {
   faChevronRight,
   faPrescriptionBottle,
   faTag,
+  faCircle,
 } from '@fortawesome/pro-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -76,7 +77,7 @@ const LabelAs = ({
               onClick={() => handleConfirm(tag)}
               disabled={tag === currentNickname}
             >
-              <FontAwesomeIcon icon={iconFromLabel[tag] || faTag} /> {tag}
+              <FontAwesomeIcon icon={faCircle} /> {tag}
               {tag === currentNickname && (
                 <FontAwesomeIcon
                   icon={faCheck}
@@ -98,9 +99,6 @@ const LabelAs = ({
           placeholder="Dave's Diner"
           onChange={e => setCustomLabel(e.target.value)}
         />
-        <Button disabled={!customLabel} type="submit">
-          <FontAwesomeIcon icon={faChevronRight} />
-        </Button>
       </form>
     </div>
   );

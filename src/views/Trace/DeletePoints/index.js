@@ -12,6 +12,11 @@ import Button from 'components/_shared/Button';
 const DeletePoints = ({ closeAction, deleteAction, points }) => {
   const count = points.length;
 
+  const handleDelete = () => {
+    deleteAction();
+    closeAction();
+  };
+
   return (
     <Modal closeAction={closeAction}>
       <Dialog>
@@ -23,7 +28,7 @@ const DeletePoints = ({ closeAction, deleteAction, points }) => {
           </p>
         </header>
         <div className={deletePointsBody}>
-          <Button id="yes-delete-points" onClick={deleteAction}>
+          <Button id="yes-delete-points" onClick={handleDelete}>
             Yes, Delete {count} Point(s)
           </Button>
           <Button id="cancel-button" secondary onClick={closeAction}>

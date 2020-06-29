@@ -78,7 +78,8 @@ const DrawEditor = () => {
           height: '100%',
           cursor: permitDrawing ? 'crosshair' : 'inherit',
         }}
-        clickRadius={15}
+        clickRadius={12}
+        editHandleShape="circle"
         onUpdate={map => handleUpdate(map)}
         featureStyle={({ feature, state }) => {
           if (state === 'UNCOMMITTED' || state === 'SELECTED') {
@@ -96,7 +97,6 @@ const DrawEditor = () => {
             fill: 'rgba(105, 121, 248, 0.5)',
           };
         }}
-        editHandleShape="circle"
         mode={permitDrawing && new DrawPolygonMode()}
       />
       {!renderTools && <EditorNav setRenderTools={setRenderTools} />}
