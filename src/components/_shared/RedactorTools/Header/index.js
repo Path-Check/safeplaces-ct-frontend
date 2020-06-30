@@ -2,23 +2,13 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  redactorToolsHeader,
-  selectedEditContextMenu,
-  selectedEditContextMenuAction,
-  selectedfaEllipsisVIcon,
-} from './header.module.scss';
+import { redactorToolsHeader, selectedEditAction } from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronLeft,
-  faEdit,
-  faEllipsisV,
-} from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft, faPencilAlt } from '@fortawesome/pro-solid-svg-icons';
 import casesSelectors from 'ducks/cases/selectors';
 import caseAction from 'ducks/cases/actions';
 import EditRecordModal from './EditRecordModal';
 import applicationSelectors from 'ducks/application/selectors';
-import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
@@ -29,10 +19,7 @@ const RedactorToolsHeader = () => {
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const mode = useSelector(state => applicationSelectors.getMode(state));
   const [showModal, setShowModal] = useState(false);
-  const [showEditRecordButton, setEditRecordButton] = useState(false);
   const [externalInputValue, setInputValue] = useState('');
-
-  useOnClickOutside(containerRef, () => setEditRecordButton(false));
 
   const onChangeHandler = event => {
     setInputValue(event.target.value);
@@ -50,27 +37,6 @@ const RedactorToolsHeader = () => {
   }
 
   const _id = activeCases.externalId || activeCases.caseId;
-
-  const EditRecordButton = () => (
-    <div className={selectedEditContextMenu}>
-      <ul>
-        <li>
-          <button
-            id="edit-record-id"
-            className={selectedEditContextMenuAction}
-            type="button"
-            onClick={() => {
-              setShowModal(true);
-              setEditRecordButton(false);
-            }}
-          >
-            <FontAwesomeIcon icon={faEdit} />
-            Edit Record ID
-          </button>
-        </li>
-      </ul>
-    </div>
-  );
 
   return (
     <>
@@ -99,15 +65,17 @@ const RedactorToolsHeader = () => {
         </h3>
         {mode === 'trace' && (
           <button
-            id="more-menu-button"
-            className={selectedfaEllipsisVIcon}
-            onClick={() => setEditRecordButton(true)}
+            id="edit-record-id"
+            className={selectedEditAction}
             type="button"
+            onClick={() => {
+              setShowModal(true);
+            }}
+            title="Edit Record ID"
           >
-            <FontAwesomeIcon icon={faEllipsisV} />
+            <FontAwesomeIcon icon={faPencilAlt} />
           </button>
         )}
-        {showEditRecordButton && <EditRecordButton />}
       </header>
 
       <EditRecordModal
