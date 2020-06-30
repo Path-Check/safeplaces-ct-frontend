@@ -15,7 +15,8 @@ const HelpBlock = ({ setRenderTools }) => {
       <div className={editorHelpText}>
         <p>
           Use the polygon tool to draw around the data points you want to
-          select. <button onClick={() => setShowTutorial(true)}>See how</button>
+          select.
+          {/* <button onClick={() => setShowTutorial(true)}>See how</button> */}
         </p>
         <Button secondary isWhite onClick={() => setRenderTools(false)}>
           Cancel
