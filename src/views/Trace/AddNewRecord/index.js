@@ -9,7 +9,6 @@ import {
   AddNewRecordCode,
   AddNewRecordActions,
   AddNewRecordTitle,
-  closeIcon,
   divider,
 } from './AddNewRecord.module.scss';
 
@@ -18,8 +17,6 @@ import casesSelectors from 'ducks/cases/selectors';
 
 import applicationActions from 'ducks/application/actions';
 import casesActions from 'ducks/cases/actions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 
 const AddNewRecord = () => {
   const dispatch = useDispatch();
@@ -30,10 +27,7 @@ const AddNewRecord = () => {
   const accessCode = useSelector(state => casesSelectors.getAccessCode(state));
 
   return (
-    <Modal
-      showCloseAction={false}
-      closeAction={() => dispatch(casesActions.deleteCase())}
-    >
+    <Modal closeAction={() => dispatch(casesActions.deleteCase())}>
       <Dialog width="650px">
         <div>
           <header className={AddNewRecordHeader}>

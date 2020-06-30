@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -16,17 +16,23 @@ const Modal = ({
   useCloseOnEscape(() => closeAction && closeAction());
   const modalRoot = document.getElementById('modal-root');
 
+  const [focusTrapped, setFocusTrapped] = useState(false);
+
+  useEffect(() => {
+    setFocusTrapped(true);
+  }, []);
+
   return createPortal(
-    <FocusTrap>
+    <FocusTrap active={focusTrapped}>
       <div className={modalWrapper}>
         <button
           type="button"
           onClick={() => closeAction()}
           className={closeButton}
+          style={{ opacity: showCloseAction ? '1' : '0' }}
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
-
         <div className={modalInner}>{children}</div>
       </div>
     </FocusTrap>,

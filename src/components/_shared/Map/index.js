@@ -25,6 +25,11 @@ import PointEditor from 'components/_shared/PointEditor';
 
 import satelliteStyles from './styles/satellite.json';
 import mapStyles from './styles/map.json';
+<<<<<<< HEAD
+=======
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
+>>>>>>> dev
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
@@ -205,8 +210,9 @@ export default function Map({ setMap }) {
               <button
                 className={styles.viewToggle}
                 onClick={() => setSatelliteView(!satelliteView)}
+                title={`Enable ${!satelliteView ? 'Satellite' : 'Map'} View`}
               >
-                {!satelliteView ? 'Satellite' : 'Map'} View
+                <FontAwesomeIcon icon={satelliteView ? faMap : faSatellite} />
               </button>
             </div>
           </>
