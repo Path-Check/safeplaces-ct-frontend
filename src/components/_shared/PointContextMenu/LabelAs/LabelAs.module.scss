@@ -26,6 +26,16 @@
       padding: 20px 15px 25px 45px;
     }
   }
+
+  form {
+    svg {
+      color: #d8d8de;
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
 
 .labelAsWrapperBottom {

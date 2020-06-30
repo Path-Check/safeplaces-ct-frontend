@@ -96,11 +96,7 @@ const MapMarker = ({
         ref={markerRef}
         id={`map-marker-${pointId}`}
       >
-        <FontAwesomeIcon
-          icon={faMapMarkerAlt}
-          className={markerIcon}
-          style={!alternate && { color: returnColor(duration) }}
-        />
+        <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
       </button>
       {showContentMenu && !alternate && (
         <PointContextMenu

@@ -92,6 +92,7 @@ const LabelAs = ({
         className={inputWrapper}
         onSubmit={() => handleConfirm(customLabel)}
       >
+        <FontAwesomeIcon icon={faTag} />
         <TextInput
           id="labelAs"
           labelText=""
