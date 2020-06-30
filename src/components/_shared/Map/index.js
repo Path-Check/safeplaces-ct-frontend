@@ -25,11 +25,9 @@ import PointEditor from 'components/_shared/PointEditor';
 
 import satelliteStyles from './styles/satellite.json';
 import mapStyles from './styles/map.json';
-<<<<<<< HEAD
-=======
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
->>>>>>> dev
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
