@@ -54,17 +54,13 @@ const DrawEditor = () => {
     if (!geometry) {
       return;
     }
+
     const targetArray = filteredPoints.length > 0 ? filteredPoints : points;
     const selection = targetArray.filter(p => inside(toPoint(p), geometry));
 
     if (selection?.length > 0) {
       setNewPoints(selection);
     } else {
-      dispatch(
-        applicationActions.notification({
-          title: 'Please make a valid selection',
-        }),
-      );
       resetGeometry();
     }
   }, [geometry]);
