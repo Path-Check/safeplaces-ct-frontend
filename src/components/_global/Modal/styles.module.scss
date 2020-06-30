@@ -30,4 +30,10 @@
   color: white;
   font-size: 30px;
   cursor: pointer;
+  transition: transform 300ms;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.4);
+  }
 }
