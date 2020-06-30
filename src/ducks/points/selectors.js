@@ -2,8 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { toPoint } from 'components/_shared/Map/_helpers';
 import inside from '@turf/inside';
-
-const currentDateFormat = 'ddd, MMMM D, YYYY';
+import { getDates, CURRENT_DATE_FORMAT } from 'helpers/pointsUtils';
 
 const pointsSelectors = {
   getPoints: state =>
@@ -21,9 +20,9 @@ const pointsSelectors = {
     } = state.points;
     const dateRangeFilter = p =>
       dateRange.length === 0 ||
-      moment(moment(p.time).format(currentDateFormat)).isBetween(
-        moment(dateRange[0], currentDateFormat),
-        moment(dateRange[1], currentDateFormat),
+      moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isBetween(
+        moment(dateRange[0], CURRENT_DATE_FORMAT),
+        moment(dateRange[1], CURRENT_DATE_FORMAT),
         undefined,
         '[]',
       );
@@ -32,8 +31,8 @@ const pointsSelectors = {
       recordIds && recordIds.length ? recordIds.includes(p.caseId) : p;
 
     const singleDateFilter = p =>
-      moment(moment(p.time).format(currentDateFormat)).isSame(
-        moment(singleDate, currentDateFormat),
+      moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isSame(
+        moment(singleDate, CURRENT_DATE_FORMAT),
       );
 
     const dateFilter = singleDate ? singleDateFilter : dateRangeFilter;
@@ -64,16 +63,7 @@ const pointsSelectors = {
       .sort((a, b) => moment(b.time) - moment(a.time));
   },
   getActivePoint: state => state.points.activePoint,
-  getPointsDates: state => {
-    const sortedArray = state.points.points.sort(
-      (a, b) => moment(a.time) - moment(b.time),
-    );
-    return [
-      ...new Set(
-        sortedArray.map(({ time }) => moment(time).format(currentDateFormat)),
-      ).values(),
-    ];
-  },
+  getPointsDates: state => getDates(state.points.points),
   getDateRange: state => state.points.dateRange,
   getSingleDate: state => state.points.singleDate,
   getUseDurationFilter: state => state.points.useDurationFilter,

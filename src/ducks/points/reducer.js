@@ -1,4 +1,5 @@
 import pointsTypes from './types';
+import { getDates } from 'helpers/pointsUtils';
 
 const initialState = {
   points: [],
@@ -52,12 +53,15 @@ export default function reducer(state = initialState, action) {
         recordIds,
       };
     case pointsTypes.CLEAR_FILTERS:
+      const dates = getDates(state.points);
       return {
         ...state,
         useDurationFilter: initialState.useDurationFilter,
         duration: initialState.duration,
         geometry: initialState.geometry,
         recordIds: initialState.recordIds,
+        singleDate: initialState.singleDate,
+        dateRange: [dates[0], dates[dates.length - 1]],
         points: state.points.map(point => ({ ...point, hidden: false })),
       };
     case pointsTypes.HIDE_POINT:
