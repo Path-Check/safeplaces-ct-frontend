@@ -111,28 +111,21 @@ const PointContextMenu = ({
             </button>
           </li>
         )}
-        <li className={pointContextMenuOption}>
-          <button
-            type="button"
-            onClick={() => dispatch(pointsActions.hidePoint(id))}
-          >
-            <FontAwesomeIcon icon={faMinusCircle} />
-            Unselect
-          </button>
-        </li>
-        <li className={pointContextMenuOption}>
-          <button type="button" onClick={() => setShowLabelAs(true)}>
-            <FontAwesomeIcon icon={faTag} />
-            Label as <FontAwesomeIcon icon={faChevronRight} />
-          </button>
-          {showLabelAs && (
-            <LabelAs
-              currentNickname={nickname}
-              points={[id]}
-              closeCallback={() => closeAction()}
-            />
-          )}
-        </li>
+        {renderDateTime && (
+          <li className={pointContextMenuOption}>
+            <button type="button" onClick={() => setShowLabelAs(true)}>
+              <FontAwesomeIcon icon={faTag} />
+              Label as <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+            {showLabelAs && (
+              <LabelAs
+                currentNickname={nickname}
+                points={[id]}
+                closeCallback={() => closeAction()}
+              />
+            )}
+          </li>
+        )}
         {isTrace && (
           <li className={pointContextMenuOption}>
             <button
