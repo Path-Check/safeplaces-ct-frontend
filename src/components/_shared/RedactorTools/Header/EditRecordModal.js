@@ -14,7 +14,7 @@ const EditRecordModal = ({
 }) => {
   return showModal ? (
     <Modal closeAction={() => setShowModal(false)}>
-      <Dialog width="650px">
+      <Dialog width="500px">
         <header>
           <h3>Edit Record ID</h3>
           <p>
@@ -34,7 +34,6 @@ const EditRecordModal = ({
           <Button type="button" onClick={onSubmit}>
             Save Record ID
           </Button>
-          <br />
           <Button type="button" secondary onClick={() => setShowModal(false)}>
             Cancel
           </Button>
