@@ -19,27 +19,8 @@ import PointContextMenu from 'components/_shared/PointContextMenu';
 import pointsSelectors from 'ducks/points/selectors';
 import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
-import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
-import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
-const colorScale = {
-  darkest: '#980f0f',
-  dark: '#d53737',
-  regular: '#ff5656',
-  light: '#f96464',
-};
-
-const returnColor = duration => {
-  if (duration < 15) {
-    return colorScale.light;
-  } else if (duration < 60) {
-    return colorScale.regular;
-  } else if (duration < 720) {
-    return colorScale.dark;
-  } else {
-    return colorScale.darkest;
-  }
-};
+import { formattedDuration } from 'helpers/dateTime';
 
 const MapMarker = ({
   latitude,
