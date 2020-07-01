@@ -5,28 +5,23 @@
 .selectedDataHeader {
   display: flex;
   align-items: center;
+  justify-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   position: relative;
-}
-
-.selectedDataHeaderInfo {
-  display: flex;
-  align-items: center;
-  padding-right: 10px;
 }
 
 .selectedDataList {
   max-height: 400px;
   min-height: 200px;
   overflow: auto;
-  border-radius: 6px;
   margin-bottom: 20px;
 }
 
 .selectedDataSelection {
   font-size: 14px;
-  color: #2434b6;
+  font-weight: 600;
+  margin-bottom: 0;
 }
 
 .selectedDataAction {
@@ -36,6 +31,18 @@
   background: none;
   outline: none;
   border: none;
+}
+
+.selectedDataAddPoint {
+  cursor: pointer;
+  color: #4051db;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-left: auto;
+
+  svg {
+    font-size: 10px;
+  }
 }
 
 .clearFilters {

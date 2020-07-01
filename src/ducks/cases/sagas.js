@@ -216,7 +216,7 @@ function* publishCases() {
 }
 
 function* stageCase() {
-  const caseId = yield select(casesSelectors.getActiveCases);
+  const { caseId } = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 

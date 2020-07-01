@@ -1,4 +1,6 @@
 .viewWrapper {
   display: grid;
+  height: calc(100vh - 75px);
   grid-template-columns: 360px auto;
+  overflow: hidden;
 }
