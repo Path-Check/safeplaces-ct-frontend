@@ -28,6 +28,13 @@ const pointsService = {
       data,
     });
   },
+  setLabel: data => {
+    return axios({
+      method: 'PUT',
+      url: `${REACT_APP_API_URL}case/points`,
+      data,
+    });
+  },
   add: data => {
     return axios({
       method: 'POST',

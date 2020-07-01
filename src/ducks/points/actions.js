@@ -13,8 +13,12 @@ const pointsActions = {
     type: pointsTypes.DELETE_POINT,
     id,
   }),
-  deletePoints: id => ({
-    type: pointsTypes.DELETE_POINTS,
+  deleteMultiplePoints: points => ({
+    type: pointsTypes.DELETE_MULTIPLE_POINTS,
+    points,
+  }),
+  deleteFilteredPoints: id => ({
+    type: pointsTypes.DELETE_FILTERED_POINTS,
     id,
   }),
   editPoint: point => ({
@@ -40,6 +44,10 @@ const pointsActions = {
   setRecordIds: recordIds => ({
     type: pointsTypes.SET_RECORD_IDS,
     recordIds,
+  }),
+  setPointsLabel: data => ({
+    type: pointsTypes.SET_LABEL,
+    data,
   }),
   setGeometry: geometry => ({
     type: pointsTypes.SET_GEOMETRY,

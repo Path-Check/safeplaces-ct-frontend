@@ -1,19 +1,8 @@
-.deletePointsWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-
-  h3 {
-    margin-bottom: 20px;
-  }
-}
-
 .deletePointsBody {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
   text-align: center;
   font-size: 26px;
-
-  button {
-    margin-bottom: 15px;
-  }
 }

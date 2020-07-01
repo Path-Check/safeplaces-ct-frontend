@@ -56,6 +56,10 @@ $mobile-bottom-swipe-height: 75px;
     background: none;
     border: none;
     cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   @mixin borderBox() {

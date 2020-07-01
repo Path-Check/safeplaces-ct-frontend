@@ -7,43 +7,31 @@ import {
   deletePointsBody,
 } from './DeletePoints.module.scss';
 
-import { useSelector, useDispatch } from 'react-redux';
-import pointsSelectors from 'ducks/points/selectors';
-import applicationActions from 'ducks/application/actions';
-import pointsActions from 'ducks/points/actions';
-
 import Button from 'components/_shared/Button';
 
-const DeletePoints = () => {
-  const dispatch = useDispatch();
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
-  const points = useSelector(state => pointsSelectors.getPoints(state));
+const DeletePoints = ({ closeAction, deleteAction, points }) => {
+  const count = points.length;
+
+  const handleDelete = () => {
+    deleteAction();
+    closeAction();
+  };
 
   return (
-    <Modal closeAction={() => dispatch(applicationActions.updateStatus(''))}>
-      <Dialog width="650px">
+    <Modal closeAction={closeAction}>
+      <Dialog>
         <header className={deletePointsWrapper}>
           <h3>Delete Multiple Points</h3>
           <p>
-            Are you sure you want to delete {filteredPoints.length} point(s)?
+            Are you sure you want to delete {count} point(s)? <br />
+            (This action cannot be undone)
           </p>
         </header>
         <div className={deletePointsBody}>
-          <Button
-            id="yes-delete-points"
-            large
-            onClick={() => dispatch(pointsActions.deletePoints())}
-          >
-            Yes, Delete {filteredPoints.length} Point(s)
+          <Button id="yes-delete-points" onClick={handleDelete}>
+            Yes, Delete {count} Point(s)
           </Button>
-          <Button
-            id="cancel-button"
-            large
-            secondary
-            onClick={() => dispatch(applicationActions.updateStatus(''))}
-          >
+          <Button id="cancel-button" secondary onClick={closeAction}>
             Cancel
           </Button>
         </div>

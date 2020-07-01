@@ -22,9 +22,8 @@ const TracerToolActions = () => {
         disabled={points?.length < 1}
         onClick={() => dispatch(applicationActions.updateStatus('STAGE CASE'))}
       >
-        Stage for Publishing
-      </Button>}
-      {/* <Button secondary>Save Session</Button> */}
+        Stage All Data for Publishing
+      </Button>
     </div>
   );
 };

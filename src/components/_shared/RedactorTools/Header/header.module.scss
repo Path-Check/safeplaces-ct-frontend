@@ -1,21 +1,20 @@
 .redactorToolsHeader {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 
   button {
     border: none;
     outline: none;
     background: none;
     cursor: pointer;
-    margin-right: 15px;
     font-size: 20px;
     padding: 0;
+    color: #9ba0aa;
   }
 }
 
-.selectedfaEllipsisVIcon {
-  position: absolute;
-  margin-left: 311px;
+.selectedEditAction {
+  margin: 0 0 0 auto;
 }
 
 header h3 {
@@ -23,20 +22,26 @@ header h3 {
   width: 275px;
   white-space: nowrap;
   overflow: hidden;
+  margin-left: 10px;
 }
 
 header p {
   margin-top: 20px;
 }
 
-.ModalButton Button {
-  margin-bottom: 10px;
-  font-size: 16px !important;
-  width: 250px;
-  height: 60px;
+.ModalButton {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border-radius: 8px;
+
+  button {
+    width: 250px;
+    margin-bottom: 15px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
 }
 
 .inputText {

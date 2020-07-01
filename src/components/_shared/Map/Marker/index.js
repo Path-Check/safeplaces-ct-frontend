@@ -48,6 +48,7 @@ const MapMarker = ({
   duration,
   pointId,
   alternate,
+  nickname,
 }) => {
   const dispatch = useDispatch();
   const markerRef = useRef();
@@ -69,6 +70,7 @@ const MapMarker = ({
         longitude,
         time: timestamp,
         duration,
+        nickname,
       }),
     );
 
@@ -94,11 +96,7 @@ const MapMarker = ({
         ref={markerRef}
         id={`map-marker-${pointId}`}
       >
-        <FontAwesomeIcon
-          icon={faMapMarkerAlt}
-          className={markerIcon}
-          style={!alternate && { color: returnColor(duration) }}
-        />
+        <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
       </button>
       {showContentMenu && !alternate && (
         <PointContextMenu

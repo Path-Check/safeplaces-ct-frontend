@@ -2,8 +2,10 @@ import React from 'react';
 import {
   button,
   buttonLarge,
-  buttonSecondary,
   buttonFullWidth,
+  buttonSecondary,
+  buttonTertiary,
+  buttonWhite,
 } from './styles.module.scss';
 
 import classNames from 'classnames';
@@ -17,9 +19,11 @@ const Button = ({
   onClick,
   large,
   secondary,
+  tertiary,
   fullWidth,
   to,
   children,
+  isWhite,
   className,
   type = 'button',
 }) => {
@@ -28,7 +32,9 @@ const Button = ({
       [`${button}`]: true,
       [`${buttonLarge}`]: large,
       [`${buttonSecondary}`]: secondary,
+      [`${buttonTertiary}`]: tertiary,
       [`${buttonFullWidth}`]: fullWidth,
+      [`${buttonWhite}`]: isWhite,
     },
     [`${className}`],
   );
