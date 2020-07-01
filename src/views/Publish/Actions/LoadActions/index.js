@@ -11,7 +11,10 @@ const PublishLoadActions = () => {
 
   return (
     <div className={sidebarActions}>
-      <Button onClick={() => dispatch(casesActions.fetchCases())}>
+      <Button
+        id="load-data-for-publishing"
+        onClick={() => dispatch(casesActions.fetchCases())}
+      >
         Load Data For Publishing
       </Button>
     </div>

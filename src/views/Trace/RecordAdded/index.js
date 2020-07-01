@@ -16,7 +16,9 @@ import casesSelectors from 'ducks/cases/selectors';
 
 const RecordAdded = () => {
   const status = useSelector(state => casesSelectors.getStatus(state));
-  const activeCase = useSelector(state => casesSelectors.getActiveCase(state));
+  const activeCases = useSelector(state =>
+    casesSelectors.getActiveCases(state),
+  );
 
   if (status !== 'PREVIEW_RECORD') {
     return null;
@@ -33,7 +35,7 @@ const RecordAdded = () => {
             Record ID:
           </p>
         </header>
-        <p className={RecordAddedCode}>{activeCase.id}</p>
+        <p className={RecordAddedCode}>{activeCases.id}</p>
         <div className={RecordAddedActions}>
           <Button large onClick={() => console.log('Close Modal')}>
             Ok

@@ -12,6 +12,7 @@ const PublishToolActions = () => {
   return (
     <div className={sidebarActions}>
       <Button
+        id="submit-data-publishing"
         onClick={() =>
           dispatch(applicationActions.updateStatus('SUBMIT FOR PUBLISHING'))
         }

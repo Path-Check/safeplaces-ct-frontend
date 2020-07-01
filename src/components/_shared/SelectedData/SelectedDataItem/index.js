@@ -9,6 +9,7 @@ import {
   faEllipsisV,
   faHourglass,
   faClock,
+  faTag,
 } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -37,6 +38,7 @@ const SelectedDataItem = ({
   longitude,
   time: timestamp,
   duration,
+  nickname,
 }) => {
   const dispatch = useDispatch();
   const itemRef = useRef();
@@ -88,7 +90,7 @@ const SelectedDataItem = ({
   }, [isHighlighted]);
 
   return (
-    <div className={classes}>
+    <li className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
         <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
         <div className={selectedDataContent}>
@@ -100,6 +102,11 @@ const SelectedDataItem = ({
             {friendlyDuration && (
               <li>
                 <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
+              </li>
+            )}
+            {nickname && (
+              <li>
+                <FontAwesomeIcon icon={faTag} /> {nickname}
               </li>
             )}
           </ul>
@@ -116,7 +123,7 @@ const SelectedDataItem = ({
           closeAction={() => setShowContentMenu(false)}
         />
       )}
-    </div>
+    </li>
   );
 };
 

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { sidebarHeader } from './sidebarHeader.module.scss';
 
-const SidebarHeader = ({ title, copy }) => {
+const SidebarHeader = ({ title, intro }) => {
   return (
     <header className={sidebarHeader}>
-      <h4>{title}</h4>
-      <p>{copy}</p>
+      {title && <h4>{title}</h4>}
+      {intro && <p>{intro}</p>}
     </header>
   );
 };

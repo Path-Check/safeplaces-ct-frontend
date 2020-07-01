@@ -1,6 +1,6 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 
-import differenceBy from 'lodash/differenceBy';
+import { uniqBy, differenceBy } from 'lodash';
 
 import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
@@ -10,6 +10,7 @@ import pointsSelectors from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
 import { mapPoints } from 'helpers/pointsUtils';
+import tagsActions from 'ducks/tags/actions';
 
 function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('BUSY'));
@@ -40,7 +41,7 @@ function* deletePoint({ id }) {
   yield put(applicationActions.updateStatus('CASE ACTIVE'));
 }
 
-function* deletePoints() {
+function* deleteFilteredPoints() {
   yield put(applicationActions.updateStatus('BUSY'));
   const filteredPoints = yield select(pointsSelectors.getFilteredPoints);
   const points = yield select(pointsSelectors.getPoints);
@@ -74,10 +75,43 @@ function* deletePoints() {
   }
 }
 
+function* deleteMultiplePoints({ points }) {
+  yield put(applicationActions.updateStatus('BUSY'));
+  const currentPoints = yield select(pointsSelectors.getPoints);
+
+  try {
+    yield call(
+      pointsService.deletePoints,
+      points.map(({ pointId }) => pointId),
+    );
+
+    const diff = differenceBy(currentPoints, points, 'pointId');
+    yield put(pointsActions.updatePoints(diff));
+
+    yield put(
+      applicationActions.notification({
+        title: `${points.length} Point(s) Deleted`,
+      }),
+    );
+    yield put(pointsActions.setSelectedPoint(null));
+    yield put(pointsActions.clearFilters());
+
+    yield put(applicationActions.updateStatus('IDLE'));
+  } catch (error) {
+    yield put(applicationActions.updateStatus('DELETE POINTS'));
+    yield put(
+      applicationActions.notification({
+        title: 'Unable to delete points',
+        text: 'Please try again.',
+      }),
+    );
+  }
+}
+
 function* updatePoint({ point, type }) {
   const isEdit = type === pointsTypes.EDIT_POINT;
   const currentPoints = yield select(pointsSelectors.getPoints);
-  const caseId = yield select(casesSelectors.getActiveCase);
+  const { caseId } = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
@@ -129,9 +163,41 @@ function* updatePoint({ point, type }) {
   }
 }
 
+function* setPointLabel({ data }) {
+  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(tagsActions.setTags(data.nickname));
+  const currentPoints = yield select(pointsSelectors.getPoints);
+
+  try {
+    const response = yield call(pointsService.setLabel, data);
+    const concernPoints = response.data.concernPoints;
+    yield put(
+      pointsActions.updatePoints(
+        uniqBy([...concernPoints, ...currentPoints], 'pointId'),
+      ),
+    );
+    yield put(applicationActions.updateStatus('IDLE'));
+
+    yield put(
+      applicationActions.notification({
+        title: `${concernPoints.length} point(s) now have the nickname '${data.nickname}'`,
+      }),
+    );
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        title: `Unable to apply nickname to point(s). Please try again.`,
+      }),
+    );
+    yield put(applicationActions.updateStatus('IDLE'));
+  }
+}
+
 export default function* pointsSagas() {
   yield takeEvery(pointsTypes.DELETE_POINT, deletePoint);
-  yield takeEvery(pointsTypes.DELETE_POINTS, deletePoints);
+  yield takeEvery(pointsTypes.DELETE_MULTIPLE_POINTS, deleteMultiplePoints);
+  yield takeEvery(pointsTypes.DELETE_FILTERED_POINTS, deleteFilteredPoints);
   yield takeEvery(pointsTypes.EDIT_POINT, updatePoint);
   yield takeEvery(pointsTypes.ADD_POINT, updatePoint);
+  yield takeEvery(pointsTypes.SET_LABEL, setPointLabel);
 }

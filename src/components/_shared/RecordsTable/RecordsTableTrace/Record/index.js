@@ -15,7 +15,8 @@ const friendlyStatuses = {
   staging: 'Staged For Publishing',
 };
 
-const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
+const Record = ({ record }) => {
+  const { caseId, externalId, updatedAt, state, expiresAt } = record;
   const dispatch = useDispatch();
   const updateDate = updatedAt;
   const expirationDate = expiresAt;
@@ -23,6 +24,7 @@ const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
   const staged = state.toLowerCase() !== 'unpublished';
   const updated = returnFormattedDate(updateDate);
   const expires = returnFormattedDate(expirationDate);
+  const _Id = externalId || caseId;
 
   const recordClasses = classNames({
     [`${styles.record}`]: true,
@@ -32,15 +34,16 @@ const Record = ({ caseId, updatedAt, state, expiresAt, onChange }) => {
   return (
     <tr className={recordClasses}>
       {caseId && (
-        <td colSpan="1">
+        <td colSpan="2">
           {!unpublished ? (
-            caseId
+            _Id
           ) : (
             <button
+              title={_Id}
               className={styles.recordAction}
-              onClick={() => dispatch(casesActions.loadCasePoints(caseId))}
+              onClick={() => dispatch(casesActions.loadCasePoints(record))}
             >
-              {caseId}
+              {_Id}
             </button>
           )}
         </td>

@@ -39,7 +39,11 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
         </header>
         <div className={PublishDataField}>{apiEndpoint}</div>
         <div className={PublishDataActions}>
-          <Button large onClick={() => dispatch(casesActions.publishCases())}>
+          <Button
+            id="publish-data"
+            large
+            onClick={() => dispatch(casesActions.publishCases())}
+          >
             Submit Data For Publishing
           </Button>
           <Button
