@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 import { toPoint } from 'components/_shared/Map/_helpers';
 import inside from '@turf/inside';
@@ -65,6 +65,10 @@ const DrawEditor = () => {
     }
   }, [geometry]);
 
+  const initTools = useMemo(() => permitDrawing && new DrawPolygonMode(), [
+    permitDrawing,
+  ]);
+
   return (
     <>
       <Editor
@@ -93,7 +97,7 @@ const DrawEditor = () => {
             fill: 'rgba(105, 121, 248, 0.5)',
           };
         }}
-        mode={permitDrawing && new DrawPolygonMode()}
+        mode={initTools}
       />
       {!renderTools && <EditorNav setRenderTools={setRenderTools} />}
       {!geometry && renderTools && (
