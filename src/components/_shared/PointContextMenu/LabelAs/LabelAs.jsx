@@ -33,14 +33,6 @@ import tagsSelectors from 'ducks/tags/selectors';
 
 const options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
 
-const iconFromLabel = {
-  Work: faBuilding,
-  University: faUniversity,
-  Bank: faPiggyBank,
-  Pharmacy: faPrescriptionBottle,
-  'Gas Station': faGasPump,
-};
-
 const LabelAs = ({
   renderAtBottom,
   currentNickname,
