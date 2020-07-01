@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, data, points, geometry, id, recordIds } = action;
+  const { type, data, points, geometry, id, recordIds, label } = action;
   switch (type) {
     case pointsTypes.POINTS:
       return {

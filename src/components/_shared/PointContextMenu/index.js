@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
@@ -9,6 +9,7 @@ import {
   pointContextMenuHeader,
   pointContextMenuClose,
   pointContextMenuBottom,
+  pointContextMenuOption,
 } from './PointContextMenu.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +20,9 @@ import {
   faClock,
   faTrash,
   faTimes,
+  faChevronRight,
   faHourglass,
+  faTag,
 } from '@fortawesome/pro-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
@@ -27,6 +30,7 @@ import applicationActions from 'ducks/application/actions';
 import applicationSelectors from 'ducks/application/selectors';
 import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
 
 const PointContextMenu = ({
   pointId: id,
@@ -35,6 +39,7 @@ const PointContextMenu = ({
   duration,
   latitude,
   longitude,
+  nickname,
   renderDateTime = true,
   bottom,
 }) => {
@@ -45,6 +50,7 @@ const PointContextMenu = ({
 
   const containerRef = useRef();
   const dispatch = useDispatch();
+  const [showLabelAs, setShowLabelAs] = useState(false);
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
@@ -84,11 +90,16 @@ const PointContextMenu = ({
               {formattedDuration(duration)}
             </li>
           )}
+          {nickname && (
+            <li>
+              <FontAwesomeIcon icon={faTag} /> {nickname}
+            </li>
+          )}
         </ul>
       )}
       <ul>
         {isTrace && (
-          <li>
+          <li className={pointContextMenuOption}>
             <button
               type="button"
               onClick={() =>
@@ -100,17 +111,23 @@ const PointContextMenu = ({
             </button>
           </li>
         )}
-        <li>
-          <button
-            type="button"
-            onClick={() => dispatch(pointsActions.hidePoint(id))}
-          >
-            <FontAwesomeIcon icon={faMinusCircle} />
-            Unselect
-          </button>
-        </li>
+        {renderDateTime && (
+          <li className={pointContextMenuOption}>
+            <button type="button" onClick={() => setShowLabelAs(true)}>
+              <FontAwesomeIcon icon={faTag} />
+              Label as <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+            {showLabelAs && (
+              <LabelAs
+                currentNickname={nickname}
+                points={[id]}
+                closeCallback={() => closeAction()}
+              />
+            )}
+          </li>
+        )}
         {isTrace && (
-          <li>
+          <li className={pointContextMenuOption}>
             <button
               type="button"
               onClick={() => dispatch(pointsActions.deletePoint(id))}

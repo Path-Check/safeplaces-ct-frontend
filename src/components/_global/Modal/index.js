@@ -24,7 +24,7 @@ const Modal = ({
 
   return createPortal(
     <FocusTrap active={focusTrapped}>
-      <div className={modalWrapper} tabindex="0">
+      <div className={modalWrapper}>
         <button
           type="button"
           onClick={() => closeAction()}

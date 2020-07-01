@@ -51,36 +51,6 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
             </button>
           </li>
         )}
-
-        {!noFilteredPoints && (
-          <>
-            {/* <li>
-              <button
-                type="button"
-                onClick={() => dispatch(pointsActions.clearFilters())}
-                className={selectedDataContextMenuAction}
-              >
-                <FontAwesomeIcon icon={faMinusCircle} />
-                Unselect All
-              </button>
-            </li> */}
-            {isTrace && (
-              <li>
-                <button
-                  id="delete-selected"
-                  type="button"
-                  onClick={() =>
-                    dispatch(applicationActions.updateStatus('DELETE POINTS'))
-                  }
-                  className={selectedDataContextMenuAction}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                  Delete All Selected
-                </button>
-              </li>
-            )}
-          </>
-        )}
       </ul>
     </div>
   );

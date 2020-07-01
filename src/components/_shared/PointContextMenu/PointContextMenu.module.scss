@@ -1,6 +1,7 @@
 .pointContextMenu {
   position: absolute;
   min-width: 200px;
+  max-width: max-content;
   right: 5px;
   top: 20px;
   padding: 10px 7.5px;
@@ -25,30 +26,33 @@
     top: -10px;
   }
 
-  li {
-    button {
-      font-size: 18px;
-      padding: 7.5px;
-      width: 100%;
-
-      &:hover {
-        background: #e5e7fa;
-      }
-    }
-
-    svg {
-      min-width: 20px;
-      margin-right: 5px;
-    }
-  }
-
-  button {
+  > button {
     display: inline-flex;
     cursor: pointer;
     background: none;
     outline: none;
     border: none;
     font-size: 18px;
+  }
+}
+
+.pointContextMenuOption {
+  position: relative;
+
+  > button {
+    text-align: left;
+    font-size: 18px;
+    padding: 7.5px;
+    width: 100%;
+
+    &:hover {
+      background: #e5e7fa;
+    }
+  }
+
+  svg {
+    min-width: 20px;
+    margin-right: 5px;
   }
 }
 
@@ -83,6 +87,7 @@
   position: absolute;
   top: 5px;
   right: 0;
+  z-index: 8;
 }
 
 .pointContextMenuHeader {

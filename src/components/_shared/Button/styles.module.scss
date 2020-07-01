@@ -8,6 +8,7 @@
   font-size: 14px;
   line-height: 14px;
   border-radius: 8px;
+  min-height: 48px;
   border: 2px solid $interactive-01;
   background-color: $interactive-01;
   padding: 10px 20px;
@@ -54,4 +55,37 @@
 
 .buttonFullWidth {
   width: 100%;
+}
+
+.buttonTertiary {
+  color: #4051db;
+  border: 2px solid #6979f8;
+  background: #fff;
+  padding: 10px;
+
+  svg {
+    margin-left: 0;
+  }
+}
+
+.buttonTertiary {
+  color: #4051db;
+  border: 2px solid #6979f8;
+  background: #fff;
+  padding: 10px;
+
+  svg {
+    margin-left: 0;
+  }
+}
+
+.buttonWhite {
+  color: #fff;
+  border: 2px solid currentColor;
+
+  &:hover {
+    border: 2px solid #fff;
+    background: #fff;
+    color: #000;
+  }
 }
