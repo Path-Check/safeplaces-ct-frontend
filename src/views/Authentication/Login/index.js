@@ -17,8 +17,8 @@ const Login = () => {
   const token = useSelector(state => authSelectors.getToken(state));
   const { fetching } = useSelector(state => authSelectors.getLoginState(state));
   const history = useHistory();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const location = useLocation();
 
   useEffect(() => {
