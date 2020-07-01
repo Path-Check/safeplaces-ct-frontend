@@ -11,6 +11,8 @@ import casesSelectors from 'ducks/cases/selectors';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationSelectors from 'ducks/application/selectors';
 import applicationActions from 'ducks/application/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/pro-solid-svg-icons';
 
 const SelectedDataHeader = () => {
   const activeCases = useSelector(state =>
@@ -40,7 +42,7 @@ const SelectedDataHeader = () => {
             dispatch(applicationActions.updateStatus('ADD POINT'));
           }}
         >
-          Add Point
+          Add Point <FontAwesomeIcon icon={faPlus} />
         </button>
       )}
     </div>
