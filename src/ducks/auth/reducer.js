@@ -1,6 +1,6 @@
 import authTypes from './types';
 
-const { login, onboarding } = authTypes;
+const { login, onboarding, logout } = authTypes;
 
 const initialState = {
   token: undefined,
@@ -44,7 +44,7 @@ export default function reducer(state = initialState, action) {
         error: error,
         errorResponse: error.message,
       };
-    case login.LOGOUT:
+    case logout.REQUEST:
       return initialState;
     default:
       return state;

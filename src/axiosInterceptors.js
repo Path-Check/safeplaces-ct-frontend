@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-import authTypes from './ducks/auth/types';
+import authActions from './ducks/auth/actions';
 
 axios.defaults.withCredentials = true;
 
@@ -12,9 +11,9 @@ export default {
       },
       function (error) {
         // catches if the session ended!
-        if (error.response.status === 401) {
+        if (error.response.status === 401 || error.response.status === 403) {
           localStorage.clear();
-          store.dispatch({ type: authTypes.login.LOGOUT, data: true });
+          store.dispatch(authActions.logout.REQUEST());
         }
         return Promise.reject(error);
       },

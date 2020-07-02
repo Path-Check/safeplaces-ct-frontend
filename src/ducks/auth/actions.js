@@ -1,10 +1,10 @@
 import authTypes from './types';
 
-const { onboarding, login } = authTypes;
+const { onboarding, login, logout } = authTypes;
 
 const authActions = {
   logout: () => ({
-    type: login.LOGOUT,
+    type: logout.REQUEST,
   }),
   loginRequest: data => ({
     type: login.REQUEST,
