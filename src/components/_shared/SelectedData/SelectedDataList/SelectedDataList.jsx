@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { selectedDataList } from '../../SelectedData.module.scss';
+import { selectedDataList } from '../SelectedData.module.scss';
 
 import { useSelector } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
-import SelectedDataItem from 'components/_shared/SelectedData/_parts/SelectedDataList/SelectedDataItem';
+import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
 
 const SelectedDataList = () => {
   const filteredPoints = useSelector(state =>
