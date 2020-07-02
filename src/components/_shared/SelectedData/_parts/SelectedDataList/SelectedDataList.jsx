@@ -6,7 +6,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
-import 'react-accessible-accordion/dist/fancy-example.css';
+import './accordion.css';
 
 import { selectedDataList } from '../../SelectedData.module.scss';
 
@@ -19,21 +19,36 @@ const SelectedDataList = () => {
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
+  const groupByDate = items =>
+    items.reduce((result, item) => {
+      const date = moment(item.time).format('ddd, MMMM D, YYYY');
+      return {
+        ...result,
+        [date]: [...(result[date] || []), item],
+      };
+    }, {});
+
+  const groupedPoints = groupByDate(filteredPoints);
 
   return filteredPoints?.length > 0 ? (
-    <Accordion allowZeroExpanded>
-      {filteredPoints?.map(p => (
-        <AccordionItem>
-          <AccordionItemHeading>
-            <AccordionItemButton>
-              {moment(p.time).format('ddd, MMMM D, YYYY')}
-            </AccordionItemButton>
-          </AccordionItemHeading>
-          <AccordionItemPanel>
-            <SelectedDataItem key={p.pointId} {...p} />
-          </AccordionItemPanel>
-        </AccordionItem>
-      ))}
+    <Accordion allowZeroExpanded allowMultipleExpanded>
+      {Object.values(groupedPoints)?.map((p, i) => {
+        console.log(Object.keys(groupedPoints)[i]);
+        return (
+          <AccordionItem>
+            <AccordionItemHeading>
+              <AccordionItemButton>
+                {Object.keys(groupedPoints)[i]}
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              {Object.values(p).map(e => (
+                <SelectedDataItem key={e.pointId} {...e} />
+              ))}
+            </AccordionItemPanel>
+          </AccordionItem>
+        );
+      })}
     </Accordion>
   ) : null;
 };
