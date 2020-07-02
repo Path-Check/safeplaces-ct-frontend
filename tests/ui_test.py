@@ -77,7 +77,6 @@ class TestRedaction(unittest.TestCase):
         contact_trace_page.add_new_record()
         add_record_page = AddNewRecordPage(self.driver)
         add_record_page.create_manually()
-        contact_trace_page.more()
         contact_trace_page.add_data_point()
         # start to add a point and cancel editing the point
         # if the test works this far, we can expand it later
