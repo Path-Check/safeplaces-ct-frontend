@@ -23,6 +23,8 @@ import {
   faPrescriptionBottle,
   faTag,
   faCircle,
+  faCross,
+  faTimes,
 } from '@fortawesome/pro-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,13 +68,16 @@ const LabelAs = ({
         {Array.from(nicknames).map(tag => (
           <li className={labelAsWrapperOption}>
             <button
-              onClick={() => handleConfirm(tag)}
-              disabled={tag === currentNickname}
+              onClick={() =>
+                tag === currentNickname
+                  ? handleConfirm(null)
+                  : handleConfirm(tag)
+              }
             >
               <FontAwesomeIcon icon={faCircle} /> {tag}
               {tag === currentNickname && (
                 <FontAwesomeIcon
-                  icon={faCheck}
+                  icon={tag === currentNickname ? faTimes : faCheck}
                   className={labelAsWrapperOptionCheck}
                 />
               )}
