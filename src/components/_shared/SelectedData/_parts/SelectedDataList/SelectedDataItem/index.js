@@ -4,13 +4,14 @@ import classNames from 'classnames';
 
 import moment from 'moment';
 
-import { faHourglass, faClock, faTag } from '@fortawesome/pro-solid-svg-icons';
+import { faHourglass, faClock } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   selectedDataItem,
   selectedDataItemHighlighted,
   selectedDataContent,
+  selectedDataTag,
 } from './SelectedDataItem.module.scss';
 
 import PointContextMenu from 'components/_shared/PointContextMenu';
@@ -91,11 +92,7 @@ const SelectedDataItem = ({
                 <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
               </li>
             )}
-            {nickname && (
-              <li>
-                <FontAwesomeIcon icon={faTag} /> {nickname}
-              </li>
-            )}
+            {nickname && <li className={selectedDataTag}>{nickname}</li>}
           </ul>
         </div>
       </button>
