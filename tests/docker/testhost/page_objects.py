@@ -73,8 +73,8 @@ class LoginPage(Page):
         self.driver.implicitly_wait(3)
 
         try:
-            self.find_element(self.username).send_keys("admin")
-            self.find_element(self.password).send_keys("admin")
+            self.find_element(self.username).send_keys("safeplaces@extremesolution.com")
+            self.find_element(self.password).send_keys("Wx$sRj3E")
             self.find_element(self.login_btn).click()
         except Exception as e:
             pass
@@ -219,7 +219,6 @@ class AddDataToRecordPage(Page):
         # contact_trace_page.add_new_record()
         # add_record_page = AddNewRecordPage(self.driver)
         # add_record_page.create_manually()
-        contact_trace_page.more()
         contact_trace_page.add_data_point()
         self.enter_location(location)
         self.enter_date(date)
