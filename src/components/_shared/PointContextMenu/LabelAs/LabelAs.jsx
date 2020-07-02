@@ -12,25 +12,11 @@ import {
   labelAsWrapperBottom,
 } from './LabelAs.module.scss';
 
-import Button from 'components/_shared/Button';
-
-import {
-  faCheck,
-  faBuilding,
-  faUniversity,
-  faPiggyBank,
-  faChevronRight,
-  faPrescriptionBottle,
-  faTag,
-  faCircle,
-  faCross,
-  faTimes,
-} from '@fortawesome/pro-solid-svg-icons';
-
+import { faTag, faCircle, faTimes } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import pointsActions from 'ducks/points/actions';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { faGasPump } from '@fortawesome/pro-regular-svg-icons';
+import pointsActions from 'ducks/points/actions';
 import tagsSelectors from 'ducks/tags/selectors';
 
 const options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
@@ -77,7 +63,7 @@ const LabelAs = ({
               <FontAwesomeIcon icon={faCircle} /> {tag}
               {tag === currentNickname && (
                 <FontAwesomeIcon
-                  icon={tag === currentNickname ? faTimes : faCheck}
+                  icon={faTimes}
                   className={labelAsWrapperOptionCheck}
                 />
               )}
