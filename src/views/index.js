@@ -41,7 +41,7 @@ const ViewWrapper = ({ viewType, title, intro }) => {
   return (
     <>
       <div className={viewWrapper}>
-        <SidebarWrapper>
+        <SidebarWrapper isPadded={!renderEditor}>
           {renderEditor ? (
             <>
               <RedactorTools />
