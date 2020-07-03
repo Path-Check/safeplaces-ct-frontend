@@ -165,8 +165,9 @@ class AddDataToRecordPage(Page):
     date_picker = (By.ID, 'time')
     duration_hours = (By.NAME, 'durationHours')
     duration_minutes = (By.NAME, 'durationMinutes')
-    save_data_button = (By.XPATH, '//*[@type="submit"]')
+    save_data_button = (By.ID, 'save-data')
     close_point_editor_button = (By.ID, 'point-editor-close')
+    edit_record_button = (By.ID, 'edit-record-id')
     
     def enter_location(self, location):
         self.find_element(self.search_location).send_keys(location)
@@ -269,6 +270,7 @@ class SettingsPage(Page):
     data_retention_slider = (By.ID, 'day-slider')
     data_retention_slider_track = (By.CLASS_NAME, 'rc-slider-track')
     data_retention_slider_handle = (By.CLASS_NAME, 'rc-slider-handle')
+    open_map_button = (By.ID, 'open-map)
     reset_gps_button = (By.ID, 'reset-gps')
     save_continue_button = (By.ID, 'save-continue')
     
@@ -303,6 +305,9 @@ class SettingsPage(Page):
     def set_privacy_policy_URL(self, privacy_policy):
         self.find_element(privacy_policy_URL).send_keys(privacy_policy)
 
+    def open_map(self):
+        self.find_element(open_map_button).click()
+        
     def reset_gps_coordinates(self):
         self.find_element(reset_gps_button).click()
         
