@@ -40,10 +40,15 @@ const StageForPublishing = () => {
           </p>
         </header>
         <div className={StageForPublishingActions}>
-          <Button large onClick={() => dispatch(casesActions.stageCase())}>
+          <Button
+            id="yes-consent"
+            large
+            onClick={() => dispatch(casesActions.stageCase())}
+          >
             Yes, I received consent
           </Button>
           <Button
+            id="no-consent"
             large
             secondary
             onClick={() => dispatch(applicationActions.updateStatus('IDLE'))}

@@ -27,7 +27,7 @@ const RecordsTableTrace = () => {
       <table className={table}>
         <thead>
           <tr>
-            <th colSpan="1">Record ID</th>
+            <th colSpan="2">Record ID</th>
             <th colSpan="2">Last Saved</th>
             <th colSpan="1">Status</th>
             <th colSpan="2">Expires</th>
@@ -38,7 +38,7 @@ const RecordsTableTrace = () => {
         <table className={table}>
           <tbody>
             {cases.map(r => (
-              <Record key={`case-trace-${r.caseId}`} {...r} />
+              <Record key={`case-trace-${r.caseId}`} record={r} />
             ))}
           </tbody>
         </table>
@@ -48,7 +48,10 @@ const RecordsTableTrace = () => {
         <tfoot>
           <tr>
             <td colSpan="4">
-              <Button onClick={() => dispatch(casesActions.fetchCase())}>
+              <Button
+                id="add-new-record-from-modal"
+                onClick={() => dispatch(casesActions.fetchCase())}
+              >
                 <FontAwesomeIcon icon={faPlus} /> Add New Record
               </Button>
             </td>

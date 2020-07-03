@@ -4,20 +4,13 @@ import classNames from 'classnames';
 
 import moment from 'moment';
 
-import {
-  faMapMarkerAlt,
-  faEllipsisV,
-  faHourglass,
-  faClock,
-} from '@fortawesome/pro-solid-svg-icons';
+import { faHourglass, faClock, faTag } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   selectedDataItem,
   selectedDataItemHighlighted,
-  selectedDataIcon,
   selectedDataContent,
-  selectedDataMenuAction,
 } from './SelectedDataItem.module.scss';
 
 import PointContextMenu from 'components/_shared/PointContextMenu';
@@ -27,9 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 import mapActions from 'ducks/map/actions';
-import applicationSelectors from 'ducks/application/selectors';
-
-import { formattedDuration } from 'components/_shared/SelectedData/SelectedDataItem/_helpers';
+import { formattedDuration } from 'helpers/dateTime';
 
 const SelectedDataItem = ({
   pointId,
@@ -37,15 +28,14 @@ const SelectedDataItem = ({
   longitude,
   time: timestamp,
   duration,
+  nickname,
 }) => {
   const dispatch = useDispatch();
   const itemRef = useRef();
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-  const isTrace =
-    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-  const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
+  const isHighlighted = activePoint?.pointId === pointId;
   const [showContentMenu, setShowContentMenu] = useState(false);
   const date = moment(timestamp).format('ddd, MMMM D, YYYY');
   const time = moment(timestamp).format('h:mma');
@@ -88,9 +78,8 @@ const SelectedDataItem = ({
   }, [isHighlighted]);
 
   return (
-    <div className={classes}>
+    <li className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
-        <FontAwesomeIcon className={selectedDataIcon} icon={faMapMarkerAlt} />
         <div className={selectedDataContent}>
           <h6>{date}</h6>
           <ul>
@@ -102,10 +91,12 @@ const SelectedDataItem = ({
                 <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
               </li>
             )}
+            {nickname && (
+              <li>
+                <FontAwesomeIcon icon={faTag} /> {nickname}
+              </li>
+            )}
           </ul>
-        </div>
-        <div className={selectedDataMenuAction} type="button">
-          <FontAwesomeIcon icon={faEllipsisV} />
         </div>
       </button>
       {showContentMenu && isHighlighted && (
@@ -116,7 +107,7 @@ const SelectedDataItem = ({
           closeAction={() => setShowContentMenu(false)}
         />
       )}
-    </div>
+    </li>
   );
 };
 

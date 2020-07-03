@@ -28,6 +28,8 @@ const DateSelector = ({ dates }) => {
   useEffect(() => {
     if (checkSingleDate && !singleDate && !dateRange[0]) {
       dispatch(pointsActions.setSingleDate(dates[0]));
+    } else if (!dateRange[0]) {
+      dispatch(pointsActions.setDateRange([dates[0], dates[dates.length - 1]]));
     }
   }, []); // eslint-disable-line
 
@@ -66,7 +68,7 @@ const DateSelector = ({ dates }) => {
             min={0}
             max={dates.length - 1}
             steps={dates.length}
-            onChange={handleChange}
+            onAfterChange={handleChange}
           />
         ) : (
             <Range
@@ -74,7 +76,7 @@ const DateSelector = ({ dates }) => {
               max={dates.length - 1}
               steps={dates.length}
               allowCross={false}
-              onChange={handleChange}
+              onAfterChange={handleChange}
             />
           )}
       </div>

@@ -1,0 +1,72 @@
+.labelAsWrapper {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 0;
+  background-color: #fff;
+  box-shadow: 0.5px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  z-index: 3;
+  width: 250px;
+  font-size: 18px;
+
+  ul {
+    padding: 20px 15px 10px;
+  }
+
+  .inputWrapper {
+    border-top: 1px solid #e9eaf0;
+    position: relative;
+
+    input {
+      background: none;
+      border: none;
+      padding-right: 50px;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 20px 15px 25px 45px;
+    }
+  }
+
+  form {
+    svg {
+      color: #d8d8de;
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.labelAsWrapperBottom {
+  position: absolute;
+  top: 100%;
+  left: auto;
+}
+
+.labelAsWrapperOption {
+  margin-bottom: 15px;
+
+  button {
+    display: flex;
+    font-size: 16px;
+    padding: 0;
+
+    &:not([disabled]):hover {
+      color: #384df6;
+    }
+
+    svg {
+      margin-right: 10px;
+    }
+  }
+}
+
+.labelAsWrapperOptionCheck {
+  margin-left: auto;
+}
+
+.previousTags {
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+}

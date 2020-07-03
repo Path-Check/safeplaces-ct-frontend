@@ -14,7 +14,7 @@ const Loader = ({ message = 'Application Busy' }) => {
   }
 
   return (
-    <Modal>
+    <Modal showCloseAction={false}>
       <div className={loader}>
         <h3 className={loaderTitle}>{message}</h3>
         <div className={loaderBody}>

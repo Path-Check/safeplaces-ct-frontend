@@ -5,6 +5,7 @@ import { TextInput } from '@wfp/ui';
 const InfoInput = ({
   title,
   subtitle,
+  disabled = false,
   id,
   placeholder = null,
   children = null,
@@ -19,6 +20,7 @@ const InfoInput = ({
       <h4 className={styles.subtitle}>{subtitle}</h4>
       {!children ? (
         <TextInput
+          disabled={disabled}
           id={id || title}
           name={id || title}
           placeholder={placeholder}

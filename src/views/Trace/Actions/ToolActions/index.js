@@ -11,16 +11,25 @@ import applicationActions from 'ducks/application/actions';
 const TracerToolActions = () => {
   const dispatch = useDispatch();
   const points = useSelector(state => pointsSelectors.getPoints(state));
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
+  );
+
+  const allowStaging = points.length === filteredPoints.length;
 
   return (
     <div className={sidebarActions}>
-      <Button
-        disabled={points?.length < 1}
-        onClick={() => dispatch(applicationActions.updateStatus('STAGE CASE'))}
-      >
-        Stage for Publishing
-      </Button>
-      {/* <Button secondary>Save Session</Button> */}
+      {allowStaging && (
+        <Button
+          id="stage-for-publishing"
+          disabled={points?.length < 1}
+          onClick={() =>
+            dispatch(applicationActions.updateStatus('STAGE CASE'))
+          }
+        >
+          Stage All Data for Publishing
+        </Button>
+      )}
     </div>
   );
 };

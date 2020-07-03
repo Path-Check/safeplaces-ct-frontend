@@ -22,13 +22,13 @@ const casesActions = {
     type: casesTypes.SET_ACCESS_CODE,
     accessCode,
   }),
-  loadCasePoints: caseId => ({
+  loadCasePoints: cases => ({
     type: casesTypes.LOAD_CASE_POINTS,
-    caseId,
+    cases,
   }),
-  loadMultiCasePoints: caseId => ({
+  loadMultiCasePoints: cases => ({
     type: casesTypes.LOAD_MULTICASE_POINTS,
-    caseId,
+    cases,
   }),
   enrichCase: data => ({
     type: casesTypes.ENRICH_CASE,

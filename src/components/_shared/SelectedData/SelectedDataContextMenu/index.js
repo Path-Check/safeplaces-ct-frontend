@@ -38,6 +38,7 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
         {appStatus !== 'ADD POINT' && isTrace && (
           <li>
             <button
+              id="add-data-point"
               className={selectedDataContextMenuAction}
               type="button"
               onClick={() => {
@@ -49,35 +50,6 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
               Add Data point
             </button>
           </li>
-        )}
-
-        {!noFilteredPoints && (
-          <>
-            {/* <li>
-              <button
-                type="button"
-                onClick={() => dispatch(pointsActions.clearFilters())}
-                className={selectedDataContextMenuAction}
-              >
-                <FontAwesomeIcon icon={faMinusCircle} />
-                Unselect All
-              </button>
-            </li> */}
-            {isTrace && (
-              <li>
-                <button
-                  type="button"
-                  onClick={() =>
-                    dispatch(applicationActions.updateStatus('DELETE POINTS'))
-                  }
-                  className={selectedDataContextMenuAction}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                  Delete All Selected
-                </button>
-              </li>
-            )}
-          </>
         )}
       </ul>
     </div>

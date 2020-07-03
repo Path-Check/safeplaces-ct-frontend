@@ -17,6 +17,7 @@ const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) => {
       <h3 className={styles.boundariesSet}>GPS Boundaries set</h3>
 
       <Button
+        id="reset-gps"
         width="347px"
         height="48px"
         className={styles.openMap}
@@ -28,6 +29,7 @@ const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) => {
   ) : (
     <>
       <Button
+        id="open-map"
         width="347px"
         height="48px"
         className={styles.openMap}
@@ -47,6 +49,13 @@ const DaySliderFunc = ({ handleChange, id, value }) => (
 );
 
 const infoInputs = [
+  {
+    title: 'External ID',
+    subtitle: "This is the organization's external ID",
+    placeholder: '',
+    key: 'externalId',
+    disabled: true,
+  },
   {
     title: 'Your Health Authority name',
     subtitle: 'This name will be visible to the general public',

@@ -1,7 +1,7 @@
 import casesTypes from 'ducks/cases/types';
 
 const initialState = {
-  activeCase: null,
+  activeCases: null,
   cases: null,
   status: '',
   error: null,
@@ -32,12 +32,12 @@ export default function reducer(state = initialState, action) {
     case casesTypes.ADD_CASE:
       return {
         ...state,
-        activeCase: data,
+        activeCases: data,
       };
     case casesTypes.SET_ACTIVE_CASE:
       return {
         ...state,
-        activeCase: caseId,
+        activeCases: caseId,
       };
     case casesTypes.SET_EXTERNAL_ID:
       return {

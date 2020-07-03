@@ -11,24 +11,30 @@ import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import getBounds from 'components/_shared/Map/getBounds';
 
-import { defaultMapStyle } from 'components/_shared/Map/config';
-
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
 import pointsSelectors from 'ducks/points/selectors';
-import PointEditor from 'components/PointEditor';
+
 import applicationSelectors from 'ducks/application/selectors';
 import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
 import DrawEditor from 'components/_shared/Map/DrawEditor';
 
 import { returnGeoPoints } from 'components/_shared/Map/_helpers';
+import PointEditor from 'components/_shared/PointEditor';
+
+import satelliteStyles from './styles/satellite.json';
+import mapStyles from './styles/map.json';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
 
 export default function Map({ setMap }) {
   const mapRef = useRef();
   const [loaded, setLoaded] = useState(false);
 
   const [popupLocation, setPopupLocation] = useState(null);
+  const [satelliteView, setSatelliteView] = useState(false);
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
@@ -157,7 +163,7 @@ export default function Map({ setMap }) {
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
-        mapStyle={defaultMapStyle}
+        mapStyle={satelliteView ? satelliteStyles : mapStyles}
         ref={mapRef}
         width="100%"
         height="100%"
@@ -179,7 +185,7 @@ export default function Map({ setMap }) {
           <>
             <ScaleControl maxWidth={100} unit={'metric'} />
             {filteredPoints.map((p, i) => (
-              <MapMarker {...p} key={i} />
+              <MapMarker {...p} key={`map-point-${p.pointId}`} />
             ))}
 
             {selectedLocation?.longitude && selectedLocation?.latitude && (
@@ -194,10 +200,19 @@ export default function Map({ setMap }) {
               appStatus !== 'ADD POINT' &&
               filteredPoints?.length > 1 && <DrawEditor />}
 
-            <NavigationControl
-              className={`mapboxgl-ctrl-bottom-right ${styles.mapCtrl}`}
-              showCompass={false}
-            />
+            <div className={styles.controls}>
+              <NavigationControl
+                className={`${styles.mapCtrl}`}
+                showCompass={false}
+              />
+              <button
+                className={styles.viewToggle}
+                onClick={() => setSatelliteView(!satelliteView)}
+                title={`Enable ${!satelliteView ? 'Satellite' : 'Map'} View`}
+              >
+                <FontAwesomeIcon icon={satelliteView ? faMap : faSatellite} />
+              </button>
+            </div>
           </>
         )}
       </ReactMapGL>
