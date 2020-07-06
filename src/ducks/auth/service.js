@@ -6,7 +6,7 @@ const authService = {
   getToken: async data => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}login`,
+      url: `${REACT_APP_API_URL}auth/login`,
       data,
     });
   },
@@ -29,7 +29,7 @@ const authService = {
     const response = await authService.getToken(data);
     const { status } = response;
 
-    if (status === 200) {
+    if (status === 204) {
       orgRes = await authService.getOrganizationConfig();
       if (orgRes) {
         user = orgRes ? { ...orgRes.data } : null;
@@ -43,6 +43,12 @@ const authService = {
       method: 'PUT',
       url: `${REACT_APP_API_URL}organization/configuration`,
       data,
+    });
+  },
+  logout: async () => {
+    return axios({
+      method: 'GET',
+      url: `${REACT_APP_API_URL}auth/logout`,
     });
   },
 };

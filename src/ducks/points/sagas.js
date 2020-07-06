@@ -178,9 +178,14 @@ function* setPointLabel({ data }) {
     );
     yield put(applicationActions.updateStatus('IDLE'));
 
+    const title =
+      data.nickname === null
+        ? 'Point label removed'
+        : `${concernPoints.length} point(s) now have the nickname '${data.nickname}'`;
+
     yield put(
       applicationActions.notification({
-        title: `${concernPoints.length} point(s) now have the nickname '${data.nickname}'`,
+        title,
       }),
     );
   } catch (error) {

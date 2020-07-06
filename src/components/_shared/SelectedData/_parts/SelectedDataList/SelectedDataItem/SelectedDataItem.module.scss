@@ -1,20 +1,13 @@
 .selectedDataItem {
-  display: flex;
-  align-items: center;
   border: 1px solid rgba(#e5e7fa, 0.5);
   font-size: 10px;
-  border-radius: 6px;
   background-color: #fff;
   position: relative;
   margin-bottom: 2.5px;
-
-  &:last-of-type {
-    border: none;
-  }
+  color: #374357;
 
   > button {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 7.5px;
@@ -26,7 +19,7 @@
 }
 
 .selectedDataItemHighlighted {
-  background-color: #e5e7fa;
+  border-left: 4px solid #4051db;
 }
 
 .selectedDataIcon {
@@ -36,6 +29,11 @@
 
 .selectedDataContent {
   text-align: left;
+  font-size: 12px;
+
+  svg {
+    color: #d3d7f8;
+  }
 
   h6 {
     margin-bottom: 7.5px;
@@ -43,12 +41,20 @@
 
   ul {
     display: flex;
+    align-items: center;
   }
 
   li {
-    font-size: 12px;
     margin-right: 15px;
   }
+}
+
+.selectedDataTag {
+  background-color: #d3d7f8;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 40px;
+  font-size: 10px;
 }
 
 .selectedDataMenuAction {
@@ -58,12 +64,4 @@
   top: 50%;
   transform: translateY(-50%);
   right: 10px;
-}
-
-.SelectedDataItemActions {
-  display: flex;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
 }
