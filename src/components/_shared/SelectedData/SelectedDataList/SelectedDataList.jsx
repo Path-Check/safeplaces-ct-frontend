@@ -32,9 +32,8 @@ const SelectedDataList = () => {
   return filteredPoints?.length > 0 ? (
     <Accordion allowZeroExpanded allowMultipleExpanded>
       {Object.values(groupedPoints)?.map((p, i) => {
-        console.log(Object.keys(groupedPoints)[i]);
         return (
-          <AccordionItem>
+          <AccordionItem key={`list-points-${i}`}>
             <AccordionItemHeading>
               <AccordionItemButton>
                 {Object.keys(groupedPoints)[i]}
