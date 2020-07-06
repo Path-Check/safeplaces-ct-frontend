@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -7,9 +7,8 @@ import moment from 'moment';
 import {
   faHourglass,
   faClock,
-  faTag,
+  faPencilAlt,
   faTrash,
-  faEdit,
 } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -17,7 +16,8 @@ import {
   selectedDataItem,
   selectedDataItemHighlighted,
   selectedDataContent,
-  SelectedDataItemActions,
+  selectedDataTag,
+  selectedDataMenuActions,
 } from './SelectedDataItem.module.scss';
 
 import pointsActions from 'ducks/points/actions';
@@ -42,7 +42,6 @@ const SelectedDataItem = ({
     pointsSelectors.getActivePoint(state),
   );
   const isHighlighted = activePoint?.pointId === pointId;
-  const date = moment(timestamp).format('ddd, MMMM D, YYYY');
   const time = moment(timestamp).format('h:mma');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
@@ -74,7 +73,6 @@ const SelectedDataItem = ({
     <li className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
         <div className={selectedDataContent}>
-          <h6>{date}</h6>
           <ul>
             <li>
               <FontAwesomeIcon icon={faClock} /> {time}
@@ -84,16 +82,12 @@ const SelectedDataItem = ({
                 <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
               </li>
             )}
-            {nickname && (
-              <li>
-                <FontAwesomeIcon icon={faTag} /> {nickname}
-              </li>
-            )}
+            {nickname && <li className={selectedDataTag}>{nickname}</li>}
           </ul>
         </div>
       </button>
       {isHighlighted && (
-        <ul className={SelectedDataItemActions}>
+        <ul className={selectedDataMenuActions}>
           <li>
             <button
               type="button"
@@ -102,21 +96,9 @@ const SelectedDataItem = ({
               }
               title="Edit Item"
             >
-              <FontAwesomeIcon icon={faEdit} />
+              <FontAwesomeIcon icon={faPencilAlt} />
             </button>
           </li>
-          {/* <li>
-            <button type="button" onClick={() => setShowLabelAs(true)}>
-              <FontAwesomeIcon icon={faTag} title="Label as " />
-            </button>
-            {showLabelAs && (
-              <LabelAs
-                currentNickname={nickname}
-                points={[id]}
-                closeCallback={() => closeAction()}
-              />
-            )}
-          </li> */}
           <li>
             <button
               type="button"
