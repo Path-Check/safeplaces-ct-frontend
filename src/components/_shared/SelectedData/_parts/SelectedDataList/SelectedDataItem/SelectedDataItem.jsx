@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -16,6 +16,7 @@ import {
   selectedDataItem,
   selectedDataItemHighlighted,
   selectedDataContent,
+  selectedDataTag,
   selectedDataMenuActions,
 } from './SelectedDataItem.module.scss';
 
@@ -81,7 +82,7 @@ const SelectedDataItem = ({
                 <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
               </li>
             )}
-            {nickname && <li>{nickname}</li>}
+            {nickname && <li className={selectedDataTag}>{nickname}</li>}
           </ul>
         </div>
       </button>
