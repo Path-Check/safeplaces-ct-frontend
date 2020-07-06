@@ -1,20 +1,17 @@
 .notificationWrapper {
   display: flex;
-  background-color: #374357;
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.25);
-  border-radius: 6px;
-  padding: 10px 20px;
-  color: #e9eaf0;
+  background: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 20px 60px 20px 20px;
   font-size: 18px;
   text-align: left;
-  width: calc(100vw - 415px);
   align-items: center;
   position: relative;
   margin: 10px 0 0 0;
   z-index: 144;
   border: none;
   min-height: auto;
-  padding-right: 40px;
 
   svg {
     margin-right: 20px;
@@ -23,10 +20,15 @@
   button {
     position: absolute;
     right: 0;
-    color: white;
     cursor: pointer;
     font-size: 20px;
+    color: currentColor;
   }
+}
+
+.notificationWrapperError {
+  background-color: red;
+  color: #fff;
 }
 
 :global .Toastify__toast-container {
