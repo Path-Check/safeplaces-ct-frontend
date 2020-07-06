@@ -38,7 +38,6 @@ const SelectedDataItem = ({
   );
   const isHighlighted = activePoint?.pointId === pointId;
   const [showContentMenu, setShowContentMenu] = useState(false);
-  const date = moment(timestamp).format('ddd, MMMM D, YYYY');
   const time = moment(timestamp).format('h:mma');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
@@ -79,10 +78,9 @@ const SelectedDataItem = ({
   }, [isHighlighted]);
 
   return (
-    <li className={classes}>
+    <div className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
         <div className={selectedDataContent}>
-          <h6>{date}</h6>
           <ul>
             <li>
               <FontAwesomeIcon icon={faClock} /> {time}
@@ -104,7 +102,7 @@ const SelectedDataItem = ({
           closeAction={() => setShowContentMenu(false)}
         />
       )}
-    </li>
+    </div>
   );
 };
 
