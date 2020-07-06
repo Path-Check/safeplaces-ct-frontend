@@ -1,22 +1,54 @@
 import React from 'react';
-
-import { selectedDataList } from '../SelectedData.module.scss';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+import './accordion.css';
 
 import { useSelector } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
+
+import moment from 'moment';
 import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
 
 const SelectedDataList = () => {
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
+  const groupByDate = items =>
+    items.reduce((result, item) => {
+      const date = moment(item.time).format('ddd, MMMM D, YYYY');
+      return {
+        ...result,
+        [date]: [...(result[date] || []), item],
+      };
+    }, {});
+
+  const groupedPoints = groupByDate(filteredPoints);
 
   return filteredPoints?.length > 0 ? (
-    <ul className={selectedDataList}>
-      {filteredPoints?.map(p => (
-        <SelectedDataItem key={p.pointId} {...p} />
-      ))}
-    </ul>
+    <Accordion allowZeroExpanded allowMultipleExpanded>
+      {Object.values(groupedPoints)?.map((p, i) => {
+        console.log(Object.keys(groupedPoints)[i]);
+        return (
+          <AccordionItem>
+            <AccordionItemHeading>
+              <AccordionItemButton>
+                {Object.keys(groupedPoints)[i]}
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              {Object.values(p).map(e => (
+                <SelectedDataItem key={e.pointId} {...e} />
+              ))}
+            </AccordionItemPanel>
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
   ) : null;
 };
 
