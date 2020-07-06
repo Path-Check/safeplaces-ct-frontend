@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- deployment.yaml
+namePrefix: dev-
+
+namespace: frontend
+
+# labels added to all Resources
+commonLabels:
+  app: safeplaces-frontend
+  env: master
+images:
+- name: gcr.io/PROJECT_ID/IMAGE:TAG

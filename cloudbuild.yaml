@@ -1,0 +1,43 @@
+steps:
+# - id: 'Pull env file from Secrets Manager'  
+#   name: gcr.io/cloud-builders/gcloud
+#   entrypoint: 'bash'
+#   args: [ '-c', "gcloud secrets versions access latest --secret=${_SECRET_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
+# - name: 'gcr.io/cloud-builders/docker'
+#   id: 'Build'
+#   args: ["build", "-t", "$_IMAGE_NAME:$_IMAGE_VERSION", ".", "-f", "$_DOCKERFILE_PATH"]
+# - name: 'gcr.io/cloud-builders/docker'
+#   id: 'Push'
+#   args: ["push", "$_IMAGE_NAME:$_IMAGE_VERSION"]
+- id: deploy
+  name: 'gcr.io/$PROJECT_ID/kustomize'
+  entrypoint: bash
+  args:
+  - '-c'
+  - |
+    gcloud container clusters get-credentials --zone "$$CLOUDSDK_COMPUTE_ZONE" "$$CLOUDSDK_CONTAINER_CLUSTER"
+    cd deployment-configs/master && kustomize edit set image $_IMAGE_NAME:$_IMAGE_VERSION
+    cat kustomization.yaml
+    kustomize build . | kubectl apply -f - --namespace=${_K8S_NAMESPACE}  
+  env:
+    - 'APPLY=true'
+    - 'CLOUDSDK_COMPUTE_REGION=us-central1'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=safeplaces'
+    - 'GCLOUD_PROJECT=pathcheck-gps-dev'
+
+
+images:
+- '$_IMAGE_NAME:$_IMAGE_VERSION'
+substitutions:
+  _DOCKERFILE_PATH: Dockerfile
+  _IMAGE_NAME:
+  _IMAGE_VERSION:
+  _GKE_CLUSTER:
+  _GKE_LOCATION:
+  _K8S_YAML_PATH:
+  _K8S_APP_NAME:
+  _K8S_NAMESPACE:
+  _OUTPUT_BUCKET_PATH:
+options:
+  substitution_option: 'ALLOW_LOOSE'
+tags: ['$_K8S_APP_NAME']
