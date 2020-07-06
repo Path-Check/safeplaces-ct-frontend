@@ -4,3 +4,16 @@
   grid-template-columns: 360px auto;
   overflow: hidden;
 }
+
+.sidebarActions {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    margin-bottom: 15px;
+  }
+}
+
+.sidebarActionsPadded {
+  padding: 10px 10px 0;
+}

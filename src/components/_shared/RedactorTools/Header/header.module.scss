@@ -1,6 +1,6 @@
 .redactorToolsHeader {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 
   button {
     border: none;
@@ -23,10 +23,7 @@ header h3 {
   white-space: nowrap;
   overflow: hidden;
   margin-left: 10px;
-}
-
-header p {
-  margin-top: 20px;
+  font-size: 18px;
 }
 
 .ModalButton {

@@ -1,47 +1,15 @@
 .selectedDataWrapper {
   position: relative;
-}
-
-.selectedDataHeader {
-  display: flex;
-  align-items: center;
-  justify-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  position: relative;
+  padding: 10px 10px 0;
 }
 
 .selectedDataList {
   max-height: 400px;
   min-height: 200px;
   overflow: auto;
-  margin-bottom: 20px;
-}
 
-.selectedDataSelection {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-.selectedDataAction {
-  font-size: 22px;
-  cursor: pointer;
-  margin-left: 10px;
-  background: none;
-  outline: none;
-  border: none;
-}
-
-.selectedDataAddPoint {
-  cursor: pointer;
-  color: #4051db;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin-left: auto;
-
-  svg {
-    font-size: 10px;
+  @media (max-height: 827px) {
+    max-height: 30vh;
   }
 }
 
@@ -50,10 +18,4 @@
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-}
-
-@media (max-height: 827px) {
-  .selectedDataList {
-    max-height: 30vh;
-  }
 }

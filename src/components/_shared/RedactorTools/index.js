@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import pointsSelectors from '../../../ducks/points/selectors';
 import pointsActions from 'ducks/points/actions';
 import applicationSelectors from 'ducks/application/selectors';
+import PointsInfo from 'components/_shared/RedactorTools/PointsInfo';
+
+import { redactorTools } from './RedactorTools.module.scss';
 
 const durationTimes = [10, 15, 30, 45, 60];
 
@@ -53,31 +56,34 @@ const RedactorTools = () => {
 
   return (
     <>
-      <RedactorToolsHeader />
-      {points?.length > 1 && (
-        <>
-          <DateSelector dates={dates} />
-          <FilterData applyFilters={applyFilters}>
-            {isPublish && (
-              <RecordIdsFilter
-                filterRecordIds={filterRecordIds}
-                setFilterRecordIds={setFilterRecordIds}
-              />
-            )}
-            {points?.length > 1 && (
-              <>
-                <DurationFilter
-                  duration={duration}
-                  setDuration={setDuration}
-                  checked={useDurationFilter}
-                  setChecked={handleCheck}
-                  times={durationTimes}
+      <header className={redactorTools}>
+        <RedactorToolsHeader />
+        {points?.length > 1 && (
+          <>
+            <DateSelector dates={dates} />
+            <FilterData applyFilters={applyFilters}>
+              {isPublish && (
+                <RecordIdsFilter
+                  filterRecordIds={filterRecordIds}
+                  setFilterRecordIds={setFilterRecordIds}
                 />
-              </>
-            )}
-          </FilterData>
-        </>
-      )}
+              )}
+              {points?.length > 1 && (
+                <>
+                  <DurationFilter
+                    duration={duration}
+                    setDuration={setDuration}
+                    checked={useDurationFilter}
+                    setChecked={handleCheck}
+                    times={durationTimes}
+                  />
+                </>
+              )}
+            </FilterData>
+          </>
+        )}
+        <PointsInfo />
+      </header>
       <SelectedDataList />
     </>
   );

@@ -8,12 +8,11 @@ import {
 } from 'react-accessible-accordion';
 import './accordion.css';
 
-import { selectedDataList } from '../../SelectedData.module.scss';
-
 import { useSelector } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
-import SelectedDataItem from 'components/_shared/SelectedData/_parts/SelectedDataList/SelectedDataItem';
+
 import moment from 'moment';
+import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
 
 const SelectedDataList = () => {
   const filteredPoints = useSelector(state =>
@@ -33,9 +32,8 @@ const SelectedDataList = () => {
   return filteredPoints?.length > 0 ? (
     <Accordion allowZeroExpanded allowMultipleExpanded>
       {Object.values(groupedPoints)?.map((p, i) => {
-        console.log(Object.keys(groupedPoints)[i]);
         return (
-          <AccordionItem>
+          <AccordionItem key={`list-points-${i}`}>
             <AccordionItemHeading>
               <AccordionItemButton>
                 {Object.keys(groupedPoints)[i]}
