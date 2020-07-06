@@ -13,7 +13,7 @@ export default {
         // catches if the session ended!
         if (error.response.status === 401 || error.response.status === 403) {
           localStorage.clear();
-          store.dispatch(authActions.logout.REQUEST());
+          store.dispatch(authActions.logout());
         }
         return Promise.reject(error);
       },
