@@ -5,15 +5,15 @@ import { useDispatch } from 'react-redux';
 import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { popup, popupButton } from './Popup.module.scss';
+import { popup, popupButton } from './locationSelect.module.scss';
 import mapActions from 'ducks/map/actions';
 
-export default function PopupWrapper({ longitude, latitude, type }) {
+const LocationSelect = ({ longitude, latitude, type, setPopupLocation }) => {
   const dispatch = useDispatch();
 
   return (
     <Popup
-      tipSize={0}
+      tipSize={10}
       anchor="bottom"
       longitude={longitude}
       latitude={latitude}
@@ -27,7 +27,7 @@ export default function PopupWrapper({ longitude, latitude, type }) {
           className={popupButton}
           onClick={() => {
             dispatch(mapActions.setLocation({ longitude, latitude }));
-            dispatch(mapActions.locationSelect(false));
+            setPopupLocation(null);
           }}
         >
           <FontAwesomeIcon icon={faCheck} />
@@ -36,4 +36,6 @@ export default function PopupWrapper({ longitude, latitude, type }) {
       </div>
     </Popup>
   );
-}
+};
+
+export default LocationSelect;

@@ -16,7 +16,9 @@ function* authenticateSaga({ data }) {
 
     const message = response?.data?.message || 'Something went wrong';
 
-    yield put(applicationActions.notification({ title: name, text: message }));
+    yield put(
+      applicationActions.notification({ text: message, type: 'error' }),
+    );
   }
 }
 
@@ -45,8 +47,8 @@ function* onboardingSaga({ data }) {
         status,
       },
     } = error;
-    const text = status === 500 ? 'Something wrong happened.' : message;
-    yield put(applicationActions.notification({ title: name, text }));
+    const text = status === 500 ? 'Something went wrong.' : message;
+    yield put(applicationActions.notification({ text }));
     yield put(authActions.onboardingFailure(error));
   }
 }

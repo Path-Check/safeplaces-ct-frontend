@@ -6,7 +6,8 @@
     border: none;
   }
 
-  label {
+  label,
+  span {
     display: inline-block;
     white-space: nowrap;
     text-overflow: ellipsis;

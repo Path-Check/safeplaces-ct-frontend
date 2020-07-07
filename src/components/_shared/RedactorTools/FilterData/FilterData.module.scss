@@ -1,8 +1,9 @@
 .filterData {
-  position: relative;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+}
+
+.selectAllButton {
+  margin-right: 10px;
+  white-space: nowrap;
 }
 
 .filterDataHeader {
@@ -17,10 +18,12 @@
 .filterBody {
   display: none;
   position: absolute;
-  top: calc(100% - 10px);
+  top: calc(12%);
+  right: 0;
   width: 100%;
+  max-width: 248px;
   background-color: #fff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
   z-index: 2;
 }
@@ -45,12 +48,11 @@
 }
 
 .filterBodyMain {
-  padding: 15px 15px 10px;
+  padding: 24px 24px 0;
 }
 
 .filterBodyActions {
   display: flex;
   justify-content: flex-end;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  padding: 0 24px 24px;
 }

@@ -1,12 +1,20 @@
 .pointEditor {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 370px;
-  border-radius: 6px;
-  background: #ffffff;
-  padding: 20px;
-  z-index: 89;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 10px;
+  background-color: #fff;
+  transform: translateX(-100%);
+  transition: transform ease 300ms;
+
+  :global .react-datepicker {
+    width: auto;
+  }
+}
+
+.pointEditorEntered {
+  transform: translateX(0);
 }
 
 .pointEditorHeader {
@@ -14,19 +22,6 @@
   align-items: center;
   position: relative;
   margin-bottom: 20px;
-
-  .closeAction {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: inline-flex;
-    cursor: pointer;
-    background: none;
-    outline: none;
-    border: none;
-    font-size: 24px;
-    width: auto;
-  }
 }
 
 .locationControls {
@@ -34,8 +29,6 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 
   span {
     display: inline-block;
@@ -69,4 +62,9 @@
   label {
     font-size: 14px;
   }
+}
+
+.pointEditorActions {
+  display: grid;
+  gap: 15px;
 }

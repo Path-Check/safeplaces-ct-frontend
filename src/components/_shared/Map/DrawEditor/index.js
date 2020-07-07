@@ -6,15 +6,13 @@ import inside from '@turf/inside';
 import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
 
 import pointsSelectors from 'ducks/points/selectors';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import applicationActions from 'ducks/application/actions';
 import HelpBlock from 'components/_shared/Map/DrawEditor/_parts/HelpBlock';
 import ActionsMenu from 'components/_shared/Map/DrawEditor/_parts/ActionsMenu';
 import EditorNav from 'components/_shared/Map/DrawEditor/_parts/EditorNav';
 
 const DrawEditor = () => {
-  const dispatch = useDispatch();
   const editorRef = useRef();
   const [renderTools, setRenderTools] = useState(false);
   const [geometry, setGeometry] = useState(null);
@@ -23,7 +21,6 @@ const DrawEditor = () => {
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
-
   const permitDrawing = renderTools && !geometry;
 
   const resetGeometry = (closeTools = false) => {
