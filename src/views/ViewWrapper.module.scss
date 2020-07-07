@@ -1,6 +1,6 @@
 .viewWrapper {
   display: grid;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 75px);
   grid-template-columns: 360px auto;
   overflow: hidden;
 }
@@ -15,6 +15,5 @@
 }
 
 .sidebarActionsPadded {
-  justify-content: flex-end;
   padding: 10px 10px 0;
 }

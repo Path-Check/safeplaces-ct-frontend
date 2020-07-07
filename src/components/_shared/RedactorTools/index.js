@@ -12,80 +12,47 @@ import pointsActions from 'ducks/points/actions';
 import applicationSelectors from 'ducks/application/selectors';
 import PointsInfo from 'components/_shared/RedactorTools/PointsInfo';
 
-import {
-  redactorTools,
-  filtersContainer,
-  clearFilters,
-} from './RedactorTools.module.scss';
+import { redactorTools } from './RedactorTools.module.scss';
 
 const durationTimes = [10, 15, 30, 45, 60];
 
 const RedactorTools = () => {
   const dispatch = useDispatch();
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
   const dates = useSelector(state => pointsSelectors.getPointsDates(state));
   const points = useSelector(state => pointsSelectors.getPoints(state));
   const durationStore = useSelector(state =>
     pointsSelectors.getDuration(state),
   );
+  const [filterRecordIds, setFilterRecordIds] = useState(false);
+  const [duration, setDuration] = useState(durationStore || durationTimes[0]);
   const useDurationFilterStore = useSelector(state =>
     pointsSelectors.getUseDurationFilter(state),
   );
-  const isPublish =
-    useSelector(state => applicationSelectors.getMode(state)) === 'publish';
-
-  const [selectAllRecords, setSelectAllRecords] = useState(true);
-  const [clearedFilters, setClearedFilters] = useState(false);
-  const [filterRecordIds, setFilterRecordIds] = useState(false);
-  const [duration, setDuration] = useState(durationStore || durationTimes[0]);
   const [useDurationFilter, setUseDurationFilter] = useState(
     useDurationFilterStore || false,
   );
-  const hiddenPoints = points.filter(({ hidden }) => hidden);
+
+  const applyFilters = () => {
+    dispatch(
+      pointsActions.setFilters({
+        duration,
+        useDurationFilter,
+      }),
+    );
+    setFilterRecordIds(true);
+  };
+
+  const handleCheck = e => {
+    const checked = e.target.checked;
+    setUseDurationFilter(checked);
+  };
+
+  const isPublish =
+    useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
   useEffect(() => {
     setUseDurationFilter(useDurationFilterStore);
   }, [useDurationFilterStore]);
-
-  const applyDurationFilter = () => {
-    setClearedFilters(false);
-    dispatch(
-      pointsActions.setFilters({
-        duration,
-        useDurationFilter: true,
-      }),
-    );
-  };
-
-  const applyRecordIdFilter = () => {
-    setFilterRecordIds(true);
-    setClearedFilters(false);
-  };
-
-  const removeRecordIdFilter = () => {
-    setFilterRecordIds(false);
-    dispatch(
-      pointsActions.setFilters({
-        recordIds: null,
-      }),
-    );
-  };
-
-  const removeDurationFilter = () => {
-    dispatch(
-      pointsActions.setFilters({
-        duration: null,
-        useDurationFilter: false,
-      }),
-    );
-  };
-
-  const clearAllFilters = () => {
-    dispatch(pointsActions.clearFilters());
-    setClearedFilters(true);
-  };
 
   return (
     <>
@@ -93,50 +60,28 @@ const RedactorTools = () => {
         <RedactorToolsHeader />
         {points?.length > 1 && (
           <>
-            <div className={filtersContainer}>
-              <DateSelector clearedFilters={clearedFilters} dates={dates} />
-              <FilterData
-                duration={duration}
-                applyFilters={applyDurationFilter}
-                closeAction={removeDurationFilter}
-                useDurationFilter={useDurationFilter}
-              >
-                {points?.length > 1 && (
-                  <>
-                    <DurationFilter
-                      duration={duration}
-                      setDuration={setDuration}
-                      times={durationTimes}
-                    />
-                  </>
-                )}
-              </FilterData>
+            <DateSelector dates={dates} />
+            <FilterData applyFilters={applyFilters}>
               {isPublish && (
-                <FilterData
+                <RecordIdsFilter
                   filterRecordIds={filterRecordIds}
-                  text="Record ID"
-                  closeAction={removeRecordIdFilter}
-                  applyFilters={applyRecordIdFilter}
-                  selectAllRecords={selectAllRecords}
-                  setSelectAllRecords={setSelectAllRecords}
-                >
-                  <RecordIdsFilter
-                    selectAllRecords={selectAllRecords}
-                    filterRecordIds={filterRecordIds}
-                    setFilterRecordIds={setFilterRecordIds}
-                  />
-                </FilterData>
+                  setFilterRecordIds={setFilterRecordIds}
+                />
               )}
-            </div>
+              {points?.length > 1 && (
+                <>
+                  <DurationFilter
+                    duration={duration}
+                    setDuration={setDuration}
+                    checked={useDurationFilter}
+                    setChecked={handleCheck}
+                    times={durationTimes}
+                  />
+                </>
+              )}
+            </FilterData>
           </>
         )}
-        <button
-          onClick={clearAllFilters}
-          className={clearFilters}
-          disabled={points.length === filteredPoints.length}
-        >
-          REMOVE ALL FILTERS
-        </button>
         <PointsInfo />
       </header>
       <SelectedDataList />

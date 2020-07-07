@@ -1,4 +1,21 @@
+.selectedDataWrapper {
+  position: relative;
+  padding: 10px 10px 0;
+}
+
 .selectedDataList {
-  padding: 0 10px;
+  max-height: 400px;
+  min-height: 200px;
   overflow: auto;
+
+  @media (max-height: 827px) {
+    max-height: 30vh;
+  }
+}
+
+.clearFilters {
+  color: #2434b6;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
 }
