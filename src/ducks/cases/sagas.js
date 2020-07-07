@@ -188,12 +188,13 @@ function* deleteCase() {
 
 function* publishCases() {
   const cases = yield select(casesSelectors.getActiveCases);
+  const caseIds = cases.map(c => c.caseId);
 
   yield put(applicationActions.updateStatus('BUSY'));
 
   try {
     yield call(casesService.publishCases, {
-      caseIds: cases,
+      caseIds,
     });
 
     yield put({ type: 'RESET_VIEW' });
