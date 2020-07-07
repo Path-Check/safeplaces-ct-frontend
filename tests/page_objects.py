@@ -161,13 +161,14 @@ class AddNewRecordPage(Page):
 class AddDataToRecordPage(Page):
     search_location = (By.ID, 'search-location')
     select_from_map_button = (By.ID, 'select-from-map')
-    use_location_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div:nth-child(1)')
+    use_location_button = (By.XPATH, '//*[@id="root"]/div/div[1]/div/div[1]/div/div[2]/div/div[2]/div[2]/div/button')
     date_picker = (By.ID, 'time')
     duration_hours = (By.NAME, 'durationHours')
     duration_minutes = (By.NAME, 'durationMinutes')
     save_data_button = (By.ID, 'save-data')
     close_point_editor_button = (By.ID, 'point-editor-close')
     edit_record_button = (By.ID, 'edit-record-id')
+    mapbox = (By.CLASS_NAME, 'mapboxgl-map')
     
     def enter_location(self, location):
         self.find_element(self.search_location).send_keys(location)
@@ -178,6 +179,12 @@ class AddDataToRecordPage(Page):
     def use_location(self):
         self.find_element(self.use_location_button).click()
     
+    def use_location_on_map(self):
+        self.select_from_map()
+        actionChains = ActionChains(self.driver)
+        actionChains.context_click(self.find_element(self.mapbox)).perform()
+        self.use_location()        
+        
     def enter_date(self, date):
         self.find_element(self.date_picker).send_keys(date)
 
@@ -197,6 +204,14 @@ class AddDataToRecordPage(Page):
         contact_trace_page = ContactTracePage(self.driver)
         contact_trace_page.add_data_point()
         self.enter_location(location)
+        self.enter_date(date)
+        self.enter_duration_hours(hours)
+        self.enter_duration_minutes(minutes)
+    
+    def add_data_point_select_on_map(self, date, hours, minutes):
+        contact_trace_page = ContactTracePage(self.driver)
+        contact_trace_page.add_data_point()
+        self.use_location_on_map()
         self.enter_date(date)
         self.enter_duration_hours(hours)
         self.enter_duration_minutes(minutes)
