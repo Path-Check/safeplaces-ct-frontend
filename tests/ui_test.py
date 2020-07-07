@@ -88,8 +88,13 @@ class TestRedaction(unittest.TestCase):
         point_editor_page.close()
         
         # add a point again but this time save the data
-        point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00\r\n', '\t', '20')
+        # point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00\r\n', '\t', '20')
+        # point_editor_page.save_data()
+        
+        # add a point by selecting the location on the map and saving the data
+        point_editor_page.add_data_point_select_on_map('06/08/2020 07:00\r\n', '1\t', '20\t')
         point_editor_page.save_data()
+      
         # contact_trace_page.stage_for_publishing()
         # stage_publish_page = StageForPublishingPage(self.driver)
         # stage_publish_page.stage_no_consent()
@@ -107,7 +112,7 @@ class TestRedaction(unittest.TestCase):
         # submit_data_page = SubmitDataPage(self.driver)
         # submit_data_page.submit()
         # publish_data_page.publish_data()
-        
+       
         # logout
         entry_page.open_settings()
         settings_page = SettingsPage(self.driver)
