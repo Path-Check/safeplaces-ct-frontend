@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import {
   pointContextMenu,
   pointContextMenuBottom,
+  pointContextMenuPublish,
 } from './PointContextMenu.module.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,14 +18,11 @@ import PointContextMenuHeader from 'components/_shared/PointContextMenu/Header/H
 import PointContextMenuBody from 'components/_shared/PointContextMenu/Body/Body';
 
 const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
-  const classes = classNames({
-    [`${pointContextMenu}`]: true,
-    [`${pointContextMenuBottom}`]: bottom,
-  });
-
   const containerRef = useRef();
   const dispatch = useDispatch();
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
+  const isTrace =
+    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
 
   const handleClose = () => {
     closeAction();
@@ -38,10 +36,16 @@ const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
     return null;
   }
 
+  const classes = classNames({
+    [`${pointContextMenu}`]: true,
+    [`${pointContextMenuBottom}`]: bottom,
+    [`${pointContextMenuPublish}`]: !isTrace,
+  });
+
   return (
     <div className={classes} ref={containerRef}>
       <PointContextMenuHeader {...rest} />
-      <PointContextMenuBody {...rest} />
+      {isTrace && <PointContextMenuBody {...rest} />}
     </div>
   );
 };
