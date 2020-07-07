@@ -155,6 +155,7 @@ function* updatePoint({ point, type }) {
       applicationActions.notification({
         title: `Unable to ${isEdit ? 'edit' : 'add'} point. `,
         text: 'Please try again.',
+        type: 'error',
       }),
     );
     yield put(
