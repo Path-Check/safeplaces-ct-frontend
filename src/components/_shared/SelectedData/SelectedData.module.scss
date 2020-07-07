@@ -1,10 +1,4 @@
 .selectedDataList {
   padding: 0 10px;
-  max-height: 400px;
-  min-height: 200px;
   overflow: auto;
-
-  @media (max-height: 827px) {
-    max-height: 52vh;
-  }
 }

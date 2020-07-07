@@ -21,7 +21,6 @@ const DrawEditor = () => {
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
-
   const permitDrawing = renderTools && !geometry;
 
   const resetGeometry = (closeTools = false) => {
