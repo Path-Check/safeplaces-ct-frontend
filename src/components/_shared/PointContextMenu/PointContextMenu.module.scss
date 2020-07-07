@@ -43,7 +43,7 @@
   > button {
     text-align: left;
     font-size: 16px;
-    padding: 7.5px;
+    padding: 10px;
     color: #374357;
     width: 100%;
 
@@ -61,29 +61,31 @@
 }
 
 .pointContextMenuBottom {
-  bottom: calc(100% + 20px);
+  bottom: calc(100% + 42px);
   top: auto;
   right: auto;
-  left: -20px;
+  left: calc(50% - 12.5px);
+  transform: translateX(-50%);
 
-  &:before {
+  &:before,
+  &:after {
     content: '';
-    border-width: 0 8px 11px 8px;
-    border-color: rgba(0, 0, 0, 0.25) transparent transparent transparent;
-    left: 15px;
+    left: 50%;
+    transform: translateX(-50%);
     right: auto;
     bottom: -11px;
     top: auto;
   }
 
+  &:before {
+    border-width: 0 8px 11px 8px;
+    border-color: rgba(0, 0, 0, 0.25) transparent transparent transparent;
+  }
+
   &:after {
-    content: '';
     border-width: 10px 7.5px 0 7.5px;
     border-color: #fff transparent transparent transparent;
-    left: 15px;
-    right: auto;
     bottom: -10px;
-    top: auto;
   }
 }
 
@@ -105,6 +107,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 
   svg {
+    margin-right: 5px;
     color: #d3d7f8;
   }
 }
