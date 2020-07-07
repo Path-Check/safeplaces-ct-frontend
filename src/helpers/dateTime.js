@@ -21,6 +21,6 @@ export const formattedDuration = duration => {
       .utc(moment.duration(duration, 'minutes').asMilliseconds())
       .format('m');
 
-    return `${hours} hrs ${minutes} min`;
+    return `${hours}h ${minutes}m`;
   }
 };

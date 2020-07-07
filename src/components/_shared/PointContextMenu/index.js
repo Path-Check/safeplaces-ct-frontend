@@ -54,7 +54,7 @@ const PointContextMenu = ({
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-  const date = moment(timestamp).format('MMMM D, YYYY');
+  const date = moment(timestamp).format('MMMM D, YY');
   const time = moment(timestamp).format('h:mma');
 
   useOnClickOutside(containerRef, () => closeAction());
@@ -107,7 +107,7 @@ const PointContextMenu = ({
               }
             >
               <FontAwesomeIcon icon={faEdit} />
-              Edit
+              Edit Location
             </button>
           </li>
         )}
@@ -115,7 +115,7 @@ const PointContextMenu = ({
           <li className={pointContextMenuOption}>
             <button type="button" onClick={() => setShowLabelAs(true)}>
               <FontAwesomeIcon icon={faTag} />
-              Label as <FontAwesomeIcon icon={faChevronRight} />
+              Label as location <FontAwesomeIcon icon={faChevronRight} />
             </button>
             {showLabelAs && (
               <LabelAs
@@ -133,7 +133,7 @@ const PointContextMenu = ({
               onClick={() => dispatch(pointsActions.deletePoint(id))}
             >
               <FontAwesomeIcon icon={faTrash} />
-              Delete
+              Delete Location
             </button>
           </li>
         )}
