@@ -270,7 +270,7 @@ class SettingsPage(Page):
     data_retention_slider = (By.ID, 'day-slider')
     data_retention_slider_track = (By.CLASS_NAME, 'rc-slider-track')
     data_retention_slider_handle = (By.CLASS_NAME, 'rc-slider-handle')
-    open_map_button = (By.ID, 'open-map)
+    open_map_button = (By.ID, 'open-map')
     reset_gps_button = (By.ID, 'reset-gps')
     save_continue_button = (By.ID, 'save-continue')
     
