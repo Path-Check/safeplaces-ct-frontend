@@ -40,7 +40,7 @@ const RedactorToolsHeader = () => {
 
   return (
     <>
-      <header className={redactorToolsHeader} ref={containerRef}>
+      <div className={redactorToolsHeader} ref={containerRef}>
         <button
           id="go-back"
           type="button"
@@ -76,7 +76,7 @@ const RedactorToolsHeader = () => {
             <FontAwesomeIcon icon={faPencilAlt} />
           </button>
         )}
-      </header>
+      </div>
 
       <EditRecordModal
         onSubmit={onSubmit}

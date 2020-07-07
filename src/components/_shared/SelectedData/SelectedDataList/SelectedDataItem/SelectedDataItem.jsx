@@ -1,19 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import moment from 'moment';
 
-import { faHourglass, faClock, faTag } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faHourglass,
+  faClock,
+  faPencilAlt,
+  faTrash,
+} from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   selectedDataItem,
   selectedDataItemHighlighted,
   selectedDataContent,
+  selectedDataTag,
+  selectedDataMenuActions,
 } from './SelectedDataItem.module.scss';
 
-import PointContextMenu from 'components/_shared/PointContextMenu';
 import pointsActions from 'ducks/points/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -36,8 +42,6 @@ const SelectedDataItem = ({
     pointsSelectors.getActivePoint(state),
   );
   const isHighlighted = activePoint?.pointId === pointId;
-  const [showContentMenu, setShowContentMenu] = useState(false);
-  const date = moment(timestamp).format('ddd, MMMM D, YYYY');
   const time = moment(timestamp).format('h:mma');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
@@ -48,40 +52,27 @@ const SelectedDataItem = ({
   const handleClick = e => {
     dispatch(applicationActions.updateStatus(''));
     dispatch(mapActions.updateLocation(null));
+    e.preventDefault();
 
-    dispatch(
-      pointsActions.setSelectedPoint({
-        pointId,
-        latitude,
-        longitude,
-        time: timestamp,
-        duration,
-      }),
-    );
-
-    setShowContentMenu(!showContentMenu);
+    if (isHighlighted) {
+      dispatch(pointsActions.setSelectedPoint(null));
+    } else {
+      dispatch(
+        pointsActions.setSelectedPoint({
+          pointId,
+          latitude,
+          longitude,
+          time: timestamp,
+          duration,
+        }),
+      );
+    }
   };
-
-  useEffect(() => {
-    if (showContentMenu) {
-      itemRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-  }, [showContentMenu]);
-
-  useEffect(() => {
-    if (!isHighlighted) {
-      setShowContentMenu(false);
-    }
-  }, [isHighlighted]);
 
   return (
     <li className={classes}>
       <button type="button" onClick={handleClick} ref={itemRef}>
         <div className={selectedDataContent}>
-          <h6>{date}</h6>
           <ul>
             <li>
               <FontAwesomeIcon icon={faClock} /> {time}
@@ -91,21 +82,33 @@ const SelectedDataItem = ({
                 <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
               </li>
             )}
-            {nickname && (
-              <li>
-                <FontAwesomeIcon icon={faTag} /> {nickname}
-              </li>
-            )}
+            {nickname && <li className={selectedDataTag}>{nickname}</li>}
           </ul>
         </div>
       </button>
-      {showContentMenu && isHighlighted && (
-        <PointContextMenu
-          {...activePoint}
-          renderDateTime={false}
-          duration={friendlyDuration}
-          closeAction={() => setShowContentMenu(false)}
-        />
+      {isHighlighted && (
+        <ul className={selectedDataMenuActions}>
+          <li>
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(applicationActions.updateStatus('EDIT POINT'))
+              }
+              title="Edit Item"
+            >
+              <FontAwesomeIcon icon={faPencilAlt} />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              title="Delete Item"
+              onClick={() => dispatch(pointsActions.deletePoint(pointId))}
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
+          </li>
+        </ul>
       )}
     </li>
   );

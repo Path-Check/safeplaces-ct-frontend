@@ -3,7 +3,7 @@ import React from 'react';
 import casesActions from 'ducks/cases/actions';
 import { useDispatch } from 'react-redux';
 
-import { sidebarActions } from '../TracerActions.module.scss';
+import { sidebarActions } from 'views/ViewWrapper.module.scss';
 import Button from 'components/_shared/Button';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

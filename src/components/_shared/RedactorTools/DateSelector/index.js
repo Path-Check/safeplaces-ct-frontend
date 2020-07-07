@@ -71,24 +71,25 @@ const DateSelector = ({ dates }) => {
             onAfterChange={handleChange}
           />
         ) : (
-            <Range
-              min={0}
-              max={dates.length - 1}
-              steps={dates.length}
-              allowCross={false}
-              onAfterChange={handleChange}
-            />
-          )}
+          <Range
+            defaultValue={[0, dates.length - 1]}
+            min={0}
+            max={dates.length - 1}
+            steps={dates.length}
+            allowCross={false}
+            onAfterChange={handleChange}
+          />
+        )}
       </div>
       <div className={dateSelectorDates}>
         {isSingleDate ? (
           <span className={sliderValue}>{singleDate}</span>
         ) : (
-            <>
-              <span className={sliderValue}>{dateRange[0]}</span>
-              <span className={sliderValue}>{dateRange[1]}</span>
-            </>
-          )}
+          <>
+            <span className={sliderValue}>{dateRange[0]}</span>
+            <span className={sliderValue}>{dateRange[1]}</span>
+          </>
+        )}
       </div>
     </div>
   );

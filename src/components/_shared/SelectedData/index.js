@@ -5,8 +5,7 @@ import { selectedDataWrapper, clearFilters } from './SelectedData.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import pointsActions from '../../../ducks/points/actions';
-import SelectedDataHeader from 'components/_shared/SelectedData/_parts/SelectedDataHeader';
-import SelectedDataList from 'components/_shared/SelectedData/_parts/SelectedDataList/SelectedDataList';
+import SelectedDataList from 'components/_shared/SelectedData/SelectedDataList/SelectedDataList';
 
 const SelectedData = () => {
   const dispatch = useDispatch();
@@ -26,7 +25,6 @@ const SelectedData = () => {
           Clear all filters
         </button>
       )}
-      <SelectedDataHeader />
       <SelectedDataList />
     </div>
   );
