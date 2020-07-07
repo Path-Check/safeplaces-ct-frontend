@@ -66,7 +66,7 @@ const Login = () => {
               autoCorrect="off"
               autoCapitalize="off"
               labelText="Email"
-              inputRef={register({ required: 'Please enter a email' })}
+              inputRef={register({ required: 'Please enter an email' })}
               name="username"
               invalid={errors.username}
               invalidText={errors.username && errors.username.message}
@@ -77,10 +77,12 @@ const Login = () => {
               onChange={onPassword}
               autoCorrect="off"
               autoCapitalize="off"
+              inputRef={register({ required: 'Please enter a password' })}
               labelText="Password"
-              inputRef={register}
               type="password"
               name="password"
+              invalid={errors.password}
+              invalidText={errors.password && errors.password.message}
             />
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
