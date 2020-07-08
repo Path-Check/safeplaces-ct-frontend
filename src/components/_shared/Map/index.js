@@ -4,7 +4,8 @@ import ReactMapGL, {
   WebMercatorViewport,
   ScaleControl,
 } from 'react-map-gl';
-import PopupWrapper from './Popup';
+
+import LocationSelect from './LocationSelect';
 
 import { useSelector } from 'react-redux';
 
@@ -21,7 +22,6 @@ import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp'
 import DrawEditor from 'components/_shared/Map/DrawEditor';
 
 import { returnGeoPoints } from 'components/_shared/Map/_helpers';
-import PointEditor from 'components/_shared/PointEditor';
 
 import satelliteStyles from './styles/satellite.json';
 import mapStyles from './styles/map.json';
@@ -193,7 +193,7 @@ export default function Map({ setMap }) {
             )}
 
             {popupLocation?.longitude && popupLocation?.latitude && (
-              <PopupWrapper
+              <LocationSelect
                 {...popupLocation}
                 setPopupLocation={setPopupLocation}
                 type={appStatus}
