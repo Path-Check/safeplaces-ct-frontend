@@ -45,7 +45,9 @@ const LabelAs = ({
       }),
     );
 
-    closeCallback();
+    if (closeCallback) {
+      closeCallback();
+    }
   };
 
   return (
