@@ -3,13 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   notificationWrapper,
   notificationWrapperError,
+  flyIn,
+  fadeOut,
 } from './Notification.module.scss';
 import applicationSelectors from 'ducks/application/selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import applicationActions from 'ducks/application/actions';
 
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer, cssTransition } from 'react-toastify';
 import classNames from 'classnames';
 import 'react-toastify/dist/ReactToastify.minimal.css';
 
@@ -22,6 +24,13 @@ const Notifications = () => {
   const classes = classNames({
     [`${notificationWrapper}`]: true,
     [`${notificationWrapperError}`]: true,
+  });
+
+  const flyInAnimation = cssTransition({
+    enter: flyIn,
+    exit: fadeOut,
+    collapse: false,
+    duration: [1000, 500],
   });
 
   useEffect(() => {
@@ -42,8 +51,9 @@ const Notifications = () => {
       position="bottom-right"
       hideProgressBar={true}
       newestOnTop={false}
-      autoClose={2000}
+      autoClose={5000}
       closeOnClick
+      transition={flyInAnimation}
       closeButton={CloseNotification}
     />
   );

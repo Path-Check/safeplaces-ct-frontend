@@ -5,10 +5,6 @@ const pointsActions = {
     type: pointsTypes.POINTS,
     points,
   }),
-  setSelectedPoint: data => ({
-    type: pointsTypes.ACTIVE_POINT,
-    data,
-  }),
   deletePoint: data => ({
     type: pointsTypes.DELETE_POINT,
     data,
@@ -55,10 +51,6 @@ const pointsActions = {
   }),
   clearFilters: () => ({
     type: pointsTypes.CLEAR_FILTERS,
-  }),
-  hidePoint: id => ({
-    type: pointsTypes.HIDE_POINT,
-    id,
   }),
 };
 

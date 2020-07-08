@@ -8,10 +8,11 @@ import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
 import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
-import { mapPoints } from 'helpers/pointsUtils';
 
 function* addCases({ data }) {
   try {
+    yield put(applicationActions.updateStatus('BUSY'));
+
     const response = yield call(casesService.fetchCases);
 
     if (!response.data.cases || response.data.cases.length < 1) {
@@ -40,6 +41,8 @@ function* addCase() {
   const { id: organizationId } = yield select(authSelectors.getCurrentUser);
 
   try {
+    yield put(applicationActions.updateStatus('BUSY'));
+
     response = yield call(casesService.fetchCase, {
       organizationId,
     });
@@ -94,10 +97,8 @@ function* loadCasePoints({ type, cases }) {
       data,
     });
 
-    const mappedPoints = mapPoints(response.data.concernPoints);
-
     yield put(casesActions.setCase(cases));
-    yield put(pointsActions.updatePoints(mappedPoints));
+    yield put(pointsActions.updatePoints(response.data.concernPoints));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
@@ -125,8 +126,7 @@ function* checkCaseGPSDataSaga() {
       caseId,
     });
 
-    const mappedPoints = mapPoints(response.data.concernPoints);
-    yield put(pointsActions.updatePoints(mappedPoints));
+    yield put(pointsActions.updatePoints(response.data.concernPoints));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (e) {

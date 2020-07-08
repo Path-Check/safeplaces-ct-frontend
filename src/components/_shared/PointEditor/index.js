@@ -39,13 +39,13 @@ import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
 import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
+import applicationSelectors from 'ducks/application/selectors';
+import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
 const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
   const now = new Date();
-  const activePoint = useSelector(state =>
-    pointsSelectors.getActivePoint(state),
-  );
+  const activePoint = useSelector(applicationSelectors.getActivePoint);
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
@@ -117,7 +117,6 @@ const PointEditor = ({ isEdit, animationState }) => {
 
   const generatePayload = () => {
     if (isEdit) {
-      delete activePoint.id;
       return {
         ...activePoint,
         ...selectedLocation,
@@ -133,8 +132,11 @@ const PointEditor = ({ isEdit, animationState }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     const payload = generatePayload();
+
+    setLocalDuration([0, 0]);
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
@@ -145,9 +147,10 @@ const PointEditor = ({ isEdit, animationState }) => {
 
   const handleClose = () => {
     dispatch(applicationActions.updateStatus(''));
-    dispatch(pointsActions.setSelectedPoint(null));
     dispatch(mapActions.updateLocation(null));
   };
+
+  useCloseOnEscape(handleClose);
 
   const classes = classNames({
     [`${pointEditor}`]: true,
@@ -166,12 +169,13 @@ const PointEditor = ({ isEdit, animationState }) => {
             >
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
-            <h4>{isEdit ? 'Edit Point' : 'Add Point'}</h4>
+            <h4>{isEdit ? 'Edit Point' : 'Add Point(s)'}</h4>
           </div>
           <div className={locationControls}>
             <LocationSearchInput
               handlePointChange={handleChange}
               defaultValue={initialLocation}
+              isEdit={isEdit}
             />
           </div>
           <div className={timeControls}>

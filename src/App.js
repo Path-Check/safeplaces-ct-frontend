@@ -15,7 +15,7 @@ import Notifications from 'components/_global/Notifications';
 
 import Router from './Router';
 
-function App() {
+const App = React.memo(() => {
   const token = useSelector(state => authSelectors.getToken(state));
   const isOnboarded =
     useSelector(state => authSelectors.getOnboardingStatus(state)) || false;
@@ -24,15 +24,14 @@ function App() {
     <div className="App">
       <ConnectedRouter history={history}>
         <LastLocationProvider>
+          <Loader />
           <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
           <Router token={token} />
         </LastLocationProvider>
       </ConnectedRouter>
-      <Loader />
-
       <Notifications />
     </div>
   );
-}
+});
 
 export default App;
