@@ -193,7 +193,11 @@ export default function Map({ setMap }) {
             )}
 
             {popupLocation?.longitude && popupLocation?.latitude && (
-              <PopupWrapper {...popupLocation} type={appStatus} />
+              <PopupWrapper
+                {...popupLocation}
+                setPopupLocation={setPopupLocation}
+                type={appStatus}
+              />
             )}
 
             {appStatus !== 'EDIT POINT' &&
@@ -216,11 +220,9 @@ export default function Map({ setMap }) {
           </>
         )}
       </ReactMapGL>
-      {locationSelect ? (
+      {(appStatus === 'EDIT POINT' || appStatus === 'ADD POINT') && (
         <SelectionLocationHelp />
-      ) : renderPointEditor ? (
-        <PointEditor isEdit={appStatus === 'EDIT POINT'} />
-      ) : null}
+      )}
     </div>
   );
 }
