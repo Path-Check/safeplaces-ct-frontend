@@ -32,6 +32,7 @@ import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
 export default function Map({ setMap }) {
   const mapRef = useRef();
   const [loaded, setLoaded] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const [popupLocation, setPopupLocation] = useState(null);
   const [satelliteView, setSatelliteView] = useState(false);
@@ -55,8 +56,7 @@ export default function Map({ setMap }) {
   );
 
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const renderPointEditor =
-    appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
+
   const editorMode = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
@@ -158,7 +158,16 @@ export default function Map({ setMap }) {
   return (
     <div
       className={styles.map}
-      style={{ pointerEvents: editorMode ? 'all' : 'none' }}
+      style={{
+        pointerEvents: editorMode ? 'all' : 'none',
+        cursor: locationSelect
+          ? isDragging
+            ? 'grab'
+            : 'crosshair'
+          : isDragging
+          ? 'grab'
+          : 'inherit',
+      }}
     >
       <ReactMapGL
         {...viewport}
@@ -167,6 +176,7 @@ export default function Map({ setMap }) {
         ref={mapRef}
         width="100%"
         height="100%"
+        getCursor={({ isDragging, isHovering }) => setIsDragging(isDragging)}
         onLoad={onMapLoad}
         onViewportChange={viewportInternal => setViewport(viewportInternal)}
         onClick={({ rightButton, lngLat }) => {

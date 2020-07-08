@@ -53,8 +53,6 @@ const PointEditor = ({ isEdit }) => {
   const isDisabled = isEdit ? !selectedLocation : canSubmit(selectedLocation);
 
   useEffect(() => {
-    dispatch(mapActions.locationSelect(true));
-
     if (!isEdit) {
       return;
     }
@@ -66,6 +64,13 @@ const PointEditor = ({ isEdit }) => {
 
     const [hours, mins] = convertToHoursMins(activePoint);
     setLocalDuration([hours, mins]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(mapActions.locationSelect(true));
+    return () => {
+      dispatch(mapActions.locationSelect(false));
+    };
   }, []);
 
   useEffect(() => {
