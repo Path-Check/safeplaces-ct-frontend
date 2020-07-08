@@ -7,6 +7,10 @@
   background: #ffffff;
   padding: 20px;
   z-index: 89;
+
+  :global .react-datepicker {
+    width: auto;
+  }
 }
 
 .pointEditorHeader {

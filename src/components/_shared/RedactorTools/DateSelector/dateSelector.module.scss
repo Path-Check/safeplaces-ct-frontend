@@ -1,30 +1,12 @@
 @import 'scss/global';
 
-.dateSelector {
-  padding: 0 10px;
+:global .react-datepicker-wrapper,
+:global .datePicker {
+  width: unset;
 }
 
-.dateSelectorTitle {
-  font-size: 18px;
-  font-weight: 400;
-}
-
-.dateSelectorSection {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.dateSelectorDates {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 10px 0 20px;
-}
-
-.sliderValue {
-  font-size: 14px;
+:global .react-datepicker{
+  width: 500px;  
 }
 
 :global {
