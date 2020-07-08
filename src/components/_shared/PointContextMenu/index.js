@@ -57,7 +57,9 @@ const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
     >
       <div ref={containerRef}>
         <PointContextMenuHeader {...rest} />
-        {isTrace && <PointContextMenuBody {...rest} />}
+        {isTrace && (
+          <PointContextMenuBody closeAction={closeAction} {...rest} />
+        )}
       </div>
     </Popup>
   );
