@@ -17,7 +17,7 @@ import applicationActions from 'ducks/application/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import applicationSelectors from 'ducks/application/selectors';
 import pointsActions from 'ducks/points/actions';
-import pointsSelectors from 'ducks/points/selectors';
+import pointsSelectors, { getFilteredPoints } from 'ducks/points/selectors';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
 const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
@@ -27,8 +27,7 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
 
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-  const noFilteredPoints =
-    useSelector(state => pointsSelectors.getFilteredPoints(state)).length < 1;
+  const noFilteredPoints = useSelector(getFilteredPoints).length < 1;
 
   useOnClickOutside(containerRef, () => closeAction());
 

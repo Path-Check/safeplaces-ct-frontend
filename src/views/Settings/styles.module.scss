@@ -2,32 +2,34 @@
   display: flex;
   align-items: flex-start;
   height: calc(100vh - 60px);
-  overflow: hidden;
 }
 
 .sidebarContainer {
-  background: #ffffff;
-  padding: 36px 20px;
+  background: #fbfcfc;
+  padding: 48px 20px 36px 0;
   flex: 1;
 }
 
 .sidebarWrapper {
   flex: 0 1 25%;
-  border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.sidebarWrapper,
-.contentContainer {
+.sidebarWrapper {
   overflow-y: auto;
   height: 100%;
 }
 
 .contentContainer {
-  flex: 0 1 75%;
-
-  > div {
-    height: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 720px;
+  margin-top: 48px;
+  margin-bottom: 80px;
+  border: 1px solid #E9EAF0;
+  border-radius: 8px;
+  padding: 80px;
 }
 
 .option {
@@ -35,7 +37,7 @@
   align-items: center;
   justify-content: flex-start;
   height: 42px;
-  padding: 5px;
+  padding: 13px 41px;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -43,10 +45,11 @@
   line-height: 24px;
   color: #3c475b;
   margin-bottom: 10px;
+  max-width: 280px;
 
   &:hover {
     background: #e5e7fa;
-    border-radius: 6px;
+    border-radius: 0 6px 6px 0;
   }
 }
 
@@ -54,4 +57,5 @@
   margin-right: 8px;
   font-size: 24px;
   width: 24px !important;
+  color: #9BA0AA;
 }

@@ -5,16 +5,14 @@
   height: 100%;
   padding: 10px;
   background-color: #fff;
-  transform: translateX(-100%);
-  transition: transform ease 300ms;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
 
   :global .react-datepicker {
     width: auto;
   }
-}
-
-.pointEditorEntered {
-  transform: translateX(0);
 }
 
 .pointEditorHeader {
