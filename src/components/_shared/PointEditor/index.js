@@ -29,7 +29,7 @@ import {
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs, faTimes } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
 
 import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
@@ -47,12 +47,14 @@ const PointEditor = ({ isEdit }) => {
   );
   const initialLocation = isEdit
     ? `${activePoint?.latitude}, ${activePoint?.longitude}`
-    : '';
+    : ``;
 
   const [localDuration, setLocalDuration] = useState([0, 0]);
   const isDisabled = isEdit ? !selectedLocation : canSubmit(selectedLocation);
 
   useEffect(() => {
+    dispatch(mapActions.locationSelect(true));
+
     if (!isEdit) {
       return;
     }
@@ -123,7 +125,6 @@ const PointEditor = ({ isEdit }) => {
 
   const handleSubmit = () => {
     const payload = generatePayload();
-    const validDuration = validateTimeDuration(selectedLocation);
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
@@ -142,31 +143,20 @@ const PointEditor = ({ isEdit }) => {
     <>
       <form className={pointEditor} onSubmit={handleSubmit}>
         <div className={pointEditorHeader}>
-          <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
           <button
             id="point-editor-close"
             className={closeAction}
             onClick={handleClose}
           >
-            <FontAwesomeIcon icon={faTimes} />
+            <FontAwesomeIcon icon={faChevronLeft} />
           </button>
+          <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
         </div>
         <div className={locationControls}>
           <LocationSearchInput
             handlePointChange={handleChange}
             defaultValue={initialLocation}
           />
-          <span>or</span>
-          <Button
-            id="select-from-map"
-            fullWidth
-            secondary
-            onClick={() => {
-              dispatch(mapActions.locationSelect(true));
-            }}
-          >
-            <FontAwesomeIcon icon={faCrosshairs} /> Select from Map
-          </Button>
         </div>
         <div className={timeControls}>
           <DateInput
@@ -215,7 +205,10 @@ const PointEditor = ({ isEdit }) => {
           </div>
         </div>
         <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
-          Save Data
+          {isEdit ? 'Save Changes' : 'Add New Point'}
+        </Button>
+        <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
+          Cancel
         </Button>
       </form>
     </>
