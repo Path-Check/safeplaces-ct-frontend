@@ -27,7 +27,7 @@ class TestRedaction(unittest.TestCase):
         if 'BASE_TEST_URL' in os.environ.copy():
             self.base_url = os.environ['BASE_TEST_URL']
         else:
-            self.base_url = 'https://staging.safeplaces.extremesolution.com/'
+            self.base_url = 'https://staging.spl.extremesolution.com/'
         if 'SELENIUM_URL' in os.environ.copy():
             self.sel_url = os.environ['SELENIUM_URL']
         else:
@@ -132,10 +132,7 @@ class TestRedaction(unittest.TestCase):
         settings_page.set_api_endpoint('https://s3.aws.com/bucket_name/safepaths.json')
         settings_page.set_privacy_policy_URL('https://www.cdc.gov/other/privacy.html')
         # set retention policy slider to 50% of the way across, which would be 15 days
-        actionChains = ActionChains(webdriver)
-        percent = '50'
-        width = data_retention_slider_track.size['width']
-        move.click_and_hold(self.sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
+        settings_page.set_retention_policy('50')
         settings_page.reset_gps_coordinates
         settings_page.save_and_continue
         
