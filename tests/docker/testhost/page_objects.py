@@ -304,6 +304,12 @@ class SettingsPage(Page):
     def set_privacy_policy_URL(self, privacy_policy):
         self.find_element(privacy_policy_URL).send_keys(privacy_policy)
 
+    def set_retention_policy(self, percent):
+        actionChains = ActionChains(self.driver)
+        percent = '50'
+        width = self.data_retention_slider_track.size['width']
+        move.click_and_hold(self.sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
+
     def open_map(self):
         self.find_element(open_map_button).click()
         
