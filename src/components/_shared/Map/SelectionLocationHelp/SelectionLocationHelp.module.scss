@@ -1,41 +1,9 @@
 .selectionLocationHelp {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 360px;
-  border-radius: 6px;
-  background: #f8f8ff;
-  z-index: 13;
-
-  h5 {
-    display: inline-flex;
-    align-items: center;
-    padding: 15px;
-
-    svg {
-      font-size: 26px;
-      margin-right: 10px;
-    }
-  }
-
-  ol {
-    list-style: decimal;
-
-    li {
-      margin: 0 0 15px 20px;
-    }
-  }
-}
-
-.selectionLocationHelpToggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 18px;
-}
-
-.selectionLocationHelpBody {
-  padding: 15px;
-  position: relative;
-  border-top: 1px solid #f8f8ff;
+  top: 0;
+  width: 100%;
+  background: rgba(#000000, 0.6);
+  z-index: 89;
+  color: #fff;
+  padding: 10px 10px 0;
 }
