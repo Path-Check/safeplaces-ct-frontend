@@ -71,14 +71,16 @@ const MapMarker = ({
   });
 
   return (
-    <Marker className={classes} latitude={latitude} longitude={longitude}>
-      <button
-        onClick={handleClick}
-        ref={markerRef}
-        id={`map-marker-${pointId}`}
-      >
-        <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
-      </button>
+    <>
+      <Marker className={classes} latitude={latitude} longitude={longitude}>
+        <button
+          onClick={handleClick}
+          ref={markerRef}
+          id={`map-marker-${pointId}`}
+        >
+          <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
+        </button>
+      </Marker>
       {showContentMenu && !alternate && (
         <PointContextMenu
           renderDateTime
@@ -88,7 +90,7 @@ const MapMarker = ({
           closeAction={() => setShowContentMenu(false)}
         />
       )}
-    </Marker>
+    </>
   );
 };
 

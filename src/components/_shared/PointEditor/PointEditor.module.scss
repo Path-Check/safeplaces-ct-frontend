@@ -1,5 +1,9 @@
 .pointEditor {
   padding: 10px;
+
+  :global .react-datepicker {
+    width: auto;
+  }
 }
 
 .pointEditorHeader {

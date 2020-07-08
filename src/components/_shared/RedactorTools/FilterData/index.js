@@ -1,45 +1,40 @@
-import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
-import {
-  faCaretUp,
-  faCaretDown,
-  faFilter,
-} from '@fortawesome/pro-solid-svg-icons';
+import React, { useRef, useState } from 'react';
 
 import {
-  filterData,
-  filterDataHeader,
   filterBody,
-  filterBodyActive,
-  filterBodyAction,
-  filterBodyMain,
   filterBodyActions,
+  filterBodyActive,
+  filterBodyMain,
+  filterData,
 } from './FilterData.module.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/_shared/Button';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import DateButton from '../DateSelector/DateButton';
 
-const FilterData = ({ children, applyFilters }) => {
+const FilterData = ({
+  filterRecordIds,
+  text,
+  children,
+  applyFilters,
+  duration,
+  closeAction,
+  useDurationFilter,
+}) => {
   const containerRef = useRef();
   const [filtersVisible, setFiltersVisible] = useState(false);
 
   useOnClickOutside(containerRef, () => setFiltersVisible(false));
-
   return (
     <div className={filterData} ref={containerRef}>
-      <div className={filterDataHeader}>
-        <h5>
-          <FontAwesomeIcon icon={faFilter} /> Filter Data
-        </h5>
-        <button
-          className={filterBodyAction}
-          onClick={() => setFiltersVisible(!filtersVisible)}
-        >
-          {!filtersVisible ? 'Show' : 'Hide'} Filters
-          <FontAwesomeIcon icon={!filtersVisible ? faCaretDown : faCaretUp} />
-        </button>
-      </div>
+      <DateButton
+        onClick={() => setFiltersVisible(!filtersVisible)}
+        closeAction={closeAction}
+        removeFilter={useDurationFilter || filterRecordIds}
+        text={
+          text ||
+          (useDurationFilter ? `More than ${duration} min` : 'Any duration')
+        }
+      />
       <div
         className={
           filtersVisible ? `${filterBody} ${filterBodyActive}` : filterBody
@@ -50,8 +45,8 @@ const FilterData = ({ children, applyFilters }) => {
           <Button
             small
             onClick={() => {
-              applyFilters();
               setFiltersVisible(false);
+              applyFilters();
             }}
           >
             Apply

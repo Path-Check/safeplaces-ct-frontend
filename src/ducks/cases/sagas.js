@@ -140,7 +140,7 @@ function* enrichCase({ caseId }) {
 }
 
 function* checkCaseGPSDataSaga() {
-  const caseId = yield select(casesSelectors.getActiveCases);
+  const { caseId } = yield select(casesSelectors.getActiveCases);
 
   try {
     const response = yield call(enrichCase, {

@@ -1,5 +1,20 @@
 .redactorTools {
   background-color: #fff;
   padding: 20px 10px 10px;
-  border-bottom: 1px solid #e5e7fa;
+}
+
+.filtersContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.clearFilters {
+  color: #2434b6;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
 }

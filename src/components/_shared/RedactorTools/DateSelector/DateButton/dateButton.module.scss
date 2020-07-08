@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  margin: 0 10px 10px 0;
+}
+.button1, .button2,.singleButton {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  color: #374357;
+  cursor: pointer;
+}
+
+.singleButtonContainer {
+  background-color: #F8F8FF;
+  padding: 10px 16px;
+  border-radius: 50px;
+  border: 1px solid #D8D8DE;
+  width: fit-content;
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
+}
+
+.closeButton {
+  color: #9BA0AA;
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.button1 { /*Left Button"*/
+  background-color: #F8F8FF;
+  padding: 10px 16px;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border: 1px solid #D8D8DE;
+}
+
+.button1:hover, .button2:hover, .singleButtonContainer:hover{
+  background-color: #eff0fc;
+}
+
+.button2 { /*right button*/
+  background-color: #F8F8FF;
+  padding: 10px 16px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border: 1px solid #D8D8DE;
+}
