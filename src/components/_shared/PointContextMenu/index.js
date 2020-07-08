@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 
 import classNames from 'classnames';
 
+import { Popup } from 'react-map-gl';
+
 import {
   pointContextMenu,
   pointContextMenuBottom,
@@ -32,7 +34,7 @@ const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
 
   useOnClickOutside(containerRef, () => handleClose());
 
-  if (appStatus === 'EDIT POINT') {
+  if (appStatus === 'EDIT POINT' || !rest.longitude || !rest.latitude) {
     return null;
   }
 
@@ -43,10 +45,21 @@ const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
   });
 
   return (
-    <div className={classes} ref={containerRef}>
-      <PointContextMenuHeader {...rest} />
-      {isTrace && <PointContextMenuBody {...rest} />}
-    </div>
+    <Popup
+      tipSize={0}
+      anchor="bottom"
+      longitude={rest.longitude}
+      latitude={rest.latitude}
+      closeOnClick={false}
+      closeButton={false}
+      offsetTop={-35}
+      className={classes}
+    >
+      <div ref={containerRef}>
+        <PointContextMenuHeader {...rest} />
+        {isTrace && <PointContextMenuBody {...rest} />}
+      </div>
+    </Popup>
   );
 };
 

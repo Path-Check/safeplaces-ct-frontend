@@ -1,29 +1,11 @@
 .pointContextMenu {
-  position: absolute;
   width: max-content;
-  right: 5px;
-  top: 20px;
   background-color: #fff;
   box-shadow: 0.5px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   z-index: 3;
   font-size: 14px;
   color: #374357;
-
-  &:after,
-  &:before {
-    display: block;
-    position: absolute;
-    border-style: solid;
-    right: 5px;
-  }
-
-  &:after {
-    content: '';
-    border-width: 0 7.5px 10px 7.5px;
-    border-color: transparent transparent #fff transparent;
-    top: -10px;
-  }
 
   > button {
     display: inline-flex;
@@ -36,6 +18,10 @@
 
   ul {
     margin-bottom: 10px;
+  }
+
+  :global .mapboxgl-popup-content {
+    padding: 0;
   }
 }
 
@@ -57,35 +43,6 @@
     min-width: 20px;
     margin-right: 10px;
     font-size: 14px;
-  }
-}
-
-.pointContextMenuBottom {
-  bottom: calc(100% + 42px);
-  top: auto;
-  right: auto;
-  left: calc(50% - 12.5px);
-  transform: translateX(-50%);
-
-  &:before,
-  &:after {
-    content: '';
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-    bottom: -11px;
-    top: auto;
-  }
-
-  &:before {
-    border-width: 10px 10px 0 10px;
-    border-color: rgba(0, 0, 0, 0.25) transparent transparent transparent;
-  }
-
-  &:after {
-    border-width: 10px 7.5px 0 7.5px;
-    border-color: #fff transparent transparent transparent;
-    bottom: -10px;
   }
 }
 
