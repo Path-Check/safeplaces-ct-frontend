@@ -289,22 +289,6 @@ class SettingsPage(Page):
     reset_gps_button = (By.ID, 'reset-gps')
     save_continue_button = (By.ID, 'save-continue')
     
-    def publish_data(self):
-        self.find_element(self.load_data_button).click()
-
-    def open_selected(self):
-        self.find_element(self.open_selected_button).click()
-        
-    def submit_for_publishing(self):
-        self.find_element(self.submit_publish_button).click()
-    
-    def publish_data(self):
-        self.find_element(self.publish_data_button).click()
-    
-    data_retention_slider_handle = (By.CLASS_NAME, 'rc-slider-handle')
-    reset_gps_button = (By.CSS_SELECTOR, '#root > div > div > form > div:nth-child(7) > div > button')
-    save_continue_button = (By.CSS_SELECTOR, '#root > div > div > form > button')
-    
     def set_health_authority_name(self, health_authority):
         self.find_element(health_authority_name).send_keys(health_authority)
 
@@ -319,6 +303,12 @@ class SettingsPage(Page):
 
     def set_privacy_policy_URL(self, privacy_policy):
         self.find_element(privacy_policy_URL).send_keys(privacy_policy)
+
+    def set_retention_policy(self, percent):
+        actionChains = ActionChains(self.driver)
+        percent = '50'
+        width = self.data_retention_slider_track.size['width']
+        move.click_and_hold(self.sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
 
     def open_map(self):
         self.find_element(open_map_button).click()
@@ -347,7 +337,6 @@ class SettingsPage(Page):
         self.set_retention_policy('50')
         self.reset_gps_coordinates
         self.save_and_continue
-
 
 class Tools:
     def compare_files(self, fname1, fname2):
