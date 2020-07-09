@@ -52,8 +52,6 @@ const DateSelector = ({ dates, clearedFilters }) => {
     }
   };
 
-  console.log(endDate);
-
   return (
     <div className={wrapper}>
       <DatePicker
