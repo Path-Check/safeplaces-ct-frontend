@@ -2,28 +2,41 @@
 # Author : sherif@extremesolution.com
 
 steps:
-- id: 'Pull env file from Secrets Manager'
-  name: gcr.io/cloud-builders/gcloud
-  entrypoint: 'bash'
-  args: [ '-c', "gcloud secrets versions access latest --secret=${_SECRET_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
+# - id: 'Pull env file from Secrets Manager'
+#   name: gcr.io/cloud-builders/gcloud
+#   entrypoint: 'bash'
+#   args: [ '-c', "gcloud secrets versions access latest --secret=${_SECRET_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
 
-- id: 'Build Container Image'
-  name: 'registry.hub.docker.com/library/docker:18'
-  args: [
-    'build',
-    '--tag', 'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
-    '.' ]
+# - id: 'Build Container Image'
+#   name: 'registry.hub.docker.com/library/docker:18'
+#   args: [
+#     'build',
+#     '--tag', 'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
+#     '.' ]
 
-- id: 'Publish Container'
-  name: 'registry.hub.docker.com/library/docker:18'
-  args: [
-    'push',
-    'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
-  ]
+# - id: 'Publish Container'
+#   name: 'registry.hub.docker.com/library/docker:18'
+#   args: [
+#     'push',
+#     'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
+#   ]
 
 
 - id: 'Kustomize Prep'
   name: 'gcr.io/$PROJECT_ID/kustomize'
+  dir: 'deployment-configs/gcp/dev'
+  args:
+  - 'edit set namespace frontend'
+
+- id: 'Kustomize Prep'
+  name: 'gcr.io/$PROJECT_ID/kustomize'
+  dir: 'deployment-configs/gcp/dev'
+  args:
+  - 'set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/es-internals/safeplaces-backend-translation:latest-1'
+
+- id: 'Kustomize Prep'
+  name: 'gcr.io/$PROJECT_ID/kustomize'
+  dir: 'deployment-configs/gcp/dev'
   entrypoint: bash
   args:
   - '-c'
