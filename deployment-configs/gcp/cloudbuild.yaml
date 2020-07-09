@@ -27,12 +27,20 @@ steps:
   dir: 'deployment-configs/gcp/dev'
   args:
   - 'edit set namespace frontend'
+  env:
+      - 'CLOUDSDK_COMPUTE_ZONE=${_GKE_LOCATION}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'
+      - 'GCLOUD_PROJECT=${PROJECT_ID}'
 
 - id: 'Kustomize Prep2'
   name: 'gcr.io/$PROJECT_ID/kustomize'
   dir: 'deployment-configs/gcp/dev'
   args:
   - 'set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/es-internals/safeplaces-backend-translation:latest-1'
+  env:
+    - 'CLOUDSDK_COMPUTE_ZONE=${_GKE_LOCATION}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'
+    - 'GCLOUD_PROJECT=${PROJECT_ID}'
 
 - id: 'Kustomize Prep3'
   name: 'gcr.io/$PROJECT_ID/kustomize'
