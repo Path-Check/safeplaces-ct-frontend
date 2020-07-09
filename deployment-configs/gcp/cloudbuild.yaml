@@ -70,6 +70,7 @@ substitutions:
   _DOCKERFILE_NAME: Dockerfile
   _GKE_CLUSTER: safeplaces
   _DOCKERFILE_DIR: ''
+  -SERVICE: safeplacces-frontend
 tags:
   - gcp-cloud-build-deploy
   - $_K8S_APP_NAME
