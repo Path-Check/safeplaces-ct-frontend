@@ -31,7 +31,7 @@ steps:
   args:
   - 'prepare'
   - '--filename=$_K8S_YAML_PATH'
-  - '-i gcr.io/pathcheck-gps-dev/github.com/path-check/safeplaces-frontend:dev-b233466'
+  - '-i gcr.io/pathcheck-gps-dev/github.com/path-check/safeplaces-frontend:kozman-cloudci-e3f0a87'
   - '--app=$_K8S_APP_NAME'
   - '--version=$_IMAGE_VERSION'
   - '--namespace=$_K8S_NAMESPACE'
