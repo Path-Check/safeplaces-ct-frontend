@@ -71,6 +71,7 @@ substitutions:
   _GKE_CLUSTER: safeplaces
   _DOCKERFILE_DIR: ''
   _SERVICE: safeplacces-frontend
+  _SECRET_NAME: dev-safeplaces-frontend
 tags:
   - gcp-cloud-build-deploy
   - $_K8S_APP_NAME

@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: dev-spl-frontend
+    app.kubernetes.io/name: dev-spl-frontend
   name: dev-spl-frontend
   namespace: frontend
 spec:
@@ -19,9 +20,10 @@ spec:
     metadata:
       labels:
         app: dev-spl-frontend
+        app.kubernetes.io/name: dev-spl-frontend
     spec:
       containers:
-      - image: gcr.io/pathcheck-gps-dev/github_path-check_safeplaces-frontend
+      - image: gcr.io/pathcheck-gps-dev/github.com/path-check/safeplaces-frontend  # Will be set to actual image before deployment
         imagePullPolicy: IfNotPresent
         name: safeplaces-frontend-sha256-1
         ports:
@@ -37,6 +39,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   labels:
     app: dev-spl-frontend
+    app.kubernetes.io/name: dev-spl-frontend
   name: dev-spl-frontend-hpa-3apb
   namespace: frontend
 spec:
@@ -62,6 +65,7 @@ metadata:
   - service.kubernetes.io/load-balancer-cleanup
   labels:
     app: dev-spl-frontend
+    app.kubernetes.io/name: dev-spl-frontend
   name: dev-spl-frontend-service
   namespace: frontend
 spec:
@@ -76,3 +80,35 @@ spec:
     app: dev-spl-frontend
   sessionAffinity: None
   type: LoadBalancer
+
+
+---
+
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/name: dev-spl-frontend
+  name: dev-spl-frontend
+spec:
+  componentKinds:
+  - group: apps
+    kind: Deployment
+  - group: autoscaling
+    kind: HorizontalPodAutoscaler
+  - group: core
+    kind: Service
+  descriptor:
+    type: dev-spl-frontend
+    version: 978125ff66e6a287f127f0644aab73cc51e45a54
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dev-spl-frontend
+
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frontend
