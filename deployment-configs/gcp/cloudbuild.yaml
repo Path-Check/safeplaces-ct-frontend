@@ -22,19 +22,19 @@ steps:
 #   ]
 
 
-- id: 'Kustomize Prep'
+- id: 'Kustomize Prep1'
   name: 'gcr.io/$PROJECT_ID/kustomize'
   dir: 'deployment-configs/gcp/dev'
   args:
   - 'edit set namespace frontend'
 
-- id: 'Kustomize Prep'
+- id: 'Kustomize Prep2'
   name: 'gcr.io/$PROJECT_ID/kustomize'
   dir: 'deployment-configs/gcp/dev'
   args:
   - 'set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/es-internals/safeplaces-backend-translation:latest-1'
 
-- id: 'Kustomize Prep'
+- id: 'Kustomize Prep3'
   name: 'gcr.io/$PROJECT_ID/kustomize'
   dir: 'deployment-configs/gcp/dev'
   entrypoint: bash
