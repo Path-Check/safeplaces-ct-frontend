@@ -21,31 +21,45 @@ steps:
     'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
   ]
 
+
+- id: 'Kustomize Prep'
+  name: 'gcr.io/$PROJECT_ID/kustomize'
+  entrypoint: bash
+  args:
+  - '-c'
+  - |
+    gcloud container clusters get-credentials --zone "$$CLOUDSDK_COMPUTE_ZONE" "$$CLOUDSDK_CONTAINER_CLUSTER"
+    kustomize build | kubectl apply -f - --namespace=${_K8S_NAMESPACE}
+  env:
+      - 'CLOUDSDK_COMPUTE_ZONE=${_GKE_LOCATION}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'
+      - 'GCLOUD_PROJECT=${PROJECT_ID}'
+
 #
 # Deploys Service to GKE.
 #
 
-- name: 'gcr.io/cloud-builders/gke-deploy'
-  id: 'Prepare deploy'
-  args:
-  - 'prepare'
-  - '--filename=$_K8S_YAML_PATH'
-  - '--image=$_IMAGE_NAME:$_IMAGE_VERSION'
-  - '--app=$_K8S_APP_NAME'
-  - '--version=$_IMAGE_VERSION'
-  - '--namespace=$_K8S_NAMESPACE'
-  - '--output=$_OUTPUT_BUCKET_PATH/'
-  - '--annotation=gcb-build-id=$BUILD_ID'
-- name: 'gcr.io/cloud-builders/gke-deploy'
-  id: 'Apply deploy'
-  args:
-  - 'apply'
-  - '--filename=$_OUTPUT_BUCKET_PATH/expanded/*'
-  - '--namespace=$_K8S_NAMESPACE'
-  - '--cluster=$_GKE_CLUSTER'
-  - '--location=$_GKE_LOCATION'
-images:
-- '$_IMAGE_NAME:$_IMAGE_VERSION'
+# - name: 'gcr.io/cloud-builders/gke-deploy'
+#   id: 'Prepare deploy'
+#   args:
+#   - 'prepare'
+#   - '--filename=$_K8S_YAML_PATH'
+#   - '--image=$_IMAGE_NAME:$_IMAGE_VERSION'
+#   - '--app=$_K8S_APP_NAME'
+#   - '--version=$_IMAGE_VERSION'
+#   - '--namespace=$_K8S_NAMESPACE'
+#   - '--output=$_OUTPUT_BUCKET_PATH/'
+#   - '--annotation=gcb-build-id=$BUILD_ID'
+# - name: 'gcr.io/cloud-builders/gke-deploy'
+#   id: 'Apply deploy'
+#   args:
+#   - 'apply'
+#   - '--filename=$_OUTPUT_BUCKET_PATH/expanded/*'
+#   - '--namespace=$_K8S_NAMESPACE'
+#   - '--cluster=$_GKE_CLUSTER'
+#   - '--location=$_GKE_LOCATION'
+# images:
+# - '$_IMAGE_NAME:$_IMAGE_VERSION'
 substitutions:
   # _DOCKERFILE_PATH: Dockerfile
   _IMAGE_NAME: gcr.io/pathcheck-gps-dev/github.com/path-check/safeplaces-frontend
