@@ -213,11 +213,11 @@ const PointEditor = ({ isEdit }) => {
           </div>
         </div>
         <div className={pointEditorActions}>
-          <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
-            Cancel
-          </Button>
           <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
             {isEdit ? 'Save Changes' : 'Add New Point'}
+          </Button>
+          <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
+            Cancel
           </Button>
         </div>
       </form>
