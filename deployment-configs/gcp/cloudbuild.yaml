@@ -1,0 +1,60 @@
+# SafePlaces Frontend - GCP only cloudbuild script to build container image and deploy to GKE Cluster
+# Author : sherif@extremesolution.com
+
+steps:
+- id: 'Pull env file from Secrets Manager'
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', "gcloud secrets versions access latest --secret=${_SECRET_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
+
+- id: 'Build Container Image'
+  name: 'registry.hub.docker.com/library/docker:18'
+  args: [
+    'build',
+    '--tag', 'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
+    '.' ]
+
+- id: 'Publish Container'
+  name: 'registry.hub.docker.com/library/docker:18'
+  args: [
+    'push',
+    'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
+  ]
+
+#
+# Deploys Service to GKE.
+#
+
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  id: 'Prepare deploy'
+  args:
+  - 'prepare'
+  - '--filename=$_K8S_YAML_PATH'
+  - '--image=$_IMAGE_NAME:$_IMAGE_VERSION'
+  - '--app=$_K8S_APP_NAME'
+  - '--version=$_IMAGE_VERSION'
+  - '--namespace=$_K8S_NAMESPACE'
+  - '--output=$_OUTPUT_BUCKET_PATH/'
+  - '--annotation=gcb-build-id=$BUILD_ID'
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  id: 'Apply deploy'
+  args:
+  - 'apply'
+  - '--filename=$_OUTPUT_BUCKET_PATH/expanded/*'
+  - '--namespace=$_K8S_NAMESPACE'
+  - '--cluster=$_GKE_CLUSTER'
+  - '--location=$_GKE_LOCATION'
+images:
+- '$_IMAGE_NAME:$_IMAGE_VERSION'
+substitutions:
+  # _DOCKERFILE_PATH: Dockerfile
+  _IMAGE_NAME: gcr.io/pathcheck-gps-dev/github.com/path-check/safeplaces-frontend
+  _IMAGE_VERSION: kozman-cloudci
+  _GKE_CLUSTER: safeplaces
+  _GKE_LOCATION: us-central1
+  _K8S_YAML_PATH: gs://pathcheck-gke-deploy-state/safeplaces-frontend/dev/deployment.yaml
+  _K8S_APP_NAME: dev-spl-frontend
+  _K8S_NAMESPACE: frontend
+  _OUTPUT_BUCKET_PATH: gs://pathcheck-gke-deploy-state/safeplaces-frontend/dev
+  _SERVICE: safeplaces-frontend
+  _SECRET_NAME: dev-safeplaces-frontend
