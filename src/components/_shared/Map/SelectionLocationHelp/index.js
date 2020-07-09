@@ -8,7 +8,10 @@ const SelectionLocationHelp = () => {
 
   return (
     <div className={selectionLocationHelp}>
-      <p>Right click at that location and select “Use Location”</p>
+      <p>
+        Right click on a location in the map, and select “Use Location” to
+        create a point.
+      </p>
     </div>
   );
 };
