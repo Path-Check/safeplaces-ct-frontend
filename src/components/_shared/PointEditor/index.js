@@ -13,7 +13,6 @@ import {
   convertToHoursMins,
   convertToMins,
   canSubmit,
-  validateTimeDuration,
   returnMaxTime,
   returnMinTime,
 } from 'components/_shared/PointEditor/_helpers';
@@ -26,6 +25,7 @@ import {
   timeControls,
   durationControls,
   durationControl,
+  pointEditorActions,
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -155,7 +155,7 @@ const PointEditor = ({ isEdit }) => {
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
-          <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
+          <h4>{isEdit ? 'Edit Point' : 'Add Point'}</h4>
         </div>
         <div className={locationControls}>
           <LocationSearchInput
@@ -209,12 +209,14 @@ const PointEditor = ({ isEdit }) => {
             <label htmlFor="durationMinutes">Minutes</label>
           </div>
         </div>
-        <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
-          {isEdit ? 'Save Changes' : 'Add New Point'}
-        </Button>
-        <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
-          Cancel
-        </Button>
+        <div className={pointEditorActions}>
+          <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
+            {isEdit ? 'Save Changes' : 'Add New Point'}
+          </Button>
+          <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
+            Cancel
+          </Button>
+        </div>
       </form>
     </>
   );
