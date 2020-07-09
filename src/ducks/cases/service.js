@@ -79,8 +79,8 @@ const casesService = {
       },
     });
   },
-  updateExternalCaseId: async ({ caseId, externalId }) => {
-    return await axios({
+  updateExternalCaseId: ({ caseId, externalId }) => {
+    return axios({
       method: 'PUT',
       url: `${REACT_APP_API_URL}case`,
       data: {

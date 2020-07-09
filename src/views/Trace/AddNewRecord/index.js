@@ -64,7 +64,7 @@ const AddNewRecord = () => {
                 large
                 onClick={() => {
                   dispatch(applicationActions.renderEditor(true));
-                  dispatch(applicationActions.updateStatus(''));
+                  dispatch(applicationActions.updateStatus('RECORD ADDED'));
                 }}
               >
                 Create Record Manually
