@@ -2,6 +2,7 @@
   display: flex;
   margin: 0 10px 10px 0;
 }
+
 .button1,
 .button2,
 .singleButton {
@@ -36,7 +37,7 @@
 .singleButtonContainer,
 .button1,
 .button2 {
-  padding: 10px 16px;
+  padding: 8px 15px;
   border: 1px solid #d8d8de;
 }
 
@@ -48,4 +49,9 @@
 .button2 {
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
+}
+
+.button1,
+.button2 {
+  width: 75px;
 }
