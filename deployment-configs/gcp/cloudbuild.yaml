@@ -58,3 +58,4 @@ substitutions:
   _OUTPUT_BUCKET_PATH: gs://pathcheck-gke-deploy-state/safeplaces-frontend/dev
   _SERVICE: safeplaces-frontend
   _SECRET_NAME: dev-safeplaces-frontend
+timeout: 660s
