@@ -85,7 +85,7 @@ const NewRecordAdded = () => {
           {value && !isValid ? (
             <p>Please try an alternative external ID.</p>
           ) : (
-            <p>External ID available.</p>
+            value && <p>External ID available.</p>
           )}
           <div className={NewRecordAddedActions}>
             <Button
