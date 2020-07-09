@@ -1,5 +1,10 @@
 .pointEditor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   padding: 10px;
+  background-color: #fff;
 
   :global .react-datepicker {
     width: auto;

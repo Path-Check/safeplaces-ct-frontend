@@ -13,7 +13,7 @@ const LocationSelect = ({ longitude, latitude, type, setPopupLocation }) => {
 
   return (
     <Popup
-      tipSize={0}
+      tipSize={10}
       anchor="bottom"
       longitude={longitude}
       latitude={latitude}

@@ -26,6 +26,7 @@ import {
   durationControls,
   durationControl,
   pointEditorActions,
+  pointEditorMain,
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -147,74 +148,76 @@ const PointEditor = ({ isEdit }) => {
   return (
     <>
       <form className={pointEditor} onSubmit={handleSubmit}>
-        <div className={pointEditorHeader}>
-          <button
-            id="point-editor-close"
-            className={closeAction}
-            onClick={handleClose}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
-          <h4>{isEdit ? 'Edit Point' : 'Add Point'}</h4>
-        </div>
-        <div className={locationControls}>
-          <LocationSearchInput
-            handlePointChange={handleChange}
-            defaultValue={initialLocation}
-          />
-        </div>
-        <div className={timeControls}>
-          <DateInput
-            type="time"
-            id="time"
-            label="Date - Time"
-            minDate={new Date('2019-12-31T12:05:00-05:00')}
-            maxDate={now}
-            minTime={returnMinTime()}
-            maxTime={returnMaxTime(selectedLocation?.time)}
-            handleChange={handleChange}
-            displayValue={isEdit ? activePoint?.time : null}
-            selectedValue={selectedLocation?.time}
-            placeholder="01/01/2020 - 12:00AM"
-          />
-        </div>
-
-        <div className={durationControls}>
-          <h6>Duration</h6>
-          <div className={durationControl}>
-            <TextInput
-              id="durationHours"
-              name="durationHours"
-              onChange={handleDuration}
-              step="1"
-              min="0"
-              type="number"
-              labelText=""
-              value={localDuration[0]}
-            />
-            <label htmlFor="durationHours">Hours</label>
+        <div className={pointEditorMain}>
+          <div className={pointEditorHeader}>
+            <button
+              id="point-editor-close"
+              className={closeAction}
+              onClick={handleClose}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <h4>{isEdit ? 'Edit Point' : 'Add Point'}</h4>
           </div>
-          <div className={durationControl}>
-            <TextInput
-              id="durationMinutes"
-              name="durationMinutes"
-              onChange={handleDuration}
-              step="5"
-              min="0"
-              max="55"
-              type="number"
-              labelText=""
-              value={localDuration[1]}
+          <div className={locationControls}>
+            <LocationSearchInput
+              handlePointChange={handleChange}
+              defaultValue={initialLocation}
             />
-            <label htmlFor="durationMinutes">Minutes</label>
+          </div>
+          <div className={timeControls}>
+            <DateInput
+              type="time"
+              id="time"
+              label="Date - Time"
+              minDate={new Date('2019-12-31T12:05:00-05:00')}
+              maxDate={now}
+              minTime={returnMinTime()}
+              maxTime={returnMaxTime(selectedLocation?.time)}
+              handleChange={handleChange}
+              displayValue={isEdit ? activePoint?.time : null}
+              selectedValue={selectedLocation?.time}
+              placeholder="01/01/2020 - 12:00AM"
+            />
+          </div>
+
+          <div className={durationControls}>
+            <h6>Duration</h6>
+            <div className={durationControl}>
+              <TextInput
+                id="durationHours"
+                name="durationHours"
+                onChange={handleDuration}
+                step="1"
+                min="0"
+                type="number"
+                labelText=""
+                value={localDuration[0]}
+              />
+              <label htmlFor="durationHours">Hours</label>
+            </div>
+            <div className={durationControl}>
+              <TextInput
+                id="durationMinutes"
+                name="durationMinutes"
+                onChange={handleDuration}
+                step="5"
+                min="0"
+                max="55"
+                type="number"
+                labelText=""
+                value={localDuration[1]}
+              />
+              <label htmlFor="durationMinutes">Minutes</label>
+            </div>
           </div>
         </div>
         <div className={pointEditorActions}>
-          <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
-            {isEdit ? 'Save Changes' : 'Add New Point'}
-          </Button>
           <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
             Cancel
+          </Button>
+          <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
+            {isEdit ? 'Save Changes' : 'Add New Point'}
           </Button>
         </div>
       </form>
