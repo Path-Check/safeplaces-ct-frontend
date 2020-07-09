@@ -22,17 +22,15 @@ const DateSelector = ({ dates, clearedFilters }) => {
       setEndDate(moment(dates[dates.length - 1]).toDate());
       dispatch(pointsActions.setDateRange([dates[0], dates[dates.length - 1]]));
     }
-  }, [clearedFilters]); // eslint-disable-line
+  }, [clearedFilters]);
 
   const CustomInput = ({ onClick }) => {
     return <DateButton onClick={onClick} date1={startDate} date2={endDate} />;
   };
 
   const handleDateChange = date => {
-    // initial change start by setting the startDate
     if (!startDate && !endDate) {
       setStartDate(date);
-      // startDate has been set, set the end date
     } else if (startDate && !endDate) {
       if (date < startDate) {
         setStartDate(date);
@@ -42,8 +40,6 @@ const DateSelector = ({ dates, clearedFilters }) => {
       }
     }
 
-    // user is choosing another range => set the start date
-    // and set the endDate back to null
     if (startDate && endDate) {
       setStartDate(date);
       setEndDate(null);
@@ -51,11 +47,12 @@ const DateSelector = ({ dates, clearedFilters }) => {
   };
 
   const handleSelect = date => {
-    // onChange is not fired if selecting same date - workaround to fire handleDateChange
     if (startDate && !endDate) {
       handleDateChange(date);
     }
   };
+
+  console.log(endDate);
 
   return (
     <div className={wrapper}>
