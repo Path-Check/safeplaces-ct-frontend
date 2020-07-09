@@ -6,17 +6,17 @@ steps:
     args: [ '-c', "gcloud secrets versions access latest --secret=${_SECRET_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env" ]
 
   - id: 'Build Container Image'
-    name: 'registry.hub.docker.com/library/docker:18'
+    name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '--tag', 'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
+      '--tag', 'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}',
       '.' ]
 
   - id: 'Publish Container'
-    name: 'registry.hub.docker.com/library/docker:18'
+    name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}:$BRANCH_NAME-$SHORT_SHA',
+      'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}',
     ]
 
   - name: gcr.io/cloud-builders/gke-deploy
@@ -59,19 +59,21 @@ images:
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
-  _K8S_ANNOTATIONS: gcb-trigger-id=df49a051-d1e6-4872-acd8-c7c49012ab6f
-  _OUTPUT_BUCKET_PATH: pathcheck-gke-deploy-state/safeplaces-frontend/dev/deploy
+  _K8S_ANNOTATIONS: 
+  _OUTPUT_BUCKET_PATH: 
   _K8S_LABELS: ''
-  _GKE_LOCATION: us-central1
-  _K8S_APP_NAME: dev-spl-frontend
-  _K8S_YAML_PATH: gs://pathcheck-gke-deploy-state/safeplaces-frontend/dev/deployment.yaml
-  _K8S_NAMESPACE: frontend
-  _IMAGE_NAME: gcr.io/pathcheck-gps-dev/github.com/path-check/safeplaces-frontend
-  _DOCKERFILE_NAME: Dockerfile
-  _GKE_CLUSTER: safeplaces
-  _DOCKERFILE_DIR: ''
-  _SERVICE: safeplaces-frontend
-  _SECRET_NAME: dev-safeplaces-frontend
+  _GKE_LOCATION: 
+  _K8S_APP_NAME: 
+  _K8S_YAML_PATH: 
+  _K8S_NAMESPACE: 
+  _IMAGE_NAME: 
+  _DOCKERFILE_NAME: 
+  _GKE_CLUSTER: 
+  _DOCKERFILE_DIR: 
+  _SERVICE: 
+  _SECRET_NAME: 
 tags:
   - gcp-cloud-build-deploy
   - $_K8S_APP_NAME
+  - $BRANCH_NAME-$SHORT_SHA
+  - $COMMIT_SHA
