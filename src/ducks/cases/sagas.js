@@ -117,35 +117,18 @@ function* loadCasePoints({ type, cases }) {
   }
 }
 
-function* enrichCase({ caseId }) {
-  yield put(applicationActions.updateStatus('BUSY'));
+function* checkCaseGPSDataSaga() {
+  const { caseId } = yield select(casesSelectors.getActiveCases);
   const accessCode = yield select(casesSelectors.getAccessCode);
+
+  yield put(applicationActions.updateStatus('BUSY'));
 
   try {
     const response = yield call(casesService.enrichCase, {
       accessCode,
       caseId,
     });
-    yield put(applicationActions.updateStatus('CASE FETCHED'));
-    return response;
-  } catch (error) {
-    yield put(
-      applicationActions.notification({
-        title: 'Unable to retrieve location data.',
-      }),
-    );
 
-    yield put(applicationActions.updateStatus('CASE FETCHED'));
-  }
-}
-
-function* checkCaseGPSDataSaga() {
-  const { caseId } = yield select(casesSelectors.getActiveCases);
-
-  try {
-    const response = yield call(enrichCase, {
-      caseId,
-    });
     const mappedPoints = mapPoints(response.data.concernPoints);
     yield put(pointsActions.updatePoints(mappedPoints));
     yield put(casesActions.setCase(caseId));
@@ -154,11 +137,12 @@ function* checkCaseGPSDataSaga() {
   } catch (e) {
     yield put(
       applicationActions.notification({
-        title: 'Data is not available yet.',
+        title: 'Unable to return data.',
         text:
-          'Please check again in a moment. If issue persists, please contact technical support for assistance.',
+          ' Please check again in a moment. If issue persists, please contact technical support for assistance.',
       }),
     );
+    yield put(applicationActions.updateStatus('CASE FETCHED'));
   }
 }
 
