@@ -55,7 +55,7 @@ steps:
       - '--namespace=$_K8S_NAMESPACE'
     id: Apply deploy
 images:
-  - '$_IMAGE_NAME:$COMMIT_SHA'
+  - 'gcr.io/${PROJECT_ID}/github.com/path-check/${_SERVICE}'
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
