@@ -163,7 +163,7 @@ function* checkCaseGPSDataSaga() {
 }
 
 function* deleteCase() {
-  const caseId = yield select(casesSelectors.getActiveCases);
+  const { caseId } = yield select(casesSelectors.getActiveCases);
 
   try {
     yield call(casesService.deleteCase, {
