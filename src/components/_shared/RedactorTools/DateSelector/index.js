@@ -1,96 +1,79 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Slider, { Range } from 'rc-slider';
-
-import {
-  dateSelector,
-  dateSelectorSection,
-  dateSelectorDates,
-  dateSelectorTitle,
-  sliderValue,
-} from './dateSelector.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay } from '@fortawesome/pro-solid-svg-icons';
-
-import SingleDateToggle from 'components/_shared/RedactorTools/DateSelector/SingleDateToggle';
-import { useDispatch, useSelector } from 'react-redux';
+import { wrapper } from './dateSelector.module.scss';
+import { useDispatch } from 'react-redux';
 import pointsActions from '../../../../ducks/points/actions';
-import pointsSelectors from '../../../../ducks/points/selectors';
+import DateButton from './DateButton';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
 
-const DateSelector = ({ dates }) => {
-  const checkSingleDate = dates?.length === 1;
+const DateSelector = ({ dates, clearedFilters }) => {
   const dispatch = useDispatch();
-  const dateRange = useSelector(state => pointsSelectors.getDateRange(state));
-  const singleDate = useSelector(state => pointsSelectors.getSingleDate(state));
-  const isSingleDate = !!singleDate;
 
-  useEffect(() => {
-    if (checkSingleDate && !singleDate && !dateRange[0]) {
-      dispatch(pointsActions.setSingleDate(dates[0]));
-    } else if (!dateRange[0]) {
-      dispatch(pointsActions.setDateRange([dates[0], dates[dates.length - 1]]));
-    }
-  }, []); // eslint-disable-line
-
-  const handleChange = useCallback(
-    value => {
-      if (isSingleDate) {
-        dispatch(pointsActions.setSingleDate(dates[value]));
-      } else {
-        dispatch(
-          pointsActions.setDateRange([dates[value[0]], dates[value[1]]]),
-        );
-      }
-    },
-    [dates, dispatch, isSingleDate],
+  const [startDate, setStartDate] = useState(moment(dates[0]).toDate());
+  const [endDate, setEndDate] = useState(
+    moment(dates[dates.length - 1]).toDate(),
   );
 
-  const setSingleDate = value => {
-    if (value) {
-      dispatch(pointsActions.setSingleDate([dates[0]]));
-    } else {
+  useEffect(() => {
+    if (clearedFilters) {
+      setStartDate(moment(dates[0]).toDate());
+      setEndDate(moment(dates[dates.length - 1]).toDate());
       dispatch(pointsActions.setDateRange([dates[0], dates[dates.length - 1]]));
+    }
+  }, [clearedFilters]); // eslint-disable-line
+
+  const CustomInput = ({ onClick }) => {
+    return <DateButton onClick={onClick} date1={startDate} date2={endDate} />;
+  };
+
+  const handleDateChange = date => {
+    // initial change start by setting the startDate
+    if (!startDate && !endDate) {
+      setStartDate(date);
+      // startDate has been set, set the end date
+    } else if (startDate && !endDate) {
+      if (date < startDate) {
+        setStartDate(date);
+      } else {
+        setEndDate(date);
+        dispatch(pointsActions.setDateRange([startDate, date]));
+      }
+    }
+
+    // user is choosing another range => set the start date
+    // and set the endDate back to null
+    if (startDate && endDate) {
+      setStartDate(date);
+      setEndDate(null);
+    }
+  };
+
+  const handleSelect = date => {
+    // onChange is not fired if selecting same date - workaround to fire handleDateChange
+    if (startDate && !endDate) {
+      handleDateChange(date);
     }
   };
 
   return (
-    <div className={dateSelector}>
-      <div className={dateSelectorSection}>
-        <h5 className={dateSelectorTitle}>
-          <FontAwesomeIcon icon={faCalendarDay} /> Date Selection
-        </h5>
-        <SingleDateToggle onChange={setSingleDate} isChecked={isSingleDate} />
-      </div>
-      <div>
-        {isSingleDate ? (
-          <Slider
-            min={0}
-            max={dates.length - 1}
-            steps={dates.length}
-            onAfterChange={handleChange}
-          />
-        ) : (
-          <Range
-            defaultValue={[0, dates.length - 1]}
-            min={0}
-            max={dates.length - 1}
-            steps={dates.length}
-            allowCross={false}
-            onAfterChange={handleChange}
-          />
-        )}
-      </div>
-      <div className={dateSelectorDates}>
-        {isSingleDate ? (
-          <span className={sliderValue}>{singleDate}</span>
-        ) : (
-          <>
-            <span className={sliderValue}>{dateRange[0]}</span>
-            <span className={sliderValue}>{dateRange[1]}</span>
-          </>
-        )}
-      </div>
+    <div className={wrapper}>
+      <DatePicker
+        onSelect={handleSelect}
+        selected={startDate}
+        minDate={moment().subtract('30', 'd').toDate()}
+        maxDate={moment().add('30', 'd').toDate()}
+        monthsShown={2}
+        shouldCloseOnSelect={false}
+        startDate={startDate}
+        endDate={endDate}
+        onChange={handleDateChange}
+        dateFormat="MM/dd/yyyy"
+        required
+        customInput={<CustomInput />}
+        selectsStart
+      />
     </div>
   );
 };

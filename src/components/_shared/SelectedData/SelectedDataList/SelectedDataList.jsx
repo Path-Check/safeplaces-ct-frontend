@@ -30,13 +30,26 @@ const SelectedDataList = () => {
     }, {});
 
   const groupedPoints = groupByDate(filteredPoints);
+  const groupedPointsArray = Object.values(groupedPoints);
+  const preExpandArray = () => {
+    const arr = new Array(groupedPointsArray.length);
+    for (let i = 0; i <= groupedPointsArray.length; i++) {
+      arr.push(i);
+    }
+    return arr;
+  };
 
   return filteredPoints?.length > 0 ? (
     <div className={selectedDataList}>
-      <Accordion allowZeroExpanded allowMultipleExpanded>
-        {Object.values(groupedPoints)?.map((p, i) => {
+      <Accordion
+        allowZeroExpanded
+        allowMultipleExpanded
+        preExpanded={preExpandArray()}
+      >
+        {groupedPointsArray?.map((p, i) => {
+          console.log(i);
           return (
-            <AccordionItem key={`list-points-${i}`}>
+            <AccordionItem uuid={i} key={`list-points-${i}`}>
               <AccordionItemHeading>
                 <AccordionItemButton>
                   {Object.keys(groupedPoints)[i]}

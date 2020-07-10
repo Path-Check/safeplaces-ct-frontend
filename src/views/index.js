@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLastLocation } from 'react-router-last-location';
 
 import applicationSelectors from 'ducks/application/selectors';

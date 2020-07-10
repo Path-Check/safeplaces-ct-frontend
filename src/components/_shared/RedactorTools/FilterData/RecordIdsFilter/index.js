@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import casesSelectors from 'ducks/cases/selectors';
 import pointsActions from 'ducks/points/actions';
 
-const RecordIdsFilter = ({ filterRecordIds, setFilterRecordIds }) => {
+const RecordIdsFilter = ({ filterRecordIds }) => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getActiveCases(state));
   const [caseIds, setCaseIds] = useState(cases.map(c => c.caseId));
@@ -14,7 +14,6 @@ const RecordIdsFilter = ({ filterRecordIds, setFilterRecordIds }) => {
   useEffect(() => {
     if (filterRecordIds) {
       dispatch(pointsActions.setRecordIds(caseIds));
-      setFilterRecordIds(false);
     }
   }, [filterRecordIds]);
 

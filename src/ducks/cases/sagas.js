@@ -148,7 +148,6 @@ function* checkCaseGPSDataSaga() {
     });
     const mappedPoints = mapPoints(response.data.concernPoints);
     yield put(pointsActions.updatePoints(mappedPoints));
-    yield put(casesActions.setCase(caseId));
     yield put(applicationActions.renderEditor(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (e) {
@@ -163,7 +162,7 @@ function* checkCaseGPSDataSaga() {
 }
 
 function* deleteCase() {
-  const caseId = yield select(casesSelectors.getActiveCases);
+  const { caseId } = yield select(casesSelectors.getActiveCases);
 
   try {
     yield call(casesService.deleteCase, {
