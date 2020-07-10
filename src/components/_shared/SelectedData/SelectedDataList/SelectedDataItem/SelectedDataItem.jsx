@@ -27,7 +27,6 @@ import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 import mapActions from 'ducks/map/actions';
 import { formattedDuration } from 'helpers/dateTime';
-import applicationSelectors from 'ducks/application/selectors';
 
 const SelectedDataItem = ({
   pointId,
@@ -48,9 +47,6 @@ const SelectedDataItem = ({
     [`${selectedDataItem}`]: true,
     [`${selectedDataItemHighlighted}`]: isHighlighted,
   });
-  const isTrace =
-    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-
   const friendlyDuration = formattedDuration(duration);
 
   const handleClick = e => {
@@ -90,7 +86,7 @@ const SelectedDataItem = ({
           </ul>
         </div>
       </button>
-      {isHighlighted && isTrace && (
+      {isHighlighted && (
         <ul className={selectedDataMenuActions}>
           <li>
             <button

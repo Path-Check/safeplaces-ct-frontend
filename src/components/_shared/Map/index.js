@@ -4,7 +4,8 @@ import ReactMapGL, {
   WebMercatorViewport,
   ScaleControl,
 } from 'react-map-gl';
-import PopupWrapper from './Popup';
+
+import LocationSelect from './LocationSelect';
 
 import { useSelector } from 'react-redux';
 
@@ -21,7 +22,6 @@ import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp'
 import DrawEditor from 'components/_shared/Map/DrawEditor';
 
 import { returnGeoPoints } from 'components/_shared/Map/_helpers';
-import PointEditor from 'components/_shared/PointEditor';
 
 import satelliteStyles from './styles/satellite.json';
 import mapStyles from './styles/map.json';
@@ -32,6 +32,7 @@ import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
 export default function Map({ setMap }) {
   const mapRef = useRef();
   const [loaded, setLoaded] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const [popupLocation, setPopupLocation] = useState(null);
   const [satelliteView, setSatelliteView] = useState(false);
@@ -53,13 +54,17 @@ export default function Map({ setMap }) {
   const useDuration = useSelector(state =>
     pointsSelectors.getUseDurationFilter(state),
   );
-
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const renderPointEditor =
-    appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
   const editorMode = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
+  const viewMode = useSelector(state => applicationSelectors.getMode(state));
+
+  const renderDrawTools =
+    viewMode === 'trace' &&
+    appStatus !== 'EDIT POINT' &&
+    appStatus !== 'ADD POINT' &&
+    filteredPoints?.length > 1;
 
   const fallbackViewport = {
     latitude: 37.7577,
@@ -158,7 +163,16 @@ export default function Map({ setMap }) {
   return (
     <div
       className={styles.map}
-      style={{ pointerEvents: editorMode ? 'all' : 'none' }}
+      style={{
+        pointerEvents: editorMode ? 'all' : 'none',
+        cursor: locationSelect
+          ? isDragging
+            ? 'grab'
+            : 'crosshair'
+          : isDragging
+          ? 'grab'
+          : 'inherit',
+      }}
     >
       <ReactMapGL
         {...viewport}
@@ -167,6 +181,7 @@ export default function Map({ setMap }) {
         ref={mapRef}
         width="100%"
         height="100%"
+        getCursor={({ isDragging, isHovering }) => setIsDragging(isDragging)}
         onLoad={onMapLoad}
         onViewportChange={viewportInternal => setViewport(viewportInternal)}
         onClick={({ rightButton, lngLat }) => {
@@ -193,12 +208,14 @@ export default function Map({ setMap }) {
             )}
 
             {popupLocation?.longitude && popupLocation?.latitude && (
-              <PopupWrapper {...popupLocation} type={appStatus} />
+              <LocationSelect
+                {...popupLocation}
+                setPopupLocation={setPopupLocation}
+                type={appStatus}
+              />
             )}
 
-            {appStatus !== 'EDIT POINT' &&
-              appStatus !== 'ADD POINT' &&
-              filteredPoints?.length > 1 && <DrawEditor />}
+            {renderDrawTools && <DrawEditor />}
 
             <div className={styles.controls}>
               <NavigationControl
@@ -216,11 +233,9 @@ export default function Map({ setMap }) {
           </>
         )}
       </ReactMapGL>
-      {locationSelect ? (
+      {(appStatus === 'EDIT POINT' || appStatus === 'ADD POINT') && (
         <SelectionLocationHelp />
-      ) : renderPointEditor ? (
-        <PointEditor isEdit={appStatus === 'EDIT POINT'} />
-      ) : null}
+      )}
     </div>
   );
 }

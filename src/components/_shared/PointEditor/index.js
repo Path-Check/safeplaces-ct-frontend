@@ -9,34 +9,38 @@ import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
 
+import classNames from 'classnames';
+
 import {
   convertToHoursMins,
   convertToMins,
   canSubmit,
-  validateTimeDuration,
   returnMaxTime,
   returnMinTime,
 } from 'components/_shared/PointEditor/_helpers';
 
 import {
   pointEditor,
+  pointEditorEntered,
   locationControls,
   pointEditorHeader,
   closeAction,
   timeControls,
   durationControls,
   durationControl,
+  pointEditorActions,
+  pointEditorMain,
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs, faTimes } from '@fortawesome/pro-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
 
 import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
 import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
 
-const PointEditor = ({ isEdit }) => {
+const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
   const now = new Date();
   const activePoint = useSelector(state =>
@@ -47,7 +51,7 @@ const PointEditor = ({ isEdit }) => {
   );
   const initialLocation = isEdit
     ? `${activePoint?.latitude}, ${activePoint?.longitude}`
-    : '';
+    : ``;
 
   const [localDuration, setLocalDuration] = useState([0, 0]);
   const isDisabled = isEdit ? !selectedLocation : canSubmit(selectedLocation);
@@ -64,6 +68,13 @@ const PointEditor = ({ isEdit }) => {
 
     const [hours, mins] = convertToHoursMins(activePoint);
     setLocalDuration([hours, mins]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(mapActions.locationSelect(true));
+    return () => {
+      dispatch(mapActions.locationSelect(false));
+    };
   }, []);
 
   useEffect(() => {
@@ -123,7 +134,6 @@ const PointEditor = ({ isEdit }) => {
 
   const handleSubmit = () => {
     const payload = generatePayload();
-    const validDuration = validateTimeDuration(selectedLocation);
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
@@ -138,85 +148,86 @@ const PointEditor = ({ isEdit }) => {
     dispatch(mapActions.updateLocation(null));
   };
 
+  const classes = classNames({
+    [`${pointEditor}`]: true,
+    [`${pointEditorEntered}`]: animationState === 'entered',
+  });
+
   return (
     <>
-      <form className={pointEditor} onSubmit={handleSubmit}>
-        <div className={pointEditorHeader}>
-          <h4>{isEdit ? 'Edit Data' : 'Add Data to Record'}</h4>
-          <button
-            id="point-editor-close"
-            className={closeAction}
-            onClick={handleClose}
-          >
-            <FontAwesomeIcon icon={faTimes} />
-          </button>
+      <form className={classes} onSubmit={handleSubmit}>
+        <div className={pointEditorMain}>
+          <div className={pointEditorHeader}>
+            <button
+              id="point-editor-close"
+              className={closeAction}
+              onClick={handleClose}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <h4>{isEdit ? 'Edit Point' : 'Add Point'}</h4>
+          </div>
+          <div className={locationControls}>
+            <LocationSearchInput
+              handlePointChange={handleChange}
+              defaultValue={initialLocation}
+            />
+          </div>
+          <div className={timeControls}>
+            <DateInput
+              type="time"
+              id="time"
+              label="Date - Time"
+              minDate={new Date('2019-12-31T12:05:00-05:00')}
+              maxDate={now}
+              minTime={returnMinTime()}
+              maxTime={returnMaxTime(selectedLocation?.time)}
+              handleChange={handleChange}
+              displayValue={isEdit ? activePoint?.time : null}
+              selectedValue={selectedLocation?.time}
+              placeholder="01/01/2020 - 12:00AM"
+            />
+          </div>
+
+          <div className={durationControls}>
+            <h6>Duration</h6>
+            <div className={durationControl}>
+              <TextInput
+                id="durationHours"
+                name="durationHours"
+                onChange={handleDuration}
+                step="1"
+                min="0"
+                type="number"
+                labelText=""
+                value={localDuration[0]}
+              />
+              <label htmlFor="durationHours">Hours</label>
+            </div>
+            <div className={durationControl}>
+              <TextInput
+                id="durationMinutes"
+                name="durationMinutes"
+                onChange={handleDuration}
+                step="5"
+                min="0"
+                max="55"
+                type="number"
+                labelText=""
+                value={localDuration[1]}
+              />
+              <label htmlFor="durationMinutes">Minutes</label>
+            </div>
+          </div>
         </div>
-        <div className={locationControls}>
-          <LocationSearchInput
-            handlePointChange={handleChange}
-            defaultValue={initialLocation}
-          />
-          <span>or</span>
-          <Button
-            id="select-from-map"
-            fullWidth
-            secondary
-            onClick={() => {
-              dispatch(mapActions.locationSelect(true));
-            }}
-          >
-            <FontAwesomeIcon icon={faCrosshairs} /> Select from Map
+        <div className={pointEditorActions}>
+          <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
+            {isEdit ? 'Save Changes' : 'Add New Point'}
+          </Button>
+          <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
+            Cancel
           </Button>
         </div>
-        <div className={timeControls}>
-          <DateInput
-            type="time"
-            id="time"
-            label="Date - Time"
-            minDate={new Date('2019-12-31T12:05:00-05:00')}
-            maxDate={now}
-            minTime={returnMinTime()}
-            maxTime={returnMaxTime(selectedLocation?.time)}
-            handleChange={handleChange}
-            displayValue={isEdit ? activePoint?.time : null}
-            selectedValue={selectedLocation?.time}
-            placeholder="01/01/2020 - 12:00AM"
-          />
-        </div>
-
-        <div className={durationControls}>
-          <h6>Duration</h6>
-          <div className={durationControl}>
-            <TextInput
-              id="durationHours"
-              name="durationHours"
-              onChange={handleDuration}
-              step="1"
-              min="0"
-              type="number"
-              labelText=""
-              value={localDuration[0]}
-            />
-            <label htmlFor="durationHours">Hours</label>
-          </div>
-          <div className={durationControl}>
-            <TextInput
-              id="durationMinutes"
-              name="durationMinutes"
-              onChange={handleDuration}
-              step="5"
-              min="0"
-              max="55"
-              type="number"
-              labelText=""
-              value={localDuration[1]}
-            />
-            <label htmlFor="durationMinutes">Minutes</label>
-          </div>
-        </div>
-        <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
-          Save Data
-        </Button>
       </form>
     </>
   );
