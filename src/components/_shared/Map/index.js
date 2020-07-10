@@ -54,12 +54,17 @@ export default function Map({ setMap }) {
   const useDuration = useSelector(state =>
     pointsSelectors.getUseDurationFilter(state),
   );
-
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-
   const editorMode = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
+  const viewMode = useSelector(state => applicationSelectors.getMode(state));
+
+  const renderDrawTools =
+    viewMode === 'trace' &&
+    appStatus !== 'EDIT POINT' &&
+    appStatus !== 'ADD POINT' &&
+    filteredPoints?.length;
 
   const fallbackViewport = {
     latitude: 37.7577,
@@ -210,9 +215,7 @@ export default function Map({ setMap }) {
               />
             )}
 
-            {appStatus !== 'EDIT POINT' &&
-              appStatus !== 'ADD POINT' &&
-              filteredPoints?.length > 1 && <DrawEditor />}
+            {renderDrawTools && <DrawEditor />}
 
             <div className={styles.controls}>
               <NavigationControl
