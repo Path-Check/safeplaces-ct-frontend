@@ -41,7 +41,9 @@ const Record = ({
       <td colSpan="2">
         <time dateTime={processed}>{processed}</time>
       </td>
-      <td colSpan="2">{contactTracerId ? `${contactTracerId}` : 'N/A'}</td>
+      <td colSpan="2">
+        <span>{contactTracerId ? `${contactTracerId}` : 'N/A'}</span>
+      </td>
     </tr>
   );
 };

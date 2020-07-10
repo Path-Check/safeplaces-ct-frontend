@@ -2,7 +2,10 @@
   display: flex;
   margin: 0 10px 10px 0;
 }
-.button1, .button2,.singleButton {
+
+.button1,
+.button2,
+.singleButton {
   text-decoration: none;
   font-weight: 600;
   font-size: 14px;
@@ -12,10 +15,7 @@
 }
 
 .singleButtonContainer {
-  background-color: #F8F8FF;
-  padding: 10px 16px;
   border-radius: 50px;
-  border: 1px solid #D8D8DE;
   width: fit-content;
   display: flex;
   justify-content: space-between;
@@ -23,27 +23,35 @@
 }
 
 .closeButton {
-  color: #9BA0AA;
+  color: #9ba0aa;
   font-weight: 300;
   margin-left: 5px;
 }
 
-.button1 { /*Left Button"*/
-  background-color: #F8F8FF;
-  padding: 10px 16px;
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
-  border: 1px solid #D8D8DE;
-}
-
-.button1:hover, .button2:hover, .singleButtonContainer:hover{
+.button1:hover,
+.button2:hover,
+.singleButtonContainer:hover {
   background-color: #eff0fc;
 }
 
-.button2 { /*right button*/
-  background-color: #F8F8FF;
-  padding: 10px 16px;
+.singleButtonContainer,
+.button1,
+.button2 {
+  padding: 8px 15px;
+  border: 1px solid #d8d8de;
+}
+
+.button1 {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.button2 {
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
-  border: 1px solid #D8D8DE;
+}
+
+.button1,
+.button2 {
+  width: 75px;
 }

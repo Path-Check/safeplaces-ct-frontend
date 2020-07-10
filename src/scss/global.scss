@@ -33,10 +33,10 @@ $mobile-bottom-swipe-height: 75px;
 
   .App {
     input {
-      background: rgb(248, 248, 255);
-      border: 2px solid rgba(0, 0, 0, 0.1);
-      box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
+      padding: 10px;
+      background: #fff;
+      border: 2px solid #e5e7fa;
+      border-radius: 8px;
       height: 44px;
       font-size: 18px;
       font-weight: 400;
