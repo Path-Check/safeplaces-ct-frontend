@@ -6,6 +6,7 @@ import {
   filterBodyActive,
   filterBodyMain,
   filterData,
+  selectAllButton,
 } from './FilterData.module.scss';
 import Button from 'components/_shared/Button';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
@@ -19,6 +20,8 @@ const FilterData = ({
   duration,
   closeAction,
   useDurationFilter,
+  selectAllRecords,
+  setSelectAllRecords,
 }) => {
   const containerRef = useRef();
   const [filtersVisible, setFiltersVisible] = useState(false);
@@ -42,6 +45,15 @@ const FilterData = ({
       >
         <div className={filterBodyMain}>{children}</div>
         <div className={filterBodyActions}>
+          <Button
+            width="118px"
+            small
+            className={selectAllButton}
+            tertiary
+            onClick={() => setSelectAllRecords(!selectAllRecords)}
+          >
+            {selectAllRecords ? 'Deselect All' : 'Select All'}
+          </Button>
           <Button
             small
             onClick={() => {

@@ -36,6 +36,7 @@ const RedactorTools = () => {
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
+  const [selectAllRecords, setSelectAllRecords] = useState(true);
   const [clearedFilters, setClearedFilters] = useState(false);
   const [filterRecordIds, setFilterRecordIds] = useState(false);
   const [duration, setDuration] = useState(durationStore || durationTimes[0]);
@@ -116,8 +117,11 @@ const RedactorTools = () => {
                   text="Record ID"
                   closeAction={removeRecordIdFilter}
                   applyFilters={applyRecordIdFilter}
+                  selectAllRecords={selectAllRecords}
+                  setSelectAllRecords={setSelectAllRecords}
                 >
                   <RecordIdsFilter
+                    selectAllRecords={selectAllRecords}
                     filterRecordIds={filterRecordIds}
                     setFilterRecordIds={setFilterRecordIds}
                   />
