@@ -75,3 +75,4 @@ substitutions:
 tags:
   - gcp-cloud-build-deploy
   - $_K8S_APP_NAME
+timeout: 720s
