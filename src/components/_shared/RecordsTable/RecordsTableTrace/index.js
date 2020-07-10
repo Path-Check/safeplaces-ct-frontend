@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-
-import moment from 'moment';
+import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import casesSelectors from 'ducks/cases/selectors';
@@ -18,33 +16,17 @@ import { tableWrapper, table, tableMain } from '../recordsTable.module.scss';
 
 import Button from 'components/_shared/Button';
 import Record from './Record';
+import { useSortByDate } from 'components/_shared/RecordsTable/useSortBy';
 
 const RecordsTableTrace = () => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getCases(state));
   const status = useSelector(state => applicationSelectors.getStatus(state));
-  const [renderedCases, setRenderedCases] = useState(cases);
-  const [sortBy, setSortBy] = useState('NEWEST');
+  const [sortItems, sortBy, items] = useSortByDate(cases);
 
   if (status !== 'CASES ADDED' || !cases || cases.length < 1) {
     return null;
   }
-
-  const sortItems = () => {
-    if (sortBy === 'NEWEST') {
-      const orderedCases = renderedCases.sort((a, b) => {
-        return moment(a.updatedAt) - moment(b.updatedAt);
-      });
-
-      setSortBy('OLDEST');
-      setRenderedCases(orderedCases);
-    } else {
-      setSortBy('NEWEST');
-      setRenderedCases(
-        renderedCases.sort((a, b) => moment(b.updatedAt) - moment(a.updatedAt)),
-      );
-    }
-  };
 
   return (
     <div className={tableWrapper}>
@@ -79,7 +61,7 @@ const RecordsTableTrace = () => {
       <div className={tableMain}>
         <table className={table}>
           <tbody>
-            {renderedCases.map(r => (
+            {items.map(r => (
               <Record key={`case-trace-${r.caseId}`} record={r} />
             ))}
           </tbody>

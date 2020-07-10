@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import moment from 'moment';
-
 import {
   tableWrapper,
   table,
@@ -17,16 +15,16 @@ import Record from './Record';
 import casesActions from 'ducks/cases/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/pro-solid-svg-icons';
+import { useSortByDate } from 'components/_shared/RecordsTable/useSortBy';
 
 const RecordsTablePublishing = ({ isPublishing }) => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getCases(state));
   const status = useSelector(state => applicationSelectors.getStatus(state));
   const [caseIds, setCaseIds] = useState([]);
-  const [renderedCases, setRenderedCases] = useState(
+  const [sortItems, sortBy, items] = useSortByDate(
     cases.filter(c => c.state === 'staging'),
   );
-  const [sortBy, setSortBy] = useState('NEWEST');
 
   if (status !== 'CASES ADDED' || !cases || cases.length < 1) {
     return null;
@@ -43,22 +41,6 @@ const RecordsTablePublishing = ({ isPublishing }) => {
     }
 
     setCaseIds(ids);
-  };
-
-  const sortItems = () => {
-    if (sortBy === 'NEWEST') {
-      const orderedCases = renderedCases.sort((a, b) => {
-        return moment(a.updatedAt) - moment(b.updatedAt);
-      });
-
-      setSortBy('OLDEST');
-      setRenderedCases(orderedCases);
-    } else {
-      setSortBy('NEWEST');
-      setRenderedCases(
-        renderedCases.sort((a, b) => moment(b.updatedAt) - moment(a.updatedAt)),
-      );
-    }
   };
 
   return (
@@ -87,7 +69,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
       <div className={tableMain}>
         <table id="records-table" className={table}>
           <tbody>
-            {renderedCases.map(r => (
+            {items.map(r => (
               <Record
                 key={`case-pub-${r.caseId}`}
                 {...r}
