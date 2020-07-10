@@ -126,12 +126,13 @@ const RedactorTools = () => {
             </div>
           </>
         )}
-        {(points.length !== filteredPoints.length ||
-          hiddenPoints.length > 0) && (
-          <button onClick={clearAllFilters} className={clearFilters}>
-            REMOVE ALL FILTERS
-          </button>
-        )}
+        <button
+          onClick={clearAllFilters}
+          className={clearFilters}
+          disabled={points.length === filteredPoints.length}
+        >
+          REMOVE ALL FILTERS
+        </button>
         <PointsInfo />
       </header>
       <SelectedDataList />
