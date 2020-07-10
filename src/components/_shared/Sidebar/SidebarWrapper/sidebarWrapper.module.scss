@@ -1,9 +1,9 @@
 .sidebarWrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: calc(100vh - 60px);
   width: 360px;
-  background: #f8f8ff;
+  background: rgb(248, 248, 255);
   box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.05);
   position: relative;
   z-index: 13;
