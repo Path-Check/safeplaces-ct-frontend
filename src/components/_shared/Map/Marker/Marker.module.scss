@@ -25,9 +25,15 @@
   }
 }
 
-.markerAlt {
-  > button {
-    pointer-events: none;
-    cursor: not-allowed;
+.marker {
+  &.markerAlt {
+    > button {
+      pointer-events: none;
+      cursor: not-allowed;
+
+      > svg {
+        color: rgba(64, 81, 219, 0.65);
+      }
+    }
   }
 }
