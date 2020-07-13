@@ -7,6 +7,8 @@ import {
   tableAction,
 } from '../recordsTable.module.scss';
 
+import { sortEnum } from 'types/sortBy';
+
 import Button from 'components/_shared/Button';
 import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';
@@ -57,7 +59,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
                 Processing Date
                 <button onClick={sortItems}>
                   <FontAwesomeIcon
-                    icon={sortBy === 'OLDEST' ? faArrowUp : faArrowDown}
+                    icon={sortBy === sortEnum.OLDEST ? faArrowUp : faArrowDown}
                   />
                 </button>
               </div>

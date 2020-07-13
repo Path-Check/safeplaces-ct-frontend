@@ -45,16 +45,7 @@ const RecordsTableTrace = () => {
               </div>
             </th>
             <th colSpan="1">Status</th>
-            <th colSpan="2">
-              <div>
-                Expires
-                <button onClick={sortItems}>
-                  <FontAwesomeIcon
-                    icon={sortBy === 'OLDEST' ? faArrowUp : faArrowDown}
-                  />
-                </button>
-              </div>
-            </th>
+            <th colSpan="2">Expires</th>
           </tr>
         </thead>
       </table>
