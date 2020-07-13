@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class Page(object):
     """
@@ -146,7 +148,9 @@ class ContactTracePage(Page):
         self.find_element(self.add_data_point_button).click()
 
     def stage_for_publishing(self):
-        self.find_element(self.stage_publish_button).click()
+        stage = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "stage-for-publishing")))
+        stage.click();
         
 class AddNewRecordPage(Page):
     check_data_upload_button = (By.ID, 'check-data-upload')
