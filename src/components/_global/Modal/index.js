@@ -2,19 +2,49 @@ import React, { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { modalWrapper, modalInner, closeButton } from './styles.module.scss';
+import classNames from 'classnames';
+import { Transition } from 'react-transition-group';
+
+import {
+  modalWrapper,
+  modalEntered,
+  modalExiting,
+  modalExited,
+  modalInner,
+  closeButton,
+} from './styles.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
-const Modal = ({
+
+const Modal = ({ enter = 200, ...rest }) => {
+  const modalRoot = document.getElementById('modal-root');
+
+  return createPortal(
+    <Transition
+      in={true}
+      appear
+      timeout={{
+        enter,
+        exit: 0,
+      }}
+      unmountOnExit
+    >
+      {transition => <ModalUI animationState={transition} {...rest} />}
+    </Transition>,
+    modalRoot,
+  );
+};
+
+const ModalUI = ({
   children,
   closeAction = () => null,
+  animationState,
   showCloseAction = true,
 }) => {
   useCloseOnEscape(() => closeAction && closeAction());
-  const modalRoot = document.getElementById('modal-root');
 
   const [focusTrapped, setFocusTrapped] = useState(false);
 
@@ -22,9 +52,16 @@ const Modal = ({
     setFocusTrapped(true);
   }, []);
 
-  return createPortal(
+  const classes = classNames({
+    [`${modalWrapper}`]: true,
+    [`${modalEntered}`]: animationState === 'entered',
+    [`${modalExiting}`]: animationState === 'exiting',
+    [`${modalExited}`]: animationState === 'exited',
+  });
+
+  return (
     <FocusTrap active={focusTrapped}>
-      <div className={modalWrapper}>
+      <div className={classes}>
         <button
           type="button"
           onClick={() => closeAction()}
@@ -35,8 +72,7 @@ const Modal = ({
         </button>
         <div className={modalInner}>{children}</div>
       </div>
-    </FocusTrap>,
-    modalRoot,
+    </FocusTrap>
   );
 };
 

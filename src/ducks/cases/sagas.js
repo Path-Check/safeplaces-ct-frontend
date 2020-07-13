@@ -11,8 +11,6 @@ import pointsActions from 'ducks/points/actions';
 import { mapPoints } from 'helpers/pointsUtils';
 
 function* addCases({ data }) {
-  yield put(applicationActions.updateStatus('BUSY'));
-
   try {
     const response = yield call(casesService.fetchCases);
 
@@ -40,8 +38,6 @@ function* addCase() {
   let response;
 
   const { id: organizationId } = yield select(authSelectors.getCurrentUser);
-
-  yield put(applicationActions.updateStatus('BUSY'));
 
   try {
     response = yield call(casesService.fetchCase, {

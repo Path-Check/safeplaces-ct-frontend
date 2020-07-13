@@ -9,6 +9,25 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  backface-visibility: hidden;
+  transform: translateY(-100%);
+  transition: transform ease 200ms;
+}
+
+.modalEntered {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.modalExiting {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.modalExited {
+  transform: translateY(-100%);
+  pointer-events: none;
 }
 
 .modalInner {
