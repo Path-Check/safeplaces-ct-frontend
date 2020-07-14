@@ -11,26 +11,32 @@
   background: rgba(0, 0, 0, 0.6);
   pointer-events: none;
   backface-visibility: hidden;
-  transform: translateY(-100%);
-  transition: transform ease 200ms;
+  opacity: 0;
+  transition: opacity ease 200ms;
 }
 
 .modalEntered {
-  transform: translateY(0);
+  opacity: 1;
   pointer-events: auto;
+
+  .modalInner {
+    transform: translateY(0);
+  }
 }
 
+.modalExited,
 .modalExiting {
-  transform: translateY(-100%);
+  opacity: 0;
   pointer-events: none;
-}
 
-.modalExited {
-  transform: translateY(-100%);
-  pointer-events: none;
+  .modalInner {
+    transform: translateY(100%);
+  }
 }
 
 .modalInner {
+  transform: translateY(100%);
+  transition: transform ease 300ms;
   position: relative;
   max-width: 80vw;
 
