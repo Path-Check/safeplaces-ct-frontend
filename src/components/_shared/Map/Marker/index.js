@@ -27,7 +27,9 @@ const MapMarker = ({
   longitude,
   time: timestamp,
   duration,
-  pointId,
+  discreetPointIds,
+  id,
+  caseId,
   alternate,
   nickname,
 }) => {
@@ -36,7 +38,7 @@ const MapMarker = ({
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-  const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
+  const isHighlighted = activePoint ? activePoint.id === id : false;
   const [showContentMenu, setShowContentMenu] = useState(false);
 
   const friendlyDuration = formattedDuration(duration);
@@ -46,9 +48,11 @@ const MapMarker = ({
 
     dispatch(
       pointsActions.setSelectedPoint({
-        pointId,
+        id,
         latitude,
         longitude,
+        caseId,
+        discreetPointIds,
         time: timestamp,
         duration,
         nickname,
@@ -73,11 +77,7 @@ const MapMarker = ({
   return (
     <>
       <Marker className={classes} latitude={latitude} longitude={longitude}>
-        <button
-          onClick={handleClick}
-          ref={markerRef}
-          id={`map-marker-${pointId}`}
-        >
+        <button onClick={handleClick} ref={markerRef} id={`map-marker-${id}`}>
           <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
         </button>
       </Marker>

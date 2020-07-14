@@ -1,44 +1,44 @@
 import axios from 'axios';
 
-const { REACT_APP_API_URL } = process.env;
+const { REACT_APP_TRANSLATION_API_URL } = process.env;
 
 const pointsService = {
-  delete: pointId => {
+  delete: discreetPointIds => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}case/point/delete`,
+      url: `${REACT_APP_TRANSLATION_API_URL}case/points/delete`,
       data: {
-        pointId,
+        discreetPointIds,
       },
     });
   },
-  deletePoints: pointIds => {
+  deletePoints: ids => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}case/points/delete`,
+      url: `${REACT_APP_TRANSLATION_API_URL}case/points/delete`,
       data: {
-        pointIds,
+        discreetPointIds: ids,
       },
     });
   },
   edit: data => {
     return axios({
       method: 'PUT',
-      url: `${REACT_APP_API_URL}case/point`,
+      url: `${REACT_APP_TRANSLATION_API_URL}case/point`,
       data,
     });
   },
   setLabel: data => {
     return axios({
       method: 'PUT',
-      url: `${REACT_APP_API_URL}case/points`,
+      url: `${REACT_APP_TRANSLATION_API_URL}case/points`,
       data,
     });
   },
   add: data => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}case/point`,
+      url: `${REACT_APP_TRANSLATION_API_URL}case/point`,
       data,
     });
   },

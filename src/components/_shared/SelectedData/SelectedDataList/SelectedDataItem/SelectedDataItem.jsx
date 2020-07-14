@@ -29,8 +29,10 @@ import mapActions from 'ducks/map/actions';
 import { formattedDuration } from 'helpers/dateTime';
 
 const SelectedDataItem = ({
-  pointId,
+  id,
+  discreetPointIds,
   latitude,
+  caseId,
   longitude,
   time: timestamp,
   duration,
@@ -41,7 +43,7 @@ const SelectedDataItem = ({
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-  const isHighlighted = activePoint?.pointId === pointId;
+  const isHighlighted = activePoint?.id === id;
   const time = moment(timestamp).format('h:mma');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
@@ -59,9 +61,11 @@ const SelectedDataItem = ({
     } else {
       dispatch(
         pointsActions.setSelectedPoint({
-          pointId,
+          id,
           latitude,
+          caseId,
           longitude,
+          discreetPointIds,
           time: timestamp,
           duration,
         }),
@@ -103,7 +107,9 @@ const SelectedDataItem = ({
             <button
               type="button"
               title="Delete Item"
-              onClick={() => dispatch(pointsActions.deletePoint(pointId))}
+              onClick={() =>
+                dispatch(pointsActions.deletePoint({ id, discreetPointIds }))
+              }
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>
