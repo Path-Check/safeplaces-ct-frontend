@@ -12,11 +12,6 @@ import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
 import DeletePoints from 'views/Trace/DeletePoints';
 
 const returnActions = (amount, filterAction, closeAction, labelAction) => [
-  // {
-  //   label: `Filter Selection`,
-  //   icon: faFilter,
-  //   action: filterAction,
-  // },
   {
     label: `Label ${amount}
   Points`,
@@ -73,9 +68,10 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
       {showDeleteModal && (
         <DeletePoints
           closeAction={() => setShowDeleteModal(false)}
-          deleteAction={() =>
-            dispatch(pointsActions.deleteMultiplePoints(newPoints))
-          }
+          deleteAction={() => {
+            dispatch(pointsActions.deleteMultiplePoints(newPoints));
+            resetGeometry();
+          }}
           points={newPoints}
         />
       )}

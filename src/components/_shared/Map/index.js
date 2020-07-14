@@ -64,7 +64,7 @@ export default function Map({ setMap }) {
     viewMode === 'trace' &&
     appStatus !== 'EDIT POINT' &&
     appStatus !== 'ADD POINT' &&
-    filteredPoints?.length;
+    filteredPoints?.length > 1;
 
   const fallbackViewport = {
     latitude: 37.7577,
