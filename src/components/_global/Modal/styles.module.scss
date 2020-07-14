@@ -15,6 +15,16 @@
   transition: opacity ease 200ms;
 }
 
+.modalNoAnimation {
+  opacity: 1;
+  transition: unset;
+
+  .modalInner {
+    transition: unset;
+    transform: translateY(0);
+  }
+}
+
 .modalEntered {
   opacity: 1;
   pointer-events: auto;

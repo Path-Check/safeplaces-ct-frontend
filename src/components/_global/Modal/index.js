@@ -7,6 +7,7 @@ import { Transition } from 'react-transition-group';
 
 import {
   modalWrapper,
+  modalNoAnimation,
   modalEntered,
   modalExiting,
   modalExited,
@@ -43,6 +44,7 @@ const ModalUI = ({
   closeAction = () => null,
   animationState,
   showCloseAction = true,
+  noAnimation,
 }) => {
   useCloseOnEscape(() => closeAction && closeAction());
 
@@ -54,6 +56,7 @@ const ModalUI = ({
 
   const classes = classNames({
     [`${modalWrapper}`]: true,
+    [`${modalNoAnimation}`]: noAnimation,
     [`${modalEntered}`]: animationState === 'entered',
     [`${modalExiting}`]: animationState === 'exiting',
     [`${modalExited}`]: animationState === 'exited',
