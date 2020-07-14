@@ -46,23 +46,20 @@ const SelectedDataList = () => {
         allowMultipleExpanded
         preExpanded={preExpandArray()}
       >
-        {groupedPointsArray?.map((p, i) => {
-          console.log(i);
-          return (
-            <AccordionItem uuid={i} key={`list-points-${i}`}>
-              <AccordionItemHeading>
-                <AccordionItemButton>
-                  {Object.keys(groupedPoints)[i]}
-                </AccordionItemButton>
-              </AccordionItemHeading>
-              <AccordionItemPanel>
-                {Object.values(p).map(e => (
-                  <SelectedDataItem key={e.pointId} {...e} />
-                ))}
-              </AccordionItemPanel>
-            </AccordionItem>
-          );
-        })}
+        {groupedPointsArray?.map((p, i) => (
+          <AccordionItem uuid={i} key={`list-points-${i}`}>
+            <AccordionItemHeading>
+              <AccordionItemButton>
+                {Object.keys(groupedPoints)[i]}
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              {Object.values(p).map(e => (
+                <SelectedDataItem key={e.pointId} {...e} />
+              ))}
+            </AccordionItemPanel>
+          </AccordionItem>
+        ))}
       </Accordion>
     </div>
   ) : null;
