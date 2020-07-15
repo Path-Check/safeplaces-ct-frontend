@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Transition } from 'react-transition-group';
+
 import { useSelector } from 'react-redux';
 
 import applicationSelectors from 'ducks/application/selectors';
@@ -26,7 +28,14 @@ const TraceView = () => {
       {renderEditor ? (
         <>
           {renderPointEditor ? (
-            <PointEditor isEdit={appStatus === 'EDIT POINT'} />
+            <Transition in={true} appear>
+              {state => (
+                <PointEditor
+                  animationState={state}
+                  isEdit={appStatus === 'EDIT POINT'}
+                />
+              )}
+            </Transition>
           ) : (
             <>
               <RedactorTools />

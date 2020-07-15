@@ -9,6 +9,8 @@ import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
 
+import classNames from 'classnames';
+
 import {
   convertToHoursMins,
   convertToMins,
@@ -19,6 +21,7 @@ import {
 
 import {
   pointEditor,
+  pointEditorEntered,
   locationControls,
   pointEditorHeader,
   closeAction,
@@ -37,7 +40,7 @@ import DateInput from 'components/_shared/DateInput';
 import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
 
-const PointEditor = ({ isEdit }) => {
+const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
   const now = new Date();
   const activePoint = useSelector(state =>
@@ -145,9 +148,14 @@ const PointEditor = ({ isEdit }) => {
     dispatch(mapActions.updateLocation(null));
   };
 
+  const classes = classNames({
+    [`${pointEditor}`]: true,
+    [`${pointEditorEntered}`]: animationState === 'entered',
+  });
+
   return (
     <>
-      <form className={pointEditor} onSubmit={handleSubmit}>
+      <form className={classes} onSubmit={handleSubmit}>
         <div className={pointEditorMain}>
           <div className={pointEditorHeader}>
             <button
