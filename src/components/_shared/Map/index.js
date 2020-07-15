@@ -200,7 +200,7 @@ export default function Map({ setMap }) {
           <>
             <ScaleControl maxWidth={100} unit={'metric'} />
             {filteredPoints.map((p, i) => (
-              <MapMarker {...p} key={`map-point-${p.pointId}`} />
+              <MapMarker {...p} key={`map-point-${p.id}`} />
             ))}
 
             {selectedLocation?.longitude && selectedLocation?.latitude && (
