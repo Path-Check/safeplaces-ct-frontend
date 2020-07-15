@@ -14,14 +14,6 @@ import {
   markerIcon,
 } from './Marker.module.scss';
 
-import PointContextMenu from 'components/_shared/PointContextMenu';
-
-import pointsSelectors from 'ducks/points/selectors';
-import pointsActions from 'ducks/points/actions';
-import applicationActions from 'ducks/application/actions';
-
-import { formattedDuration } from 'helpers/dateTime';
-
 const MapMarker = ({
   latitude,
   longitude,
@@ -31,65 +23,17 @@ const MapMarker = ({
   alternate,
   nickname,
 }) => {
-  const dispatch = useDispatch();
-  const markerRef = useRef();
-  const activePoint = useSelector(state =>
-    pointsSelectors.getActivePoint(state),
-  );
-  const isHighlighted = activePoint ? activePoint.pointId === pointId : false;
-  const [showContentMenu, setShowContentMenu] = useState(false);
-
-  const friendlyDuration = formattedDuration(duration);
-
-  const handleClick = e => {
-    dispatch(applicationActions.updateStatus(''));
-
-    dispatch(
-      pointsActions.setSelectedPoint({
-        pointId,
-        latitude,
-        longitude,
-        time: timestamp,
-        duration,
-        nickname,
-      }),
-    );
-
-    setShowContentMenu(!showContentMenu);
-  };
-
-  useEffect(() => {
-    if (!activePoint) {
-      setShowContentMenu(false);
-    }
-  }, [activePoint]);
-
   const classes = classNames({
     [`${marker}`]: true,
     [`${markerAlt}`]: alternate,
-    [`${markerExpanded}`]: isHighlighted || alternate,
+    [`${markerExpanded}`]: alternate,
   });
 
   return (
     <>
       <Marker className={classes} latitude={latitude} longitude={longitude}>
-        <button
-          onClick={handleClick}
-          ref={markerRef}
-          id={`map-marker-${pointId}`}
-        >
-          <FontAwesomeIcon icon={faMapMarkerAlt} className={markerIcon} />
-        </button>
+        <span className={markerIcon} />
       </Marker>
-      {showContentMenu && !alternate && (
-        <PointContextMenu
-          renderDateTime
-          bottom
-          duration={friendlyDuration}
-          {...activePoint}
-          closeAction={() => setShowContentMenu(false)}
-        />
-      )}
     </>
   );
 };

@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, data, points, geometry, id, recordIds, label } = action;
+  const { type, data, points, geometry, recordIds } = action;
   switch (type) {
     case pointsTypes.POINTS:
       return {
@@ -62,15 +62,9 @@ export default function reducer(state = initialState, action) {
         recordIds: initialState.recordIds,
         singleDate: initialState.singleDate,
         dateRange: [dates[0], dates[dates.length - 1]],
-        points: state.points.map(point => ({ ...point, hidden: false })),
+        points: state.points,
       };
-    case pointsTypes.HIDE_POINT:
-      return {
-        ...state,
-        points: state.points.map(point =>
-          point.id === id ? { ...point, hidden: true } : point,
-        ),
-      };
+
     default:
       return state;
   }

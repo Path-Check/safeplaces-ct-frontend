@@ -18,6 +18,7 @@ const pointsSelectors = {
       recordIds,
       useDurationFilter,
     } = state.points;
+
     const dateRangeFilter = p =>
       dateRange.length === 0 ||
       moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isBetween(
@@ -49,14 +50,11 @@ const pointsSelectors = {
       }
     };
 
-    const hiddenFilter = p => !p.hidden;
-
     return points
       .filter(
         p =>
           dateFilter(p) &&
           durationFilter(p) &&
-          hiddenFilter(p) &&
           recordIdFilter(p) &&
           geometryFilter(p),
       )
@@ -69,9 +67,7 @@ const pointsSelectors = {
   getUseDurationFilter: state => state.points.useDurationFilter,
   getDuration: state => state.points.duration,
   isFiltered: state =>
-    !!state.points.useDurationFilter ||
-    !!state.points.geometry ||
-    !!_.find(state.points.points, point => point.hidden),
+    !!state.points.useDurationFilter || !!state.points.geometry,
 };
 
 export default pointsSelectors;

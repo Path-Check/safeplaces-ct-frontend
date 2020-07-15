@@ -3,15 +3,13 @@
     padding: 0;
   }
 
-  svg {
-    filter: drop-shadow(0px 0px 2px #e5e7fa);
-  }
-
   .markerIcon {
-    height: 30px;
-    width: 20px;
-    transform: translate(-10px, -20px);
-    color: #4051db;
+    display: block;
+    height: 22px;
+    width: 22px;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    background-color: #4051db;
   }
 }
 
@@ -20,8 +18,7 @@
 
   .markerIcon {
     transform: translate(-12.5px, -32px);
-    height: 40px;
-    width: 32px;
+    background-color: rgba(64, 81, 219, 0.65);
   }
 }
 
@@ -31,8 +28,8 @@
       pointer-events: none;
       cursor: not-allowed;
 
-      > svg {
-        color: rgba(64, 81, 219, 0.65);
+      .markerIcon {
+        background-color: rgba(64, 81, 219, 0.65);
       }
     }
   }
