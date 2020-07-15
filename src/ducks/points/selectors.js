@@ -5,8 +5,7 @@ import inside from '@turf/inside';
 import { getDates, CURRENT_DATE_FORMAT } from 'helpers/pointsUtils';
 
 const pointsSelectors = {
-  getPoints: state =>
-    state.points.points.sort((a, b) => moment(b.time) - moment(a.time)),
+  getPoints: state => state.points.points,
   getGeometry: state => state.points.geometry,
   getFilteredPoints: state => {
     const {
