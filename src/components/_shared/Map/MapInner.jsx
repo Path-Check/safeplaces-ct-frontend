@@ -65,7 +65,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [popupLocation, setPopupLocation] = useState(null);
   const [satelliteView, setSatelliteView] = useState(false);
-  const [showContentMenu, setShowContentMenu] = useState({});
+  const [showContentMenu, setShowContentMenu] = useState(false);
 
   const cursorStyle = locationSelect
     ? isDragging
@@ -172,6 +172,8 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   }, [locationSelect, popupLocation]);
 
   useEffect(() => {
+    resetActivePoints();
+
     if (!map || !activePoint) return;
 
     map.setFeatureState(
@@ -183,7 +185,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
         activePoint: true,
       },
     );
-  }, [activePoint]);
+  }, [activePoint?.id]);
 
   const handleClick = (rightButton, lngLat, features) => {
     if (locationSelect && rightButton) {
@@ -218,11 +220,11 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const handleSelection = features => {
     const point = features[0];
 
-    resetActivePoints();
-
     if (!point.properties.id) return;
-    setShowContentMenu(point.properties);
+
     dispatch(pointsActions.setSelectedPoint(point.properties));
+
+    setShowContentMenu(true);
   };
 
   return (
@@ -253,13 +255,13 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
 
             {filteredPoints?.length > 0 && <MapSource geoPoints={geoPoints} />}
 
-            {showContentMenu.id && (
+            {showContentMenu && (
               <PointContextMenu
                 renderDateTime
                 bottom
-                {...showContentMenu}
+                {...activePoint}
                 closeAction={() => {
-                  setShowContentMenu({});
+                  setShowContentMenu(false);
                   resetActivePoints();
                 }}
               />
