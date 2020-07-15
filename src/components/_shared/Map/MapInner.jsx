@@ -34,7 +34,7 @@ import {
 import SatelliteToggle from 'components/_shared/Map/SatelliteToggle';
 import pointsActions from 'ducks/points/actions';
 
-const MapInner = React.memo(({ filteredPoints, points, geoPoints }) => {
+const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
   const map = mapRef?.current?.getMap();
@@ -277,9 +277,7 @@ const MapInner = React.memo(({ filteredPoints, points, geoPoints }) => {
               />
             )}
 
-            {renderDrawTools && (
-              <DrawEditor filteredPoints={filteredPoints} points={points} />
-            )}
+            {renderDrawTools && <DrawEditor filteredPoints={filteredPoints} />}
 
             <div className={styles.controls}>
               <NavigationControl

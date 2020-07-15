@@ -29,94 +29,89 @@ import mapActions from 'ducks/map/actions';
 import { formattedDuration } from 'helpers/dateTime';
 import applicationSelectors from 'ducks/application/selectors';
 
-const SelectedDataItem = ({
-  id,
-  latitude,
-  longitude,
-  time: timestamp,
-  duration,
-  nickname,
-}) => {
-  const dispatch = useDispatch();
-  const itemRef = useRef();
-  const activePoint = useSelector(state =>
-    pointsSelectors.getActivePoint(state),
-  );
-  const isHighlighted = activePoint?.id === id;
-  const time = moment(timestamp).format('h:mma');
-  const classes = classNames({
-    [`${selectedDataItem}`]: true,
-    [`${selectedDataItemHighlighted}`]: isHighlighted,
-  });
-  const isTrace =
-    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
+const SelectedDataItem = React.memo(
+  ({ id, latitude, longitude, time: timestamp, duration, nickname }) => {
+    const dispatch = useDispatch();
+    const itemRef = useRef();
+    const activePoint = useSelector(state =>
+      pointsSelectors.getActivePoint(state),
+    );
+    const isHighlighted = activePoint?.id === id;
+    const time = moment(timestamp).format('h:mma');
+    const classes = classNames({
+      [`${selectedDataItem}`]: true,
+      [`${selectedDataItemHighlighted}`]: isHighlighted,
+    });
+    const isTrace =
+      useSelector(state => applicationSelectors.getMode(state)) === 'trace';
 
-  const friendlyDuration = formattedDuration(duration);
+    const friendlyDuration = formattedDuration(duration);
 
-  const handleClick = e => {
-    dispatch(applicationActions.updateStatus(''));
-    dispatch(mapActions.updateLocation(null));
-    e.preventDefault();
+    const handleClick = e => {
+      dispatch(applicationActions.updateStatus(''));
+      dispatch(mapActions.updateLocation(null));
+      e.preventDefault();
 
-    if (isHighlighted) {
-      dispatch(pointsActions.setSelectedPoint(null));
-    } else {
-      dispatch(
-        pointsActions.setSelectedPoint({
-          id,
-          latitude,
-          longitude,
-          time: timestamp,
-          duration,
-        }),
-      );
-    }
-  };
+      if (isHighlighted) {
+        dispatch(pointsActions.setSelectedPoint(null));
+      } else {
+        dispatch(
+          pointsActions.setSelectedPoint({
+            id,
+            latitude,
+            longitude,
+            time: timestamp,
+            duration,
+          }),
+        );
+      }
+    };
 
-  return (
-    <li className={classes}>
-      <button type="button" onClick={handleClick} ref={itemRef}>
-        <div className={selectedDataContent}>
-          <ul>
-            <li>
-              <FontAwesomeIcon icon={faClock} /> {time}
-            </li>
-            {friendlyDuration && (
+    return (
+      <li className={classes}>
+        <button type="button" onClick={handleClick} ref={itemRef}>
+          <div className={selectedDataContent}>
+            <ul>
               <li>
-                <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
+                <FontAwesomeIcon icon={faClock} /> {time}
               </li>
-            )}
-            {nickname && <li className={selectedDataTag}>{nickname}</li>}
+              {friendlyDuration && (
+                <li>
+                  <FontAwesomeIcon icon={faHourglass} /> {friendlyDuration}
+                </li>
+              )}
+              {nickname && <li className={selectedDataTag}>{nickname}</li>}
+            </ul>
+          </div>
+        </button>
+        {isHighlighted && isTrace && (
+          <ul className={selectedDataMenuActions}>
+            <li>
+              <button
+                type="button"
+                onClick={() =>
+                  dispatch(applicationActions.updateStatus('EDIT POINT'))
+                }
+                title="Edit Item"
+              >
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                title="Delete Item"
+                onClick={() => dispatch(pointsActions.deletePoint(id))}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </li>
           </ul>
-        </div>
-      </button>
-      {isHighlighted && isTrace && (
-        <ul className={selectedDataMenuActions}>
-          <li>
-            <button
-              type="button"
-              onClick={() =>
-                dispatch(applicationActions.updateStatus('EDIT POINT'))
-              }
-              title="Edit Item"
-            >
-              <FontAwesomeIcon icon={faPencilAlt} />
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              title="Delete Item"
-              onClick={() => dispatch(pointsActions.deletePoint(id))}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </li>
-        </ul>
-      )}
-    </li>
-  );
-};
+        )}
+      </li>
+    );
+  },
+);
 
 SelectedDataItem.propTypes = {
   id: PropTypes.number,

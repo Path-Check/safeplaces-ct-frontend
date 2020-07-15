@@ -20,7 +20,7 @@ import {
 
 const durationTimes = [10, 15, 30, 45, 60];
 
-const RedactorTools = () => {
+const RedactorTools = React.memo(() => {
   const dispatch = useDispatch();
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
@@ -138,6 +138,6 @@ const RedactorTools = () => {
       <SelectedDataList />
     </>
   );
-};
+});
 
 export default RedactorTools;

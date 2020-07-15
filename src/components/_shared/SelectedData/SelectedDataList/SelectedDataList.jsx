@@ -16,7 +16,7 @@ import { selectedDataList } from '../SelectedData.module.scss';
 import moment from 'moment';
 import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
 
-const SelectedDataList = () => {
+const SelectedDataList = React.memo(() => {
   const filteredPoints = useSelector(state =>
     pointsSelectors.getFilteredPoints(state),
   );
@@ -65,6 +65,6 @@ const SelectedDataList = () => {
       </Accordion>
     </div>
   ) : null;
-};
+});
 
 export default SelectedDataList;

@@ -10,7 +10,7 @@ import TracerLoadActions from 'views/Trace/Actions/LoadActions';
 import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import PointEditor from 'components/_shared/PointEditor';
 
-const TraceView = () => {
+const TraceView = React.memo(() => {
   const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
@@ -42,6 +42,6 @@ const TraceView = () => {
       )}
     </>
   );
-};
+});
 
 export default TraceView;

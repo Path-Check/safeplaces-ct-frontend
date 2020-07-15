@@ -9,7 +9,7 @@ import HelpBlock from 'components/_shared/Map/DrawEditor/_parts/HelpBlock';
 import ActionsMenu from 'components/_shared/Map/DrawEditor/_parts/ActionsMenu';
 import EditorNav from 'components/_shared/Map/DrawEditor/_parts/EditorNav';
 
-const DrawEditor = ({ filteredPoints, points }) => {
+const DrawEditor = React.memo(({ filteredPoints }) => {
   const editorRef = useRef();
   const [renderTools, setRenderTools] = useState(false);
   const [geometry, setGeometry] = useState(null);
@@ -45,7 +45,7 @@ const DrawEditor = ({ filteredPoints, points }) => {
       return;
     }
 
-    const targetArray = filteredPoints.length > 0 ? filteredPoints : points;
+    const targetArray = filteredPoints;
     const selection = targetArray.filter(p => inside(toPoint(p), geometry));
 
     if (selection?.length > 0) {
@@ -103,6 +103,6 @@ const DrawEditor = ({ filteredPoints, points }) => {
       )}
     </>
   );
-};
+});
 
 export default DrawEditor;
