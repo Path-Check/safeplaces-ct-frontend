@@ -40,7 +40,6 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const map = mapRef?.current?.getMap();
   const {
     activePoint,
-    useDurationFilter,
     duration,
     geometry,
     recordIds,
@@ -154,16 +153,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
     if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
       setViewport(viewportCalc);
     }
-  }, [
-    filteredPoints.length,
-    useDurationFilter,
-    duration,
-    geometry,
-    recordIds,
-    singleDate,
-    loaded,
-    selectedLocation,
-  ]);
+  }, [filteredPoints.length, duration, recordIds, singleDate, loaded]);
 
   useEffect(() => {
     if (!locationSelect && popupLocation) {
