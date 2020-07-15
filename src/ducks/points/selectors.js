@@ -5,75 +5,82 @@ import inside from '@turf/inside';
 import { getDates, CURRENT_DATE_FORMAT } from 'helpers/pointsUtils';
 import { createSelector } from 'reselect';
 
-const pointsStore = state => state.points;
-const points = state => state.points.points;
+const pointsStoreSelector = state => state.points;
+const pointsSelector = state => state.points.points;
 
-export const getPoints = createSelector(points, points => {
-  console.log(points);
+export const getPoints = createSelector(pointsSelector, points => {
   if (points?.length < 1) {
     return [];
   }
 
-  console.log(points);
-
   return points;
 });
 
-export const getFilteredPoints = createSelector(pointsStore, pointsStore => {
-  const {
-    dateRange,
-    singleDate,
-    geometry,
-    duration,
-    recordIds,
-    useDurationFilter,
-    points,
-  } = pointsStore;
+export const getFilteredPoints = createSelector(
+  pointsStoreSelector,
+  pointsStore => {
+    const {
+      dateRange,
+      singleDate,
+      geometry,
+      duration,
+      recordIds,
+      useDurationFilter,
+      points,
+    } = pointsStore;
 
-  if (!points || points?.length < 1) return [];
+    if (!points || points?.length < 1) return [];
 
-  console.log('getFilteredPoints');
-  const dateRangeFilter = p =>
-    dateRange.length === 0 ||
-    moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isBetween(
-      moment(dateRange[0], CURRENT_DATE_FORMAT),
-      moment(dateRange[1], CURRENT_DATE_FORMAT),
-      undefined,
-      '[]',
-    );
+    const dateRangeFilter = p =>
+      dateRange.length === 0 ||
+      moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isBetween(
+        moment(dateRange[0], CURRENT_DATE_FORMAT),
+        moment(dateRange[1], CURRENT_DATE_FORMAT),
+        undefined,
+        '[]',
+      );
 
-  const recordIdFilter = p =>
-    recordIds && recordIds.length ? recordIds.includes(p.caseId) : p;
+    const recordIdFilter = p =>
+      recordIds && recordIds.length ? recordIds.includes(p.caseId) : p;
 
-  const singleDateFilter = p =>
-    moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isSame(
-      moment(singleDate, CURRENT_DATE_FORMAT),
-    );
+    const singleDateFilter = p =>
+      moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isSame(
+        moment(singleDate, CURRENT_DATE_FORMAT),
+      );
 
-  const dateFilter = singleDate ? singleDateFilter : dateRangeFilter;
+    const dateFilter = singleDate ? singleDateFilter : dateRangeFilter;
 
-  const durationFilter = p => {
-    return !useDurationFilter || (duration && p.duration >= duration);
-  };
+    const durationFilter = p => {
+      return !useDurationFilter || (duration && p.duration >= duration);
+    };
 
-  const geometryFilter = p => {
-    if (!geometry) {
-      return p;
-    } else {
-      return inside(toPoint(p), geometry);
-    }
-  };
+    const geometryFilter = p => {
+      if (!geometry) {
+        return p;
+      } else {
+        return inside(toPoint(p), geometry);
+      }
+    };
 
-  return points
-    .filter(
-      p =>
-        dateFilter(p) &&
-        durationFilter(p) &&
-        recordIdFilter(p) &&
-        geometryFilter(p),
-    )
-    .sort((a, b) => moment(b.time) - moment(a.time));
-});
+    return points
+      .filter(
+        p =>
+          dateFilter(p) &&
+          durationFilter(p) &&
+          recordIdFilter(p) &&
+          geometryFilter(p),
+      )
+      .sort((a, b) => moment(b.time) - moment(a.time));
+  },
+);
+
+export const getAllowStaging = createSelector(
+  getFilteredPoints,
+  getPoints,
+  (filteredPoints, points) => {
+    return filteredPoints.length === points.length;
+  },
+);
 
 const pointsSelectors = {
   getGeometry: state => state.points.geometry,
@@ -83,8 +90,6 @@ const pointsSelectors = {
   getSingleDate: state => state.points.singleDate,
   getUseDurationFilter: state => state.points.useDurationFilter,
   getDuration: state => state.points.duration,
-  isFiltered: state =>
-    !!state.points.useDurationFilter || !!state.points.geometry,
 };
 
 export default pointsSelectors;

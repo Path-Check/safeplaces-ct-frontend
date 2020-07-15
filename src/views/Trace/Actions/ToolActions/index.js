@@ -11,15 +11,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import pointsSelectors, {
   getPoints,
   getFilteredPoints,
+  getAllowStaging,
 } from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 
 const TracerToolActions = ({ isPadded }) => {
   const dispatch = useDispatch();
-  const points = useSelector(getPoints);
-  const filteredPoints = useSelector(getFilteredPoints);
 
-  const allowStaging = points.length === filteredPoints.length;
+  const allowStaging = useSelector(getAllowStaging);
 
   const classes = classNames({
     [`${sidebarActions}`]: true,
@@ -31,7 +30,6 @@ const TracerToolActions = ({ isPadded }) => {
       {allowStaging && (
         <Button
           id="stage-for-publishing"
-          disabled={points?.length < 1}
           onClick={() =>
             dispatch(applicationActions.updateStatus('STAGE CASE'))
           }
