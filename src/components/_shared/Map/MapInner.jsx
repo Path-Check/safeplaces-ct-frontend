@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactMapGL, {
-  NavigationControl,
-  WebMercatorViewport,
-  ScaleControl,
-} from 'react-map-gl';
+import ReactMapGL, { WebMercatorViewport } from 'react-map-gl';
 
 import LocationSelect from './LocationSelect';
 
@@ -29,15 +25,27 @@ import MapSource from 'components/_shared/Map/MapSource';
 import {
   returnGeoPoints,
   fallbackViewport,
+  returnViewportConfig,
+  returnCursor,
+  renderDrawingTools,
 } from 'components/_shared/Map/_helpers';
 
-import SatelliteToggle from 'components/_shared/Map/SatelliteToggle';
 import pointsActions from 'ducks/points/actions';
+import MapControls from 'components/_shared/Map/MapControls';
 
 const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const dispatch = useDispatch();
   const mapRef = useRef();
   const map = mapRef?.current?.getMap();
+
+  const [loaded, setLoaded] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [popupLocation, setPopupLocation] = useState(null);
+  const [satelliteView, setSatelliteView] = useState(false);
+  const [showContentMenu, setShowContentMenu] = useState(false);
+  const [focused, setfocused] = useState(false);
+  const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
+
   const {
     activePoint,
     duration,
@@ -46,70 +54,33 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
     singleDate,
   } = useSelector(state => state.points);
 
-  const selectedLocation = useSelector(state =>
-    mapSelectors.getLocation(state),
-  );
-  const locationSelect = useSelector(state =>
-    mapSelectors.getLocationSelect(state),
+  const { location: selectedLocation, locationSelect } = useSelector(
+    state => state.map,
   );
 
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const editorMode = useSelector(state =>
-    applicationSelectors.getRenderEditor(state),
-  );
-  const viewMode = useSelector(state => applicationSelectors.getMode(state));
+  const {
+    status: appStatus,
+    renderEditor: editorMode,
+    mode: viewMode,
+  } = useSelector(state => state.application);
+
   const boundsObject = useSelector(state => authSelectors.getBounds(state));
+  const pointsLength = filteredPoints?.length;
+  const renderLocationHelp =
+    appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
+  const cursorStyle = returnCursor(locationSelect, isDragging);
+  const renderDrawTools = renderDrawingTools(viewMode, appStatus, pointsLength);
 
-  const [loaded, setLoaded] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [popupLocation, setPopupLocation] = useState(null);
-  const [satelliteView, setSatelliteView] = useState(false);
-  const [showContentMenu, setShowContentMenu] = useState(false);
-
-  const cursorStyle = locationSelect
-    ? isDragging
-      ? 'grab'
-      : 'crosshair'
-    : isDragging
-    ? 'grab'
-    : 'inherit';
-
-  const renderDrawTools =
-    viewMode === 'trace' &&
-    appStatus !== 'EDIT POINT' &&
-    appStatus !== 'ADD POINT' &&
-    filteredPoints?.length > 1;
-
-  const withBounds =
-    boundsObject?.sw?.longitude &&
-    boundsObject?.sw?.latitude &&
-    boundsObject?.ne?.longitude &&
-    boundsObject?.ne?.latitude;
-
-  const initial = withBounds
-    ? new WebMercatorViewport({
-        width: 600,
-        height: 600,
-      }).fitBounds([
-        [boundsObject.sw.longitude, boundsObject.sw.latitude],
-        [boundsObject.ne.longitude, boundsObject.ne.latitude],
-      ])
-    : fallbackViewport;
-
-  const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
+  const initial = returnViewportConfig(boundsObject);
 
   const onMapLoad = e => {
     setLoaded(true);
 
-    const focused = withBounds
-      ? new WebMercatorViewport({
-          width: mapRef.current._width,
-          height: mapRef.current._height,
-        }).fitBounds([
-          [boundsObject.sw.longitude, boundsObject.sw.latitude],
-          [boundsObject.ne.longitude, boundsObject.ne.latitude],
-        ])
-      : fallbackViewport;
+    const focused = returnViewportConfig(
+      boundsObject,
+      mapRef.current._width,
+      mapRef.current._height,
+    );
 
     const viewportCalc = {
       ...viewport,
@@ -120,12 +91,8 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
     setViewport(viewportCalc);
   };
 
-  useEffect(() => {
+  const snapToBounds = () => {
     let zooming = {};
-
-    if (!loaded) {
-      return;
-    }
 
     const pointsToZoom = selectedLocation
       ? returnGeoPoints([
@@ -153,7 +120,25 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
     if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
       setViewport(viewportCalc);
     }
-  }, [filteredPoints.length, duration, recordIds, singleDate, loaded]);
+  };
+
+  useEffect(() => {
+    snapToBounds();
+  }, [duration, recordIds, singleDate]);
+
+  useEffect(() => {
+    let zooming = {};
+
+    if (focused) {
+      return;
+    }
+
+    snapToBounds();
+
+    if (filteredPoints.length) {
+      setfocused(true);
+    }
+  }, [filteredPoints.length]);
 
   useEffect(() => {
     if (!locationSelect && popupLocation) {
@@ -210,9 +195,9 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const handleSelection = features => {
     const point = features[0];
 
-    if (!point.properties.id) return;
+    if (!point || !point.properties?.id) return;
 
-    dispatch(pointsActions.setSelectedPoint(point.properties));
+    dispatch(pointsActions.setSelectedPoint({ ...point.properties }));
 
     setShowContentMenu(true);
   };
@@ -239,12 +224,9 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
           handleClick(rightButton, lngLat, features)
         }
       >
-        {editorMode && (
+        {editorMode && pointsLength > 0 && (
           <>
-            <ScaleControl maxWidth={100} unit={'metric'} />
-
-            {filteredPoints?.length > 0 && <MapSource geoPoints={geoPoints} />}
-
+            <MapSource geoPoints={geoPoints} />
             {showContentMenu && (
               <PointContextMenu
                 renderDateTime
@@ -256,11 +238,9 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
                 }}
               />
             )}
-
             {selectedLocation?.longitude && selectedLocation?.latitude && (
               <MapMarker {...selectedLocation} alternate />
             )}
-
             {popupLocation?.longitude && popupLocation?.latitude && (
               <LocationSelect
                 {...popupLocation}
@@ -268,25 +248,15 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
                 type={appStatus}
               />
             )}
-
             {renderDrawTools && <DrawEditor filteredPoints={filteredPoints} />}
-
-            <div className={styles.controls}>
-              <NavigationControl
-                className={`${styles.mapCtrl}`}
-                showCompass={false}
-              />
-              <SatelliteToggle
-                setSatelliteView={setSatelliteView}
-                satelliteView={satelliteView}
-              />
-            </div>
+            <MapControls
+              setSatelliteView={setSatelliteView}
+              satelliteView={satelliteView}
+            />
           </>
         )}
       </ReactMapGL>
-      {(appStatus === 'EDIT POINT' || appStatus === 'ADD POINT') && (
-        <SelectionLocationHelp />
-      )}
+      {renderLocationHelp && <SelectionLocationHelp />}
     </div>
   );
 });
