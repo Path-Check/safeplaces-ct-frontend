@@ -8,15 +8,16 @@ import {
 import Button from 'components/_shared/Button';
 import { useSelector, useDispatch } from 'react-redux';
 
-import pointsSelectors from 'ducks/points/selectors';
+import pointsSelectors, {
+  getPoints,
+  getFilteredPoints,
+} from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 
 const TracerToolActions = ({ isPadded }) => {
   const dispatch = useDispatch();
-  const points = useSelector(state => pointsSelectors.getPoints(state));
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
+  const points = useSelector(getPoints);
+  const filteredPoints = useSelector(getFilteredPoints);
 
   const allowStaging = points.length === filteredPoints.length;
 

@@ -6,7 +6,7 @@ import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import pointsTypes from 'ducks/points/types';
 import pointsService from 'ducks/points/service';
-import pointsSelectors from 'ducks/points/selectors';
+import pointsSelectors, { getPoints } from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
 import { mapPoints } from 'helpers/pointsUtils';
@@ -17,7 +17,7 @@ function* deletePoint({ id }) {
 
   try {
     yield call(pointsService.delete, id);
-    const currentPoints = yield select(pointsSelectors.getPoints);
+    const currentPoints = yield select(getPoints);
     const points = currentPoints.filter(p => p.pointId !== id);
 
     yield put(pointsActions.updatePoints(points));
@@ -43,8 +43,8 @@ function* deletePoint({ id }) {
 
 function* deleteFilteredPoints() {
   yield put(applicationActions.updateStatus('BUSY'));
-  const filteredPoints = yield select(pointsSelectors.getFilteredPoints);
-  const points = yield select(pointsSelectors.getPoints);
+  const filteredPoints = yield select(getPoints);
+  const points = yield select(getPoints);
 
   try {
     yield call(
@@ -77,7 +77,7 @@ function* deleteFilteredPoints() {
 
 function* deleteMultiplePoints({ points }) {
   yield put(applicationActions.updateStatus('BUSY'));
-  const currentPoints = yield select(pointsSelectors.getPoints);
+  const currentPoints = yield select(getPoints);
 
   try {
     yield call(
@@ -110,7 +110,7 @@ function* deleteMultiplePoints({ points }) {
 
 function* updatePoint({ point, type }) {
   const isEdit = type === pointsTypes.EDIT_POINT;
-  const currentPoints = yield select(pointsSelectors.getPoints);
+  const currentPoints = yield select(getPoints);
   const { caseId } = yield select(casesSelectors.getActiveCases);
 
   yield put(applicationActions.updateStatus('BUSY'));
@@ -167,7 +167,7 @@ function* updatePoint({ point, type }) {
 function* setPointLabel({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
   yield put(tagsActions.setTags(data.nickname));
-  const currentPoints = yield select(pointsSelectors.getPoints);
+  const currentPoints = yield select(getPoints);
 
   try {
     const response = yield call(pointsService.setLabel, data);

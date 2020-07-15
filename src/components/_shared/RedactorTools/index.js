@@ -7,7 +7,10 @@ import DurationFilter from 'components/_shared/RedactorTools/FilterData/Duration
 import RecordIdsFilter from 'components/_shared/RedactorTools/FilterData/RecordIdsFilter';
 import SelectedDataList from 'components/_shared/SelectedData';
 import { useDispatch, useSelector } from 'react-redux';
-import pointsSelectors from '../../../ducks/points/selectors';
+import pointsSelectors, {
+  getFilteredPoints,
+  getPoints,
+} from '../../../ducks/points/selectors';
 import pointsActions from 'ducks/points/actions';
 import applicationSelectors from 'ducks/application/selectors';
 import PointsInfo from 'components/_shared/RedactorTools/PointsInfo';
@@ -22,11 +25,10 @@ const durationTimes = [10, 15, 30, 45, 60];
 
 const RedactorTools = React.memo(() => {
   const dispatch = useDispatch();
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
+
+  const filteredPoints = useSelector(getFilteredPoints);
   const dates = useSelector(state => pointsSelectors.getPointsDates(state));
-  const points = useSelector(state => pointsSelectors.getPoints(state));
+  const points = useSelector(getPoints);
   const durationStore = useSelector(state =>
     pointsSelectors.getDuration(state),
   );
@@ -42,7 +44,6 @@ const RedactorTools = React.memo(() => {
   const [useDurationFilter, setUseDurationFilter] = useState(
     useDurationFilterStore || false,
   );
-  const hiddenPoints = points.filter(({ hidden }) => hidden);
 
   useEffect(() => {
     setUseDurationFilter(useDurationFilterStore);

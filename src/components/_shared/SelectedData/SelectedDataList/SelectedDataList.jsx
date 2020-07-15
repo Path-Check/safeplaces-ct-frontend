@@ -9,7 +9,7 @@ import {
 import './accordion.css';
 
 import { useSelector } from 'react-redux';
-import pointsSelectors from 'ducks/points/selectors';
+import pointsSelectors, { getFilteredPoints } from 'ducks/points/selectors';
 
 import { selectedDataList } from '../SelectedData.module.scss';
 
@@ -17,9 +17,7 @@ import moment from 'moment';
 import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
 
 const SelectedDataList = React.memo(() => {
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
+  const filteredPoints = useSelector(getFilteredPoints);
   const groupByDate = items =>
     items.reduce((result, item) => {
       const date = moment(item.time).format('ddd, MMMM D, YYYY');
