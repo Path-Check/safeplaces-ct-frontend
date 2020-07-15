@@ -47,7 +47,6 @@ const SelectedDataList = () => {
         preExpanded={preExpandArray()}
       >
         {groupedPointsArray?.map((p, i) => {
-          console.log(i);
           return (
             <AccordionItem uuid={i} key={`list-points-${i}`}>
               <AccordionItemHeading>

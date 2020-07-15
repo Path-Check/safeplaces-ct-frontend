@@ -3,11 +3,13 @@ import ReactMapGL, {
   NavigationControl,
   WebMercatorViewport,
   ScaleControl,
+  Source,
+  Layer,
 } from 'react-map-gl';
 
 import LocationSelect from './LocationSelect';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './styles.module.scss';
 import getBounds from 'components/_shared/Map/getBounds';
@@ -21,16 +23,36 @@ import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
 import DrawEditor from 'components/_shared/Map/DrawEditor';
 
-import { returnGeoPoints } from 'components/_shared/Map/_helpers';
+import { returnGeoPoints, toPoint } from 'components/_shared/Map/_helpers';
 
 import satelliteStyles from './styles/satellite.json';
 import mapStyles from './styles/map.json';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
+import pointsActions from 'ducks/points/actions';
 
-export default function Map({ setMap }) {
+const Map = () => {
+  const points = useSelector(state => pointsSelectors.getPoints(state));
+  const filteredPoints = useSelector(state =>
+    pointsSelectors.getFilteredPoints(state),
+  );
+  const geoPoints = returnGeoPoints(filteredPoints);
+
+  return (
+    <MapInner
+      filteredPoints={filteredPoints}
+      points={points}
+      geoPoints={geoPoints}
+    />
+  );
+};
+
+const MapInner = ({ filteredPoints, points, geoPoints }) => {
   const mapRef = useRef();
+
+  const map = mapRef?.current?.getMap();
+  const dispatch = useDispatch();
   const [loaded, setLoaded] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -42,10 +64,6 @@ export default function Map({ setMap }) {
 
   const locationSelect = useSelector(state =>
     mapSelectors.getLocationSelect(state),
-  );
-
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
   );
 
   const singleDate = useSelector(state => pointsSelectors.getSingleDate(state));
@@ -160,6 +178,23 @@ export default function Map({ setMap }) {
     }
   }, [locationSelect, popupLocation]);
 
+  const handleSelection = features => {
+    const point = features[0];
+
+    if (!point.properties.id) return;
+
+    map.setFeatureState(
+      {
+        source: 'point',
+        id: point.id,
+      },
+      {
+        activePoint: true,
+      },
+    );
+  };
+
+  console.log('render');
   return (
     <div
       className={styles.map}
@@ -184,24 +219,34 @@ export default function Map({ setMap }) {
         getCursor={({ isDragging, isHovering }) => setIsDragging(isDragging)}
         onLoad={onMapLoad}
         onViewportChange={viewportInternal => setViewport(viewportInternal)}
-        onClick={({ rightButton, lngLat }) => {
-          if (locationSelect && rightButton) {
-            const [longitude, latitude] = lngLat;
-            setPopupLocation({
-              latitude,
-              longitude,
-            });
-          } else {
-            setPopupLocation(null);
+        onClick={({ features }) => {
+          if (!features || features.length < 1) {
+            return;
           }
+
+          handleSelection(features);
         }}
       >
         {editorMode && (
           <>
             <ScaleControl maxWidth={100} unit={'metric'} />
-            {filteredPoints.map((p, i) => (
-              <MapMarker {...p} key={`map-point-${p.pointId}`} />
-            ))}
+
+            <Source id="point" type="geojson" data={geoPoints}>
+              <Layer
+                id="map-points"
+                source="point"
+                type="circle"
+                paint={{
+                  'circle-radius': [
+                    'case',
+                    ['boolean', ['feature-state', 'activePoint'], false],
+                    7,
+                    5,
+                  ],
+                  'circle-color': '#007cbf',
+                }}
+              />
+            </Source>
 
             {selectedLocation?.longitude && selectedLocation?.latitude && (
               <MapMarker {...selectedLocation} alternate />
@@ -215,7 +260,9 @@ export default function Map({ setMap }) {
               />
             )}
 
-            {renderDrawTools && <DrawEditor />}
+            {/* {renderDrawTools && (
+              <DrawEditor filteredPoints={filteredPoints} points={points} />
+            )} */}
 
             <div className={styles.controls}>
               <NavigationControl
@@ -238,4 +285,6 @@ export default function Map({ setMap }) {
       )}
     </div>
   );
-}
+};
+
+export default Map;

@@ -1,7 +1,8 @@
 export const toPoint = point => ({
   type: 'Feature',
+  id: point.id,
   properties: {
-    id: point.pointId,
+    ...point,
   },
   geometry: {
     type: 'Point',

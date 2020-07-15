@@ -30,7 +30,7 @@ import { formattedDuration } from 'helpers/dateTime';
 import applicationSelectors from 'ducks/application/selectors';
 
 const SelectedDataItem = ({
-  pointId,
+  id,
   latitude,
   longitude,
   time: timestamp,
@@ -42,7 +42,7 @@ const SelectedDataItem = ({
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-  const isHighlighted = activePoint?.pointId === pointId;
+  const isHighlighted = activePoint?.id === id;
   const time = moment(timestamp).format('h:mma');
   const classes = classNames({
     [`${selectedDataItem}`]: true,
@@ -63,7 +63,7 @@ const SelectedDataItem = ({
     } else {
       dispatch(
         pointsActions.setSelectedPoint({
-          pointId,
+          id,
           latitude,
           longitude,
           time: timestamp,
@@ -107,7 +107,7 @@ const SelectedDataItem = ({
             <button
               type="button"
               title="Delete Item"
-              onClick={() => dispatch(pointsActions.deletePoint(pointId))}
+              onClick={() => dispatch(pointsActions.deletePoint(id))}
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>
