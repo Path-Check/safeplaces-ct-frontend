@@ -31,6 +31,7 @@ import mapStyles from './styles/map.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
 import pointsActions from 'ducks/points/actions';
+import PointContextMenu from 'components/_shared/PointContextMenu';
 
 const Map = () => {
   const points = useSelector(state => pointsSelectors.getPoints(state));
@@ -130,6 +131,8 @@ const MapInner = ({ filteredPoints, points, geoPoints }) => {
     setViewport(viewportCalc);
   };
 
+  const [showContentMenu, setShowContentMenu] = useState({});
+
   useEffect(() => {
     let zooming = {};
 
@@ -178,6 +181,20 @@ const MapInner = ({ filteredPoints, points, geoPoints }) => {
     }
   }, [locationSelect, popupLocation]);
 
+  const resetActivePoints = () => {
+    filteredPoints.forEach(f => {
+      map.setFeatureState(
+        {
+          source: 'point',
+          id: f.id,
+        },
+        {
+          activePoint: false,
+        },
+      );
+    });
+  };
+
   const handleSelection = features => {
     const point = features[0];
 
@@ -192,9 +209,10 @@ const MapInner = ({ filteredPoints, points, geoPoints }) => {
         activePoint: true,
       },
     );
+
+    setShowContentMenu(point.properties);
   };
 
-  console.log('render');
   return (
     <div
       className={styles.map}
@@ -231,22 +249,19 @@ const MapInner = ({ filteredPoints, points, geoPoints }) => {
           <>
             <ScaleControl maxWidth={100} unit={'metric'} />
 
-            <Source id="point" type="geojson" data={geoPoints}>
-              <Layer
-                id="map-points"
-                source="point"
-                type="circle"
-                paint={{
-                  'circle-radius': [
-                    'case',
-                    ['boolean', ['feature-state', 'activePoint'], false],
-                    7,
-                    5,
-                  ],
-                  'circle-color': '#007cbf',
+            {filteredPoints?.length > 0 && <MapPoints geoPoints={geoPoints} />}
+
+            {showContentMenu.id && (
+              <PointContextMenu
+                renderDateTime
+                bottom
+                {...showContentMenu}
+                closeAction={() => {
+                  setShowContentMenu({});
+                  resetActivePoints();
                 }}
               />
-            </Source>
+            )}
 
             {selectedLocation?.longitude && selectedLocation?.latitude && (
               <MapMarker {...selectedLocation} alternate />
@@ -260,9 +275,9 @@ const MapInner = ({ filteredPoints, points, geoPoints }) => {
               />
             )}
 
-            {/* {renderDrawTools && (
+            {renderDrawTools && (
               <DrawEditor filteredPoints={filteredPoints} points={points} />
-            )} */}
+            )}
 
             <div className={styles.controls}>
               <NavigationControl
@@ -284,6 +299,30 @@ const MapInner = ({ filteredPoints, points, geoPoints }) => {
         <SelectionLocationHelp />
       )}
     </div>
+  );
+};
+
+const MapPoints = ({ geoPoints }) => {
+  return (
+    <Source id="point" type="geojson" data={geoPoints}>
+      <Layer
+        id="map-points"
+        source="point"
+        type="circle"
+        paint={{
+          'circle-radius': [
+            'case',
+            ['boolean', ['feature-state', 'activePoint'], false],
+            12,
+            10,
+          ],
+          'circle-color': '#4051db',
+          'circle-stroke-color': '#fff',
+          'circle-stroke-width': 2,
+          'circle-stroke-opacity': 0.8,
+        }}
+      />
+    </Source>
   );
 };
 
