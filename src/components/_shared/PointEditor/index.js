@@ -141,7 +141,6 @@ const PointEditor = ({ isEdit }) => {
 
   const handleClose = () => {
     dispatch(applicationActions.updateStatus(''));
-    dispatch(pointsActions.setSelectedPoint(null));
     dispatch(mapActions.updateLocation(null));
   };
 
