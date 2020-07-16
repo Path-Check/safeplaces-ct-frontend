@@ -82,13 +82,24 @@ export const getAllowStaging = createSelector(
   },
 );
 
+export const getPointsDates = createSelector(getPoints, points => {
+  return getDates(points);
+});
+
+export const getUseDurationFilter = createSelector(
+  pointsStoreSelector,
+  pointsStore => {
+    return pointsStore.useDurationFilter;
+  },
+);
+
 const pointsSelectors = {
   getGeometry: state => state.points.geometry,
   getActivePoint: state => state.points.activePoint,
-  getPointsDates: state => getDates(state.points.points),
+  getPointsDates,
   getDateRange: state => state.points.dateRange,
   getSingleDate: state => state.points.singleDate,
-  getUseDurationFilter: state => state.points.useDurationFilter,
+  getUseDurationFilter,
   getDuration: state => state.points.duration,
 };
 

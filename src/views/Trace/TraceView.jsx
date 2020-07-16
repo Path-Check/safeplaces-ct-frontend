@@ -11,28 +11,27 @@ import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import PointEditor from 'components/_shared/PointEditor';
 
 const TraceView = React.memo(() => {
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const renderEditor = useSelector(state =>
-    applicationSelectors.getRenderEditor(state),
+  const { status: appStatus, renderEditor } = useSelector(
+    state => state.application,
   );
+  const renderPointEditor =
+    appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
+
   const title = 'Contact Trace';
   const intro =
     'Review and edit patient location data during a contact trace interview.';
-  const renderPointEditor =
-    appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
 
   return (
     <>
       {renderEditor ? (
         <>
-          {renderPointEditor ? (
+          {renderPointEditor && (
             <PointEditor isEdit={appStatus === 'EDIT POINT'} />
-          ) : (
-            <>
-              <RedactorTools />
-              <TracerToolActions />
-            </>
           )}
+          <>
+            <RedactorTools />
+            <TracerToolActions />
+          </>
         </>
       ) : (
         <>
