@@ -1,18 +1,10 @@
 import React from 'react';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-  AccordionItemState,
-} from 'react-accessible-accordion';
 import './accordion.css';
 
 import { selectedDataList } from '../SelectedData.module.scss';
 
 import moment from 'moment';
-import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
+import SelectedDataGroup from 'components/_shared/SelectedData/SelectedDataList/SelectedDataGroup';
 
 const SelectedDataList = React.memo(({ filteredPoints }) => {
   const groupByDate = items =>
@@ -26,38 +18,14 @@ const SelectedDataList = React.memo(({ filteredPoints }) => {
 
   const groupedPoints = groupByDate(filteredPoints);
   const groupedPointsArray = Object.values(groupedPoints);
-  const preExpandArray = () => {
-    const arr = new Array(groupedPointsArray.length);
-    for (let i = 0; i <= groupedPointsArray.length; i++) {
-      arr.push(i);
-    }
-    return arr;
-  };
 
   return filteredPoints?.length > 0 ? (
     <div className={selectedDataList}>
-      <Accordion allowZeroExpanded allowMultipleExpanded>
-        {groupedPointsArray?.map((p, i) => {
-          return (
-            <AccordionItem uuid={i} key={`list-points-${i}`}>
-              <AccordionItemHeading>
-                <AccordionItemButton>
-                  {Object.keys(groupedPoints)[i]}
-                </AccordionItemButton>
-              </AccordionItemHeading>
-              <AccordionItemPanel>
-                {Object.values(p).map(e => (
-                  <AccordionItemState>
-                    {({ expanded }): React.ReactNode =>
-                      expanded && <SelectedDataItem key={e.pointId} {...e} />
-                    }
-                  </AccordionItemState>
-                ))}
-              </AccordionItemPanel>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
+      {groupedPointsArray?.map((p, i) => {
+        return (
+          <SelectedDataGroup groupedPoints={groupedPoints} p={p} index={i} />
+        );
+      })}
     </div>
   ) : null;
 });
