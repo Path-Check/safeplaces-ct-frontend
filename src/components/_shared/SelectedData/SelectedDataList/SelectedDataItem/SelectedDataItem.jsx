@@ -16,7 +16,6 @@ const SelectedDataItem = React.memo(
       [`${selectedDataItemHighlighted}`]: isHighlighted,
     });
 
-    console.log('render item');
     return (
       <li className={classes} style={style}>
         <SelectedDataItemInfo id={id} {...rest} />

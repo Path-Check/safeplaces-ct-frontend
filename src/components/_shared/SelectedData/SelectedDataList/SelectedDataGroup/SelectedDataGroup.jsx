@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { FixedSizeList as List } from 'react-window';
 
@@ -35,6 +35,7 @@ const getListHeight = array => {
 };
 
 const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
+  const groupRef = useRef();
   const [isExpanded, setIsExpanded] = useState(index === 0);
 
   const activePoint = useSelector(state =>
@@ -43,8 +44,19 @@ const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
 
   const appMode = useSelector(state => applicationSelectors.getMode(state));
 
+  useEffect(() => {
+    const _GroupEl = groupRef.current;
+
+    if (!isExpanded || _GroupEl) return;
+
+    _GroupEl.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }, [isExpanded]);
+
   return (
-    <div className={accordionItem}>
+    <div className={accordionItem} ref={groupRef}>
       <button
         aria-expanded={!isExpanded}
         onClick={() => setIsExpanded(!isExpanded)}

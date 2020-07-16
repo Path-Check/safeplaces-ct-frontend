@@ -26,7 +26,6 @@ const SelectedDataItemInfo = React.memo(
     isHighlighted,
     isTrace,
   }) => {
-    const itemRef = useRef();
     const dispatch = useDispatch();
     const time = moment(timestamp).format('h:mma');
 
@@ -48,7 +47,6 @@ const SelectedDataItemInfo = React.memo(
             }),
           )
         }
-        ref={itemRef}
       >
         <div className={selectedDataContent}>
           <ul>
