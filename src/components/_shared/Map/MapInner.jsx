@@ -46,13 +46,9 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const [focused, setfocused] = useState(false);
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
-  const {
-    activePoint,
-    duration,
-    geometry,
-    recordIds,
-    singleDate,
-  } = useSelector(state => state.points);
+  const { activePoint, duration, recordIds, dateRange } = useSelector(
+    state => state.points,
+  );
 
   const { location: selectedLocation, locationSelect } = useSelector(
     state => state.map,
@@ -124,7 +120,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
 
   useEffect(() => {
     snapToBounds();
-  }, [duration, recordIds, singleDate]);
+  }, [duration, recordIds, dateRange]);
 
   useEffect(() => {
     let zooming = {};
