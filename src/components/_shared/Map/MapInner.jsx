@@ -44,7 +44,6 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const [satelliteView, setSatelliteView] = useState(false);
   const [showContentMenu, setShowContentMenu] = useState(false);
   const [focused, setfocused] = useState(false);
-  const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
   const { activePoint, duration, recordIds, dateRange } = useSelector(
     state => state.points,
@@ -68,6 +67,8 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const renderDrawTools = renderDrawingTools(viewMode, appStatus, pointsLength);
 
   const initial = returnViewportConfig(boundsObject);
+
+  const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
 
   const onMapLoad = e => {
     setLoaded(true);

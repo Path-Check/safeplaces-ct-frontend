@@ -113,8 +113,6 @@ function* updatePoint({ point, type }) {
   const currentPoints = yield select(getPoints);
   const { caseId } = yield select(casesSelectors.getActiveCases);
 
-  yield put(applicationActions.updateStatus('BUSY'));
-
   let data = null;
 
   try {
@@ -141,6 +139,10 @@ function* updatePoint({ point, type }) {
       yield put(pointsActions.updatePoints(mappedPoints));
     }
 
+    if (isEdit) {
+      yield put(applicationActions.updateStatus('IDLE'));
+    }
+
     yield put(mapActions.updateLocation(null));
     yield put(pointsActions.setSelectedPoint(null));
 
@@ -149,7 +151,6 @@ function* updatePoint({ point, type }) {
         title: `You just ${isEdit ? 'edited' : 'added'} 1 data point`,
       }),
     );
-    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(
       applicationActions.notification({

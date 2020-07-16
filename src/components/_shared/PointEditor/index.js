@@ -129,8 +129,11 @@ const PointEditor = ({ isEdit }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     const payload = generatePayload();
+
+    setLocalDuration([0, 0]);
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
