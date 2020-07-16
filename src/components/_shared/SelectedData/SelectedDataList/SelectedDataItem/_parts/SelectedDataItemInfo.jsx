@@ -39,6 +39,7 @@ const SelectedDataItemInfo = React.memo(
           dispatch(
             pointsActions.setSelectedPoint({
               id,
+              pointId: id,
               latitude,
               longitude,
               time: timestamp,

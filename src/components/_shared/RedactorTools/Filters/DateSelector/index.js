@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import { wrapper } from './dateSelector.module.scss';
 import { useDispatch } from 'react-redux';
-import pointsActions from '../../../../ducks/points/actions';
+
 import DateButton from './DateButton';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
+import pointsActions from 'ducks/points/actions';
 
 const DateSelector = ({ dates, clearedFilters }) => {
   const dispatch = useDispatch();
