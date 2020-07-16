@@ -5,6 +5,7 @@ import {
   AccordionItemHeading,
   AccordionItemButton,
   AccordionItemPanel,
+  AccordionItemState,
 } from 'react-accessible-accordion';
 import './accordion.css';
 
@@ -35,11 +36,7 @@ const SelectedDataList = React.memo(({ filteredPoints }) => {
 
   return filteredPoints?.length > 0 ? (
     <div className={selectedDataList}>
-      <Accordion
-        allowZeroExpanded
-        allowMultipleExpanded
-        preExpanded={preExpandArray()}
-      >
+      <Accordion allowZeroExpanded allowMultipleExpanded>
         {groupedPointsArray?.map((p, i) => {
           return (
             <AccordionItem uuid={i} key={`list-points-${i}`}>
@@ -50,7 +47,11 @@ const SelectedDataList = React.memo(({ filteredPoints }) => {
               </AccordionItemHeading>
               <AccordionItemPanel>
                 {Object.values(p).map(e => (
-                  <SelectedDataItem key={e.pointId} {...e} />
+                  <AccordionItemState>
+                    {({ expanded }): React.ReactNode =>
+                      expanded && <SelectedDataItem key={e.pointId} {...e} />
+                    }
+                  </AccordionItemState>
                 ))}
               </AccordionItemPanel>
             </AccordionItem>

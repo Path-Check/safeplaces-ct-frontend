@@ -17,11 +17,10 @@ import { useOnClickOutside } from 'hooks/useOnClickOutside';
 import PointContextMenuHeader from 'components/_shared/PointContextMenu/Header/Header';
 import PointContextMenuBody from 'components/_shared/PointContextMenu/Body/Body';
 
-const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
+const PointContextMenu = React.memo(({ bottom, closeAction, ...rest }) => {
   const containerRef = useRef();
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const isTrace =
-    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
+  const { status: appStatus, mode } = useSelector(state => state.application);
+  const isTrace = mode === 'trace';
 
   const handleClose = () => {
     closeAction();
@@ -58,6 +57,6 @@ const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
       </div>
     </Popup>
   );
-};
+});
 
 export default PointContextMenu;

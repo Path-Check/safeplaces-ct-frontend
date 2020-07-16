@@ -42,11 +42,10 @@ const SelectedDataItem = React.memo(
       [`${selectedDataItem}`]: true,
       [`${selectedDataItemHighlighted}`]: isHighlighted,
     });
+
     const isTrace =
       useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-
     const friendlyDuration = formattedDuration(duration);
-
     const handleClick = e => {
       dispatch(applicationActions.updateStatus(''));
       dispatch(mapActions.updateLocation(null));
