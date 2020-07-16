@@ -1,5 +1,4 @@
 import React from 'react';
-import './accordion.css';
 
 import { selectedDataList } from '../SelectedData.module.scss';
 
@@ -23,7 +22,12 @@ const SelectedDataList = React.memo(({ filteredPoints }) => {
     <div className={selectedDataList}>
       {groupedPointsArray?.map((p, i) => {
         return (
-          <SelectedDataGroup groupedPoints={groupedPoints} p={p} index={i} />
+          <SelectedDataGroup
+            groupedPoints={groupedPoints}
+            p={p}
+            key={p.id}
+            index={i}
+          />
         );
       })}
     </div>

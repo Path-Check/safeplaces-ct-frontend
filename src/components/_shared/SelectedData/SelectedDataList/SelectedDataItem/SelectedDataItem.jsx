@@ -10,7 +10,7 @@ import SelectedDataItemActions from './_parts/SelectedDataItemActions';
 import SelectedDataItemInfo from './_parts/SelectedDataItemInfo';
 
 const SelectedDataItem = React.memo(
-  ({ id, isHighlighted, isTrace, ...rest }) => {
+  ({ id, isHighlighted, isTrace, style, ...rest }) => {
     const classes = classNames({
       [`${selectedDataItem}`]: true,
       [`${selectedDataItemHighlighted}`]: isHighlighted,
@@ -18,7 +18,7 @@ const SelectedDataItem = React.memo(
 
     console.log('render item');
     return (
-      <li className={classes}>
+      <li className={classes} style={style}>
         <SelectedDataItemInfo id={id} {...rest} />
         {isHighlighted && isTrace && <SelectedDataItemActions id={id} />}
       </li>

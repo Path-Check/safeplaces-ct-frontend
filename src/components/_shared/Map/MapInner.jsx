@@ -179,6 +179,8 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   };
 
   const resetActivePoints = () => {
+    if (!map) return;
+
     filteredPoints.forEach(f => {
       map.setFeatureState(
         {

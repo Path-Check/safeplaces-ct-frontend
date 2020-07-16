@@ -1,32 +1,73 @@
 import React, { useState } from 'react';
 
+import { FixedSizeList as List } from 'react-window';
+
 import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
 import pointsSelectors from 'ducks/points/selectors';
 import { useSelector } from 'react-redux';
 import applicationSelectors from 'ducks/application/selectors';
 
+import {
+  accordionItem,
+  accordionButton,
+  accordionPanel,
+} from './selectedDataGroup.module.scss';
+
+const rowRenderer = ({ data, index, style }) => {
+  const { points, activePoint, appMode } = data;
+  const p = points[index];
+
+  return (
+    <SelectedDataItem
+      style={style}
+      key={p.id}
+      {...p}
+      isTrace={appMode === 'trace'}
+      isHighlighted={activePoint?.id === p.id}
+    />
+  );
+};
+
+const getListHeight = array => {
+  const size = array.length * 50;
+
+  return size > 300 ? 300 : size;
+};
+
 const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
+  const [isExpanded, setIsExpanded] = useState(index === 0);
+
   const activePoint = useSelector(state =>
     pointsSelectors.getActivePoint(state),
   );
-  const [isExpanded, setIsExpanded] = useState(index === 0);
+
   const appMode = useSelector(state => applicationSelectors.getMode(state));
 
   return (
-    <div>
-      <button onClick={() => setIsExpanded(!isExpanded)}>
+    <div className={accordionItem}>
+      <button
+        aria-expanded={!isExpanded}
+        onClick={() => setIsExpanded(!isExpanded)}
+        className={accordionButton}
+      >
         {Object.keys(groupedPoints)[index]}
       </button>
+
       {isExpanded && (
-        <div>
-          {Object.values(p).map(e => (
-            <SelectedDataItem
-              key={e.id}
-              {...e}
-              isTrace={appMode === 'trace'}
-              isHighlighted={activePoint?.id === e.id}
-            />
-          ))}
+        <div className={accordionPanel} aria-hidden={!isExpanded}>
+          <List
+            itemCount={p.length}
+            height={getListHeight(p)}
+            width="100%"
+            itemSize={50}
+            itemData={{
+              points: p,
+              appMode: appMode,
+              activePoint: activePoint,
+            }}
+          >
+            {rowRenderer}
+          </List>
         </div>
       )}
     </div>

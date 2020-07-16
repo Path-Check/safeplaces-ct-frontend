@@ -1,14 +1,10 @@
-.accordion {
-  border-radius: 2px;
-}
-
-.accordion__item {
+.accordionItem {
   border: 1px solid #e5e7fa;
   margin-bottom: 10px;
   border-radius: 8px;
 }
 
-.accordion__button {
+.accordionButton {
   border-radius: 8px;
   background-color: #e5e7fa;
   cursor: pointer;
@@ -20,15 +16,15 @@
   font-size: 14px;
 }
 
-.accordion__button[aria-expanded='true'] {
+.accordionButton[aria-expanded='true'] {
   border-radius: 8px 8px 0 0;
 }
 
-.accordion__button:hover {
+.accordionButton:hover {
   background-color: #eff0fc;
 }
 
-.accordion__button:before {
+.accordionButton:before {
   display: inline-block;
   content: '';
   height: 8px;
@@ -39,8 +35,8 @@
   transform: rotate(-45deg);
 }
 
-.accordion__button[aria-expanded='true']::before,
-.accordion__button[aria-selected='true']::before {
+.accordionButton[aria-expanded='true']::before,
+.accordionButton[aria-selected='true']::before {
   transform: rotate(45deg);
 }
 
@@ -48,12 +44,12 @@
   display: none;
 }
 
-.accordion__panel {
+.accordionPanel {
   background-color: #ffffff;
   animation: fadein 0.35s ease-in;
 }
 
-.accordion__panel:last-of-type {
+.accordionPanel:last-of-type {
   border-radius: 0 0 8px 8px;
 }
 
