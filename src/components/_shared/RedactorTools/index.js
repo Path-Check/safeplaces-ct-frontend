@@ -19,14 +19,14 @@ const RedactorTools = React.memo(() => {
     <>
       <header className={redactorTools}>
         <RedactorToolsHeader />
-        {/* {points?.length > 1 && (
+        {points?.length > 1 && (
           <ErrorBoundary>
             <Filters
               filteredPointsLength={filteredPoints?.length}
               pointsLength={points?.length}
             />
           </ErrorBoundary>
-        )} */}
+        )}
         <PointsInfo />
       </header>
       <SelectedDataList filteredPoints={filteredPoints} />

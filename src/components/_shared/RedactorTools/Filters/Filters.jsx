@@ -7,10 +7,10 @@ import pointsActions from 'ducks/points/actions';
 
 import { filtersContainer, clearFilters } from '../RedactorTools.module.scss';
 
-import FilterData from 'components/_shared/RedactorTools/Filters/Filters';
 import DurationFilter from 'components/_shared/RedactorTools/Filters/DurationFilter';
 import RecordIdsFilter from 'components/_shared/RedactorTools/Filters/RecordIdsFilter';
 import DateSelector from 'components/_shared/RedactorTools/Filters/DateSelector';
+import FilterData from 'components/_shared/RedactorTools/Filters/FilterData';
 
 const durationTimes = [10, 15, 30, 45, 60];
 
