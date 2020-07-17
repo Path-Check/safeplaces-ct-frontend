@@ -108,15 +108,14 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
         offset: [20, 20],
       });
     }
+
     const viewportCalc = {
       ...viewport,
       ...zooming,
       transitionDuration: 500,
     };
 
-    if (JSON.stringify(viewport) !== JSON.stringify(viewportCalc)) {
-      setViewport(viewportCalc);
-    }
+    setViewport(viewportCalc);
   };
 
   useEffect(() => {
@@ -124,9 +123,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   }, [duration, recordIds, dateRange]);
 
   useEffect(() => {
-    let zooming = {};
-
-    if (focused) {
+    if (filteredPoints.length && focused) {
       return;
     }
 

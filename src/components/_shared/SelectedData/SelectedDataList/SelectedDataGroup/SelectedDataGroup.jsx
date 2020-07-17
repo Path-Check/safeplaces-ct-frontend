@@ -47,7 +47,7 @@ const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
   useEffect(() => {
     const _GroupEl = groupRef.current;
 
-    if (!isExpanded || _GroupEl) return;
+    if (!isExpanded || !_GroupEl) return;
 
     _GroupEl.scrollIntoView({
       behavior: 'smooth',

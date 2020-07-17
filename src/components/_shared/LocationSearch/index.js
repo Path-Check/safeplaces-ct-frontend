@@ -8,10 +8,14 @@ import { locationSearch } from './LocationSearch.module.scss';
 import LocationSuggestions from 'components/_shared/LocationSearch/LocationSuggestions';
 import { useSelector } from 'react-redux';
 import mapSelectors from 'ducks/map/selectors';
+import pointsSelectors from 'ducks/points/selectors';
 
-const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
+const LocationSearchInput = ({ handlePointChange, defaultValue, isEdit }) => {
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
+  );
+  const activePoint = useSelector(state =>
+    pointsSelectors.getActivePoint(state),
   );
 
   const [value, setValue] = useState(defaultValue);
@@ -32,12 +36,9 @@ const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
   };
 
   useEffect(() => {
-    console.log(selectedLocation);
-    selectedLocation?.latitude
-      ? setValue(
-          `${selectedLocation?.latitude}, ${selectedLocation?.longitude}`,
-        )
-      : setValue('');
+    if (!selectedLocation && !isEdit) {
+      setValue('');
+    }
   }, [selectedLocation]);
 
   return (

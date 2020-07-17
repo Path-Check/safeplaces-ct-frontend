@@ -159,12 +159,13 @@ const PointEditor = ({ isEdit }) => {
             >
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
-            <h4>{isEdit ? 'Edit Point' : 'Add Point'}</h4>
+            <h4>{isEdit ? 'Edit Point' : 'Add Point(s)'}</h4>
           </div>
           <div className={locationControls}>
             <LocationSearchInput
               handlePointChange={handleChange}
               defaultValue={initialLocation}
+              isEdit={isEdit}
             />
           </div>
           <div className={timeControls}>

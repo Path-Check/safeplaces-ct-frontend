@@ -29,10 +29,7 @@ const LabelAs = ({
   tags,
 }) => {
   const [customLabel, setCustomLabel] = useState();
-  const nicknames =
-    tags && tags.length ? new Set([...options, ...tags]) : options;
-
-  console.log(tags);
+  const nicknames = tags?.length ? new Set([...options, ...tags]) : options;
 
   const classes = classNames({
     [`${labelAsWrapper}`]: true,
