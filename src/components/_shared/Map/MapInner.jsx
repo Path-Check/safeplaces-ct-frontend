@@ -3,7 +3,7 @@ import ReactMapGL, { WebMercatorViewport } from 'react-map-gl';
 
 import LocationSelect from './LocationSelect';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import styles from './styles.module.scss';
 import getBounds from 'components/_shared/Map/getBounds';
@@ -25,23 +25,19 @@ import {
   renderDrawingTools,
 } from 'components/_shared/Map/_helpers';
 
-import pointsActions from 'ducks/points/actions';
 import MapControls from 'components/_shared/Map/MapControls';
 
 const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
-  const dispatch = useDispatch();
   const mapRef = useRef();
   const map = mapRef?.current?.getMap();
 
   const [isDragging, setIsDragging] = useState(false);
   const [popupLocation, setPopupLocation] = useState(null);
   const [satelliteView, setSatelliteView] = useState(false);
-  const [showContentMenu, setShowContentMenu] = useState(false);
+  const [selectedPoint, setSelectedPoint] = useState(null);
   const [focused, setfocused] = useState(false);
 
-  const { activePoint, duration, recordIds, dateRange } = useSelector(
-    state => state.points,
-  );
+  const { duration, recordIds, dateRange } = useSelector(state => state.points);
 
   const { location: selectedLocation, locationSelect } = useSelector(
     state => state.map,
@@ -82,7 +78,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
         width: mapRef.current._width, // mapObject.offsetWidth,
         height: mapRef.current._height, // mapObject.offsetHeight
       }).fitBounds(bounds, {
-        offset: [20, 20],
+        offset: [60, 10],
       });
     }
 
@@ -120,18 +116,18 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   useEffect(() => {
     resetActivePoints();
 
-    if (!map || !activePoint) return;
+    if (!map || !selectedPoint) return;
 
     map.setFeatureState(
       {
         source: 'point',
-        id: activePoint.id,
+        id: selectedPoint.id,
       },
       {
         activePoint: true,
       },
     );
-  }, [activePoint?.id]);
+  }, [selectedPoint?.id]);
 
   // Reset if we switch
   // between edit/non-edit
@@ -179,9 +175,9 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
 
     if (!point || !point.properties?.id) return;
 
-    dispatch(pointsActions.setSelectedPoint({ ...point.properties }));
+    // dispatch(pointsActions.setSelectedPoint({ ...point.properties }));
 
-    setShowContentMenu(true);
+    setSelectedPoint({ ...point.properties });
   };
 
   return (
@@ -208,13 +204,13 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
         {editorMode && pointsLength > 0 && (
           <>
             <MapSource geoPoints={geoPoints} />
-            {showContentMenu && (
+            {selectedPoint && (
               <PointContextMenu
                 renderDateTime
                 bottom
-                {...activePoint}
+                {...selectedPoint}
                 closeAction={() => {
-                  setShowContentMenu(false);
+                  setSelectedPoint(null);
                   resetActivePoints();
                 }}
               />

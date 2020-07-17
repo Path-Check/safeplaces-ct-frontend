@@ -9,10 +9,9 @@ import {
   faChevronRight,
   faTag,
 } from '@fortawesome/pro-solid-svg-icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
-import applicationSelectors from 'ducks/application/selectors';
 
 import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
 
@@ -49,9 +48,19 @@ const PointContextMenuBody = ({
       <li className={pointContextMenuOption}>
         <button
           type="button"
-          onClick={() =>
-            dispatch(applicationActions.updateStatus('EDIT POINT'))
-          }
+          onClick={() => {
+            dispatch(
+              pointsActions.setSelectedPoint({
+                id,
+                pointId: id,
+                time: timestamp,
+                duration,
+                latitude,
+                longitude,
+              }),
+            );
+            dispatch(applicationActions.updateStatus('EDIT POINT'));
+          }}
         >
           <FontAwesomeIcon icon={faEdit} />
           Edit Location
