@@ -33,7 +33,7 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
   const dispatch = useDispatch();
   const [showLabelAs, setShowLabelAs] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const pointIds = newPoints.map(p => p.pointId);
+  const pointIds = newPoints.map(p => p.id);
 
   return (
     <>
