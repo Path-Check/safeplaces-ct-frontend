@@ -7,7 +7,7 @@ import Button from 'components/_shared/Button';
 import VideoPlayer from 'components/_shared/VideoPlayer/VideoPlayer';
 import video from 'assets/polygion-tut.webm';
 
-const HelpBlock = ({ setRenderTools }) => {
+const HelpBlock = ({ resetGeometry }) => {
   const [showTutorial, setShowTutorial] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ const HelpBlock = ({ setRenderTools }) => {
           select.
           {/* <button onClick={() => setShowTutorial(true)}>See how</button> */}
         </p>
-        <Button secondary isWhite onClick={() => setRenderTools(false)}>
+        <Button secondary isWhite onClick={() => resetGeometry(false)}>
           Cancel
         </Button>
       </div>

@@ -59,7 +59,7 @@ const DrawEditor = React.memo(({ filteredPoints }) => {
     permitDrawing,
   ]);
 
-  return (
+  return renderTools ? (
     <>
       <Editor
         ref={editorRef}
@@ -89,10 +89,7 @@ const DrawEditor = React.memo(({ filteredPoints }) => {
         }}
         mode={initTools}
       />
-      {!renderTools && <EditorNav setRenderTools={setRenderTools} />}
-      {!geometry && renderTools && (
-        <HelpBlock setRenderTools={setRenderTools} />
-      )}
+      {!geometry && renderTools && <HelpBlock resetGeometry={resetGeometry} />}
       {geometry && newPoints?.length > 0 && (
         <ActionsMenu
           resetGeometry={resetGeometry}
@@ -102,6 +99,8 @@ const DrawEditor = React.memo(({ filteredPoints }) => {
         />
       )}
     </>
+  ) : (
+    <EditorNav setRenderTools={setRenderTools} />
   );
 });
 

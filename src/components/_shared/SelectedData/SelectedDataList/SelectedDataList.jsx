@@ -25,7 +25,7 @@ const SelectedDataList = React.memo(({ filteredPoints }) => {
           <SelectedDataGroup
             groupedPoints={groupedPoints}
             p={p}
-            key={p.id}
+            key={`${p.id}${i}`}
             index={i}
           />
         );

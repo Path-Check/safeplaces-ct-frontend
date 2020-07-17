@@ -49,8 +49,8 @@ const LabelAs = ({
   return (
     <div className={classes}>
       <ul>
-        {Array.from(nicknames).map(tag => (
-          <li className={labelAsWrapperOption}>
+        {Array.from(nicknames).map((tag, i) => (
+          <li className={labelAsWrapperOption} key={`${tag}${i}`}>
             <button
               onClick={() =>
                 tag === currentNickname

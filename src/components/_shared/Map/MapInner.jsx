@@ -146,7 +146,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
         longitude,
       });
     } else {
-      if (!features || features.length < 1) {
+      if (locationSelect || !features || features.length < 1) {
         return;
       }
 
