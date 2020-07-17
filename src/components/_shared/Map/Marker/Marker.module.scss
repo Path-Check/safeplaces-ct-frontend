@@ -5,8 +5,8 @@
 
   .markerIcon {
     display: block;
-    height: 27px;
-    width: 27px;
+    height: 24px;
+    width: 24px;
     border-radius: 100%;
     border: 2px solid #fff;
     background-color: #4051db;
@@ -17,7 +17,7 @@
   z-index: 2;
 
   .markerIcon {
-    transform: translate(-13.5px, -13.5px);
+    transform: translate(-12px, -12px);
     background-color: rgba(254, 0, 25, 0.75);
   }
 }

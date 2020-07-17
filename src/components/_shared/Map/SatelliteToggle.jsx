@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMap, faSatellite } from '@fortawesome/pro-solid-svg-icons';
+import { faSatellite, faGlobeAmericas } from '@fortawesome/pro-solid-svg-icons';
 
 const SatelliteToggle = ({ setSatelliteView, satelliteView }) => (
   <button
@@ -11,7 +11,8 @@ const SatelliteToggle = ({ setSatelliteView, satelliteView }) => (
     onClick={() => setSatelliteView(!satelliteView)}
     title={`Enable ${!satelliteView ? 'Satellite' : 'Map'} View`}
   >
-    <FontAwesomeIcon icon={satelliteView ? faMap : faSatellite} />
+    <span>Enable {!satelliteView ? 'Satellite' : 'Map'} View</span>
+    <FontAwesomeIcon icon={satelliteView ? faGlobeAmericas : faSatellite} />
   </button>
 );
 

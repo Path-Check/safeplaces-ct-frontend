@@ -10,10 +10,6 @@ import getBounds from 'components/_shared/Map/getBounds';
 
 import MapMarker from 'components/_shared/Map/Marker';
 import authSelectors from 'ducks/auth/selectors';
-import pointsSelectors from 'ducks/points/selectors';
-
-import applicationSelectors from 'ducks/application/selectors';
-import mapSelectors from 'ducks/map/selectors';
 import SelectionLocationHelp from 'components/_shared/Map/SelectionLocationHelp';
 import DrawEditor from 'components/_shared/Map/DrawEditor';
 
@@ -24,7 +20,6 @@ import PointContextMenu from 'components/_shared/PointContextMenu';
 import MapSource from 'components/_shared/Map/MapSource';
 import {
   returnGeoPoints,
-  fallbackViewport,
   returnViewportConfig,
   returnCursor,
   renderDrawingTools,
@@ -38,7 +33,6 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const mapRef = useRef();
   const map = mapRef?.current?.getMap();
 
-  const [loaded, setLoaded] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [popupLocation, setPopupLocation] = useState(null);
   const [satelliteView, setSatelliteView] = useState(false);
@@ -69,24 +63,6 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   const initial = returnViewportConfig(boundsObject);
 
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });
-
-  const onMapLoad = e => {
-    setLoaded(true);
-
-    const focused = returnViewportConfig(
-      boundsObject,
-      mapRef.current._width,
-      mapRef.current._height,
-    );
-
-    const viewportCalc = {
-      ...viewport,
-      ...focused,
-      transitionDuration: 500,
-    };
-
-    setViewport(viewportCalc);
-  };
 
   const snapToBounds = () => {
     let zooming = {};
@@ -123,7 +99,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
   }, [duration, recordIds, dateRange]);
 
   useEffect(() => {
-    if (filteredPoints.length && focused) {
+    if (focused) {
       return;
     }
 
@@ -155,6 +131,15 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
       },
     );
   }, [activePoint?.id]);
+
+  // Reset if we switch
+  // between edit/non-edit
+  useEffect(() => {
+    if (editorMode) return;
+
+    setfocused(false);
+    setViewport({ ...initial, zoom: 10 });
+  }, [editorMode]);
 
   const handleClick = (rightButton, lngLat, features) => {
     if (locationSelect && rightButton) {
@@ -214,7 +199,6 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
         width="100%"
         height="100%"
         getCursor={({ isDragging, isHovering }) => setIsDragging(isDragging)}
-        onLoad={onMapLoad}
         onViewportChange={viewportInternal => setViewport(viewportInternal)}
         onClick={({ rightButton, lngLat, features }) =>
           handleClick(rightButton, lngLat, features)
@@ -246,6 +230,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
             )}
             {renderDrawTools && <DrawEditor filteredPoints={filteredPoints} />}
             <MapControls
+              resetToBounds={snapToBounds}
               setSatelliteView={setSatelliteView}
               satelliteView={satelliteView}
             />
