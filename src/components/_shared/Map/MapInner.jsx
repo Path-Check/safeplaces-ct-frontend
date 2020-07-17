@@ -47,19 +47,20 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
     state => state.map,
   );
 
+  const boundsObject = useSelector(state => authSelectors.getBounds(state));
+
   const {
     status: appStatus,
     renderEditor: editorMode,
     mode: viewMode,
   } = useSelector(state => state.application);
 
-  const boundsObject = useSelector(state => authSelectors.getBounds(state));
-  const pointsLength = filteredPoints?.length;
   const renderLocationHelp =
     appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
+
+  const pointsLength = filteredPoints?.length;
   const cursorStyle = returnCursor(locationSelect, isDragging);
   const renderDrawTools = renderDrawingTools(viewMode, appStatus, pointsLength);
-
   const initial = returnViewportConfig(boundsObject);
 
   const [viewport, setViewport] = useState({ ...initial, zoom: 10 });

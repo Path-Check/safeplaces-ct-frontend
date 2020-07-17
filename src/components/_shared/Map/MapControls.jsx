@@ -18,11 +18,7 @@ const MapControls = ({ setSatelliteView, satelliteView, resetToBounds }) => {
           setSatelliteView={setSatelliteView}
           satelliteView={satelliteView}
         />
-        <button
-          className={styles.viewToggle}
-          showCompass={false}
-          onClick={resetToBounds}
-        >
+        <button className={styles.viewToggle} onClick={resetToBounds}>
           <span>Show all Points</span>
           <FontAwesomeIcon icon={faMapMarked} />
         </button>
