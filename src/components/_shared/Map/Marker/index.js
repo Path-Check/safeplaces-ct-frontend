@@ -1,9 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { Marker } from 'react-map-gl';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
 
 import classNames from 'classnames';
 

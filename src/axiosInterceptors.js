@@ -5,6 +5,15 @@ axios.defaults.withCredentials = true;
 
 export default {
   setupInterceptors: store => {
+    axios.interceptors.request.use(
+      config => {
+        config.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        return config;
+      },
+      error => {
+        Promise.reject(error);
+      },
+    );
     axios.interceptors.response.use(
       function (response) {
         return response;

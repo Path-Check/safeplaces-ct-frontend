@@ -1,6 +1,5 @@
 .sidebarWrapper {
   display: grid;
-  grid-template-rows: auto auto 1fr;
   height: calc(100vh - 60px);
   width: 360px;
   background: #f8f8ff;
@@ -10,5 +9,6 @@
 }
 
 .sidebarWrapperPadded {
+  grid-template-rows: auto auto 1fr;
   padding: 20px;
 }

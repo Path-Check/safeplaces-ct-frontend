@@ -16,7 +16,8 @@ import applicationActions from 'ducks/application/actions';
 import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
 
 const PointContextMenuBody = ({
-  pointId: id,
+  id,
+  discreetPointIds,
   closeAction,
   time: timestamp,
   duration,
@@ -39,7 +40,7 @@ const PointContextMenuBody = ({
         {showLabelAs && (
           <LabelAs
             currentNickname={nickname}
-            points={[id]}
+            points={[discreetPointIds]}
             closeCallback={() => closeAction()}
           />
         )}
@@ -70,7 +71,9 @@ const PointContextMenuBody = ({
       <li className={pointContextMenuOption}>
         <button
           type="button"
-          onClick={() => dispatch(pointsActions.deletePoint(id))}
+          onClick={() =>
+            dispatch(pointsActions.deletePoint({ id, discreetPointIds }))
+          }
         >
           <FontAwesomeIcon icon={faTrash} />
           Delete Location

@@ -12,13 +12,12 @@ import casesSelectors from 'ducks/cases/selectors';
 import { mapPoints } from 'helpers/pointsUtils';
 import tagsActions from 'ducks/tags/actions';
 
-function* deletePoint({ id }) {
+function* deletePoint({ data: { id, discreetPointIds } }) {
   yield put(applicationActions.updateStatus('BUSY'));
-
   try {
-    yield call(pointsService.delete, id);
-    const currentPoints = yield select(getPoints);
-    const points = currentPoints.filter(p => p.pointId !== id);
+    yield call(pointsService.delete, discreetPointIds);
+    const currentPoints = yield select(pointsSelectors.getPoints);
+    const points = currentPoints.filter(p => p.id !== id);
 
     yield put(pointsActions.updatePoints(points));
 
@@ -49,10 +48,10 @@ function* deleteFilteredPoints() {
   try {
     yield call(
       pointsService.deletePoints,
-      filteredPoints.map(({ pointId }) => pointId),
+      filteredPoints.map(({ id }) => id),
     );
 
-    const diff = differenceBy(points, filteredPoints, 'pointId');
+    const diff = differenceBy(points, filteredPoints, 'id');
     yield put(pointsActions.updatePoints(diff));
 
     yield put(
@@ -82,10 +81,10 @@ function* deleteMultiplePoints({ points }) {
   try {
     yield call(
       pointsService.deletePoints,
-      points.map(({ pointId }) => pointId),
+      points.map(({ id }) => id),
     );
 
-    const diff = differenceBy(currentPoints, points, 'pointId');
+    const diff = differenceBy(currentPoints, points, 'id');
     yield put(pointsActions.updatePoints(diff));
 
     yield put(
@@ -122,7 +121,7 @@ function* updatePoint({ point, type }) {
       };
 
       const response = yield call(pointsService.edit, data);
-      const points = currentPoints.filter(p => p.pointId !== point.pointId);
+      const points = currentPoints.filter(p => p.id !== point.id);
       const mappedPoints = mapPoints([...points, response.data.concernPoint]);
       yield put(pointsActions.updatePoints(mappedPoints));
     } else {
@@ -175,7 +174,7 @@ function* setPointLabel({ data }) {
     const concernPoints = response.data.concernPoints;
     yield put(
       pointsActions.updatePoints(
-        uniqBy([...concernPoints, ...currentPoints], 'pointId'),
+        uniqBy([...concernPoints, ...currentPoints], 'id'),
       ),
     );
     yield put(applicationActions.updateStatus('IDLE'));

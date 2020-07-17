@@ -23,7 +23,7 @@ const options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
 const LabelAs = ({
   renderAtBottom,
   currentNickname,
-  points: pointIds,
+  points,
   closeCallback,
   setLabel,
   tags,
@@ -35,10 +35,11 @@ const LabelAs = ({
     [`${labelAsWrapper}`]: true,
     [`${labelAsWrapperBottom}`]: renderAtBottom,
   });
+
   const handleConfirm = nickname => {
     setLabel({
       nickname,
-      pointIds,
+      discreetPointIds: points.flat(),
     });
 
     if (closeCallback) {
