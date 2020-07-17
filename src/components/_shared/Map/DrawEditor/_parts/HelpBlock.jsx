@@ -18,7 +18,7 @@ const HelpBlock = ({ resetGeometry }) => {
           select.
           {/* <button onClick={() => setShowTutorial(true)}>See how</button> */}
         </p>
-        <Button secondary isWhite onClick={() => resetGeometry(false)}>
+        <Button secondary isWhite onClick={() => resetGeometry(true)}>
           Cancel
         </Button>
       </div>
