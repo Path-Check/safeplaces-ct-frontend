@@ -39,7 +39,7 @@ const LabelAs = ({
   const handleConfirm = nickname => {
     setLabel({
       nickname,
-      discreetPointIds: points.flat(),
+      discreetPointIds: points,
     });
 
     if (closeCallback) {

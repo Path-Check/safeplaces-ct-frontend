@@ -30,8 +30,7 @@ const PointContextMenuBody = ({
 }) => {
   const dispatch = useDispatch();
   const [showLabelAs, setShowLabelAs] = useState(false);
-
-  console.log(discreetPointIds);
+  const parseDiscreetPointIds = JSON.parse(discreetPointIds);
 
   return (
     <ul>
@@ -43,7 +42,7 @@ const PointContextMenuBody = ({
         {showLabelAs && (
           <LabelAs
             currentNickname={nickname}
-            points={[discreetPointIds]}
+            points={parseDiscreetPointIds}
             closeCallback={() => closeAction()}
           />
         )}
@@ -58,7 +57,7 @@ const PointContextMenuBody = ({
                 id,
                 pointId: id,
                 time: timestamp,
-                discreetPointIds: JSON.parse(discreetPointIds),
+                discreetPointIds: parseDiscreetPointIds,
                 duration,
                 latitude,
                 longitude,
