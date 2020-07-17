@@ -26,9 +26,12 @@ const PointContextMenuBody = ({
   nickname,
   renderDateTime = true,
   bottom,
+  ...rest
 }) => {
   const dispatch = useDispatch();
   const [showLabelAs, setShowLabelAs] = useState(false);
+
+  console.log(discreetPointIds);
 
   return (
     <ul>
@@ -55,9 +58,11 @@ const PointContextMenuBody = ({
                 id,
                 pointId: id,
                 time: timestamp,
+                discreetPointIds: JSON.parse(discreetPointIds),
                 duration,
                 latitude,
                 longitude,
+                ...rest,
               }),
             );
             dispatch(applicationActions.updateStatus('EDIT POINT'));

@@ -11,7 +11,6 @@ import {
 } from './PointContextMenu.module.scss';
 
 import { useSelector } from 'react-redux';
-import applicationSelectors from 'ducks/application/selectors';
 
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
 import PointContextMenuHeader from 'components/_shared/PointContextMenu/Header/Header';

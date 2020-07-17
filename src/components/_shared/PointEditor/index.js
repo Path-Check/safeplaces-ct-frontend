@@ -117,7 +117,6 @@ const PointEditor = ({ isEdit, animationState }) => {
 
   const generatePayload = () => {
     if (isEdit) {
-      delete activePoint.id;
       return {
         ...activePoint,
         ...selectedLocation,

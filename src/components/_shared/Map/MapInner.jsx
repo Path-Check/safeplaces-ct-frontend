@@ -175,8 +175,6 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
 
     if (!point || !point.properties?.id) return;
 
-    // dispatch(pointsActions.setSelectedPoint({ ...point.properties }));
-
     setSelectedPoint({ ...point.properties });
   };
 

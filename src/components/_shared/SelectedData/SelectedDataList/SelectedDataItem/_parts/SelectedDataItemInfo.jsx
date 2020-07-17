@@ -17,14 +17,12 @@ import { formattedDuration } from 'helpers/dateTime';
 
 const SelectedDataItemInfo = React.memo(
   ({
-    id,
-    latitude,
-    longitude,
     time: timestamp,
     duration,
     nickname,
     isHighlighted,
     isTrace,
+    ...rest
   }) => {
     const dispatch = useDispatch();
     const time = moment(timestamp).format('h:mma');
@@ -37,13 +35,10 @@ const SelectedDataItemInfo = React.memo(
         onClick={() =>
           dispatch(
             pointsActions.setSelectedPoint({
-              id,
-              pointId: id,
-              latitude,
-              longitude,
               time: timestamp,
               duration,
               nickname,
+              ...rest,
             }),
           )
         }
