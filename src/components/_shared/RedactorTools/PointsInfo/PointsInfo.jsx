@@ -8,7 +8,7 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 import casesSelectors from 'ducks/cases/selectors';
-import pointsSelectors from 'ducks/points/selectors';
+import { getFilteredPoints, getPoints } from 'ducks/points/selectors';
 import applicationSelectors from 'ducks/application/selectors';
 import applicationActions from 'ducks/application/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,10 +19,9 @@ const PointsInfo = () => {
     casesSelectors.getActiveCases(state),
   );
   const dispatch = useDispatch();
-  const points = useSelector(state => pointsSelectors.getPoints(state));
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
+  const points = useSelector(getPoints);
+
+  const filteredPoints = useSelector(getFilteredPoints);
   const isPublish =
     useSelector(state => applicationSelectors.getMode(state)) === 'publish';
 
@@ -42,7 +41,7 @@ const PointsInfo = () => {
             dispatch(applicationActions.updateStatus('ADD POINT'));
           }}
         >
-          <FontAwesomeIcon icon={faPlus} /> Add Point
+          <FontAwesomeIcon icon={faPlus} /> Add Point(s)
         </button>
       )}
     </div>

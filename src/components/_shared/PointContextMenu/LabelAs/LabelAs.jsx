@@ -15,35 +15,32 @@ import {
 import { faTag, faCircle, faTimes } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useDispatch, useSelector } from 'react-redux';
 import pointsActions from 'ducks/points/actions';
-import tagsSelectors from 'ducks/tags/selectors';
+import { connect } from 'react-redux';
 
 const options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
 
 const LabelAs = ({
   renderAtBottom,
   currentNickname,
-  points: pointIds,
+  points,
   closeCallback,
+  setLabel,
+  tags,
 }) => {
-  const dispatch = useDispatch();
-  const tags = useSelector(state => tagsSelectors.getTags(state));
   const [customLabel, setCustomLabel] = useState();
-  const nicknames =
-    tags && tags.length ? new Set([...options, ...tags]) : options;
+  const nicknames = tags?.length ? new Set([...options, ...tags]) : options;
 
   const classes = classNames({
     [`${labelAsWrapper}`]: true,
     [`${labelAsWrapperBottom}`]: renderAtBottom,
   });
+
   const handleConfirm = nickname => {
-    dispatch(
-      pointsActions.setPointsLabel({
-        nickname,
-        pointIds,
-      }),
-    );
+    setLabel({
+      nickname,
+      discreetPointIds: points,
+    });
 
     if (closeCallback) {
       closeCallback();
@@ -53,8 +50,8 @@ const LabelAs = ({
   return (
     <div className={classes}>
       <ul>
-        {Array.from(nicknames).map(tag => (
-          <li className={labelAsWrapperOption}>
+        {Array.from(nicknames).map((tag, i) => (
+          <li className={labelAsWrapperOption} key={`${tag}${i}`}>
             <button
               onClick={() =>
                 tag === currentNickname
@@ -90,4 +87,12 @@ const LabelAs = ({
   );
 };
 
-export default LabelAs;
+const dispatchers = {
+  setLabel: pointsActions.setPointsLabel,
+};
+
+const mapStateToProps = ({ tags }) => ({
+  ...tags,
+});
+
+export default connect(mapStateToProps, dispatchers)(LabelAs);

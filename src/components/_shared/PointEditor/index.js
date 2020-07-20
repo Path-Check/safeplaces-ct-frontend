@@ -132,8 +132,11 @@ const PointEditor = ({ isEdit, animationState }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     const payload = generatePayload();
+
+    setLocalDuration([0, 0]);
 
     if (isEdit) {
       dispatch(pointsActions.editPoint(payload));
@@ -144,7 +147,6 @@ const PointEditor = ({ isEdit, animationState }) => {
 
   const handleClose = () => {
     dispatch(applicationActions.updateStatus(''));
-    dispatch(pointsActions.setSelectedPoint(null));
     dispatch(mapActions.updateLocation(null));
   };
 
@@ -165,12 +167,13 @@ const PointEditor = ({ isEdit, animationState }) => {
             >
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
-            <h4>{isEdit ? 'Edit Point' : 'Add Point'}</h4>
+            <h4>{isEdit ? 'Edit Point' : 'Add Point(s)'}</h4>
           </div>
           <div className={locationControls}>
             <LocationSearchInput
               handlePointChange={handleChange}
               defaultValue={initialLocation}
+              isEdit={isEdit}
             />
           </div>
           <div className={timeControls}>

@@ -3,21 +3,34 @@ import moment from 'moment';
 import { toPoint } from 'components/_shared/Map/_helpers';
 import inside from '@turf/inside';
 import { getDates, CURRENT_DATE_FORMAT } from 'helpers/pointsUtils';
+import { createSelector } from 'reselect';
 
-const pointsSelectors = {
-  getPoints: state =>
-    state.points.points.sort((a, b) => moment(b.time) - moment(a.time)),
-  getGeometry: state => state.points.geometry,
-  getFilteredPoints: state => {
+const pointsStoreSelector = state => state.points;
+const pointsSelector = state => state.points.points;
+
+export const getPoints = createSelector(pointsSelector, points => {
+  if (points?.length < 1) {
+    return [];
+  }
+
+  return points;
+});
+
+export const getFilteredPoints = createSelector(
+  pointsStoreSelector,
+  pointsStore => {
     const {
-      points,
       dateRange,
       singleDate,
       geometry,
       duration,
       recordIds,
       useDurationFilter,
-    } = state.points;
+      points,
+    } = pointsStore;
+
+    if (!points || points?.length < 1) return [];
+
     const dateRangeFilter = p =>
       dateRange.length === 0 ||
       moment(moment(p.time).format(CURRENT_DATE_FORMAT)).isBetween(
@@ -49,29 +62,46 @@ const pointsSelectors = {
       }
     };
 
-    const hiddenFilter = p => !p.hidden;
-
     return points
       .filter(
         p =>
           dateFilter(p) &&
           durationFilter(p) &&
-          hiddenFilter(p) &&
           recordIdFilter(p) &&
           geometryFilter(p),
       )
       .sort((a, b) => moment(b.time) - moment(a.time));
   },
+);
+
+export const getAllowStaging = createSelector(
+  getFilteredPoints,
+  getPoints,
+  (filteredPoints, points) => {
+    return filteredPoints.length === points.length;
+  },
+);
+
+export const getPointsDates = createSelector(getPoints, points => {
+  return getDates(points);
+});
+
+export const getUseDurationFilter = createSelector(
+  pointsStoreSelector,
+  pointsStore => {
+    return pointsStore.useDurationFilter;
+  },
+);
+
+const pointsSelectors = {
+  getGeometry: state => state.points.geometry,
   getActivePoint: state => state.points.activePoint,
-  getPointsDates: state => getDates(state.points.points),
+  getPointsDates,
+  getPoints,
   getDateRange: state => state.points.dateRange,
   getSingleDate: state => state.points.singleDate,
-  getUseDurationFilter: state => state.points.useDurationFilter,
+  getUseDurationFilter,
   getDuration: state => state.points.duration,
-  isFiltered: state =>
-    !!state.points.useDurationFilter ||
-    !!state.points.geometry ||
-    !!_.find(state.points.points, point => point.hidden),
 };
 
 export default pointsSelectors;

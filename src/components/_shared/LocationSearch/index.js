@@ -9,7 +9,7 @@ import LocationSuggestions from 'components/_shared/LocationSearch/LocationSugge
 import { useSelector } from 'react-redux';
 import mapSelectors from 'ducks/map/selectors';
 
-const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
+const LocationSearchInput = ({ handlePointChange, defaultValue, isEdit }) => {
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
@@ -32,8 +32,13 @@ const LocationSearchInput = ({ handlePointChange, defaultValue }) => {
   };
 
   useEffect(() => {
-    selectedLocation?.longitude &&
-      setValue(`${selectedLocation?.latitude}, ${selectedLocation?.longitude}`);
+    if (isEdit) return;
+
+    if (!selectedLocation) {
+      setValue('');
+    } else if (selectedLocation.latitude && !value) {
+      setValue(`${selectedLocation.latitude}, ${selectedLocation.longitude}`);
+    }
   }, [selectedLocation]);
 
   return (
