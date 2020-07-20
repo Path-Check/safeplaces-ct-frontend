@@ -3,14 +3,17 @@
 .login {
   display: flex;
   height: 100vh;
+  flex-direction: column;
   overflow: hidden;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
   font-weight: 500;
-  font-size: 52px;
-  line-height: 48px;
-  text-align: center;
+  font-size: 32px;
+  line-height: 40px;
+  text-align: left;
   letter-spacing: -2px;
   color: #000000;
   margin-bottom: 56px;
@@ -20,14 +23,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  flex: 1;
+  border: 1px solid #E9EAF0;
+  padding: 40px;
+  border-radius: 8px;
+  margin-top: 24px;
 }
 
 .loginForm {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
   width: 100%;
   flex: 1;
@@ -57,7 +61,7 @@
 
 .buttonContainer {
   display: flex;
-  width: 100%;
+  height: 16px;
   margin-bottom: 16px;
 }
 
@@ -69,31 +73,12 @@
 
 .submitWrapper {
   display: flex;
-  align-items: center;
   flex-direction: column;
   margin-top: 24px;
 }
 
 .backLink {
   margin-bottom: 2rem;
-}
-
-.loginLogo {
-  @include breakpointMax(bp--md--major) {
-    display: none;
-  }
-  /*margin-bottom: 2rem;
-  margin-top: 20%;
-  margin-left: 20%;*/
-  //margin-bottom: -30%;
-  svg {
-    width: 8vmin;
-    height: auto;
-  }
-
-  path {
-    fill: $brand-01;
-  }
 }
 
 .loginContent {
@@ -127,4 +112,11 @@
 
 [class='wfp--loading__svg'] {
   stroke: white !important;
+}
+
+[class='wfp--label'] {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: #3C475B;
 }
