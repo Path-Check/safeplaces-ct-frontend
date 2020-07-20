@@ -6,10 +6,9 @@ import applicationActions from 'ducks/application/actions';
 import pointsActions from 'ducks/points/actions';
 import pointsTypes from 'ducks/points/types';
 import pointsService from 'ducks/points/service';
-import pointsSelectors from 'ducks/points/selectors';
+import pointsSelectors, { getPoints } from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
-import { mapPoints } from 'helpers/pointsUtils';
 import tagsActions from 'ducks/tags/actions';
 
 function* deletePoint({ data: { id, discreetPointIds } }) {
@@ -42,8 +41,8 @@ function* deletePoint({ data: { id, discreetPointIds } }) {
 
 function* deleteFilteredPoints() {
   yield put(applicationActions.updateStatus('BUSY'));
-  const filteredPoints = yield select(pointsSelectors.getFilteredPoints);
-  const points = yield select(pointsSelectors.getPoints);
+  const filteredPoints = yield select(getPoints);
+  const points = yield select(getPoints);
 
   try {
     yield call(
@@ -76,7 +75,7 @@ function* deleteFilteredPoints() {
 
 function* deleteMultiplePoints({ points }) {
   yield put(applicationActions.updateStatus('BUSY'));
-  const currentPoints = yield select(pointsSelectors.getPoints);
+  const currentPoints = yield select(getPoints);
 
   try {
     yield call(
@@ -109,10 +108,8 @@ function* deleteMultiplePoints({ points }) {
 
 function* updatePoint({ point, type }) {
   const isEdit = type === pointsTypes.EDIT_POINT;
-  const currentPoints = yield select(pointsSelectors.getPoints);
+  const currentPoints = yield select(getPoints);
   const { caseId } = yield select(casesSelectors.getActiveCases);
-
-  yield put(applicationActions.updateStatus('BUSY'));
 
   let data = null;
 
@@ -124,8 +121,9 @@ function* updatePoint({ point, type }) {
 
       const response = yield call(pointsService.edit, data);
       const points = currentPoints.filter(p => p.id !== point.id);
-      const mappedPoints = mapPoints([...points, response.data.concernPoint]);
-      yield put(pointsActions.updatePoints(mappedPoints));
+      yield put(
+        pointsActions.updatePoints([...points, response.data.concernPoint]),
+      );
     } else {
       data = {
         caseId,
@@ -133,11 +131,17 @@ function* updatePoint({ point, type }) {
       };
 
       const response = yield call(pointsService.add, data);
-      const mappedPoints = mapPoints([
-        response.data.concernPoint,
-        ...currentPoints,
-      ]);
-      yield put(pointsActions.updatePoints(mappedPoints));
+
+      yield put(
+        pointsActions.updatePoints([
+          response.data.concernPoint,
+          ...currentPoints,
+        ]),
+      );
+    }
+
+    if (isEdit) {
+      yield put(applicationActions.updateStatus('IDLE'));
     }
 
     yield put(mapActions.updateLocation(null));
@@ -148,7 +152,6 @@ function* updatePoint({ point, type }) {
         title: `You just ${isEdit ? 'edited' : 'added'} 1 data point`,
       }),
     );
-    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -166,7 +169,7 @@ function* updatePoint({ point, type }) {
 function* setPointLabel({ data }) {
   yield put(applicationActions.updateStatus('BUSY'));
   yield put(tagsActions.setTags(data.nickname));
-  const currentPoints = yield select(pointsSelectors.getPoints);
+  const currentPoints = yield select(getPoints);
 
   try {
     const response = yield call(pointsService.setLabel, data);

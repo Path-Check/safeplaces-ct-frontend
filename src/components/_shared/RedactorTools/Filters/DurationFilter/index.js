@@ -9,7 +9,7 @@ import {
   durationFilterSliderActive,
 } from './DurationFilter.module.scss';
 
-const DurationFilter = ({ duration, setDuration, times }) => {
+const DurationFilter = React.memo(({ duration, setDuration, times }) => {
   const handleChange = value => {
     setDuration(times[value]);
   };
@@ -28,7 +28,7 @@ const DurationFilter = ({ duration, setDuration, times }) => {
       </div>
     </div>
   );
-};
+});
 
 DurationFilter.propTypes = {};
 

@@ -12,7 +12,6 @@ const pointsTypes = {
   SET_FILTERS: 'safeplaces/cases/SET_FILTERS',
   SET_RECORD_IDS: 'safeplaces/cases/SET_RECORD_IDS',
   CLEAR_FILTERS: 'safeplaces/cases/CLEAR_FILTERS',
-  HIDE_POINT: 'safeplaces/cases/HIDE_POINT',
   SET_LABEL: 'safeplaces/cases/SET_LABEL',
 };
 
