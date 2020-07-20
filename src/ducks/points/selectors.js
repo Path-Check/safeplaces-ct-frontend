@@ -97,6 +97,7 @@ const pointsSelectors = {
   getGeometry: state => state.points.geometry,
   getActivePoint: state => state.points.activePoint,
   getPointsDates,
+  getPoints,
   getDateRange: state => state.points.dateRange,
   getSingleDate: state => state.points.singleDate,
   getUseDurationFilter,

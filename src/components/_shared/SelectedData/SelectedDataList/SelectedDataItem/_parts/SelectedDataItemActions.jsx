@@ -10,8 +10,10 @@ import { useDispatch } from 'react-redux';
 
 import applicationActions from 'ducks/application/actions';
 
-const SelectedDataItemActions = React.memo(({ id }) => {
+const SelectedDataItemActions = React.memo(({ id, discreetPointIds }) => {
   const dispatch = useDispatch();
+
+  console.log(id);
 
   return (
     <ul className={selectedDataMenuActions}>
@@ -30,7 +32,9 @@ const SelectedDataItemActions = React.memo(({ id }) => {
         <button
           type="button"
           title="Delete Item"
-          onClick={() => dispatch(pointsActions.deletePoint(id))}
+          onClick={() =>
+            dispatch(pointsActions.deletePoint({ id, discreetPointIds }))
+          }
         >
           <FontAwesomeIcon icon={faTrash} />
         </button>

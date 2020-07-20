@@ -16,10 +16,14 @@ const SelectedDataItem = React.memo(
       [`${selectedDataItemHighlighted}`]: isHighlighted,
     });
 
+    console.log(id);
+
     return (
       <li className={classes} style={style}>
         <SelectedDataItemInfo id={id} {...rest} />
-        {isHighlighted && isTrace && <SelectedDataItemActions id={id} />}
+        {isHighlighted && isTrace && (
+          <SelectedDataItemActions id={id} {...rest} />
+        )}
       </li>
     );
   },
