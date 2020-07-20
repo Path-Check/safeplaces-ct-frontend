@@ -75,9 +75,15 @@ const PointContextMenuBody = ({
       <li className={pointContextMenuOption}>
         <button
           type="button"
-          onClick={() =>
-            dispatch(pointsActions.deletePoint({ id, discreetPointIds }))
-          }
+          onClick={() => {
+            dispatch(
+              pointsActions.deletePoint({
+                id,
+                discreetPointIds: parseDiscreetPointIds,
+              }),
+            );
+            closeAction();
+          }}
         >
           <FontAwesomeIcon icon={faTrash} />
           Delete Location
