@@ -11,6 +11,8 @@ import pointsActions from 'ducks/points/actions';
 
 function* addCases({ data }) {
   try {
+    yield put(applicationActions.updateStatus('BUSY'));
+
     const response = yield call(casesService.fetchCases);
 
     if (!response.data.cases || response.data.cases.length < 1) {
@@ -39,6 +41,8 @@ function* addCase() {
   const { id: organizationId } = yield select(authSelectors.getCurrentUser);
 
   try {
+    yield put(applicationActions.updateStatus('BUSY'));
+
     response = yield call(casesService.fetchCase, {
       organizationId,
     });
