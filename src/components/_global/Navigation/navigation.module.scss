@@ -14,7 +14,7 @@
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-
+  border-bottom: 4px solid #fff;
   color: #9ba0aa;
 
   @media screen and (min-width: 1200px) {
@@ -26,15 +26,5 @@
 .active {
   position: relative;
   color: #3c475b;
-
-  &:after {
-    content: '';
-    width: 100%;
-    position: absolute;
-    display: inline-block;
-    bottom: 0;
-    left: 0;
-    height: 4px;
-    background-color: #4051db;
-  }
+  border-color: #4051db;
 }
