@@ -8,11 +8,14 @@
 }
 
 .navMenuItem {
+  height: 60px;
   margin-left: 20px;
   font-size: 16px;
   text-decoration: none;
-
-  color: #3C475B;
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 4px solid #fff;
+  color: #9ba0aa;
 
   @media screen and (min-width: 1200px) {
     font-size: 18px;
@@ -21,5 +24,7 @@
 }
 
 .active {
-  border-bottom: 4px solid #4051DB;
+  position: relative;
+  color: #3c475b;
+  border-color: #4051db;
 }
