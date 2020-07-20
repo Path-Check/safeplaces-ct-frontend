@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import { InlineLoading, TextInput } from '@wfp/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './login.module.scss';
-import loginImage from '../../../assets/images/home-page-graphic.png';
+import pathcheck from '../../../assets/images/pathcheck.png';
 
 import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
 
 import authActions from 'ducks/auth/actions';
+import Logo from '../../../components/_global/Logo';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -52,12 +53,10 @@ const Login = () => {
 
   return (
     <div className={styles.login}>
-      <div className={styles.loginContent}>
-        <img src={loginImage} alt="hero" />
-      </div>
+      <Logo />
       <div className={styles.loginFormContainer}>
         <div className={styles.loginForm}>
-          <div className={styles.title}>Login</div>
+          <div className={styles.title}>Log in</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* {errorResponse && <Blockquote warning>{errorResponse}</Blockquote>} */}
             <TextInput
@@ -86,12 +85,7 @@ const Login = () => {
             />
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
-                <Button
-                  id="login-button"
-                  width="100%"
-                  height="72px"
-                  type="submit"
-                >
+                <Button id="login-button" height="16px" type="submit">
                   {fetching ? (
                     <div className={styles.loadingContainer}>
                       <InlineLoading className={styles.loading} />
