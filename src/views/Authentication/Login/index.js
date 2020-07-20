@@ -10,6 +10,7 @@ import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
 
 import authActions from 'ducks/auth/actions';
+import Logo from '../../../components/_global/Logo';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const Login = () => {
 
   return (
     <div className={styles.login}>
-      <img className={styles.logo} src={pathcheck} alt="logo" />
+      <Logo />
       <div className={styles.loginFormContainer}>
         <div className={styles.loginForm}>
           <div className={styles.title}>Log in</div>
