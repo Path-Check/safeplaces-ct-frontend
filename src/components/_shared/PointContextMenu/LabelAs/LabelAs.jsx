@@ -24,7 +24,7 @@ const options = ['Work', 'University', 'Bank', 'Pharmacy', 'Gas Station'];
 const LabelAs = ({
   renderAtBottom,
   currentNickname,
-  points: pointIds,
+  points,
   closeCallback,
 }) => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const LabelAs = ({
     dispatch(
       pointsActions.setPointsLabel({
         nickname,
-        pointIds,
+        discreetPointIds: points.flat(),
       }),
     );
 
