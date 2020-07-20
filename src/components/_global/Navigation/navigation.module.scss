@@ -12,7 +12,7 @@
   font-size: 16px;
   text-decoration: none;
 
-  color: rgba(248, 248, 255, 0.75);
+  color: #3C475B;
 
   @media screen and (min-width: 1200px) {
     font-size: 18px;
@@ -21,6 +21,5 @@
 }
 
 .active {
-  border-bottom: 4px solid white;
-  color: #fff;
+  border-bottom: 4px solid #4051DB;
 }
