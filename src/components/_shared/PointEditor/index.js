@@ -39,6 +39,7 @@ import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
 import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
+import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
 const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,8 @@ const PointEditor = ({ isEdit, animationState }) => {
 
   const [localDuration, setLocalDuration] = useState([0, 0]);
   const isDisabled = isEdit ? !selectedLocation : canSubmit(selectedLocation);
+
+  useCloseOnEscape(() => handleClose());
 
   useEffect(() => {
     if (!isEdit) {
