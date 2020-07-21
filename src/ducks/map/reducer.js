@@ -10,12 +10,20 @@ export default function reducer(state = initialState, action) {
     case mapTypes.UPDATE_LOCATION:
       return {
         ...state,
-        location: action.location,
+        location: {
+          ...state.location,
+          ...action.location,
+        },
       };
     case mapTypes.LOCATION_SELECT:
       return {
         ...state,
         locationSelect: action.locationSelect,
+      };
+    case mapTypes.LOCATION_RESET:
+      return {
+        ...state,
+        location: null,
       };
     default:
       return state;

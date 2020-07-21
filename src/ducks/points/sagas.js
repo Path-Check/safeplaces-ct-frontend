@@ -144,7 +144,7 @@ function* updatePoint({ point, type }) {
       yield put(applicationActions.updateStatus('IDLE'));
     }
 
-    yield put(mapActions.updateLocation(null));
+    yield put(mapActions.resetLocation());
     yield put(pointsActions.setSelectedPoint(null));
 
     yield put(

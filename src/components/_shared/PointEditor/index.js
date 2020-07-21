@@ -49,9 +49,6 @@ const PointEditor = ({ isEdit, animationState }) => {
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );
-  const initialLocation = isEdit
-    ? `${activePoint?.latitude}, ${activePoint?.longitude}`
-    : ``;
 
   const [localDuration, setLocalDuration] = useState([0, 0]);
   const isDisabled = isEdit ? !selectedLocation : canSubmit(selectedLocation);
@@ -172,8 +169,9 @@ const PointEditor = ({ isEdit, animationState }) => {
           <div className={locationControls}>
             <LocationSearchInput
               handlePointChange={handleChange}
-              defaultValue={initialLocation}
+              activePoint={activePoint}
               isEdit={isEdit}
+              selectedLocation={selectedLocation}
             />
           </div>
           <div className={timeControls}>

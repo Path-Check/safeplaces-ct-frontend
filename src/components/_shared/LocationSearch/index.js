@@ -6,23 +6,20 @@ import PlacesAutocomplete, {
 
 import { locationSearch } from './LocationSearch.module.scss';
 import LocationSuggestions from 'components/_shared/LocationSearch/LocationSuggestions';
-import { useSelector } from 'react-redux';
-import mapSelectors from 'ducks/map/selectors';
 
-const LocationSearchInput = ({ handlePointChange, defaultValue, isEdit }) => {
-  const selectedLocation = useSelector(state =>
-    mapSelectors.getLocation(state),
-  );
-
-  const [value, setValue] = useState(defaultValue);
+const LocationSearchInput = ({
+  handlePointChange,
+  selectedLocation,
+  isEdit,
+  activePoint,
+}) => {
+  const [value, setValue] = useState();
 
   const handleChange = address => {
     setValue(address);
   };
 
   const handleSelect = address => {
-    setValue(address);
-
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
@@ -32,11 +29,13 @@ const LocationSearchInput = ({ handlePointChange, defaultValue, isEdit }) => {
   };
 
   useEffect(() => {
-    if (isEdit) return;
+    if (isEdit) {
+      setValue(`${activePoint.latitude}, ${activePoint.longitude}`);
+    }
+  }, []);
 
-    if (!selectedLocation) {
-      setValue('');
-    } else if (selectedLocation.latitude && !value) {
+  useEffect(() => {
+    if (selectedLocation?.latitude) {
       setValue(`${selectedLocation.latitude}, ${selectedLocation.longitude}`);
     }
   }, [selectedLocation]);

@@ -13,6 +13,9 @@ const mapActions = {
     type: mapTypes.LOCATION_SELECT,
     locationSelect,
   }),
+  resetLocation: () => ({
+    type: mapTypes.LOCATION_RESET,
+  }),
 };
 
 export default mapActions;

@@ -8,9 +8,6 @@ function* setLocation({ location }) {
   const appStatus = yield select(applicationSelectors.getStatus);
 
   yield put(mapActions.updateLocation(location));
-
-  if (appStatus === 'EDIT POINT')
-    yield put(applicationActions.updateStatus('EDIT POINT'));
 }
 
 export default function* mapSagas() {
