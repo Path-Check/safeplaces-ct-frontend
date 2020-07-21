@@ -77,11 +77,12 @@ function* deleteMultiplePoints({ points }) {
   yield put(applicationActions.updateStatus('BUSY'));
   const currentPoints = yield select(getPoints);
 
+  const discreetpoints = points.reduce((pts, point) => {
+    return [...pts, ...point.discreetPointIds];
+  }, []);
+
   try {
-    yield call(
-      pointsService.deletePoints,
-      points.map(({ id }) => id),
-    );
+    yield call(pointsService.deletePoints, discreetpoints);
 
     const diff = differenceBy(currentPoints, points, 'id');
     yield put(pointsActions.updatePoints(diff));
