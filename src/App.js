@@ -24,11 +24,11 @@ const App = React.memo(() => {
     <div className="App">
       <ConnectedRouter history={history}>
         <LastLocationProvider>
+          <Loader />
           <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
           <Router token={token} />
         </LastLocationProvider>
       </ConnectedRouter>
-      <Loader />
       <Notifications />
     </div>
   );
