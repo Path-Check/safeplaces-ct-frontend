@@ -160,7 +160,9 @@ class AddNewRecordPage(Page):
         self.find_element(self.check_data_upload_button).click()
     
     def create_manually(self):
-        self.find_element(self.create_record_manually_button).click()
+        create_manual = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "create-record-manually")))
+        create_manual.click();
     
 class AddDataToRecordPage(Page):
     search_location = (By.ID, 'search-location')
@@ -225,10 +227,14 @@ class StageForPublishingPage(Page):
     no_consent_button = (By.ID, 'no-consent')
     
     def yes_consent(self):
-        self.find_element(self.yes_consent_button).click()
+        yes = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "yes-consent")))
+        yes.click();
     
     def no_consent(self):
-        self.find_element(self.no_consent_button).click()
+        no = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "no-consent")))
+        no.click();
     
     def stage_no_consent(self):
         contact_trace_page = ContactTracePage(self.driver)
@@ -242,7 +248,7 @@ class StageForPublishingPage(Page):
     
 class PublishDataPage(Page):
     load_data_button = (By.ID, 'load-data-for-publishing')
-    open_selected_button = (By.ID, 'open-selected-data')
+    # open_selected_button = (By.ID, 'open-selected-data')
     submit_publish_button = (By.ID, 'submit-data-for-publishing')
     publish_data_button = (By.ID, 'publish-data')
     
@@ -250,7 +256,10 @@ class PublishDataPage(Page):
         self.find_element(self.load_data_button).click()
 
     def open_selected(self):
-        self.find_element(self.open_selected_button).click()
+        open_selected_button = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "open-selected-data")))
+        open_selected_button.click();
+        # self.find_element(self.open_selected_button).click()
         
     def submit_for_publishing(self):
         self.find_element(self.submit_publish_button).click()
