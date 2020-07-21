@@ -13,7 +13,6 @@ import { useOnClickOutside } from 'hooks/useOnClickOutside';
 import DateButton from '../DateSelector/DateButton';
 
 const FilterData = ({
-  filterRecordIds,
   text,
   children,
   applyFilters,
@@ -22,6 +21,7 @@ const FilterData = ({
   useDurationFilter,
   selectAllRecords,
   setSelectAllRecords,
+  clearedFilters,
 }) => {
   const containerRef = useRef();
   const [filtersVisible, setFiltersVisible] = useState(false);
@@ -32,7 +32,7 @@ const FilterData = ({
       <DateButton
         onClick={() => setFiltersVisible(!filtersVisible)}
         closeAction={closeAction}
-        removeFilter={useDurationFilter || filterRecordIds}
+        removeFilter={useDurationFilter || clearedFilters}
         text={
           text ||
           (useDurationFilter ? `More than ${duration} min` : 'Any duration')

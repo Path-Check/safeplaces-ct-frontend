@@ -29,6 +29,7 @@ const Filters = React.memo(({ filteredPointsLength, pointsLength }) => {
 
   const [clearedFilters, setClearedFilters] = useState(false);
   const [filterRecordIds, setFilterRecordIds] = useState(false);
+  const [selectAllRecords, setSelectAllRecords] = useState(true);
   const [duration, setDuration] = useState(durationStore || durationTimes[0]);
   const [useDurationFilter, setUseDurationFilter] = useState(
     useDurationFilterStore || false,
@@ -55,6 +56,7 @@ const Filters = React.memo(({ filteredPointsLength, pointsLength }) => {
 
   const removeRecordIdFilter = () => {
     setFilterRecordIds(false);
+    setClearedFilters(false);
     dispatch(
       pointsActions.setFilters({
         recordIds: null,
@@ -73,7 +75,7 @@ const Filters = React.memo(({ filteredPointsLength, pointsLength }) => {
 
   const clearAllFilters = () => {
     dispatch(pointsActions.clearFilters());
-    setClearedFilters(true);
+    setClearedFilters(false);
   };
 
   return (
@@ -98,13 +100,18 @@ const Filters = React.memo(({ filteredPointsLength, pointsLength }) => {
         </FilterData>
         {isPublish && (
           <FilterData
+            clearedFilters={clearedFilters}
             filterRecordIds={filterRecordIds}
             text="Record ID"
             closeAction={removeRecordIdFilter}
             applyFilters={applyRecordIdFilter}
+            setSelectAllRecords={setSelectAllRecords}
+            selectAllRecords={selectAllRecords}
           >
             <RecordIdsFilter
+              setClearedFilters={setClearedFilters}
               filterRecordIds={filterRecordIds}
+              selectAllRecords={selectAllRecords}
               setFilterRecordIds={setFilterRecordIds}
             />
           </FilterData>

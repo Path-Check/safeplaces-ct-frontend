@@ -12,21 +12,27 @@ import pointsActions from 'ducks/points/actions';
 const DateSelector = ({ dates, clearedFilters }) => {
   const dispatch = useDispatch();
 
+  const [useDateRange, setUseDateRange] = useState(false);
   const [startDate, setStartDate] = useState(moment(dates[0]).toDate());
   const [endDate, setEndDate] = useState(
     moment(dates[dates.length - 1]).toDate(),
   );
 
   useEffect(() => {
-    if (clearedFilters) {
+    if (clearedFilters && useDateRange) {
       setStartDate(moment(dates[0]).toDate());
       setEndDate(moment(dates[dates.length - 1]).toDate());
       dispatch(pointsActions.setDateRange([dates[0], dates[dates.length - 1]]));
+      setUseDateRange(false);
     }
   }, [clearedFilters]);
 
   const CustomInput = ({ onClick }) => {
-    return <DateButton onClick={onClick} date1={startDate} date2={endDate} />;
+    const click = () => {
+      setUseDateRange(true);
+      onClick();
+    };
+    return <DateButton onClick={click} date1={startDate} date2={endDate} />;
   };
 
   const handleDateChange = date => {
