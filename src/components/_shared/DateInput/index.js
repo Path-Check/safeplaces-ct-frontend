@@ -28,13 +28,13 @@ function DateInput({
   const initialValue = displayValue ? moment(displayValue).toDate() : '';
 
   const handleDateChange = date => {
-    let dateTime = null;
+    let time = null;
 
     if (date) {
-      dateTime = moment(date).format();
+      time = moment(date).format();
     }
 
-    handleChange(type, dateTime);
+    handleChange({ time });
   };
 
   return (

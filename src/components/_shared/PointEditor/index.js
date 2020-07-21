@@ -86,23 +86,13 @@ const PointEditor = ({ isEdit, animationState }) => {
     );
   }, [localDuration]);
 
-  const handleChange = (type, value) => {
-    if (type === 'latLng') {
-      dispatch(
-        mapActions.updateLocation({
-          ...selectedLocation,
-          longitude: value.lng,
-          latitude: value.lat,
-        }),
-      );
-    } else {
-      dispatch(
-        mapActions.updateLocation({
-          ...selectedLocation,
-          time: value,
-        }),
-      );
-    }
+  const handleChange = value => {
+    dispatch(
+      mapActions.updateLocation({
+        ...selectedLocation,
+        ...value,
+      }),
+    );
   };
 
   const handleDuration = e => {

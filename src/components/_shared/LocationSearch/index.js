@@ -20,10 +20,18 @@ const LocationSearchInput = ({
   };
 
   const handleSelect = address => {
+    handlePointChange('latLng', {
+      address,
+    });
+
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        handlePointChange('latLng', latLng);
+        handlePointChange({
+          latitude: latLng.lat,
+          longitude: latLng.lng,
+          address,
+        });
       })
       .catch(error => console.error(error.message));
   };
@@ -35,8 +43,14 @@ const LocationSearchInput = ({
   }, []);
 
   useEffect(() => {
-    if (selectedLocation?.latitude) {
-      setValue(`${selectedLocation.latitude}, ${selectedLocation.longitude}`);
+    if (selectedLocation?.latitude || selectedLocation?.address) {
+      const value = selectedLocation.address
+        ? selectedLocation.address
+        : `${selectedLocation.latitude}, ${selectedLocation.longitude}`;
+
+      setValue(value);
+    } else {
+      !isEdit && setValue('');
     }
   }, [selectedLocation]);
 
