@@ -199,7 +199,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
           handleClick(rightButton, lngLat, features)
         }
       >
-        {editorMode && pointsLength > 0 && (
+        {editorMode && (
           <>
             <MapSource geoPoints={geoPoints} />
             {selectedPoint && (
