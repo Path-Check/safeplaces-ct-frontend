@@ -26,7 +26,7 @@ function* deletePoint({ data: { id, discreetPointIds } }) {
       }),
     );
 
-    yield put(pointsActions.setSelectedPoint(null));
+    yield put(applicationActions.setActivePoint(null));
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -58,7 +58,7 @@ function* deleteFilteredPoints() {
         title: `${filteredPoints.length} Point(s) Deleted`,
       }),
     );
-    yield put(pointsActions.setSelectedPoint(null));
+    yield put(applicationActions.setActivePoint(null));
     yield put(pointsActions.clearFilters());
 
     yield put(applicationActions.updateStatus('IDLE'));
@@ -92,7 +92,7 @@ function* deleteMultiplePoints({ points }) {
         title: `${points.length} Point(s) Deleted`,
       }),
     );
-    yield put(pointsActions.setSelectedPoint(null));
+    yield put(applicationActions.setActivePoint(null));
     yield put(pointsActions.clearFilters());
 
     yield put(applicationActions.updateStatus('IDLE'));
@@ -146,7 +146,7 @@ function* updatePoint({ point, type }) {
     }
 
     yield put(mapActions.updateLocation(null));
-    yield put(pointsActions.setSelectedPoint(null));
+    yield put(applicationActions.setActivePoint(null));
 
     yield put(
       applicationActions.notification({

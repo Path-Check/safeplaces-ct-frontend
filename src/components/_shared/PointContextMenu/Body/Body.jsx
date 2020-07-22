@@ -53,7 +53,7 @@ const PointContextMenuBody = ({
           type="button"
           onClick={() => {
             dispatch(
-              pointsActions.setSelectedPoint({
+              applicationActions.setActivePoint({
                 id,
                 pointId: id,
                 time: timestamp,

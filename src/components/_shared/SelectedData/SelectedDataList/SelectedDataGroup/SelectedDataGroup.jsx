@@ -38,9 +38,7 @@ const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
   const groupRef = useRef();
   const [isExpanded, setIsExpanded] = useState(index === 0);
 
-  const activePoint = useSelector(state =>
-    pointsSelectors.getActivePoint(state),
-  );
+  const activePoint = useSelector(applicationSelectors.getActivePoint);
 
   const appMode = useSelector(state => applicationSelectors.getMode(state));
 

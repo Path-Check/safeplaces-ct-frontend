@@ -20,11 +20,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         points,
       };
-    case pointsTypes.ACTIVE_POINT:
-      return {
-        ...state,
-        activePoint: data,
-      };
+
     case pointsTypes.SET_DATE_RANGE:
       return {
         ...state,

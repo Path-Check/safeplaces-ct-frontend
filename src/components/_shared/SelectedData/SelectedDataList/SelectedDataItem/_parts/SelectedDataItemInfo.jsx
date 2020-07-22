@@ -10,10 +10,10 @@ import {
   selectedDataTag,
 } from '../SelectedDataItem.module.scss';
 
-import pointsActions from 'ducks/points/actions';
 import { useDispatch } from 'react-redux';
 
 import { formattedDuration } from 'helpers/dateTime';
+import applicationActions from 'ducks/application/actions';
 
 const SelectedDataItemInfo = React.memo(
   ({
@@ -34,7 +34,7 @@ const SelectedDataItemInfo = React.memo(
         type="button"
         onClick={() =>
           dispatch(
-            pointsActions.setSelectedPoint({
+            applicationActions.setActivePoint({
               time: timestamp,
               duration,
               nickname,

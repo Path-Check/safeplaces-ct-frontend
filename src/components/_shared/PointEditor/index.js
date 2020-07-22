@@ -39,14 +39,13 @@ import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
 import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
+import applicationSelectors from 'ducks/application/selectors';
 import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
 const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
   const now = new Date();
-  const activePoint = useSelector(state =>
-    pointsSelectors.getActivePoint(state),
-  );
+  const activePoint = useSelector(applicationSelectors.getActivePoint);
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
   );

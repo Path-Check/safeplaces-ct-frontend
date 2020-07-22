@@ -5,6 +5,7 @@ import inside from '@turf/inside';
 import { getDates, CURRENT_DATE_FORMAT } from 'helpers/pointsUtils';
 import { createSelector } from 'reselect';
 
+const appStoreSelec = state => state.application;
 const pointsStoreSelector = state => state.points;
 const pointsSelector = state => state.points.points;
 
@@ -95,7 +96,6 @@ export const getUseDurationFilter = createSelector(
 
 const pointsSelectors = {
   getGeometry: state => state.points.geometry,
-  getActivePoint: state => state.points.activePoint,
   getPointsDates,
   getPoints,
   getDateRange: state => state.points.dateRange,
