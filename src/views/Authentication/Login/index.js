@@ -11,6 +11,7 @@ import Button from 'components/_shared/Button';
 
 import authActions from 'ducks/auth/actions';
 import Logo from '../../../components/_global/Logo';
+import emailValidator from '../../../helpers/emailValidator';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Login = () => {
   const { fetching } = useSelector(state => authSelectors.getLoginState(state));
   const history = useHistory();
   const [email, setEmail] = useState('');
+  const [isValidEmail, setIsValidEmail] = useState(false);
   const [password, setPassword] = useState('');
   const location = useLocation();
 
@@ -38,6 +40,9 @@ const Login = () => {
   const { handleSubmit, errors, register } = useForm({});
 
   const onEmail = ({ target: { value } }) => {
+    if (value.length) {
+      setIsValidEmail(emailValidator(value));
+    }
     setEmail(value);
   };
 
@@ -67,8 +72,11 @@ const Login = () => {
               labelText="Email"
               inputRef={register({ required: 'Please enter an email' })}
               name="username"
-              invalid={errors.username}
-              invalidText={errors.username && errors.username.message}
+              invalid={errors.username || (email.length && !isValidEmail)}
+              invalidText={
+                (errors.username && errors.username.message) ||
+                'Please enter a valid email'
+              }
             />
 
             <TextInput
@@ -85,7 +93,12 @@ const Login = () => {
             />
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
-                <Button id="login-button" height="16px" type="submit">
+                <Button
+                  id="login-button"
+                  height="16px"
+                  type="submit"
+                  disabled={!email.length || !isValidEmail || !password.length}
+                >
                   {fetching ? (
                     <div className={styles.loadingContainer}>
                       <InlineLoading className={styles.loading} />
