@@ -53,8 +53,6 @@ const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
     });
   }, [isExpanded]);
 
-  console.log('render');
-
   return (
     <div className={accordionItem} ref={groupRef}>
       <button
