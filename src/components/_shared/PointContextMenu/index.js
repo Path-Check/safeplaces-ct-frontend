@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
 import PointContextMenuHeader from 'components/_shared/PointContextMenu/Header/Header';
 import PointContextMenuBody from 'components/_shared/PointContextMenu/Body/Body';
+import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
 const PointContextMenu = React.memo(({ bottom, closeAction, ...rest }) => {
   const containerRef = useRef();
@@ -26,6 +27,7 @@ const PointContextMenu = React.memo(({ bottom, closeAction, ...rest }) => {
   };
 
   useOnClickOutside(containerRef, () => handleClose());
+  useCloseOnEscape(handleClose);
 
   if (appStatus === 'EDIT POINT' || !rest.longitude || !rest.latitude) {
     return null;

@@ -39,6 +39,7 @@ import Button from 'components/_shared/Button';
 import DateInput from 'components/_shared/DateInput';
 import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
+import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
 const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
@@ -149,6 +150,8 @@ const PointEditor = ({ isEdit, animationState }) => {
     dispatch(applicationActions.updateStatus(''));
     dispatch(mapActions.updateLocation(null));
   };
+
+  useCloseOnEscape(handleClose);
 
   const classes = classNames({
     [`${pointEditor}`]: true,
