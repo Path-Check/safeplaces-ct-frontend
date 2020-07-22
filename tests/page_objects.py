@@ -124,6 +124,18 @@ class RedactionPage(Page):
     def check_duration_is(self, value):
         self.check_is(value,self.find_element(self.duration).text)
         
+    # def add_entry(self):
+    #     self.find_element(self.add_entry_btn).click()
+
+    # def delete_inspected(self):
+    #     self.find_element(self.delete_inspected_btn).click()
+        
+    # def select_all(self):
+    #     self.find_element(self.select_all_btn).click()
+        
+    # def select_none(self):
+    #     self.find_element(self.select_none_btn).click()
+
 class ContactTracePage(Page):
     add_new_record_button = (By.ID, 'add-new-record')
     load_existing_record_button = (By.ID, 'load-existing-record')
@@ -167,10 +179,11 @@ class AddNewRecordPage(Page):
 class AddDataToRecordPage(Page):
     search_location = (By.ID, 'search-location')
     select_from_map_button = (By.ID, 'select-from-map')
-    use_location_button = (By.XPATH, '//*[@id="root"]/div/div[1]/div/div[1]/div/div[2]/div/div[2]/div[2]/div/button')
+    use_location_button = (By.XPATH, '//*[@id="root"]/div/div[1]/div/div[1]/div/div[2]/div/div[1]/div[2]/div/button')
     date_picker = (By.ID, 'time')
     duration_hours = (By.NAME, 'durationHours')
     duration_minutes = (By.NAME, 'durationMinutes')
+    cancel_point_button = (By.ID, 'cancel-point')
     save_data_button = (By.ID, 'save-data')
     close_point_editor_button = (By.ID, 'point-editor-close')
     edit_record_button = (By.ID, 'edit-record-id')
@@ -186,7 +199,6 @@ class AddDataToRecordPage(Page):
         self.find_element(self.use_location_button).click()
     
     def use_location_on_map(self):
-        self.select_from_map()
         actionChains = ActionChains(self.driver)
         actionChains.context_click(self.find_element(self.mapbox)).perform()
         self.use_location()        
@@ -205,6 +217,9 @@ class AddDataToRecordPage(Page):
         
     def close(self):
         self.find_element(self.close_point_editor_button).click()
+    
+    def cancel(self):
+        self.find_element(self.cancel_point_button).click()
     
     def add_data_point(self, location, date, hours, minutes):
         contact_trace_page = ContactTracePage(self.driver)
@@ -248,8 +263,6 @@ class StageForPublishingPage(Page):
     
 class PublishDataPage(Page):
     load_data_button = (By.ID, 'load-data-for-publishing')
-    # open_selected_button = (By.ID, 'open-selected-data')
-    submit_publish_button = (By.ID, 'submit-data-for-publishing')
     publish_data_button = (By.ID, 'publish-data')
     
     def load_data(self):
@@ -259,23 +272,26 @@ class PublishDataPage(Page):
         open_selected_button = WebDriverWait(self.driver, 20).until(
         EC.element_to_be_clickable((By.ID, "open-selected-data")))
         open_selected_button.click();
-        # self.find_element(self.open_selected_button).click()
         
     def submit_for_publishing(self):
-        self.find_element(self.submit_publish_button).click()
+        submit_publish_button = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "submit-data-publishing")))
+        submit_publish_button.click();
     
     def publish_data(self):
         self.find_element(self.publish_data_button).click()
     
 class SelectDataPage(Page):
-    select_checkbox = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > table > tbody > tr > th > div > label > span')
-    open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
 
     def select_item(self):
-        self.find_element(self.select_checkbox).click()
+        checkbox = self.driver.find_element_by_xpath("//*[@id='records-table']/tbody/tr/th/div/label")
+        self.driver.execute_script("arguments[0].click();", checkbox)
     
     def open_selected(self):
-        self.find_element(self.open_selected_button).click()
+        open_selected_button = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "open-selected-data")))
+        open_selected_button.click();
+
     
 class SubmitDataPage(Page):
     submit_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div.PublishData_PublishDataActions__1OVeJ > button:nth-child(1)')
@@ -350,6 +366,7 @@ class SettingsPage(Page):
         self.set_retention_policy('50')
         self.reset_gps_coordinates
         self.save_and_continue
+
 
 class Tools:
     def compare_files(self, fname1, fname2):
