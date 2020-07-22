@@ -85,7 +85,7 @@ class TestRedaction(unittest.TestCase):
         point_editor_page.enter_date('06/18/2020 07:00')
         point_editor_page.enter_duration_hours('0')
         point_editor_page.enter_duration_minutes('40')
-        point_editor_page.close()
+        point_editor_page.cancel()
         
         # add a point again but this time save the data
         # point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00\r\n', '\t', '20')
@@ -94,30 +94,33 @@ class TestRedaction(unittest.TestCase):
         # add a point by selecting the location on the map and saving the data
         point_editor_page.add_data_point_select_on_map('07/08/2020 07:00AM\r\n\t', '1\t', '20\t')
         point_editor_page.save_data()
+        point_editor_page.cancel()
       
         contact_trace_page.stage_for_publishing()
         stage_publish_page = StageForPublishingPage(self.driver)
         stage_publish_page.no_consent()
         contact_trace_page.stage_for_publishing()
         stage_publish_page.yes_consent()
+           
+    def publish(self):
+        tools = Tools()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        entry_page.open_page()
+        login_page = LoginPage(self.driver)
+        login_page.login_if_required()
         entry_page.open_publish()
-        #publish_data_page = PublishDataPage(self.driver)
-        #publish_data_page.load_data()
-        #select_data_page = SelectDataPage(self.driver)
-        #select_data_page.select_item()
-        #select_data_page.open_selected()
-        #publish_data_page.submit_for_publishing()
-        #submit_data_page = SubmitDataPage(self.driver)
-        #submit_data_page.cancel()
-        #publish_data_page.submit_for_publishing()
-        #submit_data_page = SubmitDataPage(self.driver)
-        #submit_data_page.submit()
-        #publish_data_page.publish_data()
+        publish_data_page = PublishDataPage(self.driver)
+        #sleep(10)
+        publish_data_page.load_data()
+        select_data_page = SelectDataPage(self.driver)
+        select_data_page.select_item()
+        select_data_page.open_selected()
+        publish_data_page.submit_for_publishing()
        
         # logout
-        entry_page.open_settings()
-        settings_page = SettingsPage(self.driver)
-        settings_page.logout
+        # entry_page.open_settings()
+        # settings_page = SettingsPage(self.driver)
+        # settings_page.logout
            
     # leaving test_ out of the method name until the SUT works
     def settings(self):
