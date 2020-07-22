@@ -1,3 +1,23 @@
-.redactorToolsBody {
-  max-height: 50%;
+.redactorTools {
+  background-color: #fff;
+  padding: 20px 10px 10px;
+}
+
+.filtersContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.clearFilters {
+  color: #2434b6;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+
+  &:disabled {
+    color: #d6d6da;
+  }
 }

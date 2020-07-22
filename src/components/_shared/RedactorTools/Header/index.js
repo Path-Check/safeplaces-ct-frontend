@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { redactorToolsHeader, selectedEditAction } from './header.module.scss';
+import { redactorToolsHeader, selectedEditAction, headerTitle } from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faPencilAlt } from '@fortawesome/pro-solid-svg-icons';
 import casesSelectors from 'ducks/cases/selectors';
@@ -40,7 +40,7 @@ const RedactorToolsHeader = () => {
 
   return (
     <>
-      <header className={redactorToolsHeader} ref={containerRef}>
+      <div className={redactorToolsHeader} ref={containerRef}>
         <button
           id="go-back"
           type="button"
@@ -53,15 +53,15 @@ const RedactorToolsHeader = () => {
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
-        <h3 title={externalId || ''}>
+        <h3 className={headerTitle} title={externalId || ''}>
           {Array.isArray(activeCases) ? (
             <>
               {activeCases.length} Record{activeCases.length > 1 ? 's' : ''}{' '}
               Loaded
             </>
           ) : (
-            <>Record ID: {_id}</>
-          )}
+              <>Record ID: {_id}</>
+            )}
         </h3>
         {mode === 'trace' && (
           <button
@@ -76,7 +76,7 @@ const RedactorToolsHeader = () => {
             <FontAwesomeIcon icon={faPencilAlt} />
           </button>
         )}
-      </header>
+      </div>
 
       <EditRecordModal
         onSubmit={onSubmit}

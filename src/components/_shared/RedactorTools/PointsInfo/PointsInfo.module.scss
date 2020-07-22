@@ -1,0 +1,25 @@
+.pointsInfoHeader {
+  display: flex;
+  align-items: center;
+  justify-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  margin-top: 15px;
+}
+
+.pointsInfoSelection {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.pointsInfoAddPoint {
+  cursor: pointer;
+  color: #4051db;
+  font-weight: 800;
+  margin-left: auto;
+
+  svg {
+    font-size: 10px;
+  }
+}

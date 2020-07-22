@@ -7,8 +7,10 @@ import applicationActions from '../application/actions';
 
 function* authenticateSaga({ data }) {
   try {
+    yield put(applicationActions.updateStatus('BUSY'));
     const response = yield call(authService.login, data);
     yield put(authActions.loginSuccess(response));
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(authActions.loginFailure(error));
 
@@ -16,19 +18,24 @@ function* authenticateSaga({ data }) {
 
     const message = response?.data?.message || 'Something went wrong';
 
-    yield put(applicationActions.notification({ title: name, text: message }));
+    yield put(
+      applicationActions.notification({ text: message, type: 'error' }),
+    );
   }
 }
 
 function* logoutSaga() {
   try {
+    yield put(applicationActions.updateStatus('BUSY'));
     yield call(authService.logout);
   } catch (e) {}
   yield put(push('/login'));
+  yield put(applicationActions.updateStatus('IDLE'));
 }
 
 function* onboardingSaga({ data }) {
   try {
+    yield put(applicationActions.updateStatus('BUSY'));
     const response = yield call(authService.onboarding, data);
 
     yield put(
@@ -37,6 +44,7 @@ function* onboardingSaga({ data }) {
       }),
     );
     yield put(push('/trace'));
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     const {
       name,
@@ -45,8 +53,8 @@ function* onboardingSaga({ data }) {
         status,
       },
     } = error;
-    const text = status === 500 ? 'Something wrong happened.' : message;
-    yield put(applicationActions.notification({ title: name, text }));
+    const text = status === 500 ? 'Something went wrong.' : message;
+    yield put(applicationActions.notification({ text }));
     yield put(authActions.onboardingFailure(error));
   }
 }

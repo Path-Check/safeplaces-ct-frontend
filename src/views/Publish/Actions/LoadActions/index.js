@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { sidebarActions } from '../PublishActions.module.scss';
+import { sidebarActions } from 'views/ViewWrapper.module.scss';
 import Button from 'components/_shared/Button';
 import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';

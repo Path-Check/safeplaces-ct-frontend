@@ -9,9 +9,9 @@ const pointsActions = {
     type: pointsTypes.ACTIVE_POINT,
     data,
   }),
-  deletePoint: id => ({
+  deletePoint: data => ({
     type: pointsTypes.DELETE_POINT,
-    id,
+    data,
   }),
   deleteMultiplePoints: points => ({
     type: pointsTypes.DELETE_MULTIPLE_POINTS,
@@ -55,10 +55,6 @@ const pointsActions = {
   }),
   clearFilters: () => ({
     type: pointsTypes.CLEAR_FILTERS,
-  }),
-  hidePoint: id => ({
-    type: pointsTypes.HIDE_POINT,
-    id,
   }),
 };
 

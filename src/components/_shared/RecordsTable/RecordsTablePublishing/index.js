@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   tableWrapper,
   table,
@@ -6,24 +7,30 @@ import {
   tableAction,
 } from '../recordsTable.module.scss';
 
+import { sortEnum } from 'types/sortBy';
+
 import Button from 'components/_shared/Button';
 import casesSelectors from 'ducks/cases/selectors';
 import applicationSelectors from 'ducks/application/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import Record from './Record';
 import casesActions from 'ducks/cases/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown } from '@fortawesome/pro-solid-svg-icons';
+import { useSortByDate } from 'components/_shared/RecordsTable/useSortBy';
 
 const RecordsTablePublishing = ({ isPublishing }) => {
   const dispatch = useDispatch();
   const cases = useSelector(state => casesSelectors.getCases(state));
   const status = useSelector(state => applicationSelectors.getStatus(state));
   const [caseIds, setCaseIds] = useState([]);
+  const [sortItems, sortBy, items] = useSortByDate(
+    cases.filter(c => c.state === 'staging'),
+  );
 
   if (status !== 'CASES ADDED' || !cases || cases.length < 1) {
     return null;
   }
-
-  const stagedCases = cases.filter(c => c.state === 'staging');
 
   const handleChange = (checked, e) => {
     const caseId = parseInt(e.target.id, 10);
@@ -43,11 +50,20 @@ const RecordsTablePublishing = ({ isPublishing }) => {
       <table className={table}>
         <thead>
           <tr>
-            <th colSpan="1" style={{ textAlign: ' center' }}>
+            <th colSpan="1" style={{ textAlign: 'center' }}>
               Select
             </th>
-            <th colSpan="1">Record ID</th>
-            <th colSpan="2">Processing Date</th>
+            <th colSpan="2">Record ID</th>
+            <th colSpan="2">
+              <div>
+                Processing Date
+                <button onClick={sortItems}>
+                  <FontAwesomeIcon
+                    icon={sortBy === sortEnum.OLDEST ? faArrowUp : faArrowDown}
+                  />
+                </button>
+              </div>
+            </th>
             <th colSpan="2">Contact Tracer ID</th>
           </tr>
         </thead>
@@ -55,7 +71,7 @@ const RecordsTablePublishing = ({ isPublishing }) => {
       <div className={tableMain}>
         <table id="records-table" className={table}>
           <tbody>
-            {stagedCases.map(r => (
+            {items.map(r => (
               <Record
                 key={`case-pub-${r.caseId}`}
                 {...r}

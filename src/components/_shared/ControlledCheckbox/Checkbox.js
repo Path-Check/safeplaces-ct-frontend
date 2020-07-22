@@ -7,6 +7,7 @@ import {
   checkboxCustom,
   alignLeft,
   inputTitle,
+  small,
 } from './styles.module.scss';
 
 import classNames from 'classnames';
@@ -19,11 +20,17 @@ const Checkbox = ({
   name,
   isChecked = false,
   disabled,
+  isSmall,
 }) => {
   const containerClasses = classNames({
     [`${checkboxContainer}`]: true,
     [`${checkboxContainerDisabled}`]: disabled,
     [`${alignLeft}`]: align === 'left',
+  });
+  console.log(isSmall);
+  const labelClasses = classNames({
+    [`${inputTitle}`]: true,
+    [`${small}`]: isSmall,
   });
 
   const onCheck = e => {
@@ -44,7 +51,7 @@ const Checkbox = ({
         />
         <span className={checkboxCustom} />
       </label>
-      <label className={inputTitle} tabIndex={0} htmlFor={id}>
+      <label className={labelClasses} tabIndex={0} htmlFor={id}>
         {label}
       </label>
     </div>

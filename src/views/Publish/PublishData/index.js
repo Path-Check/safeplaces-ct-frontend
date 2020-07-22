@@ -44,7 +44,7 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
             large
             onClick={() => dispatch(casesActions.publishCases())}
           >
-            Submit Data For Publishing
+            Submit All Data For Publishing
           </Button>
           <Button
             large

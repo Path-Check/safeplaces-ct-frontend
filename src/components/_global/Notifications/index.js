@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { notificationWrapper } from './Notification.module.scss';
+import {
+  notificationWrapper,
+  notificationWrapperError,
+} from './Notification.module.scss';
 import applicationSelectors from 'ducks/application/selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faTimes } from '@fortawesome/pro-solid-svg-icons';
+import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import applicationActions from 'ducks/application/actions';
 
 import { toast, ToastContainer } from 'react-toastify';
+import classNames from 'classnames';
 import 'react-toastify/dist/ReactToastify.minimal.css';
 
 const Notifications = () => {
@@ -15,12 +19,19 @@ const Notifications = () => {
     applicationSelectors.getNotification(state),
   );
 
+  const classes = classNames({
+    [`${notificationWrapper}`]: true,
+    [`${notificationWrapperError}`]: true,
+  });
+
   useEffect(() => {
     if (notification) {
-      const { title = '', text = '' } = notification;
+      const { title = '', text = '', type = '' } = notification;
+      const isError = type === 'error';
+      const className = isError ? classes : notificationWrapper;
 
       toast(`${title} ${text}`, {
-        className: notificationWrapper,
+        className,
         onClose: () => dispatch(applicationActions.removeNotification()),
       });
     }

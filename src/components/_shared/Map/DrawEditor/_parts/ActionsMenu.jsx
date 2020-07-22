@@ -12,23 +12,20 @@ import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
 import DeletePoints from 'views/Trace/DeletePoints';
 
 const returnActions = (amount, filterAction, closeAction, labelAction) => [
-  // {
-  //   label: `Filter Selection`,
-  //   icon: faFilter,
-  //   action: filterAction,
-  // },
   {
     label: `Label ${amount}
   Points`,
     type: 'label',
     icon: faTag,
     action: labelAction,
+    key: 'label-label',
   },
   {
     label: `Delete ${amount}
   Points`,
     icon: faTrash,
     action: closeAction,
+    key: 'delete-label',
   },
 ];
 
@@ -36,7 +33,7 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
   const dispatch = useDispatch();
   const [showLabelAs, setShowLabelAs] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const pointIds = newPoints.map(p => p.pointId);
+  const pointIds = newPoints.map(p => p.id);
 
   return (
     <>
@@ -49,8 +46,8 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
           },
           () => setShowDeleteModal(true),
           () => setShowLabelAs(!showLabelAs),
-        ).map(({ label, icon, action, type }) => (
-          <li>
+        ).map(({ label, icon, action, type, key }, i) => (
+          <li key={`${key}${i}${type}`}>
             <Button tertiary onClick={() => action()}>
               <FontAwesomeIcon icon={icon} /> {label}
             </Button>
@@ -58,7 +55,7 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
             {showLabelAs && type === 'label' && (
               <LabelAs
                 renderAtBottom
-                closeCallback={() => resetGeometry(true)}
+                closeCallback={() => resetGeometry(false)}
                 points={pointIds}
               />
             )}
@@ -73,9 +70,10 @@ const ActionsMenu = ({ newPoints, geometry, handleDelete, resetGeometry }) => {
       {showDeleteModal && (
         <DeletePoints
           closeAction={() => setShowDeleteModal(false)}
-          deleteAction={() =>
-            dispatch(pointsActions.deleteMultiplePoints(newPoints))
-          }
+          deleteAction={() => {
+            dispatch(pointsActions.deleteMultiplePoints(newPoints));
+            resetGeometry();
+          }}
           points={newPoints}
         />
       )}

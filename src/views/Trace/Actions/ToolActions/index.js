@@ -1,28 +1,35 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import { sidebarActions } from '../TracerActions.module.scss';
+import {
+  sidebarActions,
+  sidebarActionsPadded,
+} from 'views/ViewWrapper.module.scss';
 import Button from 'components/_shared/Button';
 import { useSelector, useDispatch } from 'react-redux';
 
-import pointsSelectors from 'ducks/points/selectors';
+import pointsSelectors, {
+  getPoints,
+  getFilteredPoints,
+  getAllowStaging,
+} from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 
-const TracerToolActions = () => {
+const TracerToolActions = ({ isPadded }) => {
   const dispatch = useDispatch();
-  const points = useSelector(state => pointsSelectors.getPoints(state));
-  const filteredPoints = useSelector(state =>
-    pointsSelectors.getFilteredPoints(state),
-  );
 
-  const allowStaging = points.length === filteredPoints.length;
+  const allowStaging = useSelector(getAllowStaging);
+
+  const classes = classNames({
+    [`${sidebarActions}`]: true,
+    [`${sidebarActionsPadded}`]: true,
+  });
 
   return (
-    <div className={sidebarActions}>
+    <div className={classes}>
       {allowStaging && (
         <Button
           id="stage-for-publishing"
-          disabled={points?.length < 1}
           onClick={() =>
             dispatch(applicationActions.updateStatus('STAGE CASE'))
           }
