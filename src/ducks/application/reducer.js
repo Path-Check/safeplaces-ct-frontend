@@ -16,6 +16,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         notification: action.data,
       };
+    case applicationTypes.ACTIVE_POINT:
+      return {
+        ...state,
+        activePoint: action.data,
+      };
     case applicationTypes.EDITOR_VIEW:
       return {
         ...state,
