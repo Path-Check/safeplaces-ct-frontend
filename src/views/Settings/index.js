@@ -5,7 +5,7 @@ import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import authActions from '../../ducks/auth/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt, faTools } from '@fortawesome/pro-solid-svg-icons';
+import { faSignOutAlt, faCog } from '@fortawesome/pro-solid-svg-icons';
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -19,8 +19,8 @@ const Settings = () => {
               className={styles.option}
               to="/settings/organization"
             >
-              <FontAwesomeIcon className={styles.icon} icon={faTools} />
-              Configuration
+              <FontAwesomeIcon className={styles.icon} icon={faCog} />
+              General
             </NavLink>
           </li>
           {/* No designs for account yet.

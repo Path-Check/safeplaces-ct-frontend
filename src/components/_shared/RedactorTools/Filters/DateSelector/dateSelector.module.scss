@@ -1,0 +1,29 @@
+@import 'scss/global';
+
+:global .react-datepicker-wrapper,
+:global .datePicker {
+  width: unset;
+}
+
+:global .react-datepicker {
+  width: 500px;
+}
+
+:global .react-datepicker-popper .react-datepicker__day--in-range {
+  background-color: #4051db;
+}
+
+:global .react-datepicker-popper .react-datepicker__day--selected {
+  background-color: #4051db;
+}
+
+:global .react-datepicker-popper .react-datepicker__day--selected:hover {
+  background-color: #4051db;
+}
+
+:global
+  .react-datepicker-popper
+  .react-datepicker__month--selecting-range
+  .react-datepicker__day--in-range {
+  background-color: #e5e7fa;
+}

@@ -3,6 +3,7 @@
   height: calc(100vh - 60px);
   width: 360px;
   background: #f8f8ff;
+  grid-template-rows: auto auto 1fr;
   box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.05);
   position: relative;
   z-index: 13;
