@@ -39,7 +39,7 @@ class TestRedaction(unittest.TestCase):
 
 
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.args.append('--disable-dev-shm-usage') # Disable use of /dev/shm inside of containers where it is not available
+        chrome_options.add_argument('--disable-dev-shm-usage') # Disable use of /dev/shm inside of containers where it is not available
         prefs = {'download.default_directory': '/tmp'}
         chrome_options.add_experimental_option('prefs', prefs)
         if self.local_mode:
