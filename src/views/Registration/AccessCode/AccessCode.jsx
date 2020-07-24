@@ -10,30 +10,21 @@ import FormWrapper from 'components/_shared/Forms/FormWrapper';
 import emailValidator from 'helpers/emailValidator';
 
 const AccessCode = () => {
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [formValues, setFormValues] = useState({});
+  const [accessCode, setAccessCode] = useState();
   const fetching = false;
   const { handleSubmit, errors, register } = useForm({});
 
-  const onChange = ({ target: { value, name } }) => {
-    if (formValues?.username?.length) {
-      setIsValidEmail(emailValidator(formValues.username));
-    }
-
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
+  const onChange = ({ target: { value } }) => setAccessCode(value);
 
   const onSubmit = async () => {
-    if (!isValidEmail) return;
-
-    console.log('SUBMIT');
+    console.log(accessCode);
   };
 
   return (
-    <FormWrapper title="Setup Your Account">
+    <FormWrapper
+      title="Account Setup - Step 2"
+      intro="Please enter your access code"
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           id="code-input"
@@ -42,16 +33,19 @@ const AccessCode = () => {
           autoCapitalize="off"
           labelText="Code"
           inputRef={register({ required: 'Please enter your access code' })}
-          name="code"
-          invalid={
-            errors.username || (formValues?.username?.length && !isValidEmail)
-          }
+          name="accessCode"
+          invalid={errors.accessCode}
           invalidText={'Please enter your access code'}
         />
 
         <div className={styles.submitWrapper}>
           <div className={styles.buttonContainer}>
-            <Button id="login-button" height="16px" type="submit">
+            <Button
+              id="login-button"
+              height="16px"
+              type="submit"
+              disabled={!accessCode}
+            >
               {fetching ? (
                 <div className={styles.loadingContainer}>
                   <InlineLoading className={styles.loading} />

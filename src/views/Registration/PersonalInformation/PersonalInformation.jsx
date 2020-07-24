@@ -33,9 +33,11 @@ const PersonalInformation = () => {
   };
 
   return (
-    <FormWrapper title="Setup Your Account">
+    <FormWrapper
+      title="Account Setup - Step 1"
+      intro="Please enter your information"
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* {errorResponse && <Blockquote warning>{errorResponse}</Blockquote>} */}
         <TextInput
           id="email-input"
           onChange={onChange}

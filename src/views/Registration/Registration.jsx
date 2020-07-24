@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { InlineLoading, TextInput } from '@wfp/ui';
-import styles from './Registration.module.scss';
+import React from 'react';
 
-import Button from 'components/_shared/Button';
-
-import FormWrapper from 'components/_shared/Forms/FormWrapper';
-import emailValidator from 'helpers/emailValidator';
+import PersonalInformation from 'views/Registration/PersonalInformation';
+import AccessCode from 'views/Registration/AccessCode';
 
 const RegistrationView = () => {
-  return (
-    <>
-      <PersonalInformation />
-      <AccessCode />
-    </>
-  );
+  const submittedInformation = 1;
+
+  return <>{submittedInformation ? <PersonalInformation /> : <AccessCode />}</>;
 };
 
 export default RegistrationView;

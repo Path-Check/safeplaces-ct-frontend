@@ -2,9 +2,7 @@
 
 .form {
   display: flex;
-  height: 100vh;
   flex-direction: column;
-  overflow: hidden;
   justify-content: center;
   align-items: center;
 }
@@ -16,7 +14,11 @@
   text-align: left;
   letter-spacing: -2px;
   color: #000000;
-  margin-bottom: 32px;
+  margin-bottom: 18px;
+}
+
+.formIntro {
+  margin-bottom: 24px;
 }
 
 .formContainer {

@@ -1,1 +1,1 @@
-export { default } from './AccessCode
+export { default } from './AccessCode';
