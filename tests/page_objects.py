@@ -172,14 +172,13 @@ class AddNewRecordPage(Page):
         self.find_element(self.check_data_upload_button).click()
     
     def create_manually(self):
-        create_manual = WebDriverWait(self.driver, 20).until(
+        create_manual = WebDriverWait(self.driver, 60).until(
         EC.element_to_be_clickable((By.ID, "create-record-manually")))
         create_manual.click();
     
 class AddDataToRecordPage(Page):
     search_location = (By.ID, 'search-location')
     select_from_map_button = (By.ID, 'select-from-map')
-    use_location_button = (By.XPATH, '//*[@id="root"]/div/div[1]/div/div[1]/div/div[2]/div/div[1]/div[2]/div/button')
     date_picker = (By.ID, 'time')
     duration_hours = (By.NAME, 'durationHours')
     duration_minutes = (By.NAME, 'durationMinutes')
@@ -196,7 +195,9 @@ class AddDataToRecordPage(Page):
         self.find_element(self.select_from_map_button).click()
     
     def use_location(self):
-        self.find_element(self.use_location_button).click()
+        use_location_button = WebDriverWait(self.driver, 30).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "locationSelect_popupButton__yCype")))
+        use_location_button.click();
     
     def use_location_on_map(self):
         actionChains = ActionChains(self.driver)
@@ -269,12 +270,12 @@ class PublishDataPage(Page):
         self.find_element(self.load_data_button).click()
 
     def open_selected(self):
-        open_selected_button = WebDriverWait(self.driver, 20).until(
+        open_selected_button = WebDriverWait(self.driver, 30).until(
         EC.element_to_be_clickable((By.ID, "open-selected-data")))
         open_selected_button.click();
         
     def submit_for_publishing(self):
-        submit_publish_button = WebDriverWait(self.driver, 20).until(
+        submit_publish_button = WebDriverWait(self.driver, 30).until(
         EC.element_to_be_clickable((By.ID, "submit-data-publishing")))
         submit_publish_button.click();
     
@@ -288,7 +289,7 @@ class SelectDataPage(Page):
         self.driver.execute_script("arguments[0].click();", checkbox)
     
     def open_selected(self):
-        open_selected_button = WebDriverWait(self.driver, 20).until(
+        open_selected_button = WebDriverWait(self.driver, 30).until(
         EC.element_to_be_clickable((By.ID, "open-selected-data")))
         open_selected_button.click();
 
