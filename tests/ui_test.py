@@ -95,7 +95,7 @@ class TestRedaction(unittest.TestCase):
         # add a point by selecting the location on the map and saving the data
         point_editor_page.add_data_point_select_on_map('07/08/2020 07:00AM\r\n\t', '1\t', '20\t')
         point_editor_page.save_data()
-        point_editor_page.cancel()
+        # point_editor_page.cancel()
       
         contact_trace_page.stage_for_publishing()
         stage_publish_page = StageForPublishingPage(self.driver)
