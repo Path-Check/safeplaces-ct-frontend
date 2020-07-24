@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FixedSizeList as List } from 'react-window';
 
 import SelectedDataItem from 'components/_shared/SelectedData/SelectedDataList/SelectedDataItem';
-import pointsSelectors from 'ducks/points/selectors';
 import { useSelector } from 'react-redux';
 import applicationSelectors from 'ducks/application/selectors';
 
@@ -12,6 +11,7 @@ import {
   accordionButton,
   accordionPanel,
 } from './selectedDataGroup.module.scss';
+import getListHeight from '../../../../../helpers/getListHeight';
 
 const rowRenderer = ({ data, index, style }) => {
   const { points, activePoint, appMode } = data;
@@ -26,12 +26,6 @@ const rowRenderer = ({ data, index, style }) => {
       isHighlighted={activePoint?.id === p.id}
     />
   );
-};
-
-const getListHeight = array => {
-  const size = array.length * 50;
-
-  return size > 300 ? 300 : size;
 };
 
 const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
@@ -67,7 +61,7 @@ const SelectedDataGroup = React.memo(({ groupedPoints, index, p }) => {
         <div className={accordionPanel} aria-hidden={!isExpanded}>
           <List
             itemCount={p.length}
-            height={getListHeight(p)}
+            height={getListHeight(p, 50, 300)}
             width="100%"
             itemSize={50}
             itemData={{
