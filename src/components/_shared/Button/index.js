@@ -60,7 +60,13 @@ const Button = ({
       type={type}
       onClick={onClick}
     >
-      {loading ? <FontAwesomeIcon icon={faSpinner} /> : children}
+      {loading ? (
+        <>
+          Loading <FontAwesomeIcon icon={faSpinner} />
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 };
