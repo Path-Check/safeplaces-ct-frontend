@@ -66,10 +66,11 @@ function* resetPasswordSaga({ emailAddress }) {
     const response = yield call(authService.resetPassword, emailAddress);
     yield put(
       applicationActions.notification({
-        type: 'error',
-        text: 'Something went wrong. Please try again.',
+        text: `Reset password instructions sent to ${emailAddress}`,
       }),
     );
+
+    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -77,9 +78,8 @@ function* resetPasswordSaga({ emailAddress }) {
         text: 'Something went wrong. Please try again.',
       }),
     );
+    yield put(applicationActions.updateStatus('RESET PASSWORD'));
   }
-
-  yield put(applicationActions.updateStatus('IDLE'));
 }
 
 export function* authSaga() {

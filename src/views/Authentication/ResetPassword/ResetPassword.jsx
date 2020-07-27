@@ -10,11 +10,11 @@ import applicationActions from 'ducks/application/actions';
 import FormWrapper from 'components/_shared/Forms/FormWrapper';
 import authActions from 'ducks/auth/actions';
 
-const ResetPassword = ({ status } => {
+const ResetPassword = ({ status }) => {
   const dispatch = useDispatch();
   const [emailAddress, setEmailAddress] = useState('');
   const isResetting = status === 'RESETTING PASSWORD';
-  
+
   const handleSumbit = e => {
     e.preventDefault();
     dispatch(authActions.resetPassword(emailAddress));
@@ -39,7 +39,9 @@ const ResetPassword = ({ status } => {
             placeholder="tracer@yourha.org"
             onChange={({ target: { value } }) => setEmailAddress(value)}
           />
-          <Button type="submit">Send reset link</Button>
+          <Button loading={isResetting} type="submit">
+            Send reset link
+          </Button>
         </form>
       </FormWrapper>
     </Modal>
