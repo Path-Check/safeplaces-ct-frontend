@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import './scss/ui.scss';
 
 import Authentication from 'views/Authentication';
-
+import RegistrationView from 'views/Registration';
 import Onboarding from 'views/Onboarding';
 import Settings from 'views/Settings';
 import ViewWrapper from 'views';
@@ -17,27 +17,7 @@ function Router({ token }) {
   return (
     <Switch>
       <Route path="/login/:action?" component={Authentication} />
-      {!token && (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { referrer: location.pathname || '/' },
-          }}
-        />
-      )}
-      <Route path="/onboarding/:action?" component={Onboarding} />
-      <Route path="/settings/:action?" component={Settings} />
-      <Route path="/trace" render={() => <ViewWrapper viewType="trace" />} />
-      <Route
-        path="/publish"
-        render={() => <ViewWrapper viewType="publish" />}
-      />
-      <Redirect
-        from="/"
-        to={{
-          pathname: '/trace',
-        }}
-      />
+      <Route path="/register" component={RegistrationView} />
     </Switch>
   );
 }
