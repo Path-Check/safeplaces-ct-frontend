@@ -5,8 +5,10 @@ import DeletePoints from 'views/Trace/DeletePoints';
 import RecordsTable from 'components/_shared/RecordsTable';
 import StageForPublishing from 'views/Trace/StageForPublishing';
 import PublishData from 'views/Publish/PublishData';
+import ResetPassword from 'views/Authentication/ResetPassword';
 
 const ModalSwitch = ({ status, mode }) => {
+  console.log(status);
   switch (status) {
     case 'CASE FETCHED':
       return <AddNewRecord />;
@@ -18,6 +20,9 @@ const ModalSwitch = ({ status, mode }) => {
       return <StageForPublishing />;
     case 'SUBMIT FOR PUBLISHING':
       return <PublishData />;
+    case 'RESET PASSWORD':
+      console.log('here');
+      return <ResetPassword />;
     default:
       return null;
   }

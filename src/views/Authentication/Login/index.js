@@ -12,6 +12,7 @@ import Button from 'components/_shared/Button';
 import authActions from 'ducks/auth/actions';
 import Logo from '../../../components/_global/Logo';
 import emailValidator from '../../../helpers/emailValidator';
+import applicationActions from 'ducks/application/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -112,6 +113,13 @@ const Login = () => {
                 If you are a Health Authority member but you still don’t have an
                 account, please contact your HA admin.
               </p>
+              <Button
+                onClick={() =>
+                  dispatch(applicationActions.updateStatus('RESET PASSWORD'))
+                }
+              >
+                Forgot password?
+              </Button>
             </div>
           </form>
         </div>
