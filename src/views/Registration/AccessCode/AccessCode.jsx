@@ -7,9 +7,11 @@ import styles from '../Registration.module.scss';
 import Button from 'components/_shared/Button';
 
 import FormWrapper from 'components/_shared/Forms/FormWrapper';
-import emailValidator from 'helpers/emailValidator';
+import registrationActions from 'ducks/registration/actions';
+import { useDispatch } from 'react-redux';
 
 const AccessCode = () => {
+  const dispatch = useDispatch();
   const [accessCode, setAccessCode] = useState();
   const fetching = false;
   const { handleSubmit, errors, register } = useForm({});
@@ -17,7 +19,7 @@ const AccessCode = () => {
   const onChange = ({ target: { value } }) => setAccessCode(value);
 
   const onSubmit = async () => {
-    console.log(accessCode);
+    dispatch(registrationActions.submitAccessCode(accessCode));
   };
 
   return (

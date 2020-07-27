@@ -8,12 +8,15 @@ import Button from 'components/_shared/Button';
 
 import FormWrapper from 'components/_shared/Forms/FormWrapper';
 import emailValidator from 'helpers/emailValidator';
+import registrationActions from 'ducks/registration/actions';
+import { useDispatch } from 'react-redux';
 
 const PersonalInformation = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [formValues, setFormValues] = useState({});
   const fetching = false;
   const { handleSubmit, errors, register } = useForm({});
+  const dispatch = useDispatch();
 
   const onChange = ({ target: { value, name } }) => {
     if (formValues?.username?.length) {
@@ -29,7 +32,7 @@ const PersonalInformation = () => {
   const onSubmit = async () => {
     if (!isValidEmail) return;
 
-    console.log('SUBMIT');
+    dispatch(registrationActions.submitInformation(formValues));
   };
 
   return (
