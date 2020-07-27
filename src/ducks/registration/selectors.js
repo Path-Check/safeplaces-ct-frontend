@@ -1,5 +1,5 @@
 const registrationSelectors = {
-  registrationStage: state => state.registration.registrationStage,
+  registrationStage: state => state.registration.stage,
 };
 
 export default registrationSelectors;
