@@ -53,12 +53,12 @@ class TestRedaction(unittest.TestCase):
         else:
             self.driver = webdriver.Remote(command_executor=self.sel_url, options=chrome_options)
 
-    def app_loads(self):
+    def test_app_loads(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
        
-    def invalid_login(self):
+    def test_invalid_login(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
@@ -67,7 +67,7 @@ class TestRedaction(unittest.TestCase):
         # confirm we're still at the login page by confirming that we can still enter an invalid login
         login_page.login_invalid()
 
-    def contact_trace(self):
+    def test_contact_trace(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
@@ -103,7 +103,7 @@ class TestRedaction(unittest.TestCase):
         contact_trace_page.stage_for_publishing()
         stage_publish_page.yes_consent()
            
-    def publish(self):
+    def test_publish(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
