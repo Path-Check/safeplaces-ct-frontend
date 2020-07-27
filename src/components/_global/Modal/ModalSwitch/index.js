@@ -21,8 +21,8 @@ const ModalSwitch = ({ status, mode }) => {
     case 'SUBMIT FOR PUBLISHING':
       return <PublishData />;
     case 'RESET PASSWORD':
-      console.log('here');
-      return <ResetPassword />;
+    case 'RESETTING PASSWORD':
+      return <ResetPassword status={status} />;
     default:
       return null;
   }

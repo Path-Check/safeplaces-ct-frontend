@@ -17,6 +17,10 @@
 
 .modalStyleB {
   background: #fff;
+
+  .closeButton {
+    color: #000;
+  }
 }
 
 .modalNoAnimation {
@@ -66,7 +70,7 @@
   background: none;
   outline: none;
   border: none;
-  color: white;
+  color: #fff;
   font-size: 30px;
   cursor: pointer;
   transition: transform 300ms;

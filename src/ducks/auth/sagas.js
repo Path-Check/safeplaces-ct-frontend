@@ -59,8 +59,32 @@ function* onboardingSaga({ data }) {
   }
 }
 
+function* resetPasswordSaga({ emailAddress }) {
+  yield put(applicationActions.updateStatus('RESETTING PASSWORD'));
+
+  try {
+    const response = yield call(authService.resetPassword, emailAddress);
+    yield put(
+      applicationActions.notification({
+        type: 'error',
+        text: 'Something went wrong. Please try again.',
+      }),
+    );
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        type: 'error',
+        text: 'Something went wrong. Please try again.',
+      }),
+    );
+  }
+
+  yield put(applicationActions.updateStatus('IDLE'));
+}
+
 export function* authSaga() {
   yield takeEvery(authTypes.login.REQUEST, authenticateSaga);
+  yield takeEvery(authTypes.login.RESET_PASSWORD, resetPasswordSaga);
   yield takeEvery(authTypes.onboarding.REQUEST, onboardingSaga);
   yield takeEvery(authTypes.logout.REQUEST, logoutSaga);
 }

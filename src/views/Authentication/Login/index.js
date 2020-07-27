@@ -92,6 +92,14 @@ const Login = () => {
               invalid={errors.password}
               invalidText={errors.password && errors.password.message}
             />
+            <Button
+              unstyled
+              onClick={() =>
+                dispatch(applicationActions.updateStatus('RESET PASSWORD'))
+              }
+            >
+              Forgot password?
+            </Button>
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
                 <Button
@@ -113,13 +121,6 @@ const Login = () => {
                 If you are a Health Authority member but you still don’t have an
                 account, please contact your HA admin.
               </p>
-              <Button
-                onClick={() =>
-                  dispatch(applicationActions.updateStatus('RESET PASSWORD'))
-                }
-              >
-                Forgot password?
-              </Button>
             </div>
           </form>
         </div>

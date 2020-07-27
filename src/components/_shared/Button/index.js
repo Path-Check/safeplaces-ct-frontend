@@ -6,6 +6,7 @@ import {
   buttonSecondary,
   buttonTertiary,
   buttonWhite,
+  buttonUnstyled,
 } from './styles.module.scss';
 
 import classNames from 'classnames';
@@ -25,6 +26,7 @@ const Button = ({
   children,
   isWhite,
   className,
+  unstyled,
   type = 'button',
 }) => {
   const btnClasses = classNames(
@@ -35,6 +37,7 @@ const Button = ({
       [`${buttonTertiary}`]: tertiary,
       [`${buttonFullWidth}`]: fullWidth,
       [`${buttonWhite}`]: isWhite,
+      [`${buttonUnstyled}`]: unstyled,
     },
     [`${className}`],
   );

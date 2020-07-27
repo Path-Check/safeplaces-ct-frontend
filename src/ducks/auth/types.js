@@ -3,6 +3,7 @@ const authTypes = {
     REQUEST: 'auth/REQUEST_LOGIN',
     SUCCESS: 'auth/SUCCESS_LOGIN',
     FAILURE: 'auth/FAILURE_LOGIN',
+    RESET_PASSWORD: 'auth/RESET_PASSWORD',
   },
   logout: {
     REQUEST: 'auth/REQUEST_LOGOUT',
