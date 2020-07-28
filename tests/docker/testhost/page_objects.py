@@ -12,8 +12,8 @@ class Page(object):
     def __init__(self, selenium_driver, base_url='http://localhost:80/'):
         self.base_url = base_url
         self.driver = selenium_driver
-        self.timeout = 30
-        self.driver.implicitly_wait(30)
+        self.timeout = 45
+        self.driver.implicitly_wait(45)
         self.driver.maximize_window()
 
     def find_element(self, loc):
