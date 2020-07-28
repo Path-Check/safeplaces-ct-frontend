@@ -59,14 +59,14 @@ function* onboardingSaga({ data }) {
   }
 }
 
-function* resetPasswordSaga({ emailAddress }) {
-  yield put(applicationActions.updateStatus('RESETTING PASSWORD'));
+function* forgotPasswordSaga({ emailAddress }) {
+  yield put(applicationActions.updateStatus('REQUEST PASSWORD LINK'));
 
   try {
-    const response = yield call(authService.resetPassword, emailAddress);
+    const response = yield call(authService.forgotPassword, emailAddress);
     yield put(
       applicationActions.notification({
-        text: `Reset password instructions sent to ${emailAddress}`,
+        text: `Reset password instructions have been sent to ${emailAddress}. Please check your inbox.`,
       }),
     );
 
@@ -78,12 +78,39 @@ function* resetPasswordSaga({ emailAddress }) {
         text: 'Something went wrong. Please try again.',
       }),
     );
-    yield put(applicationActions.updateStatus('RESET PASSWORD'));
+    yield put(applicationActions.updateStatus('FORGOT PASSWORD'));
+  }
+}
+
+function* resetPasswordSaga({ password, passwordConfirmation }) {
+  yield put(applicationActions.updateStatus('REQUEST PASSWORD LINK'));
+
+  try {
+    const response = yield call(authService.resetPassword, {
+      password,
+      passwordConfirmation,
+    });
+    yield put(
+      applicationActions.notification({
+        text: `Your password has been reset.`,
+      }),
+    );
+
+    yield put(applicationActions.updateStatus('IDLE'));
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        type: 'error',
+        text: 'Something went wrong. Please try again.',
+      }),
+    );
+    yield put(applicationActions.updateStatus('FORGOT PASSWORD'));
   }
 }
 
 export function* authSaga() {
   yield takeEvery(authTypes.login.REQUEST, authenticateSaga);
+  yield takeEvery(authTypes.login.FORGOT_PASSWORD, forgotPasswordSaga);
   yield takeEvery(authTypes.login.RESET_PASSWORD, resetPasswordSaga);
   yield takeEvery(authTypes.onboarding.REQUEST, onboardingSaga);
   yield takeEvery(authTypes.logout.REQUEST, logoutSaga);

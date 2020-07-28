@@ -95,7 +95,7 @@ const Login = () => {
             <Button
               unstyled
               onClick={() =>
-                dispatch(applicationActions.updateStatus('RESET PASSWORD'))
+                dispatch(applicationActions.updateStatus('FORGOT PASSWORD'))
               }
             >
               Forgot password?

@@ -30,9 +30,13 @@ const authActions = {
     type: onboarding.FAILURE,
     error,
   }),
-  resetPassword: emailAddress => ({
-    type: login.RESET_PASSWORD,
+  forgotPassword: emailAddress => ({
+    type: login.FORGOT_PASSWORD,
     emailAddress,
+  }),
+  resetPassword: password => ({
+    type: login.RESET_PASSWORD,
+    password,
   }),
 };
 

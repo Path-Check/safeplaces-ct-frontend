@@ -51,13 +51,20 @@ const authService = {
       url: `${REACT_APP_API_URL}auth/logout`,
     });
   },
-  resetPassword: async emailAddress => {
+  forgotPassword: async emailAddress => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}auth/resetPassword`,
+      url: `${REACT_APP_API_URL}auth/forgotPassword`,
       data: {
         emailAddress,
       },
+    });
+  },
+  resetPassword: async data => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/resetPassword`,
+      data,
     });
   },
 };
