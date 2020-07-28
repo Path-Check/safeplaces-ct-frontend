@@ -58,7 +58,7 @@ class TestRedaction(unittest.TestCase):
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
        
-    def test_invalid_login(self):
+    def invalid_login(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
@@ -67,7 +67,7 @@ class TestRedaction(unittest.TestCase):
         # confirm we're still at the login page by confirming that we can still enter an invalid login
         login_page.login_invalid()
 
-    def test_contact_trace(self):
+    def contact_trace(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
@@ -103,7 +103,7 @@ class TestRedaction(unittest.TestCase):
         contact_trace_page.stage_for_publishing()
         stage_publish_page.yes_consent()
            
-    def test_publish(self):
+    def publish(self):
         tools = Tools()
         entry_page = EntryPage(self.driver,base_url=self.base_url)
         entry_page.open_page()
