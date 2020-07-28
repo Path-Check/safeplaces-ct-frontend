@@ -83,20 +83,17 @@ function* forgotPasswordSaga({ emailAddress }) {
 }
 
 function* resetPasswordSaga({ password, passwordConfirmation }) {
-  yield put(applicationActions.updateStatus('REQUEST PASSWORD LINK'));
+  yield put(applicationActions.updateStatus('BUSY'));
 
   try {
-    const response = yield call(authService.resetPassword, {
-      password,
-      passwordConfirmation,
-    });
+    const response = yield call(authService.resetPassword, password);
+
+    yield put(push('/login'));
     yield put(
       applicationActions.notification({
         text: `Your password has been reset.`,
       }),
     );
-
-    yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -104,8 +101,9 @@ function* resetPasswordSaga({ password, passwordConfirmation }) {
         text: 'Something went wrong. Please try again.',
       }),
     );
-    yield put(applicationActions.updateStatus('FORGOT PASSWORD'));
   }
+
+  yield put(applicationActions.updateStatus('IDLE'));
 }
 
 export function* authSaga() {

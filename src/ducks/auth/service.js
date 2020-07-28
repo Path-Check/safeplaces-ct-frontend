@@ -60,11 +60,11 @@ const authService = {
       },
     });
   },
-  resetPassword: async data => {
+  resetPassword: async password => {
     return axios({
       method: 'POST',
       url: `${REACT_APP_API_URL}auth/resetPassword`,
-      data,
+      data: { password },
     });
   },
 };

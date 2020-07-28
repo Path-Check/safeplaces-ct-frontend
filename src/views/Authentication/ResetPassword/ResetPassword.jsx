@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import TextInput from '@wfp/ui/lib/components/TextInput';
 import Button from 'components/_shared/Button';
 
-import applicationActions from 'ducks/application/actions';
 import FormWrapper from 'components/_shared/Forms/FormWrapper';
 import authActions from 'ducks/auth/actions';
 import { useValidatePassword } from 'hooks/useValidatePassword';
+import PasswordStrengthIndicator from 'components/_shared/PasswordStrengthIndicator';
+
+import PasswordInput from 'components/_shared/PasswordInput';
 
 const ResetPassword = ({ status }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,6 @@ const ResetPassword = ({ status }) => {
 
   const handleSumbit = e => {
     e.preventDefault();
-
     if (!passwordValid && confirmPassword !== password) {
       return;
     }
@@ -41,22 +41,24 @@ const ResetPassword = ({ status }) => {
       intro="Enter the email address associated with your account, and we’ll email you a link to reset your password."
     >
       <form onSubmit={handleSumbit}>
-        <TextInput
+        <PasswordInput
           id="new-password"
-          labelText="Password"
-          type="text"
+          label="Password"
           required
           name="newPassword"
           onChange={({ target: { value } }) => setPassword(value)}
         />
-        <TextInput
+        <PasswordInput
           id="confirm-new-password"
-          labelText="Confirm Password"
-          type="text"
+          label="Confirm Password"
           required
           name="confirmPassword"
           onChange={({ target: { value } }) => setConfirmPassword(value)}
         />
+        {passwordValid && confirmPassword && confirmPassword !== password && (
+          <p style={{ color: 'red' }}>Passwords do not match</p>
+        )}
+        <PasswordStrengthIndicator password={password} />
         <Button loading={isResetting} disabled={!canSubmit} type="submit">
           Reset Password
         </Button>
