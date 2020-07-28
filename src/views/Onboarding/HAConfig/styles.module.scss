@@ -14,6 +14,14 @@ body {
   align-items: center;
 }
 
+.containerSettings {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
 .ellipse {
   position: absolute;
   width: 100%;
@@ -61,10 +69,16 @@ img {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  max-width: 712px;
+  max-width: 720px;
   margin-top: 190px;
   margin-bottom: 80px;
 }
+
+.infoInputsContainerSettings {
+  display: flex;
+  flex-direction: column;
+}
+
 
 .boundariesSetContainer {
   display: flex;

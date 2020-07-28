@@ -19,6 +19,7 @@
     border: none;
     font-weight: 400;
     z-index: 55;
+    min-width: 75px;
   }
 }
 
@@ -42,11 +43,12 @@
   align-items: flex-end;
   position: absolute;
   z-index: 1;
-  right: 20px;
-  bottom: 30px;
+  right: 10px;
+  bottom: 15px;
 }
 
 .viewToggle {
+  position: relative;
   box-shadow: 0 0 0 2px #0000001a;
   background-color: #fff;
   font-size: 14px;
@@ -56,4 +58,31 @@
   font-weight: 400;
   width: 29px;
   height: 29px;
+  overflow: hidden;
+  margin-bottom: $spacing-md;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    transform: translateX(-25px);
+    opacity: 0;
+    transition: opacity ease 200ms;
+    z-index: -1;
+    right: 0;
+    top: 0;
+    height: 29px;
+    padding: 0 15px 0 10px;
+    background-color: #fff;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    overflow: visible;
+
+    span {
+      opacity: 1;
+    }
+  }
 }

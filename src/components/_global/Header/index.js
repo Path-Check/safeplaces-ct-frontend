@@ -18,7 +18,7 @@ const Header = ({ isAuthenticated, isOnboarded }) => {
 
   return renderHeader ? (
     <header className={classes}>
-      <Logo />
+      <Logo maxWidth="272px" />
       <Navigation />
     </header>
   ) : null;

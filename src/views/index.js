@@ -15,7 +15,7 @@ import ModalSwitch from 'components/_global/Modal/ModalSwitch';
 import TraceView from 'views/Trace';
 import PublishView from 'views/Publish';
 
-const ViewWrapper = ({ viewType, title, intro }) => {
+const ViewWrapper = React.memo(({ viewType, title, intro }) => {
   const { pathname } = useLastLocation();
   const dispatch = useDispatch();
   const renderEditor = useSelector(state =>
@@ -47,6 +47,6 @@ const ViewWrapper = ({ viewType, title, intro }) => {
       <ModalSwitch mode={mode} status={appStatus} />
     </>
   );
-};
+});
 
 export default ViewWrapper;
