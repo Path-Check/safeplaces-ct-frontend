@@ -13,6 +13,7 @@ function* authenticateSaga({ data }) {
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (error) {
     yield put(authActions.loginFailure(error));
+    yield put(applicationActions.updateStatus('IDLE'));
 
     const { name, response } = error;
 
@@ -54,6 +55,7 @@ function* onboardingSaga({ data }) {
       },
     } = error;
     const text = status === 500 ? 'Something went wrong.' : message;
+    yield put(applicationActions.updateStatus('IDLE'));
     yield put(applicationActions.notification({ text }));
     yield put(authActions.onboardingFailure(error));
   }
