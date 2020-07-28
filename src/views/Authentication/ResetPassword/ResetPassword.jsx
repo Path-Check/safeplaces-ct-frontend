@@ -7,18 +7,13 @@ import Button from 'components/_shared/Button';
 import applicationActions from 'ducks/application/actions';
 import FormWrapper from 'components/_shared/Forms/FormWrapper';
 import authActions from 'ducks/auth/actions';
-
-const passwordTest = new RegExp(
-  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})',
-);
-
-const checkPassword = password => passwordTest.test(password);
+import { useValidatePassword } from 'hooks/useValidatePassword';
 
 const ResetPassword = ({ status }) => {
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
+  const [passwordValid] = useValidatePassword(password);
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordValid, setPasswordValid] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
   const isResetting = status === 'RESETTING PASSWORD';
 
@@ -31,12 +26,6 @@ const ResetPassword = ({ status }) => {
 
     dispatch(authActions.resetPassword(password));
   };
-
-  useEffect(() => {
-    const isValid = checkPassword(password);
-
-    setPasswordValid(isValid);
-  }, [password]);
 
   useEffect(() => {
     if (passwordValid && confirmPassword === password) {
