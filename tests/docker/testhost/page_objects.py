@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class Page(object):
     """
@@ -121,6 +123,18 @@ class RedactionPage(Page):
 
     def check_duration_is(self, value):
         self.check_is(value,self.find_element(self.duration).text)
+        
+    # def add_entry(self):
+    #     self.find_element(self.add_entry_btn).click()
+
+    # def delete_inspected(self):
+    #     self.find_element(self.delete_inspected_btn).click()
+        
+    # def select_all(self):
+    #     self.find_element(self.select_all_btn).click()
+        
+    # def select_none(self):
+    #     self.find_element(self.select_none_btn).click()
 
 class ContactTracePage(Page):
     add_new_record_button = (By.ID, 'add-new-record')
@@ -146,7 +160,9 @@ class ContactTracePage(Page):
         self.find_element(self.add_data_point_button).click()
 
     def stage_for_publishing(self):
-        self.find_element(self.stage_publish_button).click()
+        stage = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "stage-for-publishing")))
+        stage.click();
         
 class AddNewRecordPage(Page):
     check_data_upload_button = (By.ID, 'check-data-upload')
@@ -156,18 +172,21 @@ class AddNewRecordPage(Page):
         self.find_element(self.check_data_upload_button).click()
     
     def create_manually(self):
-        self.find_element(self.create_record_manually_button).click()
+        create_manual = WebDriverWait(self.driver, 60).until(
+        EC.element_to_be_clickable((By.ID, "create-record-manually")))
+        create_manual.click();
     
 class AddDataToRecordPage(Page):
     search_location = (By.ID, 'search-location')
     select_from_map_button = (By.ID, 'select-from-map')
-    use_location_button = (By.CSS_SELECTOR, '#root > div > div.Tracer_tracer__2PG8O > div > div:nth-child(1)')
     date_picker = (By.ID, 'time')
     duration_hours = (By.NAME, 'durationHours')
     duration_minutes = (By.NAME, 'durationMinutes')
+    cancel_point_button = (By.ID, 'cancel-point')
     save_data_button = (By.ID, 'save-data')
     close_point_editor_button = (By.ID, 'point-editor-close')
     edit_record_button = (By.ID, 'edit-record-id')
+    mapbox = (By.CLASS_NAME, 'mapboxgl-map')
     
     def enter_location(self, location):
         self.find_element(self.search_location).send_keys(location)
@@ -176,8 +195,15 @@ class AddDataToRecordPage(Page):
         self.find_element(self.select_from_map_button).click()
     
     def use_location(self):
-        self.find_element(self.use_location_button).click()
+        use_location_button = WebDriverWait(self.driver, 30).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "locationSelect_popupButton__yCype")))
+        use_location_button.click();
     
+    def use_location_on_map(self):
+        actionChains = ActionChains(self.driver)
+        actionChains.context_click(self.find_element(self.mapbox)).perform()
+        self.use_location()        
+        
     def enter_date(self, date):
         self.find_element(self.date_picker).send_keys(date)
 
@@ -193,10 +219,21 @@ class AddDataToRecordPage(Page):
     def close(self):
         self.find_element(self.close_point_editor_button).click()
     
+    def cancel(self):
+        self.find_element(self.cancel_point_button).click()
+    
     def add_data_point(self, location, date, hours, minutes):
         contact_trace_page = ContactTracePage(self.driver)
         contact_trace_page.add_data_point()
         self.enter_location(location)
+        self.enter_date(date)
+        self.enter_duration_hours(hours)
+        self.enter_duration_minutes(minutes)
+    
+    def add_data_point_select_on_map(self, date, hours, minutes):
+        contact_trace_page = ContactTracePage(self.driver)
+        contact_trace_page.add_data_point()
+        self.use_location_on_map()
         self.enter_date(date)
         self.enter_duration_hours(hours)
         self.enter_duration_minutes(minutes)
@@ -206,10 +243,14 @@ class StageForPublishingPage(Page):
     no_consent_button = (By.ID, 'no-consent')
     
     def yes_consent(self):
-        self.find_element(self.yes_consent_button).click()
+        yes = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "yes-consent")))
+        yes.click();
     
     def no_consent(self):
-        self.find_element(self.no_consent_button).click()
+        no = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.ID, "no-consent")))
+        no.click();
     
     def stage_no_consent(self):
         contact_trace_page = ContactTracePage(self.driver)
@@ -223,31 +264,35 @@ class StageForPublishingPage(Page):
     
 class PublishDataPage(Page):
     load_data_button = (By.ID, 'load-data-for-publishing')
-    open_selected_button = (By.ID, 'open-selected-data')
-    submit_publish_button = (By.ID, 'submit-data-for-publishing')
     publish_data_button = (By.ID, 'publish-data')
     
     def load_data(self):
         self.find_element(self.load_data_button).click()
 
     def open_selected(self):
-        self.find_element(self.open_selected_button).click()
+        open_selected_button = WebDriverWait(self.driver, 30).until(
+        EC.element_to_be_clickable((By.ID, "open-selected-data")))
+        open_selected_button.click();
         
     def submit_for_publishing(self):
-        self.find_element(self.submit_publish_button).click()
+        submit_publish_button = WebDriverWait(self.driver, 30).until(
+        EC.element_to_be_clickable((By.ID, "submit-data-publishing")))
+        submit_publish_button.click();
     
     def publish_data(self):
         self.find_element(self.publish_data_button).click()
     
 class SelectDataPage(Page):
-    select_checkbox = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > table > tbody > tr > th > div > label > span')
-    open_selected_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > table:nth-child(3) > tfoot > tr > td > button')
 
     def select_item(self):
-        self.find_element(self.select_checkbox).click()
+        checkbox = self.driver.find_element_by_xpath("//*[@id='records-table']/tbody/tr/th/div/label")
+        self.driver.execute_script("arguments[0].click();", checkbox)
     
     def open_selected(self):
-        self.find_element(self.open_selected_button).click()
+        open_selected_button = WebDriverWait(self.driver, 30).until(
+        EC.element_to_be_clickable((By.ID, "open-selected-data")))
+        open_selected_button.click();
+
     
 class SubmitDataPage(Page):
     submit_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div.PublishData_PublishDataActions__1OVeJ > button:nth-child(1)')
@@ -258,7 +303,7 @@ class SubmitDataPage(Page):
     
     def cancel(self):
         self.find_element(self.cancel_button).click()
-       
+    
 class SettingsPage(Page):
     configuration_button = (By.XPATH, '//a[@href="/settings/organizatio"]')
     logout_button = (By.ID, 'logout')
@@ -270,7 +315,7 @@ class SettingsPage(Page):
     data_retention_slider = (By.ID, 'day-slider')
     data_retention_slider_track = (By.CLASS_NAME, 'rc-slider-track')
     data_retention_slider_handle = (By.CLASS_NAME, 'rc-slider-handle')
-    open_map_button = (By.ID, 'open-map)
+    open_map_button = (By.ID, 'open-map')
     reset_gps_button = (By.ID, 'reset-gps')
     save_continue_button = (By.ID, 'save-continue')
     
@@ -288,6 +333,12 @@ class SettingsPage(Page):
 
     def set_privacy_policy_URL(self, privacy_policy):
         self.find_element(privacy_policy_URL).send_keys(privacy_policy)
+
+    def set_retention_policy(self, percent):
+        actionChains = ActionChains(self.driver)
+        percent = '50'
+        width = self.data_retention_slider_track.size['width']
+        move.click_and_hold(self.sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
 
     def open_map(self):
         self.find_element(open_map_button).click()
