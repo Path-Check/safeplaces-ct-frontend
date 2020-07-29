@@ -10,6 +10,7 @@ import FormWrapper from 'components/_shared/Forms/FormWrapper';
 import emailValidator from 'helpers/emailValidator';
 import registrationActions from 'ducks/registration/actions';
 import { useDispatch } from 'react-redux';
+import PasswordInput from 'components/_shared/PasswordInput';
 
 const PersonalInformation = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -103,14 +104,13 @@ const PersonalInformation = () => {
             'Please enter your cellphone number'
           }
         />
-        <TextInput
+        <PasswordInput
           onChange={onChange}
           id="pass-input"
           autoCorrect="off"
           autoCapitalize="off"
           inputRef={register({ required: 'Please enter a password' })}
-          labelText="Password"
-          type="password"
+          label="Password"
           name="password"
           invalid={errors.password}
           invalidText={errors.password && errors.password.message}
