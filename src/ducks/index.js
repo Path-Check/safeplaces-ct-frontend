@@ -11,8 +11,18 @@ import registration from './registration/reducer';
 import users from './users/reducer';
 
 import { createBrowserHistory } from 'history';
+import { put } from 'redux-saga/effects';
+import applicationActions from './application/actions';
 
 export const history = createBrowserHistory();
+
+export function* errorHandlerSaga(error) {
+  yield put(applicationActions.updateStatus('IDLE'));
+  const { response } = error;
+  const message = response?.data?.message || 'Something went wrong';
+  yield put(applicationActions.notification({ text: message, type: 'error' }));
+}
+
 const reducers = combineReducers({
   application,
   auth,

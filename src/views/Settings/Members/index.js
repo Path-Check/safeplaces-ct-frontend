@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  menuIcon,
-  container,
-  title,
-  left,
-  right,
-  membersContainer,
-  itemContainer,
-  subtitle,
-  emailText,
-  roleText,
+  addButton,
   addMemberContainer,
   comboControl,
+  container,
+  emailText,
+  itemContainer,
+  left,
+  membersContainer,
+  right,
+  roleText,
+  subtitle,
   textInput,
-  addButton,
+  title,
+  noUsers,
 } from './styles.module.scss';
 import { TextInput } from '@wfp/ui';
 import emailValidator from '../../../helpers/emailValidator';
@@ -21,30 +21,17 @@ import Select from 'components/_shared/Select/Select';
 import { FixedSizeList as List } from 'react-window';
 import getListHeight from '../../../helpers/getListHeight';
 import Button from '../../../components/_shared/Button';
-import { marker } from '../../../components/_shared/Map/Marker/Marker.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
 import Dropdown from './Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import usersActions from '../../../ducks/users/actions';
 import authSelectors from '../../../ducks/auth/selectors';
+import userSelectors from '../../../ducks/users/selectors';
 
 const Members = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => authSelectors.getCurrentUser(state));
+  const usersList = useSelector(state => userSelectors.getAllUsers(state));
 
-  const mockData = [
-    { name: 'darth.vader@darkside.com', role: 'Admin' },
-    { name: 'sauron@mordor.com', role: 'Contact Tracer' },
-    { name: 'saruman@isengard.com', role: 'Admin' },
-    { name: 'Gandalf', role: 'Contact Tracer' },
-    { name: 'Darth Vader', role: 'Admin' },
-    { name: 'Gandalf', role: 'Contact Tracer' },
-    { name: 'Darth Vader', role: 'Admin' },
-    { name: 'Gandalf', role: 'Contact Tracer' },
-    { name: 'Darth Vader', role: 'Admin' },
-    { name: 'Gandalf', role: 'Contact Tracer' },
-  ];
   const options = [
     {
       value: 'contact_tracer',
@@ -62,6 +49,11 @@ const Members = () => {
   const [role, setRole] = useState('contact_tracer');
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
+
+  useEffect(() => {
+    dispatch(usersActions.getAllUsersRequest());
+  }, []);
+
   const onEmail = ({ target: { value } }) => {
     if (value.length) {
       setIsValidEmail(emailValidator(value));
@@ -70,30 +62,34 @@ const Members = () => {
   };
 
   const rowRenderer = ({ data, index, style }) => {
-    const { name, role } = data[index];
+    const { email, role } = data[index];
 
     return (
-      <div className={itemContainer} style={style} key={name}>
-        <div title={name} className={emailText}>
-          {name}
+      <div className={itemContainer} style={style} key={email}>
+        <div title={email} className={emailText}>
+          {email}
         </div>
-        <div className={roleText}>{role}</div>
+        <div className={roleText}>{role && role.replace('_', ' ')}</div>
         <Dropdown />
       </div>
     );
   };
 
   const renderMembers = () => {
-    return (
+    return usersList && usersList.length ? (
       <List
-        itemCount={mockData.length}
-        height={getListHeight(mockData, 72, 350)}
+        itemCount={usersList.length}
+        height={getListHeight(usersList, 72, 350)}
         width="100%"
         itemSize={72}
-        itemData={mockData}
+        itemData={usersList}
       >
         {rowRenderer}
       </List>
+    ) : (
+      <div className={noUsers}>
+        <h3 className={subtitle}>No users added yet...</h3>
+      </div>
     );
   };
 
@@ -143,7 +139,7 @@ const Members = () => {
       >
         <h3 className={title}>Existing members</h3>
         <div className={itemContainer}>
-          <h3 className={`${left} ${subtitle}`}>Name</h3>
+          <h3 className={`${left} ${subtitle}`}>Email</h3>
           <h3 className={`${right} ${subtitle}`}>Role</h3>
         </div>
         {renderMembers()}
