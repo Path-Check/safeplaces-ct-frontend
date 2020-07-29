@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.emailText,
+.roleText {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  flex: 1;
+}
+
+.left {
+  flex: 5;
+}
+
+.right {
+  flex: 4;
+}
+
+.emailText {
+  flex: 3;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.roleText {
+  flex: 2;
+  margin-left: 10px;
+}
+
+.addMemberContainer {
+  width: 100%;
+
+  .comboControl {
+    display: flex;
+
+    input {
+      border: 2px solid #e5e7fa;
+      box-sizing: border-box;
+      border-radius: 8px 0px 0px 8px;
+      height: 48px;
+      background-color: #fff;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    select {
+      border: 2px solid #e5e7fa;
+      border-left: none;
+      border-radius: 0 8px 8px 0;
+    }
+  }
+}
+
+.membersContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.addButton {
+  margin-left: 16px;
+  max-height: 48px;
+}
+
+.itemContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 16px 16px 16px 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #e9eaf0;
+  }
+}
