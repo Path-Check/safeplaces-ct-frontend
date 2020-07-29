@@ -68,7 +68,7 @@ function* forgotPasswordSaga({ emailAddress }) {
     const response = yield call(authService.forgotPassword, emailAddress);
     yield put(
       applicationActions.notification({
-        text: `Reset password instructions have been sent to ${emailAddress}. Please check your inbox.`,
+        text: `If ${emailAddress} exists in the database a password reset email will shortly appear in your inbox.`,
       }),
     );
 
