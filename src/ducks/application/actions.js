@@ -25,6 +25,10 @@ const applicationActions = {
     type: applicationTypes.MODE,
     mode,
   }),
+  newCase: newCase => ({
+    type: applicationTypes.NEW_CASE,
+    newCase,
+  }),
 };
 
 export default applicationActions;

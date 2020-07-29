@@ -2,13 +2,20 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { redactorToolsHeader, selectedEditAction, headerTitle } from './header.module.scss';
+import {
+  redactorToolsHeader,
+  selectedEditAction,
+  headerTitle,
+  newCasePopup,
+} from './header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faPencilAlt } from '@fortawesome/pro-solid-svg-icons';
 import casesSelectors from 'ducks/cases/selectors';
 import caseAction from 'ducks/cases/actions';
 import EditRecordModal from './EditRecordModal';
 import applicationSelectors from 'ducks/application/selectors';
+import Button from 'components/_shared/Button';
+import applicationActions from 'ducks/application/actions';
 
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
@@ -18,6 +25,9 @@ const RedactorToolsHeader = () => {
   );
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const mode = useSelector(state => applicationSelectors.getMode(state));
+  const isNewCase = useSelector(state =>
+    applicationSelectors.getNewCase(state),
+  );
   const [showModal, setShowModal] = useState(false);
   const [externalInputValue, setInputValue] = useState('');
 
@@ -60,8 +70,8 @@ const RedactorToolsHeader = () => {
               Loaded
             </>
           ) : (
-              <>Record ID: {_id}</>
-            )}
+            <>Record ID: {_id}</>
+          )}
         </h3>
         {mode === 'trace' && (
           <button
@@ -85,6 +95,20 @@ const RedactorToolsHeader = () => {
         setShowModal={setShowModal}
         showModal={showModal}
       />
+      {isNewCase && (
+        <div className={newCasePopup}>
+          <p>
+            If you are using a system to manage your patients and already have
+            an ID for this patient, you can change it here.
+          </p>
+          <Button
+            unstyled
+            onClick={() => dispatch(applicationActions.newCase(false))}
+          >
+            Got it
+          </Button>
+        </div>
+      )}
     </>
   );
 };

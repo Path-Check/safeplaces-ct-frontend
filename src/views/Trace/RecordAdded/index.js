@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Modal from 'components/_global/Modal';
 import Dialog from 'components/_shared/Dialog';
