@@ -13,6 +13,7 @@ import authActions from 'ducks/auth/actions';
 import Logo from '../../../components/_global/Logo';
 import emailValidator from '../../../helpers/emailValidator';
 import applicationActions from 'ducks/application/actions';
+import PasswordInput from 'components/_shared/PasswordInput';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -79,15 +80,13 @@ const Login = () => {
                 'Please enter a valid email'
               }
             />
-
-            <TextInput
+            <PasswordInput
               id="pass-input"
               onChange={onPassword}
               autoCorrect="off"
               autoCapitalize="off"
               inputRef={register({ required: 'Please enter a password' })}
-              labelText="Password"
-              type="password"
+              label="Password"
               name="password"
               invalid={errors.password}
               invalidText={errors.password && errors.password.message}
