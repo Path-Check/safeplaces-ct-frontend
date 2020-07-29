@@ -27,25 +27,10 @@ function Router({ token }) {
       )}
       <Route path="/onboarding/:action?" component={Onboarding} />
       <Route path="/settings/:action?" component={Settings} />
-      <Route
-        path="/trace"
-        render={() => (
-          <ViewWrapper
-            viewType="trace"
-            title="Contact Trace"
-            intro="Review and edit patient location data during a contact trace interview."
-          />
-        )}
-      />
+      <Route path="/trace" render={() => <ViewWrapper viewType="trace" />} />
       <Route
         path="/publish"
-        render={() => (
-          <ViewWrapper
-            viewType="publish"
-            title="Publish Data"
-            intro="Review and edit patient location data before publishing to your health authority subscribers."
-          />
-        )}
+        render={() => <ViewWrapper viewType="publish" />}
       />
       <Redirect
         from="/"

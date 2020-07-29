@@ -1,0 +1,57 @@
+.container {
+  display: flex;
+  margin: 0 10px 10px 0;
+}
+
+.button1,
+.button2,
+.singleButton {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  color: #374357;
+  cursor: pointer;
+}
+
+.singleButtonContainer {
+  border-radius: 50px;
+  width: fit-content;
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
+}
+
+.closeButton {
+  color: #9ba0aa;
+  font-weight: 300;
+  margin-left: 5px;
+}
+
+.button1:hover,
+.button2:hover,
+.singleButtonContainer:hover {
+  background-color: #eff0fc;
+}
+
+.singleButtonContainer,
+.button1,
+.button2 {
+  padding: 8px 10px;
+  border: 1px solid #d8d8de;
+}
+
+.button1 {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+.button2 {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.button1,
+.button2 {
+  width: 70px;
+}

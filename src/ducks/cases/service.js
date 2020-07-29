@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const { REACT_APP_API_URL } = process.env;
+const { REACT_APP_API_URL, REACT_APP_TRANSLATION_API_URL } = process.env;
 
 const casesService = {
   fetchCases: () => {
@@ -27,7 +27,7 @@ const casesService = {
   fetchPoints: ({ data }) => {
     const request = {
       method: 'POST',
-      url: `${REACT_APP_API_URL}case/points`,
+      url: `${REACT_APP_TRANSLATION_API_URL}case/points`,
       data,
     };
 
@@ -36,7 +36,7 @@ const casesService = {
   enrichCase: ({ accessCode, caseId }) => {
     const request = {
       method: 'POST',
-      url: `${REACT_APP_API_URL}case/points/ingest`,
+      url: `${REACT_APP_TRANSLATION_API_URL}case/points/ingest`,
       data: {
         accessCode,
         caseId,
@@ -48,7 +48,7 @@ const casesService = {
   fetchMultiPoints: ({ data }) => {
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}cases/points`,
+      url: `${REACT_APP_TRANSLATION_API_URL}cases/points`,
       data,
     });
   },

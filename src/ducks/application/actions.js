@@ -13,6 +13,10 @@ const applicationActions = {
     type: applicationTypes.NOTIFICATION,
     data: null,
   }),
+  setActivePoint: data => ({
+    type: applicationTypes.ACTIVE_POINT,
+    data,
+  }),
   renderEditor: boolean => ({
     type: applicationTypes.EDITOR_VIEW,
     renderEditor: boolean,
@@ -20,6 +24,10 @@ const applicationActions = {
   setMode: mode => ({
     type: applicationTypes.MODE,
     mode,
+  }),
+  newCase: newCase => ({
+    type: applicationTypes.NEW_CASE,
+    newCase,
   }),
 };
 

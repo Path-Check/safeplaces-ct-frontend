@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from 'assets/images/logo.png';
@@ -10,7 +10,7 @@ import authSelectors from '../../../ducks/auth/selectors';
 import authActions from '../../../ducks/auth/actions';
 import infoInputs from './infoInputs';
 import { useForm } from 'react-hook-form';
-import Notifications from '../../../components/_global/Notifications';
+import classNames from 'classnames';
 
 const HAConfig = () => {
   const dispatch = useDispatch();
@@ -119,8 +119,19 @@ const HAConfig = () => {
   }, [state.regionCoordinates]);
 
   const isSettingsPage = pathname.includes('/settings');
+
+  const formClasses = classNames({
+    [`${styles.infoInputsContainerSettings}`]: isSettingsPage,
+    [`${styles.infoInputsContainer}`]: !isSettingsPage,
+  });
+
+  const containerClasses = classNames({
+    [`${styles.containerSettings}`]: isSettingsPage,
+    [`${styles.container}`]: !isSettingsPage,
+  });
+
   return (
-    <div className={styles.container}>
+    <div className={containerClasses}>
       {!isSettingsPage ? (
         <>
           <div className={styles.ellipse} />
@@ -134,11 +145,7 @@ const HAConfig = () => {
           </div>
         </>
       ) : null}
-      <form
-        className={styles.infoInputsContainer}
-        style={{ marginTop: isSettingsPage && 36 }}
-        onSubmit={handleSubmit(submitInfo)}
-      >
+      <form className={formClasses} onSubmit={handleSubmit(submitInfo)}>
         {infoInputs.map(e => (
           <InfoInput
             key={e.title}

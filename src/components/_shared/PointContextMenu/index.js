@@ -10,29 +10,24 @@ import {
   pointContextMenuPublish,
 } from './PointContextMenu.module.scss';
 
-import { useDispatch, useSelector } from 'react-redux';
-import pointsActions from 'ducks/points/actions';
-import applicationActions from 'ducks/application/actions';
-import applicationSelectors from 'ducks/application/selectors';
+import { useSelector } from 'react-redux';
 
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
 import PointContextMenuHeader from 'components/_shared/PointContextMenu/Header/Header';
 import PointContextMenuBody from 'components/_shared/PointContextMenu/Body/Body';
+import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
-const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
+const PointContextMenu = React.memo(({ bottom, closeAction, ...rest }) => {
   const containerRef = useRef();
-  const dispatch = useDispatch();
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
-  const isTrace =
-    useSelector(state => applicationSelectors.getMode(state)) === 'trace';
+  const { status: appStatus, mode } = useSelector(state => state.application);
+  const isTrace = mode === 'trace';
 
   const handleClose = () => {
     closeAction();
-    dispatch(applicationActions.updateStatus(''));
-    dispatch(pointsActions.setSelectedPoint(null));
   };
 
   useOnClickOutside(containerRef, () => handleClose());
+  useCloseOnEscape(handleClose);
 
   if (appStatus === 'EDIT POINT' || !rest.longitude || !rest.latitude) {
     return null;
@@ -52,7 +47,7 @@ const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
       latitude={rest.latitude}
       closeOnClick={false}
       closeButton={false}
-      offsetTop={-35}
+      offsetTop={0}
       className={classes}
     >
       <div ref={containerRef}>
@@ -63,6 +58,6 @@ const PointContextMenu = ({ bottom, closeAction, ...rest }) => {
       </div>
     </Popup>
   );
-};
+});
 
 export default PointContextMenu;

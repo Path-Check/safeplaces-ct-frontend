@@ -9,9 +9,44 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  backface-visibility: hidden;
+  opacity: 0;
+  transition: opacity ease 200ms;
+}
+
+.modalNoAnimation {
+  opacity: 1;
+  transition: unset;
+
+  .modalInner {
+    transition: unset;
+    transform: translateY(0);
+  }
+}
+
+.modalEntered {
+  opacity: 1;
+  pointer-events: auto;
+
+  .modalInner {
+    transform: translateY(0);
+  }
+}
+
+.modalExited,
+.modalExiting {
+  opacity: 0;
+  pointer-events: none;
+
+  .modalInner {
+    transform: translateY(100%);
+  }
 }
 
 .modalInner {
+  transform: translateY(100%);
+  transition: transform ease 300ms;
   position: relative;
   max-width: 80vw;
 

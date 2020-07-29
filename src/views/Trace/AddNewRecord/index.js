@@ -26,6 +26,12 @@ const AddNewRecord = () => {
   );
   const accessCode = useSelector(state => casesSelectors.getAccessCode(state));
 
+  const handleClick = () => {
+    dispatch(applicationActions.renderEditor(true));
+    dispatch(applicationActions.newCase(true));
+    dispatch(applicationActions.updateStatus(''));
+  };
+
   return (
     <Modal closeAction={() => dispatch(casesActions.deleteCase())}>
       <Dialog width="650px">
@@ -62,10 +68,7 @@ const AddNewRecord = () => {
                 id="create-record-manually"
                 secondary
                 large
-                onClick={() => {
-                  dispatch(applicationActions.renderEditor(true));
-                  dispatch(applicationActions.updateStatus('RECORD ADDED'));
-                }}
+                onClick={handleClick}
               >
                 Create Record Manually
               </Button>

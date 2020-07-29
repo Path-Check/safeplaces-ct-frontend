@@ -34,3 +34,31 @@
 :global .Toastify__toast-container {
   width: auto;
 }
+
+@keyframes flyIn {
+  from {
+    transform: translateX(100%);
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 10;
+  }
+}
+
+.flyIn {
+  animation-name: flyIn;
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+}
