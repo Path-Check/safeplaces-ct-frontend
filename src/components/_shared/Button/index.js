@@ -5,11 +5,15 @@ import {
   buttonFullWidth,
   buttonSecondary,
   buttonTertiary,
+  buttonLoading,
   buttonWhite,
+  buttonUnstyled,
 } from './styles.module.scss';
 
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { faSpinner } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Button = ({
   id = '',
@@ -26,6 +30,8 @@ const Button = ({
   isWhite,
   className,
   type = 'button',
+  loading = false,
+  unstyled,
 }) => {
   const btnClasses = classNames(
     {
@@ -35,6 +41,8 @@ const Button = ({
       [`${buttonTertiary}`]: tertiary,
       [`${buttonFullWidth}`]: fullWidth,
       [`${buttonWhite}`]: isWhite,
+      [`${buttonLoading}`]: loading,
+      [`${buttonUnstyled}`]: unstyled,
     },
     [`${className}`],
   );
@@ -48,11 +56,17 @@ const Button = ({
       id={id}
       className={btnClasses}
       style={{ width, height }}
-      disabled={disabled}
+      disabled={disabled || loading}
       type={type}
       onClick={onClick}
     >
-      {children}
+      {loading ? (
+        <>
+          Loading <FontAwesomeIcon icon={faSpinner} />
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 };

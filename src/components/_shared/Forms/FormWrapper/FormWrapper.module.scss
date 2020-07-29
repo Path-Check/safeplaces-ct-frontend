@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
   height: calc(100% - 100px);
 }
 
@@ -38,7 +39,7 @@
   flex-direction: column;
   width: 100%;
   flex: 1;
-  min-width: 480px;
+  width: 480px;
 
   form {
     width: 100%;
