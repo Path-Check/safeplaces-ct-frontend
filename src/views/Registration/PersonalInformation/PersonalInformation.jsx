@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { InlineLoading, TextInput } from '@wfp/ui';
@@ -11,10 +11,13 @@ import emailValidator from 'helpers/emailValidator';
 import registrationActions from 'ducks/registration/actions';
 import { useDispatch } from 'react-redux';
 import PasswordInput from 'components/_shared/PasswordInput';
+import PasswordStrengthIndicator from 'components/_shared/PasswordStrengthIndicator';
+import { useValidatePassword } from 'hooks/useValidatePassword';
 
 const PersonalInformation = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [formValues, setFormValues] = useState({});
+  const [passwordValid] = useValidatePassword(formValues?.password);
   const fetching = false;
   const { handleSubmit, errors, register } = useForm({});
   const dispatch = useDispatch();
@@ -115,16 +118,17 @@ const PersonalInformation = () => {
           invalid={errors.password}
           invalidText={errors.password && errors.password.message}
         />
+        <PasswordStrengthIndicator password={formValues.password} />
         <div className={styles.submitWrapper}>
           <div className={styles.buttonContainer}>
-            <Button id="login-button" height="16px" type="submit">
-              {fetching ? (
-                <div className={styles.loadingContainer}>
-                  <InlineLoading className={styles.loading} />
-                </div>
-              ) : (
-                'Create Account'
-              )}
+            <Button
+              id="login-button"
+              height="16px"
+              type="submit"
+              disabled={!passwordValid}
+              loading={fetching}
+            >
+              Create Account
             </Button>
           </div>
         </div>
