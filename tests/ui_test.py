@@ -27,7 +27,7 @@ class TestRedaction(unittest.TestCase):
         if 'BASE_TEST_URL' in os.environ.copy():
             self.base_url = os.environ['BASE_TEST_URL']
         else:
-            self.base_url = 'https://safeplaces.extremesolution.com/'
+            self.base_url = 'https://staging.spl.extremesolution.com/'
         if 'SELENIUM_URL' in os.environ.copy():
             self.sel_url = os.environ['SELENIUM_URL']
         else:
@@ -39,6 +39,7 @@ class TestRedaction(unittest.TestCase):
 
 
         chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--disable-dev-shm-usage') # Disable use of /dev/shm inside of containers where it is not available
         prefs = {'download.default_directory': '/tmp'}
         chrome_options.add_experimental_option('prefs', prefs)
         if self.local_mode:
@@ -85,33 +86,43 @@ class TestRedaction(unittest.TestCase):
         point_editor_page.enter_date('06/18/2020 07:00')
         point_editor_page.enter_duration_hours('0')
         point_editor_page.enter_duration_minutes('40')
-        point_editor_page.close()
+        point_editor_page.cancel()
         
         # add a point again but this time save the data
-        point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00\r\n', '\t', '20')
-        point_editor_page.save_data()
-        # contact_trace_page.stage_for_publishing()
-        # stage_publish_page = StageForPublishingPage(self.driver)
-        # stage_publish_page.stage_no_consent()
-        # stage_publish_page.stage_yes_consent()
-        # entry_page.open_publish()
-        # publish_data_page = PublishDataPage(self.driver)
-        # publish_data_page.load_data()
-        # select_data_page = SelectDataPage(self.driver)
-        # select_data_page.select_item()
-        # select_data_page.open_selected()
-        # publish_data_page.submit_for_publishing()
-        # submit_data_page = SubmitDataPage(self.driver)
-        # submit_data_page.cancel()
-        # publish_data_page.submit_for_publishing()
-        # submit_data_page = SubmitDataPage(self.driver)
-        # submit_data_page.submit()
-        # publish_data_page.publish_data()
+        # point_editor_page.add_data_point('-122.19732036472264, 37.718665250290684','06/08/2020 07:00\r\n', '\t', '20')
+        # point_editor_page.save_data()
         
+        # add a point by selecting the location on the map and saving the data
+        point_editor_page.add_data_point_select_on_map('07/08/2020 07:00AM\r\n\t', '1\t', '20\t')
+        point_editor_page.save_data()
+        # point_editor_page.cancel()
+      
+        contact_trace_page.stage_for_publishing()
+        stage_publish_page = StageForPublishingPage(self.driver)
+        stage_publish_page.no_consent()
+        contact_trace_page.stage_for_publishing()
+        stage_publish_page.yes_consent()
+        
+    def test_publish(self):
+        tools = Tools()
+        entry_page = EntryPage(self.driver,base_url=self.base_url)
+        entry_page.open_page()
+        login_page = LoginPage(self.driver)
+        login_page.login_if_required()
+        entry_page.open_publish()
+        publish_data_page = PublishDataPage(self.driver)
+        #sleep(10)
+        publish_data_page.load_data()
+        select_data_page = SelectDataPage(self.driver)
+        select_data_page.select_item()
+        select_data_page.open_selected()
+        publish_data_page.submit_for_publishing()
+       
         # logout
-        entry_page.open_settings()
-        settings_page = SettingsPage(self.driver)
-        settings_page.logout
+        # entry_page.open_settings()
+        # settings_page = SettingsPage(self.driver)
+        # settings_page.logout
+           
            
     # leaving test_ out of the method name until the SUT works
     def settings(self):
@@ -127,10 +138,7 @@ class TestRedaction(unittest.TestCase):
         settings_page.set_api_endpoint('https://s3.aws.com/bucket_name/safepaths.json')
         settings_page.set_privacy_policy_URL('https://www.cdc.gov/other/privacy.html')
         # set retention policy slider to 50% of the way across, which would be 15 days
-        actionChains = ActionChains(webdriver)
-        percent = '50'
-        width = data_retention_slider_track.size['width']
-        move.click_and_hold(self.sliderknob).move_by_offset(percent * width / 100, 0).release().perform()
+        settings_page.set_retention_policy('50')
         settings_page.reset_gps_coordinates
         settings_page.save_and_continue
         
