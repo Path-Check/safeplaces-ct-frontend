@@ -4,23 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/pro-solid-svg-icons';
 
 import { passwordInput } from './PasswordInput.module.scss';
+import TextInput from '@wfp/ui/lib/components/TextInput';
 
-const PasswordInput = ({ id, label, name, onChange }) => {
+const PasswordInput = ({ label, ...rest }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className={passwordInput}>
-      <input
-        id={id}
-        labelText={label}
-        type={showPassword ? 'text' : 'password'}
-        required
-        name={name}
-        onChange={onChange}
-      />
-      <button type="button" onClick={() => setShowPassword(!showPassword)}>
-        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-      </button>
+      {label && <label>{label}</label>}
+      <div>
+        <TextInput type={showPassword ? 'text' : 'password'} {...rest} />
+        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+          <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+        </button>
+      </div>
     </div>
   );
 };
