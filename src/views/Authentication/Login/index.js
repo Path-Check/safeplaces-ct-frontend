@@ -91,14 +91,14 @@ const Login = () => {
               invalid={errors.password}
               invalidText={errors.password && errors.password.message}
             />
-            <Button
+            {/* <Button
               unstyled
               onClick={() =>
                 dispatch(applicationActions.updateStatus('FORGOT PASSWORD'))
               }
             >
               Forgot password?
-            </Button>
+            </Button> */}
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
                 <Button
