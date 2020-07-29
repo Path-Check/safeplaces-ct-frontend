@@ -27,6 +27,7 @@ const items = [
 ];
 
 const PasswordStrengthIndicator = ({ password }) => {
+  console.log(password);
   return (
     <ul className={passwordStrengthIndicator}>
       {items.map(i => (
