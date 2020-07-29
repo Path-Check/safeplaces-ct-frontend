@@ -14,7 +14,11 @@ const PasswordStrengthIndicatorCondition = ({ pattern, text, password }) => {
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    setIsValid(pattern.test(password));
+    if (!password) {
+      setIsValid(false);
+    } else {
+      setIsValid(pattern.test(password));
+    }
   }, [password]);
 
   const classes = classNames({
