@@ -54,6 +54,7 @@ const testTrace = testUrl('http://localhost:3000/login', {
   actions: [
     ...loginActions,
   ],
+  wait: 4000, // wait to let map render
   // screenCapture: './a11y-tests/screenshots/trace.png',
 })
 
@@ -62,6 +63,7 @@ const testTraceModal = testUrl('http://localhost:3000/login', {
   actions: [
     ...loginActions,
     'click element #load-existing-record',
+    'wait for element #modal to be visible',
   ],
   // screenCapture: './a11y-tests/screenshots/traceModal.png',
 })
@@ -83,7 +85,9 @@ const testPublishModal = testUrl('http://localhost:3000/login', {
     'click element #publish-data',
     'wait for url to be http://localhost:3000/publish',
     'click element #load-data-for-publishing',
+    'wait for element #modal to be visible',
   ],
+  wait: 4000, // wait to let map render
   // screenCapture: './a11y-tests/screenshots/publishModal.png',
 })
 

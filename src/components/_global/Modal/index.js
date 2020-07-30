@@ -73,7 +73,7 @@ const ModalUI = ({
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
-        <div className={modalInner}>{children}</div>
+        <div id="modal" className={modalInner}>{children}</div>
       </div>
     </FocusTrap>
   );
