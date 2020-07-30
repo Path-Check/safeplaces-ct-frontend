@@ -10,7 +10,6 @@ import PublishData from 'views/Publish/PublishData';
 import ForgotPassword from 'views/Authentication/ForgotPassword';
 
 const ModalSwitch = ({ status, mode }) => {
-  console.log(status);
   switch (status) {
     case applicationStates.CASE_FETCHED:
       return <AddNewRecord />;
