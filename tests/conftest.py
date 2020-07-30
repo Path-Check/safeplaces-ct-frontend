@@ -7,7 +7,7 @@ from selenium import webdriver
 def setup_env():
     setup_env = {}
     # Change this to TRUE if you don't want to use a dockerised stack
-    setup_env['local_mode'] = True
+    setup_env['local_mode'] = False
 
     # setup environment based on environment variables
     if 'HOME_DIR' in os.environ.copy():
