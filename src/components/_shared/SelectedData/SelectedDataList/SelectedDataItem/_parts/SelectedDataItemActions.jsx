@@ -13,8 +13,6 @@ import applicationActions from 'ducks/application/actions';
 const SelectedDataItemActions = React.memo(({ id, discreetPointIds }) => {
   const dispatch = useDispatch();
 
-  console.log(id);
-
   return (
     <ul className={selectedDataMenuActions}>
       <li>

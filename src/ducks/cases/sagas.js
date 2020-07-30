@@ -128,6 +128,7 @@ function* checkCaseGPSDataSaga() {
 
     yield put(pointsActions.updatePoints(response.data.concernPoints));
     yield put(applicationActions.renderEditor(true));
+    yield put(applicationActions.newCase(true));
     yield put(applicationActions.updateStatus('IDLE'));
   } catch (e) {
     yield put(

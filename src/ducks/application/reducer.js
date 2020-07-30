@@ -5,12 +5,18 @@ const initialState = {
   notification: null,
   editorView: false,
   mode: undefined,
+  newCase: false,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case applicationTypes.STATUS:
       return { ...state, status: action.status };
+    case applicationTypes.NEW_CASE:
+      return {
+        ...state,
+        newCase: action.newCase,
+      };
     case applicationTypes.NOTIFICATION:
       return {
         ...state,

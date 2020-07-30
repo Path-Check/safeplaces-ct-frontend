@@ -38,6 +38,24 @@
   }
 }
 
+.buttonUnstyled {
+  padding: 0;
+  background: none;
+  border: none;
+  color: $interactive-01;
+  text-align: left;
+  min-height: unset;
+  justify-content: flex-start;
+
+  &:focus,
+  &:visited,
+  &:hover {
+    background: none;
+    border: none;
+    color: currentColor;
+  }
+}
+
 .buttonLarge {
   min-width: 325px;
   min-height: 60px;

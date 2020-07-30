@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  menuIcon,
   container,
   title,
   left,
@@ -21,6 +22,9 @@ import { FixedSizeList as List } from 'react-window';
 import getListHeight from '../../../helpers/getListHeight';
 import Button from '../../../components/_shared/Button';
 import { marker } from '../../../components/_shared/Map/Marker/Marker.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
+import Dropdown from './Dropdown';
 
 const Members = () => {
   const mockData = [
@@ -42,7 +46,7 @@ const Members = () => {
     },
     {
       value: 'admin',
-      label: 'Administrator',
+      label: 'Admin',
     },
     {
       value: 'superadmin',
@@ -67,6 +71,7 @@ const Members = () => {
           {name}
         </div>
         <div className={roleText}>{role}</div>
+        <Dropdown />
       </div>
     );
   };

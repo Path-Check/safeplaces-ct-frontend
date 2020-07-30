@@ -1,0 +1,25 @@
+.NewRecordAddedTitle {
+  margin: 0 0 15px;
+}
+
+.NewRecordAddedControl {
+  position: relative;
+  margin-bottom: 20px;
+
+  svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.NewRecordAddedActions {
+  display: flex;
+  justify-content: space-between;
+
+  a,
+  button {
+    margin-bottom: 15px;
+  }
+}
