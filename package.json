@@ -21,6 +21,7 @@
     "axios": "^0.19.2",
     "classnames": "latest",
     "connected-react-router": "^6.8.0",
+    "dotenv": "^8.2.0",
     "env-cmd": "^10.1.0",
     "file-saver": "^2.0.2",
     "focus-trap-react": "^6.0.0",
@@ -31,6 +32,7 @@
     "mapbox-layer-switcher": "0.0.6",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
+    "pa11y": "^5.3.0",
     "rc-slider": "^9.2.4",
     "react": "^16.13.1",
     "react-big-calendar": "^0.24.5",
@@ -97,7 +99,8 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "a11y-check": "node a11y-tests"
   },
   "browserslist": [
     ">0.2%",
