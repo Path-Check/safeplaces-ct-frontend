@@ -9,6 +9,7 @@ import Button from 'components/_shared/Button';
 import applicationActions from 'ducks/application/actions';
 import FormWrapper from 'components/_shared/Forms/FormWrapper';
 import authActions from 'ducks/auth/actions';
+import { applicationStates } from 'types/applicationStates';
 
 const ForgotPassword = ({ status }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const ForgotPassword = ({ status }) => {
   return (
     <Modal
       style="b"
-      closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
+      closeAction={() => dispatch(applicationActions.updateStatus(applicationStates.IDLE))
     >
       <FormWrapper
         title="Forgot your password"

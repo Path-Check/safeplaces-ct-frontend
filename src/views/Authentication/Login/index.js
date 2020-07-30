@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { InlineLoading, TextInput } from '@wfp/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './login.module.scss';
-import pathcheck from '../../../assets/images/pathcheck.png';
 
 import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
@@ -14,6 +13,7 @@ import Logo from '../../../components/_global/Logo';
 import emailValidator from '../../../helpers/emailValidator';
 import applicationActions from 'ducks/application/actions';
 import PasswordInput from 'components/_shared/PasswordInput';
+import { applicationStates } from 'types/applicationStates';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -94,7 +94,11 @@ const Login = () => {
             <Button
               unstyled
               onClick={() =>
-                dispatch(applicationActions.updateStatus('FORGOT PASSWORD'))
+                dispatch(
+                  applicationActions.updateStatus(
+                    applicationStates.FORGOT_PASSWORD,
+                  ),
+                )
               }
             >
               Forgot password?

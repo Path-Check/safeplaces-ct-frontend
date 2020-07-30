@@ -8,12 +8,9 @@ import {
 import Button from 'components/_shared/Button';
 import { useSelector, useDispatch } from 'react-redux';
 
-import pointsSelectors, {
-  getPoints,
-  getFilteredPoints,
-  getAllowStaging,
-} from 'ducks/points/selectors';
+import { getAllowStaging } from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
+import { applicationStates } from 'types/applicationStates';
 
 const TracerToolActions = ({ isPadded }) => {
   const dispatch = useDispatch();
@@ -31,7 +28,9 @@ const TracerToolActions = ({ isPadded }) => {
         <Button
           id="stage-for-publishing"
           onClick={() =>
-            dispatch(applicationActions.updateStatus('STAGE CASE'))
+            dispatch(
+              applicationActions.updateStatus(applicationStates.STAGE_CASE),
+            )
           }
         >
           Stage All Data for Publishing

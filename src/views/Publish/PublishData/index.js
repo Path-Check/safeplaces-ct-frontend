@@ -17,6 +17,7 @@ import authSelectors from 'ducks/auth/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import applicationActions from 'ducks/application/actions';
 import casesActions from 'ducks/cases/actions';
+import { applicationStates } from 'types/applicationStates';
 
 const PublishData = ({ dataPoints, subscriberCount }) => {
   const dispatch = useDispatch();
@@ -24,8 +25,7 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
 
   return (
     <Modal
-      closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
-    >
+      closeAction={() => dispatch(applicationActions.updateStatus(applicationStates.IDLE))
       <Dialog width="650px">
         <header className={PublishDataHeader}>
           <h3 className={PublishDataTitle}>Submit Data For Publishing</h3>
@@ -49,7 +49,7 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
           <Button
             large
             secondary
-            onClick={() => dispatch(applicationActions.updateStatus('IDLE'))}
+            onClick={() => dispatch(applicationActions.updateStatus(applicationStates.IDLE))}
           >
             Cancel
           </Button>
