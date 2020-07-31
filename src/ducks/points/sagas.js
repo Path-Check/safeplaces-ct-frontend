@@ -10,9 +10,10 @@ import pointsSelectors, { getPoints } from 'ducks/points/selectors';
 import mapActions from 'ducks/map/actions';
 import casesSelectors from 'ducks/cases/selectors';
 import tagsActions from 'ducks/tags/actions';
+import { applicationStates } from 'types/applicationStates';
 
 function* deletePoint({ data: { id, discreetPointIds } }) {
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
   try {
     yield call(pointsService.delete, discreetPointIds);
     const currentPoints = yield select(pointsSelectors.getPoints);
@@ -36,11 +37,11 @@ function* deletePoint({ data: { id, discreetPointIds } }) {
     );
   }
 
-  yield put(applicationActions.updateStatus('CASE ACTIVE'));
+  yield put(applicationActions.updateStatus(applicationStates.CASE_ACTIVE));
 }
 
 function* deleteFilteredPoints() {
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
   const filteredPoints = yield select(getPoints);
   const points = yield select(getPoints);
 
@@ -61,9 +62,9 @@ function* deleteFilteredPoints() {
     yield put(applicationActions.setActivePoint(null));
     yield put(pointsActions.clearFilters());
 
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (error) {
-    yield put(applicationActions.updateStatus('DELETE POINTS'));
+    yield put(applicationActions.updateStatus(applicationStates.DELETE_POINTS));
     yield put(
       applicationActions.notification({
         title: 'Unable to delete points',
@@ -74,7 +75,7 @@ function* deleteFilteredPoints() {
 }
 
 function* deleteMultiplePoints({ points }) {
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
   const currentPoints = yield select(getPoints);
 
   const discreetpoints = points.reduce((pts, point) => {
@@ -95,9 +96,9 @@ function* deleteMultiplePoints({ points }) {
     yield put(applicationActions.setActivePoint(null));
     yield put(pointsActions.clearFilters());
 
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (error) {
-    yield put(applicationActions.updateStatus('DELETE POINTS'));
+    yield put(applicationActions.updateStatus(applicationStates.DELETE_POINTS));
     yield put(
       applicationActions.notification({
         title: 'Unable to delete points',
@@ -142,7 +143,7 @@ function* updatePoint({ point, type }) {
     }
 
     if (isEdit) {
-      yield put(applicationActions.updateStatus('IDLE'));
+      yield put(applicationActions.updateStatus(applicationStates.IDLE));
     }
 
     yield put(mapActions.updateLocation(null));
@@ -168,8 +169,10 @@ function* updatePoint({ point, type }) {
 }
 
 function* setPointLabel({ data }) {
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
+
   yield put(tagsActions.setTags(data.nickname));
+
   const currentPoints = yield select(getPoints);
 
   try {
@@ -180,7 +183,6 @@ function* setPointLabel({ data }) {
         uniqBy([...concernPoints, ...currentPoints], 'id'),
       ),
     );
-    yield put(applicationActions.updateStatus('IDLE'));
 
     const title =
       data.nickname === null
@@ -198,8 +200,9 @@ function* setPointLabel({ data }) {
         title: `Unable to apply nickname to point(s). Please try again.`,
       }),
     );
-    yield put(applicationActions.updateStatus('IDLE'));
   }
+
+  yield put(applicationActions.updateStatus(applicationStates.IDLE));
 }
 
 export default function* pointsSagas() {

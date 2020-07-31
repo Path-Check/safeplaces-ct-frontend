@@ -9,6 +9,7 @@ import {
 import Button from 'components/_shared/Button';
 import { useDispatch } from 'react-redux';
 import applicationActions from 'ducks/application/actions';
+import { applicationStates } from 'types/applicationStates';
 
 const PublishToolActions = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,11 @@ const PublishToolActions = () => {
       <Button
         id="submit-data-publishing"
         onClick={() =>
-          dispatch(applicationActions.updateStatus('SUBMIT FOR PUBLISHING'))
+          dispatch(
+            applicationActions.updateStatus(
+              applicationStates.SUBMIT_FOR_PUBLISHING,
+            ),
+          )
         }
       >
         Submit All Data For Publishing

@@ -9,6 +9,7 @@ import pointsActions from 'ducks/points/actions';
 import { useDispatch } from 'react-redux';
 
 import applicationActions from 'ducks/application/actions';
+import { applicationStates } from 'types/applicationStates';
 
 const SelectedDataItemActions = React.memo(({ id, discreetPointIds }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,9 @@ const SelectedDataItemActions = React.memo(({ id, discreetPointIds }) => {
         <button
           type="button"
           onClick={() =>
-            dispatch(applicationActions.updateStatus('EDIT POINT'))
+            dispatch(
+              applicationActions.updateStatus(applicationStates.EDIT_POINT),
+            )
           }
           title="Edit Item"
         >

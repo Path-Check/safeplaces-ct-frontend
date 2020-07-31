@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import {
   selectedDataContextMenu,
@@ -6,19 +6,12 @@ import {
 } from './SelectedDataContextMenu.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faEdit,
-  faMinusCircle,
-  faTrash,
-  faPlus,
-  faTimes,
-} from '@fortawesome/pro-solid-svg-icons';
+import { faPlus } from '@fortawesome/pro-solid-svg-icons';
 import applicationActions from 'ducks/application/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import applicationSelectors from 'ducks/application/selectors';
-import pointsActions from 'ducks/points/actions';
-import pointsSelectors, { getFilteredPoints } from 'ducks/points/selectors';
 import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import { applicationStates } from 'types/applicationStates';
 
 const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
   const containerRef = useRef();
@@ -27,7 +20,6 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
 
   const isTrace =
     useSelector(state => applicationSelectors.getMode(state)) === 'trace';
-  const noFilteredPoints = useSelector(getFilteredPoints).length < 1;
 
   useOnClickOutside(containerRef, () => closeAction());
 
@@ -41,7 +33,9 @@ const SelectedDataContextMenu = ({ closeAction, addAction, pointsLength }) => {
               className={selectedDataContextMenuAction}
               type="button"
               onClick={() => {
-                dispatch(applicationActions.updateStatus('ADD POINT'));
+                dispatch(
+                  applicationActions.updateStatus(applicationStates.ADD_POINT),
+                );
                 closeAction();
               }}
             >
