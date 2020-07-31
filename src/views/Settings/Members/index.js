@@ -62,7 +62,7 @@ const Members = () => {
   };
 
   const rowRenderer = ({ data, index, style }) => {
-    const { email, role } = data[index];
+    const { id, email, role } = data[index];
 
     return (
       <div className={itemContainer} style={style} key={email}>
@@ -70,7 +70,7 @@ const Members = () => {
           {email}
         </div>
         <div className={roleText}>{role && role.replace('_', ' ')}</div>
-        <Dropdown />
+        <Dropdown id={id} />
       </div>
     );
   };

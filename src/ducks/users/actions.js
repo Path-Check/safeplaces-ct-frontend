@@ -5,6 +5,8 @@ const {
   CREATE_USER_SUCCESS,
   GET_ALL_USERS_REQUEST,
   GET_ALL_USERS_SUCCESS,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
 } = usersTypes;
 
 const usersActions = {
@@ -14,6 +16,14 @@ const usersActions = {
   }),
   createUserSuccess: data => ({
     type: CREATE_USER_SUCCESS,
+    data,
+  }),
+  deleteUserRequest: data => ({
+    type: DELETE_USER_REQUEST,
+    data,
+  }),
+  deleteUserSuccess: data => ({
+    type: DELETE_USER_SUCCESS,
     data,
   }),
   getAllUsersRequest: () => ({
