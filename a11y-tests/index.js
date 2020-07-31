@@ -2,7 +2,7 @@ const pa11y = require('pa11y');
 require('dotenv').config();
 
 const defaultOptions = {
-  standard: 'WCAG2AAA'
+  standard: 'WCAG2A'
 }
 
 const loginActions = [
