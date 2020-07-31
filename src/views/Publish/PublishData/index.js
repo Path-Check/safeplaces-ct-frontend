@@ -25,7 +25,10 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
 
   return (
     <Modal
-      closeAction={() => dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+      closeAction={() =>
+        dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+      }
+    >
       <Dialog width="650px">
         <header className={PublishDataHeader}>
           <h3 className={PublishDataTitle}>Submit Data For Publishing</h3>
@@ -49,7 +52,9 @@ const PublishData = ({ dataPoints, subscriberCount }) => {
           <Button
             large
             secondary
-            onClick={() => dispatch(applicationActions.updateStatus(applicationStates.IDLE))}
+            onClick={() =>
+              dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+            }
           >
             Cancel
           </Button>

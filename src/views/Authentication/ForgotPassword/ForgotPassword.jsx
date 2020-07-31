@@ -24,7 +24,9 @@ const ForgotPassword = ({ status }) => {
   return (
     <Modal
       style="b"
-      closeAction={() => dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+      closeAction={() =>
+        dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+      }
     >
       <FormWrapper
         title="Forgot your password"
