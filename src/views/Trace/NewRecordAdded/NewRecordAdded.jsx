@@ -18,9 +18,9 @@ import applicationActions from 'ducks/application/actions';
 import casesActions from 'ducks/cases/actions';
 import TextInput from '@wfp/ui/lib/components/TextInput';
 import casesService from 'ducks/cases/service';
-import { useForm } from 'react-hook-form';
 import { faTimes, faCheck } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { applicationStates } from 'types/applicationStates';
 
 const NewRecordAdded = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const NewRecordAdded = () => {
     if (value && value !== externalId) {
       dispatch(casesActions.updExternalCaseIdRequest(value));
     } else {
-      dispatch(applicationActions.updateStatus('IDLE'));
+      dispatch(applicationActions.updateStatus(applicationStates.IDLE));
     }
   };
 
@@ -90,7 +90,11 @@ const NewRecordAdded = () => {
           <div className={NewRecordAddedActions}>
             <Button
               id="cancel-go-to-record"
-              onClick={() => dispatch(applicationActions.updateStatus('IDLE'))}
+              onClick={() =>
+                dispatch(
+                  applicationActions.updateStatus(applicationStates.IDLE),
+                )
+              }
               secondary
             >
               Cancel
