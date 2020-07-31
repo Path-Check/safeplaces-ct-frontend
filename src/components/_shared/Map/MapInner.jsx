@@ -239,7 +239,7 @@ const MapInner = React.memo(({ filteredPoints, geoPoints }) => {
           </>
         )}
       </ReactMapGL>
-      {renderLocationHelp && <SelectionLocationHelp />}
+      <SelectionLocationHelp show={renderLocationHelp} />
     </div>
   );
 });

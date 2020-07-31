@@ -9,10 +9,16 @@
   left: 0;
   top: 0;
   z-index: 10;
+  transition: transform 250ms;
+  transform: translateX(-100%);
 
   :global .react-datepicker {
     width: auto;
   }
+}
+
+.pointEditorEntered {
+  transform: translateX(0);
 }
 
 .pointEditorHeader {
