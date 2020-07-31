@@ -51,6 +51,15 @@ const authService = {
       url: `${REACT_APP_API_URL}auth/logout`,
     });
   },
+  forgotPassword: async email => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/users/reset-password`,
+      data: {
+        email,
+      },
+    });
+  },
 };
 
 export default authService;

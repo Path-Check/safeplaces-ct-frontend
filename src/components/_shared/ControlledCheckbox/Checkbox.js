@@ -27,7 +27,7 @@ const Checkbox = ({
     [`${checkboxContainerDisabled}`]: disabled,
     [`${alignLeft}`]: align === 'left',
   });
-  console.log(isSmall);
+
   const labelClasses = classNames({
     [`${inputTitle}`]: true,
     [`${small}`]: isSmall,

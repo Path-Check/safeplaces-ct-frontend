@@ -13,6 +13,7 @@ import applicationSelectors from 'ducks/application/selectors';
 import applicationActions from 'ducks/application/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-solid-svg-icons';
+import { applicationStates } from 'types/applicationStates';
 
 const PointsInfo = () => {
   const activeCases = useSelector(state =>
@@ -38,7 +39,9 @@ const PointsInfo = () => {
           id="add-data-point"
           type="button"
           onClick={() => {
-            dispatch(applicationActions.updateStatus('ADD POINT'));
+            dispatch(
+              applicationActions.updateStatus(applicationStates.ADD_POINT),
+            );
           }}
         >
           <FontAwesomeIcon icon={faPlus} /> Add Point(s)

@@ -8,10 +8,11 @@ import casesService from './service';
 import casesSelectors from 'ducks/cases/selectors';
 import authSelectors from '../auth/selectors';
 import pointsActions from 'ducks/points/actions';
+import { applicationStates } from 'types/applicationStates';
 
 function* addCases({ data }) {
   try {
-    yield put(applicationActions.updateStatus('BUSY'));
+    yield put(applicationActions.updateStatus(applicationStates.BUSY));
 
     const response = yield call(casesService.fetchCases);
 
@@ -20,11 +21,11 @@ function* addCases({ data }) {
     }
 
     yield put(casesActions.addCases(response.data));
-    yield put(applicationActions.updateStatus('CASES ADDED'));
+    yield put(applicationActions.updateStatus(applicationStates.CASES_ADDED));
   } catch (error) {
     console.error(error);
 
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
     yield put(
       applicationActions.notification({
         title: 'Cases could not be retrieved.',
@@ -38,11 +39,11 @@ function* addCases({ data }) {
 function* addCase() {
   let response;
 
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
+
   const { id: organizationId } = yield select(authSelectors.getCurrentUser);
 
   try {
-    yield put(applicationActions.updateStatus('BUSY'));
-
     response = yield call(casesService.fetchCase, {
       organizationId,
     });
@@ -57,9 +58,9 @@ function* addCase() {
       yield put(casesActions.setAccessCode(accessCode));
     }
 
-    yield put(applicationActions.updateStatus('CASE FETCHED'));
+    yield put(applicationActions.updateStatus(applicationStates.CASE_FETCHED));
   } catch (error) {
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
     yield put(
       applicationActions.notification({
         title: 'Record could not be created.',
@@ -71,7 +72,7 @@ function* addCase() {
 }
 
 function* loadCasePoints({ type, cases }) {
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
   let service;
   let data;
 
@@ -100,7 +101,7 @@ function* loadCasePoints({ type, cases }) {
     yield put(casesActions.setCase(cases));
     yield put(pointsActions.updatePoints(response.data.concernPoints));
     yield put(applicationActions.renderEditor(true));
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (error) {
     yield put(casesActions.setCase(cases));
     yield put(
@@ -110,7 +111,7 @@ function* loadCasePoints({ type, cases }) {
           'If issue persists, please contact technical support for assistance.',
       }),
     );
-    yield put(applicationActions.updateStatus('CASES ADDED'));
+    yield put(applicationActions.updateStatus(applicationStates.CASES_ADDED));
   }
 }
 
@@ -118,7 +119,7 @@ function* checkCaseGPSDataSaga() {
   const { caseId } = yield select(casesSelectors.getActiveCases);
   const accessCode = yield select(casesSelectors.getAccessCode);
 
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
 
   try {
     const response = yield call(casesService.enrichCase, {
@@ -128,7 +129,8 @@ function* checkCaseGPSDataSaga() {
 
     yield put(pointsActions.updatePoints(response.data.concernPoints));
     yield put(applicationActions.renderEditor(true));
-    yield put(applicationActions.updateStatus('IDLE'));
+    yield put(applicationActions.newCase(true));
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (e) {
     yield put(
       applicationActions.notification({
@@ -137,7 +139,7 @@ function* checkCaseGPSDataSaga() {
           ' Please check again in a moment. If issue persists, please contact technical support for assistance.',
       }),
     );
-    yield put(applicationActions.updateStatus('CASE FETCHED'));
+    yield put(applicationActions.updateStatus(applicationStates.CASE_FETCHED));
   }
 }
 
@@ -149,7 +151,6 @@ function* deleteCase() {
       caseId,
     });
     yield put(casesActions.setCase(null));
-    yield put(applicationActions.updateStatus('IDLE'));
     yield put(
       applicationActions.notification({
         title: 'Case Deleted',
@@ -169,7 +170,7 @@ function* publishCases() {
   const cases = yield select(casesSelectors.getActiveCases);
   const caseIds = cases.map(c => c.caseId);
 
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
 
   try {
     yield call(casesService.publishCases, {
@@ -184,7 +185,9 @@ function* publishCases() {
       }),
     );
   } catch (error) {
-    yield put(applicationActions.updateStatus('SUBMIT FOR PUBLISHING'));
+    yield put(
+      applicationActions.updateStatus(applicationStates.SUBMIT_FOR_PUBLISHING),
+    );
 
     yield put(
       applicationActions.notification({
@@ -198,7 +201,7 @@ function* publishCases() {
 function* stageCase() {
   const { caseId } = yield select(casesSelectors.getActiveCases);
 
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
 
   try {
     yield call(casesService.stageCase, { caseId });
@@ -219,13 +222,13 @@ function* stageCase() {
       }),
     );
 
-    yield put(applicationActions.updateStatus('STAGE CASE'));
+    yield put(applicationActions.updateStatus(applicationStates.STAGE_CASE));
   }
 }
 
 function* updateExternalId({ externalId }) {
   const { caseId } = yield select(casesSelectors.getActiveCases);
-  yield put(applicationActions.updateStatus('BUSY'));
+  yield put(applicationActions.updateStatus(applicationStates.BUSY));
 
   try {
     const response = yield call(casesService.updateExternalCaseId, {
@@ -249,7 +252,7 @@ function* updateExternalId({ externalId }) {
     );
   }
 
-  yield put(applicationActions.updateStatus('IDLE'));
+  yield put(applicationActions.updateStatus(applicationStates.IDLE));
 }
 
 function* setRecordId() {

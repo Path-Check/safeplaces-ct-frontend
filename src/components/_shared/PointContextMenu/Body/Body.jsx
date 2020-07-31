@@ -14,6 +14,7 @@ import pointsActions from 'ducks/points/actions';
 import applicationActions from 'ducks/application/actions';
 
 import LabelAs from 'components/_shared/PointContextMenu/LabelAs';
+import { applicationStates } from 'types/applicationStates';
 
 const PointContextMenuBody = ({
   id,
@@ -64,7 +65,9 @@ const PointContextMenuBody = ({
                 ...rest,
               }),
             );
-            dispatch(applicationActions.updateStatus('EDIT POINT'));
+            dispatch(
+              applicationActions.updateStatus(applicationStates.EDIT_POINT),
+            );
           }}
         >
           <FontAwesomeIcon icon={faEdit} />

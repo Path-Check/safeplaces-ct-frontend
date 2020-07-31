@@ -15,6 +15,14 @@
   transition: opacity ease 200ms;
 }
 
+.modalStyleB {
+  background: #fff;
+
+  .closeButton {
+    color: #000;
+  }
+}
+
 .modalNoAnimation {
   opacity: 1;
   transition: unset;
@@ -62,7 +70,7 @@
   background: none;
   outline: none;
   border: none;
-  color: white;
+  color: #fff;
   font-size: 30px;
   cursor: pointer;
   transition: transform 300ms;

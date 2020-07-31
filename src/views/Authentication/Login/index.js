@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { InlineLoading, TextInput } from '@wfp/ui';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './login.module.scss';
-import pathcheck from '../../../assets/images/pathcheck.png';
 
 import authSelectors from 'ducks/auth/selectors';
 import Button from 'components/_shared/Button';
@@ -12,6 +11,9 @@ import Button from 'components/_shared/Button';
 import authActions from 'ducks/auth/actions';
 import Logo from '../../../components/_global/Logo';
 import emailValidator from '../../../helpers/emailValidator';
+import applicationActions from 'ducks/application/actions';
+import PasswordInput from 'components/_shared/PasswordInput';
+import { applicationStates } from 'types/applicationStates';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -78,19 +80,29 @@ const Login = () => {
                 'Please enter a valid email'
               }
             />
-
-            <TextInput
+            <PasswordInput
               id="pass-input"
               onChange={onPassword}
               autoCorrect="off"
               autoCapitalize="off"
               inputRef={register({ required: 'Please enter a password' })}
-              labelText="Password"
-              type="password"
+              label="Password"
               name="password"
               invalid={errors.password}
               invalidText={errors.password && errors.password.message}
             />
+            <Button
+              unstyled
+              onClick={() =>
+                dispatch(
+                  applicationActions.updateStatus(
+                    applicationStates.FORGOT_PASSWORD,
+                  ),
+                )
+              }
+            >
+              Forgot password?
+            </Button>
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
                 <Button
