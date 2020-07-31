@@ -8,6 +8,7 @@ import application from './application/reducer';
 import points from './points/reducer';
 import tags from './tags/reducer';
 import registration from './registration/reducer';
+import users from './users/reducer';
 
 import { createBrowserHistory } from 'history';
 
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   router: connectRouter(history),
   map,
   registration,
+  users,
 });
 
 const rootReducer = (state, action) => {

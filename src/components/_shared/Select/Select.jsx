@@ -18,9 +18,10 @@ const Select = ({
   placeholder = '',
   required = '',
   options,
+  onSelect = null,
 }) => {
   const onChange = ({ target: { value, name } }) => {
-    console.log(value, name);
+    onSelect(value);
   };
 
   return (

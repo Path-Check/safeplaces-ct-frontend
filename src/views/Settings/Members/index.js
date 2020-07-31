@@ -25,8 +25,14 @@ import { marker } from '../../../components/_shared/Map/Marker/Marker.module.scs
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/pro-solid-svg-icons';
 import Dropdown from './Dropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import usersActions from '../../../ducks/users/actions';
+import authSelectors from '../../../ducks/auth/selectors';
 
 const Members = () => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => authSelectors.getCurrentUser(state));
+
   const mockData = [
     { name: 'darth.vader@darkside.com', role: 'Admin' },
     { name: 'sauron@mordor.com', role: 'Contact Tracer' },
@@ -41,7 +47,7 @@ const Members = () => {
   ];
   const options = [
     {
-      value: 'tracer',
+      value: 'contact_tracer',
       label: 'Contact Tracer',
     },
     {
@@ -49,10 +55,11 @@ const Members = () => {
       label: 'Admin',
     },
     {
-      value: 'superadmin',
+      value: 'super_admin',
       label: 'Super Admin',
     },
   ];
+  const [role, setRole] = useState('contact_tracer');
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
   const onEmail = ({ target: { value } }) => {
@@ -90,6 +97,16 @@ const Members = () => {
     );
   };
 
+  const addNewUser = () => {
+    dispatch(
+      usersActions.createUserRequest({
+        email,
+        role,
+        organization_id: String(currentUser.id),
+      }),
+    );
+  };
+
   return (
     <div className={container}>
       <h3 className={title}>Add new member</h3>
@@ -105,11 +122,18 @@ const Members = () => {
             autoCorrect="off"
             autoCapitalize="off"
             name="email"
+            type="email"
             invalid={email.length && !isValidEmail}
             invalidText={'Please enter a valid email'}
           />
-          <Select options={options} />
-          <Button className={addButton}>Add</Button>
+          <Select onSelect={setRole} options={options} />
+          <Button
+            disabled={!email.length || !isValidEmail || !role.length}
+            onClick={addNewUser}
+            className={addButton}
+          >
+            Add
+          </Button>
         </div>
       </div>
 
