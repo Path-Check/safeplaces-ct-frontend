@@ -1,4 +1,6 @@
 const pa11y = require('pa11y');
+const fs = require('fs');
+const html = require('pa11y-reporter-html');
 require('dotenv').config();
 
 const defaultOptions = {
@@ -32,24 +34,37 @@ const runPa11y = async () => {
   }
 }
 
-const testUrl = (url, options) => async () => {
+const testUrl = (url, outputPath, options) => async () => {
+  // Log Results and throw an error
+  // try {
+  //   const results = await pa11y(url, options)
+  //   if (results.issues && results.issues.length > 0) {
+  //     console.log(results)
+  //     throw new Error('Accessibility Issues Detected')
+  //   }
+  // } catch (error) {
+  //   throw new Error(error.message)
+  // }
+
+  // Log Results and write results to an html file
   try {
     const results = await pa11y(url, options)
     if (results.issues && results.issues.length > 0) {
       console.log(results)
-      throw new Error('Accessibility Issues Detected')
+      const htmlResults = await html.results(results);
+      fs.writeFile(outputPath, htmlResults, (error) => { console.log(error) });
     }
   } catch (error) {
     throw new Error(error.message)
   }
 }
 
-const testLogin = testUrl('http://localhost:3000/login', {
+const testLogin = testUrl('http://localhost:3000/login', './a11y-tests/errors/login.html', {
   ...defaultOptions,
   // screenCapture: './a11y-tests/screenshots/login.png'
 })
 
-const testTrace = testUrl('http://localhost:3000/login', {
+const testTrace = testUrl('http://localhost:3000/login', './a11y-tests/errors/trace.html', {
   ...defaultOptions,
   actions: [
     ...loginActions,
@@ -58,7 +73,7 @@ const testTrace = testUrl('http://localhost:3000/login', {
   // screenCapture: './a11y-tests/screenshots/trace.png',
 })
 
-const testTraceModal = testUrl('http://localhost:3000/login', {
+const testTraceModal = testUrl('http://localhost:3000/login', './a11y-tests/errors/traceModal.html', {
   ...defaultOptions,
   actions: [
     ...loginActions,
@@ -68,7 +83,7 @@ const testTraceModal = testUrl('http://localhost:3000/login', {
   // screenCapture: './a11y-tests/screenshots/traceModal.png',
 })
 
-const testPublish = testUrl('http://localhost:3000/login', {
+const testPublish = testUrl('http://localhost:3000/login', './a11y-tests/errors/publish.html', {
   ...defaultOptions,
   actions: [
     ...loginActions,
@@ -78,7 +93,7 @@ const testPublish = testUrl('http://localhost:3000/login', {
   // screenCapture: './a11y-tests/screenshots/publish.png',
 })
 
-const testPublishModal = testUrl('http://localhost:3000/login', {
+const testPublishModal = testUrl('http://localhost:3000/login', './a11y-tests/errors/publishModal.html', {
   ...defaultOptions,
   actions: [
     ...loginActions,
@@ -91,7 +106,7 @@ const testPublishModal = testUrl('http://localhost:3000/login', {
   // screenCapture: './a11y-tests/screenshots/publishModal.png',
 })
 
-const testGeneralSettings = testUrl('http://localhost:3000/login', {
+const testGeneralSettings = testUrl('http://localhost:3000/login', './a11y-tests/errors/generalSettings.html', {
   ...defaultOptions,
   actions: [
     ...loginActions,
@@ -100,7 +115,7 @@ const testGeneralSettings = testUrl('http://localhost:3000/login', {
   // screenCapture: './a11y-tests/screenshots/settingsGeneral.png',
 })
 
-const testMemberSettings = testUrl('http://localhost:3000/login', {
+const testMemberSettings = testUrl('http://localhost:3000/login', './a11y-tests/errors/memberSettings.html', {
   ...defaultOptions,
   actions: [
     ...loginActions,
@@ -113,3 +128,7 @@ const testMemberSettings = testUrl('http://localhost:3000/login', {
 })
 
 runPa11y();
+
+// TODO
+// NEW LOGIN SCREENS?????
+// RESET PASSWORD???

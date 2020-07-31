@@ -30,3 +30,7 @@ yarn-error.log*
 
 # editor configs
 .editorconfig
+
+#a11y-test output
+/a11y-tests/errors/*
+/a11y-tests/screenshots/*
