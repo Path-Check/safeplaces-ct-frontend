@@ -18,6 +18,7 @@ const runPa11y = async () => {
   try {
     const results = await Promise.allSettled([
       testLogin(),
+      testForgotPassword(),
       testTrace(),
       testTraceModal(),
       testPublish(),
@@ -62,6 +63,15 @@ const testUrl = (url, outputPath, options) => async () => {
 const testLogin = testUrl('http://localhost:3000/login', './a11y-tests/errors/login.html', {
   ...defaultOptions,
   // screenCapture: './a11y-tests/screenshots/login.png'
+})
+
+const testForgotPassword = testUrl('http://localhost:3000/login', './a11y-tests/errors/forgotPassword.html', {
+  ...defaultOptions,
+  actions: [
+    'click element #forgot-password',
+    'wait for element #submit-forgot-password to be visible',
+  ],
+  // screenCapture: './a11y-tests/screenshots/forgotPassword.png'
 })
 
 const testTrace = testUrl('http://localhost:3000/login', './a11y-tests/errors/trace.html', {

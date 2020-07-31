@@ -92,6 +92,7 @@ const Login = () => {
               invalidText={errors.password && errors.password.message}
             />
             <Button
+              id="forgot-password"
               unstyled
               onClick={() =>
                 dispatch(
@@ -116,8 +117,8 @@ const Login = () => {
                       <InlineLoading className={styles.loading} />
                     </div>
                   ) : (
-                    'Log in'
-                  )}
+                      'Log in'
+                    )}
                 </Button>
               </div>
               <p className={styles.disclaimer}>
