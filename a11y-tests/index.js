@@ -36,17 +36,6 @@ const runPa11y = async () => {
 }
 
 const testUrl = (url, outputPath, options) => async () => {
-  // Log Results and throw an error
-  // try {
-  //   const results = await pa11y(url, options)
-  //   if (results.issues && results.issues.length > 0) {
-  //     console.log(results)
-  //     throw new Error('Accessibility Issues Detected')
-  //   }
-  // } catch (error) {
-  //   throw new Error(error.message)
-  // }
-
   // Log Results and write results to an html file
   try {
     const results = await pa11y(url, options)
@@ -54,6 +43,7 @@ const testUrl = (url, outputPath, options) => async () => {
       console.log(results)
       const htmlResults = await html.results(results);
       fs.writeFile(outputPath, htmlResults, (error) => { console.log(error) });
+      throw new Error('Accessibility Issues Detected')
     }
   } catch (error) {
     throw new Error(error.message)
