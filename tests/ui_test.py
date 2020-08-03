@@ -1,6 +1,6 @@
 import pytest
 from selenium import webdriver
-from tests.page_objects import EntryPage, LoginPage, RedactionPage, ContactTracePage, AddNewRecordPage, AddDataToRecordPage, StageForPublishingPage, PublishDataPage, SelectDataPage, SubmitDataPage, SettingsPage, Tools
+from tests.page_objects import EntryPage, LoginPage, ContactTracePage, AddNewRecordPage, AddDataToRecordPage, StageForPublishingPage, PublishDataPage, SelectDataPage, SettingsPage, Tools
 import unittest
 import os
 
@@ -100,25 +100,6 @@ class TestRedaction:
         settings_page.set_retention_policy('50')
         settings_page.reset_gps_coordinates
         settings_page.save_and_continue
-
-    @pytest.mark.skip(reason="def test_redaction(self): <--- removed test_ from the method name until the SUT works!")
-    def test_redaction(self, setup_env):
-        entry_page = EntryPage(
-            setup_env['driver'], base_url=setup_env['base_url'])
-        entry_page.open_page()
-        entry_page.setup_case()
-        entry_page.open_redactor()
-        login_page = LoginPage(setup_env['driver'])
-        login_page.login_if_required()
-        redaction_page = RedactionPage(setup_env['driver'])
-        redaction_page.load_file(
-            setup_env['data_dir'] + '/privkit31A-synthetic-REDACTED.json')
-        redaction_page.check_start_date_is('1-Mar-2020 1:00pm GMT')
-        redaction_page.check_end_date_is('19-Mar-2020 10:00pm GMT')
-        redaction_page.check_duration_is('18 days 9 hrs')
-        redaction_page.save_file()
-        # TODO: this next step fails because it was designed for backend=OFF.  To test this, we need to load the publisher screen and see what data is there when we hit load
-        #tools.compare_files(self.tmp_dir + '/privkit31A-synthetic-REDACTED-REDACTED.json', self.home_dir + '/' + self.data_dir + '/expected_results/privkit31A-synthetic-REDACTED-REDACTED.json')
 
     def tearDown(self, setup_env):
         setup_env['driver'].close()
