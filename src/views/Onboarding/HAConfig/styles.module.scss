@@ -79,11 +79,11 @@ img {
   flex-direction: column;
 }
 
-
 .boundariesSetContainer {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .checkCircle {
@@ -94,6 +94,8 @@ img {
 }
 
 .boundariesSet {
+  display: flex;
+  align-items: center;
   font-size: 18px;
   line-height: 24px;
   color: #41dca4;

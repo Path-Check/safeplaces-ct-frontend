@@ -12,17 +12,12 @@ const OpenMap = ({ toggleMap, boundariesSet, boundariesError }) => {
 
   return boundariesSet || boundaries ? (
     <div className={styles.boundariesSetContainer}>
-      <FontAwesomeIcon icon={faCheckCircle} className={styles.checkCircle} />
+      <h3 className={styles.boundariesSet}>
+        <FontAwesomeIcon icon={faCheckCircle} className={styles.checkCircle} />{' '}
+        GPS Boundaries set
+      </h3>
 
-      <h3 className={styles.boundariesSet}>GPS Boundaries set</h3>
-
-      <Button
-        id="reset-gps"
-        width="347px"
-        height="48px"
-        className={styles.openMap}
-        onClick={toggleMap}
-      >
+      <Button id="reset-gps" className={styles.openMap} onClick={toggleMap}>
         Reset GPS Boundaries
       </Button>
     </div>
