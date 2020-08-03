@@ -9,17 +9,21 @@ import {
   deleteMemberText,
 } from './Dropdown.module.scss';
 import { useOnClickOutside } from '../../../../hooks/useOnClickOutside';
+import { useDispatch } from 'react-redux';
+import usersActions from '../../../../ducks/users/actions';
 
 const Dropdown = ({ id }) => {
   const containerRef = useRef();
+  const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
   const [role, setRole] = useState('admin');
 
   useOnClickOutside(containerRef, () => setOpenMenu(false));
+
   const deleteMember = () => {
     const isTheySure = window.confirm('Are you sure?');
     if (isTheySure) {
-      console.log('The user is sure!');
+      dispatch(usersActions.deleteUserRequest({ id }));
     }
   };
 
