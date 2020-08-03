@@ -1,7 +1,7 @@
 const authSelectors = {
   getToken: state => state.auth.token,
   getCurrentUser: state => state.auth.currentUser,
-  getBounds: state => state.auth.currentUser.regionCoordinates,
+  getBounds: state => state.auth.currentUser?.regionCoordinates,
   getOnboardingStatus: state => state.auth.currentUser?.completedOnboarding,
   getApiEndpoint: state => state.auth.currentUser?.apiEndpointUrl,
   getLoginState: state => ({

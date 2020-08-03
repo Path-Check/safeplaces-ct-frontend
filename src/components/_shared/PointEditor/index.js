@@ -166,6 +166,7 @@ const PointEditor = ({ isEdit, animationState }) => {
               id="point-editor-close"
               className={closeAction}
               onClick={handleClose}
+              type="button"
             >
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>

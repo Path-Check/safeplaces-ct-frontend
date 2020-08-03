@@ -113,6 +113,9 @@ header h3 {
   padding: 20px;
   border-radius: 6px;
   width: 350px;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
 
   p {
     font-size: 14px;
@@ -142,4 +145,8 @@ header h3 {
     border-width: 12px 12px 12px 0;
     border-color: transparent rgba(0, 0, 0, 0.24) transparent transparent;
   }
+}
+
+.newCasePopupIn {
+  opacity: 1;
 }

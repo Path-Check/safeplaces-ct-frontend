@@ -7,7 +7,9 @@ import {
   selectedEditAction,
   headerTitle,
   newCasePopup,
+  newCasePopupIn,
 } from './header.module.scss';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faPencilAlt } from '@fortawesome/pro-solid-svg-icons';
 import casesSelectors from 'ducks/cases/selectors';
@@ -16,6 +18,9 @@ import EditRecordModal from './EditRecordModal';
 import applicationSelectors from 'ducks/application/selectors';
 import Button from 'components/_shared/Button';
 import applicationActions from 'ducks/application/actions';
+import { Transition } from 'react-transition-group';
+
+import classNames from 'classnames';
 
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
@@ -95,20 +100,38 @@ const RedactorToolsHeader = () => {
         setShowModal={setShowModal}
         showModal={showModal}
       />
-      {isNewCase && (
-        <div className={newCasePopup}>
-          <p>
-            If you are using a system to manage your patients and already have
-            an ID for this patient, you can change it here.
-          </p>
-          <Button
-            unstyled
-            onClick={() => dispatch(applicationActions.newCase(false))}
-          >
-            Got it
-          </Button>
-        </div>
-      )}
+
+      <Transition
+        in={isNewCase}
+        appear
+        timeout={{
+          enter: 200,
+          exit: 200,
+        }}
+        unmountOnExit
+      >
+        {transition => {
+          const classes = classNames({
+            [`${newCasePopup}`]: true,
+            [`${newCasePopupIn}`]: transition === 'entered',
+          });
+
+          return (
+            <div className={classes}>
+              <p>
+                If you are using a system to manage your patients and already
+                have an ID for this patient, you can change it here.
+              </p>
+              <Button
+                unstyled
+                onClick={() => dispatch(applicationActions.newCase(false))}
+              >
+                Got it
+              </Button>
+            </div>
+          );
+        }}
+      </Transition>
     </>
   );
 };
