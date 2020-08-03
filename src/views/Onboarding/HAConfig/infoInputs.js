@@ -55,6 +55,7 @@ const infoInputs = [
     placeholder: '',
     key: 'externalId',
     disabled: true,
+    showOnboarding: false,
   },
   {
     title: 'Your Health Authority name',
