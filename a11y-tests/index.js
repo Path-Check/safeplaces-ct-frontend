@@ -52,7 +52,7 @@ const testUrl = (url, outputPath, options) => async () => {
 
 const testLogin = testUrl('http://localhost:3000/login', './a11y-tests/errors/login.html', {
   ...defaultOptions,
-  // screenCapture: './a11y-tests/screenshots/login.png'
+  screenCapture: './a11y-tests/screenshots/login.png'
 })
 
 const testForgotPassword = testUrl('http://localhost:3000/login', './a11y-tests/errors/forgotPassword.html', {
@@ -61,7 +61,7 @@ const testForgotPassword = testUrl('http://localhost:3000/login', './a11y-tests/
     'click element #forgot-password',
     'wait for element #submit-forgot-password to be visible',
   ],
-  // screenCapture: './a11y-tests/screenshots/forgotPassword.png'
+  screenCapture: './a11y-tests/screenshots/forgotPassword.png'
 })
 
 const testTrace = testUrl('http://localhost:3000/login', './a11y-tests/errors/trace.html', {
@@ -70,7 +70,7 @@ const testTrace = testUrl('http://localhost:3000/login', './a11y-tests/errors/tr
     ...loginActions,
   ],
   wait: 4000, // wait to let map render
-  // screenCapture: './a11y-tests/screenshots/trace.png',
+  screenCapture: './a11y-tests/screenshots/trace.png',
 })
 
 const testTraceModal = testUrl('http://localhost:3000/login', './a11y-tests/errors/traceModal.html', {
@@ -80,7 +80,7 @@ const testTraceModal = testUrl('http://localhost:3000/login', './a11y-tests/erro
     'click element #load-existing-record',
     'wait for element #modal to be visible',
   ],
-  // screenCapture: './a11y-tests/screenshots/traceModal.png',
+  screenCapture: './a11y-tests/screenshots/traceModal.png',
 })
 
 const testPublish = testUrl('http://localhost:3000/login', './a11y-tests/errors/publish.html', {
@@ -90,7 +90,7 @@ const testPublish = testUrl('http://localhost:3000/login', './a11y-tests/errors/
     'click element #publish-data',
     'wait for url to be http://localhost:3000/publish',
   ],
-  // screenCapture: './a11y-tests/screenshots/publish.png',
+  screenCapture: './a11y-tests/screenshots/publish.png',
 })
 
 const testPublishModal = testUrl('http://localhost:3000/login', './a11y-tests/errors/publishModal.html', {
@@ -103,7 +103,7 @@ const testPublishModal = testUrl('http://localhost:3000/login', './a11y-tests/er
     'wait for element #modal to be visible',
   ],
   wait: 4000, // wait to let map render
-  // screenCapture: './a11y-tests/screenshots/publishModal.png',
+  screenCapture: './a11y-tests/screenshots/publishModal.png',
 })
 
 const testGeneralSettings = testUrl('http://localhost:3000/login', './a11y-tests/errors/generalSettings.html', {
@@ -112,7 +112,7 @@ const testGeneralSettings = testUrl('http://localhost:3000/login', './a11y-tests
     ...loginActions,
     'click element #settings',
   ],
-  // screenCapture: './a11y-tests/screenshots/settingsGeneral.png',
+  screenCapture: './a11y-tests/screenshots/getneralSettings.png',
 })
 
 const testMemberSettings = testUrl('http://localhost:3000/login', './a11y-tests/errors/memberSettings.html', {
@@ -124,11 +124,7 @@ const testMemberSettings = testUrl('http://localhost:3000/login', './a11y-tests/
     'click element #Members',
     'wait for url to be http://localhost:3000/settings/members',
   ],
-  // screenCapture: './a11y-tests/screenshots/settingsMembers.png',
+  screenCapture: './a11y-tests/screenshots/memberSettings.png',
 })
 
 runPa11y();
-
-// TODO
-// NEW LOGIN SCREENS?????
-// RESET PASSWORD???
