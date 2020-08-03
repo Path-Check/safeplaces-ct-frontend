@@ -50,12 +50,12 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn run yarn run a11y-check`
+### `yarn run a11y-check`
 
-Runs the current accessibility tests in `/ally-tests/index.js. This file will have to be updates whenever new routes are created.
-Requires `PA11Y_LOGIN_EMAIL` and `PA11Y_LOGIN_PASSWORD` 
-The script will output accessibility errors to the console and also generate html files with the error lists in `/ally-tests/errors.
-Corresponding screenshots of the pages with errors will be generated in `/ally-tests/screenshots.
+Runs the current accessibility tests in `/ally-tests/index.js. This file will have to be updates whenever new routes are created.<br />
+Requires `PA11Y_LOGIN_EMAIL` and `PA11Y_LOGIN_PASSWORD` <br />
+The script will output accessibility errors to the console and also generate html files with the error lists in `/ally-tests/errors.<br />
+Corresponding screenshots of the pages with errors will be generated in `/ally-tests/screenshots.<br />
 
 ### `yarn build`
 
