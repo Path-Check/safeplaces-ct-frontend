@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.1.0-alpha - Monday, August 3, 2020
+## v2.2.0-alpha - Monday, August 3, 2020
 
 ### Updates
 * Add reset password flow

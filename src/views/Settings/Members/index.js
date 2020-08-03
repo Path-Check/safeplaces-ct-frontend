@@ -13,6 +13,7 @@ import {
   roleText,
   subtitle,
   title,
+  textInput,
 } from './styles.module.scss';
 import { TextInput } from '@wfp/ui';
 import emailValidator from '../../../helpers/emailValidator';
@@ -108,6 +109,7 @@ const Members = () => {
       <div className={addMemberContainer}>
         <div className={comboControl}>
           <TextInput
+            className={textInput}
             id="email-input"
             hideLabel
             placeholder="Email address"
