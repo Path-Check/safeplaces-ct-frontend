@@ -11,7 +11,7 @@ import SidebarWrapper from 'components/_shared/Sidebar/SidebarWrapper';
 import ErrorBoundary from 'components/_global/errorBoundary';
 
 import { viewWrapper } from './ViewWrapper.module.scss';
-import ModalSwitch from 'components/_global/Modal/ModalSwitch';
+
 import TraceView from 'views/Trace';
 import PublishView from 'views/Publish';
 
@@ -21,7 +21,6 @@ const ViewWrapper = React.memo(({ viewType, title, intro }) => {
   const renderEditor = useSelector(state =>
     applicationSelectors.getRenderEditor(state),
   );
-  const appStatus = useSelector(state => applicationSelectors.getStatus(state));
   const mode = useSelector(state => applicationSelectors.getMode(state));
   const isTrace = viewType === 'trace';
 
@@ -44,7 +43,6 @@ const ViewWrapper = React.memo(({ viewType, title, intro }) => {
           <Map />
         </ErrorBoundary>
       </div>
-      <ModalSwitch mode={mode} status={appStatus} />
     </>
   );
 });

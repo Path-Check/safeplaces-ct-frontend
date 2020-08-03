@@ -12,6 +12,7 @@ const applicationSelectors = {
   getNotification: state => state.application.notification,
   getRenderEditor: state => state.application.renderEditor,
   getMode: state => state.application.mode,
+  getNewCase: state => state.application.newCase,
 };
 
 export default applicationSelectors;

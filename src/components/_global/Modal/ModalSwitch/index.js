@@ -1,23 +1,29 @@
 import React from 'react';
 
+import { applicationStates } from 'types/applicationStates';
+
 import AddNewRecord from 'views/Trace/AddNewRecord';
 import DeletePoints from 'views/Trace/DeletePoints';
 import RecordsTable from 'components/_shared/RecordsTable';
 import StageForPublishing from 'views/Trace/StageForPublishing';
 import PublishData from 'views/Publish/PublishData';
+import ForgotPassword from 'views/Authentication/ForgotPassword';
 
 const ModalSwitch = ({ status, mode }) => {
   switch (status) {
-    case 'CASE FETCHED':
+    case applicationStates.CASE_FETCHED:
       return <AddNewRecord />;
-    case 'CASES ADDED':
+    case applicationStates.CASES_ADDED:
       return <RecordsTable mode={mode} />;
-    case 'DELETE POINTS':
+    case applicationStates.DELETE_POINTS:
       return <DeletePoints />;
-    case 'STAGE CASE':
+    case applicationStates.STAGE_CASE:
       return <StageForPublishing />;
-    case 'SUBMIT FOR PUBLISHING':
+    case applicationStates.SUBMIT_FOR_PUBLISHING:
       return <PublishData />;
+    case applicationStates.FORGOT_PASSWORD:
+    case applicationStates.REQUEST_PASSWORD_LINK:
+      return <ForgotPassword status={status} />;
     default:
       return null;
   }

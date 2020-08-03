@@ -1,0 +1,122 @@
+@import 'scss/global';
+
+.login {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 40px;
+  text-align: left;
+  letter-spacing: -2px;
+  color: #000000;
+  margin-bottom: 56px;
+}
+
+.loginFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e9eaf0;
+  padding: 40px;
+  border-radius: 8px;
+  margin-top: 24px;
+}
+
+.loginForm {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  max-width: 350px;
+
+  form {
+    width: 100%;
+  }
+
+  [class='page-title'] {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: $spacing-xl;
+    @include breakpointMax(bp--md--major) {
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  [class='wfp--form-item'] {
+    margin-bottom: 24px;
+
+    input {
+      height: 45px;
+    }
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  height: 16px;
+  margin-bottom: 16px;
+}
+
+.rememberMeContainer {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.submitWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.backLink {
+  margin-bottom: 2rem;
+}
+
+.loginContent {
+  @include breakpointMax(bp--md--major) {
+    display: none;
+  }
+  flex: 1;
+  display: flex;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right;
+  }
+}
+
+.disclaimer {
+  text-align: center;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 16px;
+  margin-top: 56px;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+}
+
+[class='wfp--loading__svg'] {
+  stroke: white !important;
+}
+
+[class='wfp--label'] {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: #3c475b;
+}
