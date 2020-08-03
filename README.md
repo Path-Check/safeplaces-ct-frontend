@@ -29,8 +29,8 @@ REACT_APP_GOOGLE_PLACES_KEY=GOOGLE_API_KEY_WITH_PLACES_ENABLED
 REACT_APP_GOOGLE_PLACES_LANGUAGE=en
 REACT_APP_MAPBOX_KEY=MAPBOX_API_KEY
 REACT_APP_API_URL=REACT_APP_API_URL
-PA11Y_LOGIN_EMAIL= any valid onboarded account login email for the current API
-PA11Y_LOGIN_PASSWORD= any valid onboarded account login password for the current API
+PA11Y_LOGIN_EMAIL= any valid onboarded account login email for the current API. Ideally the account should be a super user.
+PA11Y_LOGIN_PASSWORD= any valid onboarded account login password for the current API. Ideally the account should be a super user.
 ```
 
 ## Available Scripts
