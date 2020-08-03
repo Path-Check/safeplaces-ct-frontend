@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.1.0-alpha - Monday, August 3, 2020
+
+### Updates
+* Add reset password flow
+* Improve UI transitions
+* Various minor bug fixes
+* Get all users for a specific HA
+* Create user
+* Delete User
+
 ## v2.1.0-alpha - Tuesday, July 28, 2020
 
 ### Updates

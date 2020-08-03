@@ -8,12 +8,11 @@ import {
   itemContainer,
   left,
   membersContainer,
+  noUsers,
   right,
   roleText,
   subtitle,
-  textInput,
   title,
-  noUsers,
 } from './styles.module.scss';
 import { TextInput } from '@wfp/ui';
 import emailValidator from '../../../helpers/emailValidator';
@@ -70,7 +69,7 @@ const Members = () => {
           {email}
         </div>
         <div className={roleText}>{role && role.replace('_', ' ')}</div>
-        <Dropdown id={id} />
+        <Dropdown id={id} role={role} />
       </div>
     );
   };
@@ -109,7 +108,6 @@ const Members = () => {
       <div className={addMemberContainer}>
         <div className={comboControl}>
           <TextInput
-            className={textInput}
             id="email-input"
             hideLabel
             placeholder="Email address"
