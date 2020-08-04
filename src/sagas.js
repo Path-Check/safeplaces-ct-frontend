@@ -4,6 +4,7 @@ import casesSagas from 'ducks/cases/sagas';
 import pointsSagas from 'ducks/points/sagas';
 import { registrationSagas } from 'ducks/registration/sagas';
 import mapSagas from 'ducks/map/sagas';
+import { usersSaga } from './ducks/users/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -12,5 +13,6 @@ export default function* rootSaga() {
     pointsSagas(),
     mapSagas(),
     registrationSagas(),
+    usersSaga(),
   ]);
 }

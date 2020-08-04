@@ -45,6 +45,7 @@
 .roleText {
   flex: 2;
   margin-left: 10px;
+  text-transform: capitalize;
 }
 
 .addMemberContainer {
@@ -53,10 +54,10 @@
   .comboControl {
     display: flex;
 
-    input {
+    .textInput {
       border: 2px solid #e5e7fa;
       box-sizing: border-box;
-      border-radius: 8px 0px 0px 8px;
+      border-radius: 8px 0 0 8px;
       height: 48px;
       background-color: #fff;
 
@@ -97,4 +98,11 @@
   &:not(:last-child) {
     border-bottom: 1px solid #e9eaf0;
   }
+}
+
+.noUsers {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  width: 100%;
 }

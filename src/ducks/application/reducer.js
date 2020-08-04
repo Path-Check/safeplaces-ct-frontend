@@ -1,7 +1,8 @@
 import applicationTypes from './types';
+import { applicationStates } from 'types/applicationStates';
 
 const initialState = {
-  status: 'IDLE',
+  status: applicationStates.IDLE,
   notification: null,
   editorView: false,
   mode: undefined,

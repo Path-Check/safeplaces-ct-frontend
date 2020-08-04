@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
-import pointsSelectors, { getFilteredPoints } from 'ducks/points/selectors';
+import { getFilteredPoints } from 'ducks/points/selectors';
 
 import { returnGeoPoints } from 'components/_shared/Map/_helpers';
 

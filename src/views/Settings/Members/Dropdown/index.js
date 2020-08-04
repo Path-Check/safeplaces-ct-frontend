@@ -9,24 +9,28 @@ import {
   deleteMemberText,
 } from './Dropdown.module.scss';
 import { useOnClickOutside } from '../../../../hooks/useOnClickOutside';
+import { useDispatch } from 'react-redux';
+import usersActions from '../../../../ducks/users/actions';
 
-const Dropdown = ({ id }) => {
+const Dropdown = ({ id, role: userRole }) => {
   const containerRef = useRef();
+  const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
-  const [role, setRole] = useState('admin');
+  const [role, setRole] = useState(userRole);
 
   useOnClickOutside(containerRef, () => setOpenMenu(false));
+
   const deleteMember = () => {
     const isTheySure = window.confirm('Are you sure?');
     if (isTheySure) {
-      console.log('The user is sure!');
+      dispatch(usersActions.deleteUserRequest({ id }));
     }
   };
 
   const changeTo = to => {
     const isTheySure = window.confirm('Are you sure?');
     if (isTheySure) {
-      // here we'll dispatch the action and the role will come via props
+      dispatch(usersActions.changeUserRoleRequest({ id, role: to }));
       setRole(to);
     }
   };
@@ -36,31 +40,31 @@ const Dropdown = ({ id }) => {
       case 'admin': {
         return (
           <>
-            <div onClick={() => changeTo('superadmin')} className={item}>
+            <div onClick={() => changeTo('super_admin')} className={item}>
               Change to Super Admin
             </div>
-            <div onClick={() => changeTo('tracer')} className={item}>
+            <div onClick={() => changeTo('contact_tracer')} className={item}>
               Change to Contact Tracer
             </div>
           </>
         );
       }
-      case 'superadmin': {
+      case 'super_admin': {
         return (
           <>
             <div onClick={() => changeTo('admin')} className={item}>
               Change to Admin
             </div>
-            <div onClick={() => changeTo('tracer')} className={item}>
+            <div onClick={() => changeTo('contact_tracer')} className={item}>
               Change to Contact Tracer
             </div>
           </>
         );
       }
-      case 'tracer': {
+      case 'contact_tracer': {
         return (
           <>
-            <div onClick={() => changeTo('superadmin')} className={item}>
+            <div onClick={() => changeTo('super_admin')} className={item}>
               Change to Super Admin
             </div>
             <div onClick={() => changeTo('admin')} className={item}>

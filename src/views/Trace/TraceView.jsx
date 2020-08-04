@@ -9,6 +9,7 @@ import SidebarHeader from 'components/_shared/Sidebar/SidebarHeader';
 import TracerLoadActions from 'views/Trace/Actions/LoadActions';
 import TracerToolActions from 'views/Trace/Actions/ToolActions';
 import PointEditor from 'components/_shared/PointEditor';
+import { Transition } from 'react-transition-group';
 
 const TraceView = React.memo(() => {
   const { status: appStatus, renderEditor } = useSelector(
@@ -25,13 +26,24 @@ const TraceView = React.memo(() => {
     <>
       {renderEditor ? (
         <>
-          {renderPointEditor && (
-            <PointEditor isEdit={appStatus === 'EDIT POINT'} />
-          )}
-          <>
-            <RedactorTools />
-            <TracerToolActions />
-          </>
+          <Transition
+            in={renderPointEditor}
+            appear
+            timeout={{
+              enter: 200,
+              exit: 200,
+            }}
+            unmountOnExit
+          >
+            {transition => (
+              <PointEditor
+                animationState={transition}
+                isEdit={appStatus === 'EDIT POINT'}
+              />
+            )}
+          </Transition>
+          <RedactorTools />
+          <TracerToolActions />
         </>
       ) : (
         <>

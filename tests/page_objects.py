@@ -29,8 +29,6 @@ class Page(object):
 
 
 class EntryPage(Page):
-    btn_setup_case = (By.CSS_SELECTOR, '#root > div > div > button')
-    loc_scrubber = (By.XPATH, '//a[@href="./location-scrubber/index.html"]')
     contact_trace = (By.ID, 'contact-trace')
     publish_data = (By.ID, 'publish-data')
     settings_link = (By.ID, 'settings')
@@ -39,12 +37,6 @@ class EntryPage(Page):
         self.open("")
         assert "Safe Places" in self.driver.title, self.driver.title
         #assert "React" in self.driver.title, self.driver.title
-
-    def setup_case(self):
-        self.find_element(self.btn_setup_case).click()
-
-    def open_redactor(self):
-        self.find_element(self.loc_scrubber).click()
 
     def open_trace(self):
         self.find_element(self.contact_trace).click()
@@ -99,42 +91,6 @@ class LoginPage(Page):
             pass
 
         self.driver.implicitly_wait(30)
-
-
-class RedactionPage(Page):
-    load_file_btn = (By.CSS_SELECTOR, '#root > div > div > div.styles_sidebar__28L4X > div.styles_header__hJUf6 > div.styles_buttons__xEkBq > div > button')
-    save_file_btn = (By.ID, 'save')
-    delete = (By.ID, 'delete-btn')
-    date_start = (By.ID, 'date-start')
-    date_end = (By.ID, 'date-end')
-    duration = (By.ID, 'duration')
-
-    def load_file(self, filename):
-        self.find_element(self.load_file_btn).send_keys(filename)
-
-    def save_file(self):
-        self.find_element(self.save_file_btn).click()
-
-    def check_start_date_is(self, value):
-        self.check_is(value, self.find_element(self.date_start).text)
-
-    def check_end_date_is(self, value):
-        self.check_is(value, self.find_element(self.date_end).text)
-
-    def check_duration_is(self, value):
-        self.check_is(value,self.find_element(self.duration).text)
-        
-    # def add_entry(self):
-    #     self.find_element(self.add_entry_btn).click()
-
-    # def delete_inspected(self):
-    #     self.find_element(self.delete_inspected_btn).click()
-        
-    # def select_all(self):
-    #     self.find_element(self.select_all_btn).click()
-        
-    # def select_none(self):
-    #     self.find_element(self.select_none_btn).click()
 
 class ContactTracePage(Page):
     add_new_record_button = (By.ID, 'add-new-record')
@@ -293,16 +249,6 @@ class SelectDataPage(Page):
         EC.element_to_be_clickable((By.ID, "open-selected-data")))
         open_selected_button.click();
 
-    
-class SubmitDataPage(Page):
-    submit_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div.PublishData_PublishDataActions__1OVeJ > button:nth-child(1)')
-    cancel_button = (By.CSS_SELECTOR, '#root > div > div.styles_modalWrapper__1jdE8 > div > div > div.PublishData_PublishDataActions__1OVeJ > button.styles_button__1QQUp.styles_buttonLarge__8_wA9.styles_buttonSecondary__3onvZ.undefined')
-
-    def submit(self):
-        self.find_element(self.submit_button).click()
-    
-    def cancel(self):
-        self.find_element(self.cancel_button).click()
     
 class SettingsPage(Page):
     configuration_button = (By.XPATH, '//a[@href="/settings/organizatio"]')

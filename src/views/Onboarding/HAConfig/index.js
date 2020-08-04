@@ -149,13 +149,11 @@ const HAConfig = () => {
         {infoInputs.map(e => (
           <InfoInput
             key={e.title}
-            title={e.title}
-            subtitle={e.subtitle}
-            placeholder={e.placeholder}
+            isSettingsPage={isSettingsPage}
             errors={errors}
             register={register}
             value={state[e.key]}
-            disabled={e.disabled}
+            {...e}
             children={
               e.children &&
               e.children({
