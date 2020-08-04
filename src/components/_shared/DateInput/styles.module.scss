@@ -13,13 +13,15 @@
   }
 }
 
-.dateInput {
-  input {
-    padding-left: 46px;
-  }
+.dateInputWrapper {
+  .dateInput {
+    input {
+      padding-left: 46px;
+    }
 
-  svg {
-    color: #d3d7f8;
+    svg {
+      color: #d3d7f8;
+    }
   }
 }
 
