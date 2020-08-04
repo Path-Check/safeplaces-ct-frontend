@@ -13,7 +13,12 @@ const InfoInput = ({
   errors,
   register,
   value,
+  isSettingsPage,
+  showOnboarding = true,
 }) => {
+  if (!showOnboarding && !isSettingsPage) {
+    return null;
+  }
   return (
     <div className={styles.container}>
       <h3 className={styles.title}>{title}</h3>

@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import { Link } from 'react-router-dom';
 
 import {
   StageForPublishingHeader,
-  StageForPublishingCode,
   StageForPublishingActions,
   StageForPublishingTitle,
   StageForPublishingNotice,
@@ -17,13 +13,16 @@ import Dialog from 'components/_shared/Dialog';
 import applicationActions from 'ducks/application/actions';
 import { useDispatch } from 'react-redux';
 import casesActions from 'ducks/cases/actions';
+import { applicationStates } from 'types/applicationStates';
 
 const StageForPublishing = () => {
   const dispatch = useDispatch();
 
   return (
     <Modal
-      closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
+      closeAction={() =>
+        dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+      }
     >
       <Dialog width="650px">
         <header className={StageForPublishingHeader}>
@@ -51,7 +50,9 @@ const StageForPublishing = () => {
             id="no-consent"
             large
             secondary
-            onClick={() => dispatch(applicationActions.updateStatus('IDLE'))}
+            onClick={() =>
+              dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+            }
           >
             No, I did not receive consent
           </Button>

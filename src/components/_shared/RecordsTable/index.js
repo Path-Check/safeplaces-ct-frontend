@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import applicationActions from 'ducks/application/actions';
 import RecordsTablePublishing from 'components/_shared/RecordsTable/RecordsTablePublishing';
 import RecordsTableTrace from 'components/_shared/RecordsTable/RecordsTableTrace';
+import { applicationStates } from 'types/applicationStates';
 
 const RecordsTable = ({ mode }) => {
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ const RecordsTable = ({ mode }) => {
   return (
     <div>
       <Modal
-        closeAction={() => dispatch(applicationActions.updateStatus('IDLE'))}
+        closeAction={() =>
+          dispatch(applicationActions.updateStatus(applicationStates.IDLE))
+        }
       >
         {isPublishing ? <RecordsTablePublishing /> : <RecordsTableTrace />}
       </Modal>

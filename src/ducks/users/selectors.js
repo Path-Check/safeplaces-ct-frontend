@@ -1,5 +1,5 @@
 const userSelectors = {
-  // will use soon
+  getAllUsers: state => state.users.list,
 };
 
 export default userSelectors;

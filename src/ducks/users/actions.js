@@ -1,10 +1,46 @@
 import usersTypes from './types';
 
-const { CREATE_USER } = usersTypes;
+const {
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  GET_ALL_USERS_REQUEST,
+  GET_ALL_USERS_SUCCESS,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  CHANGE_USER_ROLE_REQUEST,
+  CHANGE_USER_ROLE_SUCCESS,
+} = usersTypes;
 
 const usersActions = {
   createUserRequest: data => ({
-    type: CREATE_USER,
+    type: CREATE_USER_REQUEST,
+    data,
+  }),
+  createUserSuccess: data => ({
+    type: CREATE_USER_SUCCESS,
+    data,
+  }),
+  deleteUserRequest: data => ({
+    type: DELETE_USER_REQUEST,
+    data,
+  }),
+  deleteUserSuccess: data => ({
+    type: DELETE_USER_SUCCESS,
+    data,
+  }),
+  getAllUsersRequest: () => ({
+    type: GET_ALL_USERS_REQUEST,
+  }),
+  getAllUsersSuccess: data => ({
+    type: GET_ALL_USERS_SUCCESS,
+    data,
+  }),
+  changeUserRoleRequest: data => ({
+    type: CHANGE_USER_ROLE_REQUEST,
+    data,
+  }),
+  changeUserRoleSuccess: data => ({
+    type: CHANGE_USER_ROLE_SUCCESS,
     data,
   }),
 };
