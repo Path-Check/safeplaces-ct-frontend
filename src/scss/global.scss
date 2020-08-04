@@ -39,7 +39,7 @@ $mobile-bottom-swipe-height: 75px;
   }
 
   .App {
-    input:not(.mapboxgl-ctrl-geocoder--input) {
+    input {
       padding: 10px;
       background: #fff;
       border: 2px solid #e5e7fa;
@@ -47,6 +47,15 @@ $mobile-bottom-swipe-height: 75px;
       height: 44px;
       font-size: 18px;
       font-weight: 400;
+    }
+
+    .mapboxgl-ctrl-geocoder--icon-search {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .mapboxgl-ctrl-geocoder--input {
+      padding-left: 30px;
     }
   }
 
