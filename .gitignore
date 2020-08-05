@@ -26,7 +26,8 @@ yarn-error.log*
 
 .now
 .env
-/.idea/
 
-# editor configs
-.editorconfig
+tests/docker/testhost/ui_test.py
+tests/docker/testhost/data/**
+tests/docker/testhost/page_objects.py
+tests/docker/testhost/__init__.py
