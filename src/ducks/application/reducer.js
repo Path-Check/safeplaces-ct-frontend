@@ -7,6 +7,7 @@ const initialState = {
   editorView: false,
   mode: undefined,
   newCase: false,
+  language: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -33,6 +34,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         renderEditor: action.renderEditor,
       };
+
     case applicationTypes.MODE:
       return {
         ...state,

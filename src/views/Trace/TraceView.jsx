@@ -15,12 +15,12 @@ const TraceView = React.memo(() => {
   const { status: appStatus, renderEditor } = useSelector(
     state => state.application,
   );
+  const { trace } = useSelector(state => state.content);
   const renderPointEditor =
     appStatus === 'EDIT POINT' || appStatus === 'ADD POINT';
 
-  const title = 'Contact Trace';
-  const intro =
-    'Review and edit patient location data during a contact trace interview.';
+  const title = trace?.title;
+  const intro = trace?.introduction;
 
   return (
     <>

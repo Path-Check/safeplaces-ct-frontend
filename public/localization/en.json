@@ -1,0 +1,18 @@
+{
+	"trace": {
+		"title": "Contact Trace",
+		"introduction": "Review and edit patient location data during a contact trace interview."
+	},
+	"login": {
+		"title": "Login",
+		"password": "Password",
+		"email": "Email address",
+		"forgotPassword": "Forgot password?",
+		"disclaimer": "If you are a Health Authority member but you still don’t have an account, please contact your HA admin."
+	},
+	"forms": {
+		"email": "Email address",
+		"showPassword": "Show Password",
+		"hidePassword": "Hide Password"
+	}
+}
