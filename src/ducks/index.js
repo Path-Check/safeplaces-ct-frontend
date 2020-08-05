@@ -9,6 +9,7 @@ import points from './points/reducer';
 import tags from './tags/reducer';
 import registration from './registration/reducer';
 import users from './users/reducer';
+import content from './content/reducer';
 
 import { createBrowserHistory } from 'history';
 import { put } from 'redux-saga/effects';
@@ -32,6 +33,7 @@ const reducers = combineReducers({
   router: connectRouter(history),
   map,
   registration,
+  content,
   users,
 });
 

@@ -14,6 +14,7 @@ import Loader from 'components/_shared/Loader';
 import Notifications from 'components/_global/Notifications';
 
 import Router from './Router';
+import contentActions from 'ducks/content/actions';
 import applicationActions from 'ducks/application/actions';
 
 const App = React.memo(() => {
@@ -23,7 +24,15 @@ const App = React.memo(() => {
     useSelector(state => authSelectors.getOnboardingStatus(state)) || false;
 
   useEffect(() => {
-    dispatch(applicationActions.setLanguage());
+    const storage = window.localStorage;
+
+    if (storage.language) {
+      dispatch(applicationActions.setLanguage(storage.language));
+    } else {
+      dispatch(applicationActions.setLanguage('en'));
+    }
+
+    dispatch(contentActions.determineContent());
   }, []);
 
   return (
