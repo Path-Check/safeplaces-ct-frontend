@@ -29,7 +29,7 @@ const App = React.memo(() => {
     if (storage.language) {
       dispatch(applicationActions.setLanguage(storage.language));
     } else {
-      dispatch(applicationActions.setLanguage('en'));
+      dispatch(applicationActions.setLanguage('es'));
     }
 
     dispatch(contentActions.determineContent());
