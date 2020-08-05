@@ -11,6 +11,7 @@ import authActions from '../../../ducks/auth/actions';
 import infoInputs from './infoInputs';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
+import LanguageSelector from 'components/_global/LanguageSelector/LanguageSelector';
 
 const HAConfig = () => {
   const dispatch = useDispatch();
@@ -146,6 +147,7 @@ const HAConfig = () => {
         </>
       ) : null}
       <form className={formClasses} onSubmit={handleSubmit(submitInfo)}>
+        <LanguageSelector />
         {infoInputs.map(e => (
           <InfoInput
             key={e.title}

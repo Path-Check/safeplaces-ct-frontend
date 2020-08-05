@@ -19,7 +19,6 @@ const Header = ({ isAuthenticated, isOnboarded }) => {
 
   return renderHeader ? (
     <header className={classes}>
-      <LanguageSelector />
       <Logo maxWidth="272px" />
       <Navigation />
     </header>
