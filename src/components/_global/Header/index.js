@@ -7,6 +7,7 @@ import Navigation from 'components/_global/Navigation';
 import Logo from 'components/_shared/Logo';
 
 import { siteHeader, loggedIn } from './header.module.scss';
+import LanguageSelector from 'components/_global/LanguageSelector/LanguageSelector';
 
 const Header = ({ isAuthenticated, isOnboarded }) => {
   const classes = classNames({
@@ -18,10 +19,13 @@ const Header = ({ isAuthenticated, isOnboarded }) => {
 
   return renderHeader ? (
     <header className={classes}>
+      <LanguageSelector />
       <Logo maxWidth="272px" />
       <Navigation />
     </header>
-  ) : null;
+  ) : (
+    <LanguageSelector />
+  );
 };
 
 Header.propTypes = {

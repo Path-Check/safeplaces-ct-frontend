@@ -1,6 +1,6 @@
 const contentSelectors = {
-  getContent: state => state.content,
-  getLanguage: state => state.language,
+  getContent: state => state.content.data,
+  getLanguage: state => state.content.language,
 };
 
 export default contentSelectors;
