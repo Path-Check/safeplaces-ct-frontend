@@ -8,7 +8,6 @@ export const getActivePoint = createSelector(appStoreSelector, appStore => {
 
 const applicationSelectors = {
   getStatus: state => state.application.status,
-  getLanguage: state => state.application.language,
   getActivePoint,
   getNotification: state => state.application.notification,
   getRenderEditor: state => state.application.renderEditor,

@@ -1,16 +1,23 @@
 import contentTypes from './types';
 
-const initialState = {};
+const initialState = {
+  data: null,
+  language: null,
+};
 
 export default function reducer(state = initialState, action) {
   const { type, content } = action;
 
   switch (type) {
     case contentTypes.CONTENT:
-      console.log(type);
       return {
         ...state,
-        ...content,
+        data: content,
+      };
+    case contentTypes.LANGUAGE:
+      return {
+        ...state,
+        language: action.language,
       };
     default:
       return state;

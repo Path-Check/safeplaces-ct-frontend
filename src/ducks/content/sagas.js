@@ -2,11 +2,12 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 
 import contentService from 'ducks/content/service';
 import contentActions from 'ducks/content/actions';
-import applicationSelectors from 'ducks/application/selectors';
-import applicationTypes from 'ducks/application/types';
+
+import contentTypes from 'ducks/content/types';
+import contentSelectors from 'ducks/content/selectors';
 
 function* determineContent() {
-  const language = yield select(applicationSelectors.getLanguage);
+  const language = yield select(contentSelectors.getLanguage);
 
   try {
     const response = yield call(contentService.fetchContent, language);
@@ -17,5 +18,5 @@ function* determineContent() {
 }
 
 export default function* contentSagas() {
-  yield takeEvery(applicationTypes.LANGUAGE, determineContent);
+  yield takeEvery(contentTypes.LANGUAGE, determineContent);
 }

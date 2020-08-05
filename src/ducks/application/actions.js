@@ -5,10 +5,6 @@ const applicationActions = {
     type: applicationTypes.STATUS,
     status,
   }),
-  setLanguage: language => ({
-    type: applicationTypes.LANGUAGE,
-    language,
-  }),
   notification: data => ({
     type: applicationTypes.NOTIFICATION,
     data,

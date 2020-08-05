@@ -15,25 +15,24 @@ import Notifications from 'components/_global/Notifications';
 
 import Router from './Router';
 import contentActions from 'ducks/content/actions';
-import applicationActions from 'ducks/application/actions';
 
 const App = React.memo(() => {
   const dispatch = useDispatch();
   const token = useSelector(state => authSelectors.getToken(state));
+  const { language } = useSelector(state => state.content);
+  const { rehydrated } = useSelector(state => state._persist);
   const isOnboarded =
     useSelector(state => authSelectors.getOnboardingStatus(state)) || false;
 
   useEffect(() => {
-    const storage = window.localStorage;
-
-    if (storage.language) {
-      dispatch(applicationActions.setLanguage(storage.language));
-    } else {
-      dispatch(applicationActions.setLanguage('es'));
+    if (!rehydrated) {
+      return;
     }
 
-    dispatch(contentActions.determineContent());
-  }, []);
+    if (!language) {
+      dispatch(contentActions.setLanguage('en'));
+    }
+  }, [rehydrated]);
 
   return (
     <div className="App">

@@ -5,6 +5,10 @@ const contentActions = {
     type: contentTypes.CONTENT,
     content,
   }),
+  setLanguage: language => ({
+    type: contentTypes.LANGUAGE,
+    language,
+  }),
   determineContent: () => ({
     type: contentTypes.DETERMINE_CONTENT,
   }),
