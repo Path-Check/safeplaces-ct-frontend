@@ -25,6 +25,7 @@ const Login = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [password, setPassword] = useState('');
   const location = useLocation();
+  const content = useSelector(state => state.content.data);
 
   useEffect(() => {
     if (currentUser) {
@@ -63,7 +64,7 @@ const Login = () => {
       <Logo />
       <div className={styles.loginFormContainer}>
         <div className={styles.loginForm}>
-          <div className={styles.title}>Log in</div>
+          <div className={styles.title}>{content?.login?.title}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* {errorResponse && <Blockquote warning>{errorResponse}</Blockquote>} */}
             <TextInput
@@ -71,7 +72,7 @@ const Login = () => {
               onChange={onEmail}
               autoCorrect="off"
               autoCapitalize="off"
-              labelText="Email"
+              labelText={content?.login?.email}
               inputRef={register({ required: 'Please enter an email' })}
               name="username"
               invalid={errors.username || (email.length && !isValidEmail)}
@@ -86,7 +87,7 @@ const Login = () => {
               autoCorrect="off"
               autoCapitalize="off"
               inputRef={register({ required: 'Please enter a password' })}
-              label="Password"
+              label={content?.login?.password}
               name="password"
               invalid={errors.password}
               invalidText={errors.password && errors.password.message}
@@ -101,7 +102,7 @@ const Login = () => {
                 )
               }
             >
-              Forgot password?
+              {content?.login?.forgotPassword}
             </Button>
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
@@ -116,14 +117,11 @@ const Login = () => {
                       <InlineLoading className={styles.loading} />
                     </div>
                   ) : (
-                    'Log in'
+                    content?.login?.title
                   )}
                 </Button>
               </div>
-              <p className={styles.disclaimer}>
-                If you are a Health Authority member but you still don’t have an
-                account, please contact your HA admin.
-              </p>
+              <p className={styles.disclaimer}>{content?.login?.disclaimer}</p>
             </div>
           </form>
         </div>

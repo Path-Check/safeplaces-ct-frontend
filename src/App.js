@@ -31,6 +31,8 @@ const App = React.memo(() => {
 
     if (!language) {
       dispatch(contentActions.setLanguage('en'));
+    } else {
+      dispatch(contentActions.setLanguage(language));
     }
   }, [rehydrated]);
 

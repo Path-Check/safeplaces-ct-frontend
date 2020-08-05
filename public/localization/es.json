@@ -2,5 +2,16 @@
 	"trace": {
 		"title": "Rastreo de Contactos",
 		"introduction": "Revise y edite los datos de ubicación del paciente durante una entrevista de seguimiento de contacto."
+	},
+	"login": {
+		"title": "Inicia Sesión",
+		"password": "Contraseña",
+		"email": "Correo electrónico",
+		"forgotPassword": "¿Has olvidado la contraseña?",
+		"disclaimer": "Si es miembro de la Autoridad de Salud pero aún no tiene una cuenta, comuníquese con su administrador de HA."
+	},
+	"forms": {
+		"email": "Correo electrónico",
+		"showPassword": ""
 	}
 }
