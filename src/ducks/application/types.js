@@ -5,6 +5,7 @@ const applicationTypes = {
   MODE: 'application/APPLICATION_MODE',
   ACTIVE_POINT: 'application/ACTIVE_POINT',
   NEW_CASE: 'application/NEW_CASE',
+  LANGUAGE: 'application/LANGUAGE',
 };
 
 export default applicationTypes;

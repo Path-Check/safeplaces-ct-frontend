@@ -7,12 +7,18 @@ const initialState = {
   editorView: false,
   mode: undefined,
   newCase: false,
+  language: '',
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case applicationTypes.STATUS:
       return { ...state, status: action.status };
+    case applicationTypes.LANGUAGE:
+      return {
+        ...state,
+        language: action.language,
+      };
     case applicationTypes.NEW_CASE:
       return {
         ...state,
