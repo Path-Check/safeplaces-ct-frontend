@@ -119,8 +119,6 @@ function* checkCaseGPSDataSaga() {
   const { caseId } = yield select(casesSelectors.getActiveCases);
   const accessCode = yield select(casesSelectors.getAccessCode);
 
-  yield put(applicationActions.updateStatus(applicationStates.BUSY));
-
   try {
     const response = yield call(casesService.enrichCase, {
       accessCode,
@@ -150,12 +148,15 @@ function* deleteCase() {
     yield call(casesService.deleteCase, {
       caseId,
     });
+
     yield put(casesActions.setCase(null));
     yield put(
       applicationActions.notification({
         title: 'Case Deleted',
       }),
     );
+
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (error) {
     yield put(
       applicationActions.notification({
