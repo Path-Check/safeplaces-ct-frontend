@@ -14,6 +14,7 @@ import Loader from 'components/_shared/Loader';
 import Notifications from 'components/_global/Notifications';
 
 import Router from './Router';
+import ZendeskForm from './components/_global/ZendeskForm';
 
 const App = React.memo(() => {
   const token = useSelector(state => authSelectors.getToken(state));
@@ -27,6 +28,7 @@ const App = React.memo(() => {
           <Loader />
           <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
           <Router token={token} />
+          <ZendeskForm />
         </LastLocationProvider>
       </ConnectedRouter>
       <Notifications />

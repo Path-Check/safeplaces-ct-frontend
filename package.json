@@ -53,6 +53,7 @@
     "react-toastify": "^6.0.5",
     "react-transition-group": "^4.4.1",
     "react-window": "^1.8.5",
+    "react-zendesk": "^0.1.9",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-persist-transform-filter": "^0.0.20",
