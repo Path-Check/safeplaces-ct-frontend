@@ -72,3 +72,13 @@
   display: grid;
   gap: 15px;
 }
+
+.isAfterWarning {
+  color: #ff0033;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.isAfterWarningIn {
+  opacity: 1;
+}
