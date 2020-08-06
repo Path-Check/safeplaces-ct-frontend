@@ -52,10 +52,10 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn run a11y-check`
 
-Runs the current accessibility tests in `/ally-tests/index.js` This file will have to be updates whenever new routes are created.<br />
+Runs the current accessibility tests in `/a11y-tests/index.js` This file will have to be updates whenever new routes are created.<br />
 Requires `PA11Y_LOGIN_EMAIL` and `PA11Y_LOGIN_PASSWORD` <br />
-The script will output accessibility errors to the console and also generate html files with the error lists in `/ally-tests/errors`<br />
-Corresponding screenshots of the pages with errors will be generated in `/ally-tests/screenshots`<br />
+The script will output accessibility errors to the console and also generate html files with the error lists in `/a11y-tests/errors`<br />
+Corresponding screenshots of the pages with errors will be generated in `/a11y-tests/screenshots`<br />
 
 ### `yarn build`
 
