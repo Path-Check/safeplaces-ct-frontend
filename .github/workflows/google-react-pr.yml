@@ -63,7 +63,7 @@ jobs:
   run-ui-tests:
     name: Run UI Tests
     runs-on: ubuntu-latest
-    #needs: prepare-containers
+    dependsOn: prepare-containers
     container: pathcheck/safeplaces-testhost:latest
     env:
       BASE_TEST_URL: 'http://apphost:3000'
