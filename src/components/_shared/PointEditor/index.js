@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 
-import moment from 'moment';
 import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
@@ -18,6 +17,7 @@ import {
   canSubmit,
   returnMaxTime,
   returnMinTime,
+  returnIsBefore,
 } from 'components/_shared/PointEditor/_helpers';
 
 import {
@@ -42,13 +42,6 @@ import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
 import applicationSelectors from 'ducks/application/selectors';
 import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
-
-const valideDateTime = ({ time, duration }) => {
-  const pointEndDate = moment(time).add(duration, 'm');
-  const currentDate = new Date();
-
-  return moment(pointEndDate._d).isBefore(currentDate);
-};
 
 const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
@@ -145,7 +138,7 @@ const PointEditor = ({ isEdit, animationState }) => {
     e.preventDefault();
     const payload = generatePayload();
 
-    if (!valideDateTime(payload)) {
+    if (!returnIsBefore(payload)) {
       setPointInFuture(true);
       return;
     }
