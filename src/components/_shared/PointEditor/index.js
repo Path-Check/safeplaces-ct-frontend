@@ -31,6 +31,7 @@ import {
   durationControl,
   pointEditorActions,
   pointEditorMain,
+  isAfterWarning,
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -233,12 +234,13 @@ const PointEditor = ({ isEdit, animationState }) => {
               <label htmlFor="durationMinutes">Minutes</label>
             </div>
           </div>
+          {pointInFuture && (
+            <p className={isAfterWarning}>
+              End time is in the future, please adjust date and/or duration
+            </p>
+          )}
         </div>
-        {pointInFuture && (
-          <p>
-            Your point lands in the future, please adjust date and/or duration
-          </p>
-        )}
+
         <div className={pointEditorActions}>
           <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
             {isEdit ? 'Save Changes' : 'Add New Point'}
