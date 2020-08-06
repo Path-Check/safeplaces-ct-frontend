@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 
+import moment from 'moment';
 import pointsActions from 'ducks/points/actions';
 import mapSelectors from 'ducks/map/selectors';
 import mapActions from 'ducks/map/actions';
@@ -42,9 +43,17 @@ import TextInput from '@wfp/ui/lib/components/TextInput';
 import applicationSelectors from 'ducks/application/selectors';
 import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
 
+const valideDateTime = ({ time, duration }) => {
+  const pointEndDate = moment(time).add(duration, 'm');
+  const currentDate = new Date();
+
+  return moment(pointEndDate._d).isBefore(currentDate);
+};
+
 const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
   const now = new Date();
+  const [pointInFuture, setPointInFuture] = useState(false);
   const activePoint = useSelector(applicationSelectors.getActivePoint);
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
@@ -136,6 +145,12 @@ const PointEditor = ({ isEdit, animationState }) => {
     e.preventDefault();
     const payload = generatePayload();
 
+    if (!valideDateTime(payload)) {
+      setPointInFuture(true);
+      return;
+    }
+
+    setPointInFuture(false);
     setLocalDuration([0, 0]);
 
     if (isEdit) {
@@ -226,6 +241,11 @@ const PointEditor = ({ isEdit, animationState }) => {
             </div>
           </div>
         </div>
+        {pointInFuture && (
+          <p>
+            Your point lands in the future, please adjust date and/or duration
+          </p>
+        )}
         <div className={pointEditorActions}>
           <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
             {isEdit ? 'Save Changes' : 'Add New Point'}
