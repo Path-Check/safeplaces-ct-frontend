@@ -1,0 +1,36 @@
+.marker {
+  > button {
+    padding: 0;
+  }
+
+  .markerIcon {
+    display: block;
+    height: 24px;
+    width: 24px;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    background-color: #4051db;
+  }
+}
+
+.markerExpanded {
+  z-index: 2;
+
+  .markerIcon {
+    transform: translate(-12px, -12px);
+    background-color: rgba(254, 0, 25, 0.75);
+  }
+}
+
+.marker {
+  &.markerAlt {
+    > button {
+      pointer-events: none;
+      cursor: not-allowed;
+
+      .markerIcon {
+        background-color: rgba(64, 81, 219, 0.65);
+      }
+    }
+  }
+}

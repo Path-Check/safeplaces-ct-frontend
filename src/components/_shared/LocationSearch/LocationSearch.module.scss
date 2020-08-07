@@ -1,0 +1,44 @@
+.locationSearch {
+  width: 100%;
+  position: relative;
+}
+
+.locationSuggestions {
+  position: absolute;
+  top: 100%;
+  background-color: #fff;
+  width: 100%;
+  padding: 30px 10px 10px;
+  z-index: 3;
+}
+
+.locationSuggestion {
+  display: flex;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    margin-right: 10px;
+    font-size: 30px;
+  }
+
+  h6 {
+    margin-bottom: 5px;
+  }
+  p {
+    font-size: 10px;
+  }
+
+  &:hover,
+  &:focus {
+    background: #e5e7fa;
+  }
+}
+
+.locationSuggestionActive {
+  background: #e5e7fa;
+}

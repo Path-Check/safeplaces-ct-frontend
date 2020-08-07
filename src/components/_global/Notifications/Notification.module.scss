@@ -1,0 +1,64 @@
+.notificationWrapper {
+  display: flex;
+  background: #ffffff;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 20px 60px 20px 20px;
+  font-size: 18px;
+  text-align: left;
+  align-items: center;
+  position: relative;
+  margin: 10px 0 0 0;
+  z-index: 144;
+  border: none;
+  min-height: auto;
+
+  svg {
+    margin-right: 20px;
+  }
+
+  button {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    font-size: 20px;
+    color: currentColor;
+  }
+}
+
+.notificationWrapperError {
+  background-color: #ff0033;
+  color: #fff;
+}
+
+:global .Toastify__toast-container {
+  width: auto;
+}
+
+@keyframes flyIn {
+  from {
+    transform: translateX(100%);
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 10;
+  }
+}
+
+.flyIn {
+  animation-name: flyIn;
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+}

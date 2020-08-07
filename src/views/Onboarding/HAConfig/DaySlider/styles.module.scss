@@ -1,0 +1,27 @@
+@import 'scss/global';
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: right;
+  color: $hover-primary;
+  white-space: nowrap;
+  margin-left: 26px;
+}
+
+[class='rc-slider-handle'] {
+  background-color: $interactive-01 !important;
+
+  &:hover, &:active, &:focus {
+    box-shadow: none !important;
+  }
+}

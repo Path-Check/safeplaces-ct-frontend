@@ -1,0 +1,84 @@
+.pointEditor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 10px;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  transition: transform 250ms;
+  transform: translateX(-100%);
+
+  :global .react-datepicker {
+    width: auto;
+  }
+}
+
+.pointEditorEntered {
+  transform: translateX(0);
+}
+
+.pointEditorHeader {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.locationControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+
+  span {
+    display: inline-block;
+    margin: 10px 0;
+  }
+}
+
+.timeControls {
+  display: flex;
+  margin: 0 0 10px;
+
+  label {
+    font-weight: 600;
+  }
+}
+
+.durationControls {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'a a'
+    'b c';
+  margin-bottom: 20px;
+
+  h6 {
+    grid-area: a;
+    font-size: 14px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+}
+
+.pointEditorActions {
+  display: grid;
+  gap: 15px;
+}
+
+.isAfterWarning {
+  color: #ff0033;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.isAfterWarningIn {
+  opacity: 1;
+}

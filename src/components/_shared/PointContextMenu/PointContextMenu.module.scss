@@ -1,0 +1,72 @@
+.pointContextMenu {
+  width: max-content;
+  background-color: #fff;
+  box-shadow: 0.5px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  z-index: 3;
+  font-size: 14px;
+  color: #374357;
+
+  > button {
+    display: inline-flex;
+    cursor: pointer;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 18px;
+  }
+
+  ul {
+    margin-bottom: 10px;
+  }
+
+  :global .mapboxgl-popup-content {
+    padding: 0;
+  }
+}
+
+.pointContextMenuOption {
+  > button {
+    text-align: left;
+    font-size: 16px;
+    padding: 10px;
+    color: #374357;
+    width: 100%;
+
+    &:hover {
+      background-color: #f8f8ff;
+    }
+
+    svg:first-of-type {
+      color: #d6d6da;
+      min-width: 20px;
+      margin-right: 10px;
+      font-size: 14px;
+    }
+  }
+}
+
+.pointContextMenuHeader {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 15px;
+  padding: 15px 10px;
+  margin-bottom: 10px;
+  border-radius: 8px 8px 0 0;
+  background-color: #f8f8ff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+
+  svg {
+    margin-right: 5px;
+    color: #d3d7f8;
+  }
+}
+
+.pointContextMenuPublish {
+  .pointContextMenuHeader {
+    background-color: #fff;
+    border: none;
+    margin-bottom: 0;
+    border-radius: 8px;
+  }
+}

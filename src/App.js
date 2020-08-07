@@ -1,29 +1,37 @@
 import React from 'react';
-import './scss/ui.scss';
 
-import { Router, Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
-
-import PathEditor from './components/PathEditor';
-import Calendar from './components/Calendar';
-import Settings from './components/Settings';
-import Login from './components/Login';
+import { LastLocationProvider } from 'react-router-last-location';
 
 import { history } from './store';
+import { useSelector } from 'react-redux';
+import authSelectors from 'ducks/auth/selectors';
 
-function App() {
+import Header from 'components/_global/Header';
+
+import './scss/ui.scss';
+import Loader from 'components/_shared/Loader';
+import Notifications from 'components/_global/Notifications';
+
+import Router from './Router';
+
+const App = React.memo(() => {
+  const token = useSelector(state => authSelectors.getToken(state));
+  const isOnboarded =
+    useSelector(state => authSelectors.getOnboardingStatus(state)) || false;
+
   return (
     <div className="App">
       <ConnectedRouter history={history}>
-        <Switch>
-          <Route path="/login/:action?" component={Login} />
-          <Route path="/settings/:action?" component={Settings} />
-          <Route path="/:patient?/calendar/:action?" component={Calendar} />
-          <Route path="/:patient?/:page?/:action?" component={PathEditor} />
-        </Switch>
+        <LastLocationProvider>
+          <Loader />
+          <Header isAuthenticated={!!token} isOnboarded={isOnboarded} />
+          <Router token={token} />
+        </LastLocationProvider>
       </ConnectedRouter>
+      <Notifications />
     </div>
   );
-}
+});
 
 export default App;

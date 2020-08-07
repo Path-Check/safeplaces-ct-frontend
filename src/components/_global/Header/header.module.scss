@@ -1,0 +1,24 @@
+@import 'scss/global';
+
+.siteHeader {
+  position: fixed;
+  padding: 20px 10px;
+  width: 100%;
+  text-align: center;
+  box-shadow: $box-shadow;
+  background-color: #fff;
+  z-index: 21;
+
+  @media screen and (min-width: 700px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    text-align: left;
+  }
+}
+
+.loggedIn {
+  position: relative;
+  width: 100%;
+}

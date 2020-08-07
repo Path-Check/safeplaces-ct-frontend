@@ -1,0 +1,82 @@
+.modalWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 55;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  backface-visibility: hidden;
+  opacity: 0;
+  transition: opacity ease 200ms;
+}
+
+.modalStyleB {
+  background: #fff;
+
+  .closeButton {
+    color: #000;
+  }
+}
+
+.modalNoAnimation {
+  opacity: 1;
+  transition: unset;
+
+  .modalInner {
+    transition: unset;
+    transform: translateY(0);
+  }
+}
+
+.modalEntered {
+  opacity: 1;
+  pointer-events: auto;
+
+  .modalInner {
+    transform: translateY(0);
+  }
+}
+
+.modalExited,
+.modalExiting {
+  opacity: 0;
+  pointer-events: none;
+
+  .modalInner {
+    transform: translateY(100%);
+  }
+}
+
+.modalInner {
+  transform: translateY(100%);
+  transition: transform ease 300ms;
+  position: relative;
+  max-width: 80vw;
+
+  @media screen and (min-width: 1400px) {
+    max-width: 50vw;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform 300ms;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.4);
+  }
+}

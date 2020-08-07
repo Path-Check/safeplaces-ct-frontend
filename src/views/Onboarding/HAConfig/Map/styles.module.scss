@@ -1,0 +1,25 @@
+@import 'scss/global';
+
+.map {
+  height: 90vh;
+  flex: 1;
+}
+
+.saveButton {
+  position: absolute;
+  bottom: 47px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.mapCtrl {
+  margin-left: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.mapGeocoder {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}

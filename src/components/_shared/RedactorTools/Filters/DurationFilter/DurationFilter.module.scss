@@ -1,0 +1,37 @@
+@import 'scss/global';
+
+.durationFilter {
+}
+
+.durationTitle {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 0 8px;
+}
+
+.durationText {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.durationFilterSlider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  span {
+    margin-left: 20px;
+    color: #ccc;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+}
+
+.durationFilterSliderActive {
+  margin-bottom: 20px;
+  .durationText {
+    margin-bottom: 22px;
+  }
+}

@@ -1,0 +1,50 @@
+@import 'scss/global';
+
+.dateInput,
+.dateInputWrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 5px;
+
+  label {
+    display: block;
+    margin-bottom: 7.5px;
+    font-size: 14px;
+  }
+}
+
+.dateInputWrapper {
+  .dateInput {
+    input {
+      padding-left: 46px;
+    }
+
+    svg {
+      color: #d3d7f8;
+    }
+  }
+}
+
+.icon {
+  position: absolute;
+  left: 13px;
+  bottom: 0;
+  transform: translateY(-50%);
+  top: 50%;
+  width: 35px;
+  font-size: 22px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+:global .react-datepicker-wrapper,
+:global .datePicker {
+  width: 100%;
+}
+
+:global .react-datepicker__header {
+  background-color: #fff;
+}

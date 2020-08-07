@@ -1,0 +1,30 @@
+.navMenu {
+  display: flex;
+  margin-top: 15px;
+
+  @media screen and (min-width: 700px) {
+    margin: 0;
+  }
+}
+
+.navMenuItem {
+  height: 60px;
+  margin-left: 20px;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 4px solid #fff;
+  color: #9ba0aa;
+
+  @media screen and (min-width: 1200px) {
+    font-size: 18px;
+    margin-left: 30px;
+  }
+}
+
+.active {
+  position: relative;
+  color: #3c475b;
+  border-color: #4051db;
+}

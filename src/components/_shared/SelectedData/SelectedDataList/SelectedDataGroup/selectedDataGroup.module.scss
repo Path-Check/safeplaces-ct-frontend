@@ -1,0 +1,68 @@
+.accordionItem {
+  border: 1px solid #e5e7fa;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.accordionButton {
+  border-radius: 8px;
+  background-color: #e5e7fa;
+  cursor: pointer;
+  padding: 12.5px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.accordionButton[aria-expanded='true'] {
+  border-radius: 8px 8px 0 0;
+}
+
+.accordionButton:hover {
+  background-color: #eff0fc;
+}
+
+.accordionButton:before {
+  display: inline-block;
+  content: '';
+  height: 8px;
+  width: 8px;
+  margin-right: 12px;
+  border-bottom: 2px solid #9ba0aa;
+  border-right: 2px solid #9ba0aa;
+  transform: rotate(-45deg);
+}
+
+.accordionButton[aria-expanded='true']::before,
+.accordionButton[aria-selected='true']::before {
+  transform: rotate(45deg);
+}
+
+.accordion *[data-hidden] {
+  display: none;
+}
+
+.accordionPanel {
+  background-color: #ffffff;
+  animation: fadein 0.35s ease-in;
+}
+
+.accordionPanel:last-of-type {
+  border-radius: 0 0 8px 8px;
+}
+
+/* -------------------------------------------------- */
+/* ---------------- Animation part ------------------ */
+/* -------------------------------------------------- */
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
