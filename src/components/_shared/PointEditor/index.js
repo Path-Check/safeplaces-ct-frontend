@@ -17,6 +17,7 @@ import {
   canSubmit,
   returnMaxTime,
   returnMinTime,
+  returnIsBefore,
 } from 'components/_shared/PointEditor/_helpers';
 
 import {
@@ -30,6 +31,8 @@ import {
   durationControl,
   pointEditorActions,
   pointEditorMain,
+  isAfterWarning,
+  isAfterWarningIn,
 } from './PointEditor.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -41,10 +44,12 @@ import LocationSearchInput from 'components/_shared/LocationSearch';
 import TextInput from '@wfp/ui/lib/components/TextInput';
 import applicationSelectors from 'ducks/application/selectors';
 import { useCloseOnEscape } from 'hooks/useCloseOnEscape';
+import { Transition } from 'react-transition-group';
 
 const PointEditor = ({ isEdit, animationState }) => {
   const dispatch = useDispatch();
   const now = new Date();
+  const [pointInFuture, setPointInFuture] = useState(false);
   const activePoint = useSelector(applicationSelectors.getActivePoint);
   const selectedLocation = useSelector(state =>
     mapSelectors.getLocation(state),
@@ -84,7 +89,30 @@ const PointEditor = ({ isEdit, animationState }) => {
         duration: convertToMins(localDuration),
       }),
     );
+
+    if (!localDuration || !selectedLocation?.time) {
+      return;
+    }
+
+    setPointInFuture(
+      returnIsBefore({
+        ...selectedLocation,
+        duration: localDuration,
+      }),
+    );
   }, [localDuration]);
+
+  useEffect(() => {
+    if (!selectedLocation?.duration || !selectedLocation?.time) {
+      return;
+    }
+
+    setPointInFuture(
+      !returnIsBefore({
+        ...selectedLocation,
+      }),
+    );
+  }, [selectedLocation]);
 
   const handleChange = (type, value) => {
     if (type === 'latLng') {
@@ -136,6 +164,10 @@ const PointEditor = ({ isEdit, animationState }) => {
     e.preventDefault();
     const payload = generatePayload();
 
+    if (!pointInFuture) {
+      return;
+    }
+
     setLocalDuration([0, 0]);
 
     if (isEdit) {
@@ -156,6 +188,8 @@ const PointEditor = ({ isEdit, animationState }) => {
     [`${pointEditor}`]: true,
     [`${pointEditorEntered}`]: animationState === 'entered',
   });
+
+  console.log(pointInFuture);
 
   return (
     <>
@@ -225,9 +259,38 @@ const PointEditor = ({ isEdit, animationState }) => {
               <label htmlFor="durationMinutes">Minutes</label>
             </div>
           </div>
+
+          <Transition
+            in={pointInFuture}
+            appear
+            timeout={{
+              enter: 200,
+              exit: 200,
+            }}
+            unmountOnExit
+          >
+            {transition => {
+              const classes = classNames({
+                [`${isAfterWarning}`]: true,
+                [`${isAfterWarningIn}`]: transition === 'entered',
+              });
+
+              return (
+                <p className={classes}>
+                  End time is in the future, please adjust date and/or duration
+                </p>
+              );
+            }}
+          </Transition>
         </div>
+
         <div className={pointEditorActions}>
-          <Button id="save-data" type="submit" fullWidth disabled={isDisabled}>
+          <Button
+            id="save-data"
+            type="submit"
+            fullWidth
+            disabled={pointInFuture || isDisabled}
+          >
             {isEdit ? 'Save Changes' : 'Add New Point'}
           </Button>
           <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
