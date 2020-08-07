@@ -4,6 +4,7 @@ const { login, onboarding, logout } = authTypes;
 
 const initialState = {
   token: undefined,
+  currentOrg: undefined,
   currentUser: undefined,
   error: null,
 };
@@ -19,6 +20,7 @@ export default function reducer(state = initialState, action) {
     case login.SUCCESS:
       return {
         ...state,
+        currentOrg: data.organization,
         currentUser: data.user,
         token: data.token,
         fetching: false,
@@ -32,7 +34,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         fetching: false,
-        currentUser: {
+        currentOrg: {
           ...data,
         },
       };

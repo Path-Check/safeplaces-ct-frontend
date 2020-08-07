@@ -17,7 +17,7 @@ import { applicationStates } from 'types/applicationStates';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => authSelectors.getCurrentUser(state));
+  const currentOrg = useSelector(state => authSelectors.getCurrentOrg(state));
   const token = useSelector(state => authSelectors.getToken(state));
   const { fetching } = useSelector(state => authSelectors.getLoginState(state));
   const history = useHistory();
@@ -27,8 +27,8 @@ const Login = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (currentUser) {
-      const { completedOnboarding } = currentUser;
+    if (currentOrg) {
+      const { completedOnboarding } = currentOrg;
 
       if (token && completedOnboarding) {
         history.push(location.state?.referrer || 'trace');
@@ -37,7 +37,7 @@ const Login = () => {
         history.push('/onboarding');
       }
     }
-  }, [token, history, currentUser]);
+  }, [token, history, currentOrg]);
 
   const { handleSubmit, errors, register } = useForm({});
 
@@ -117,8 +117,8 @@ const Login = () => {
                       <InlineLoading className={styles.loading} />
                     </div>
                   ) : (
-                      'Log in'
-                    )}
+                    'Log in'
+                  )}
                 </Button>
               </div>
               <p className={styles.disclaimer}>

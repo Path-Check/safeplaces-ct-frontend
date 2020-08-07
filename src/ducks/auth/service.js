@@ -1,4 +1,5 @@
 import axios from 'axios';
+import userService from '../users/service';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -24,19 +25,17 @@ const authService = {
   },
   login: async data => {
     let orgRes = null;
-    let user = null;
+    let organization = null;
 
     const response = await authService.getToken(data);
-    const { status } = response;
+    const { status, data: user } = response;
 
-    if (status === 204) {
+    if (status === 200) {
       orgRes = await authService.getOrganizationConfig();
-      if (orgRes) {
-        user = orgRes ? { ...orgRes.data } : null;
-      }
+      organization = orgRes ? { ...orgRes.data } : null;
     }
 
-    return { user, token: status };
+    return { user, organization, token: status };
   },
   onboarding: data => {
     return axios({

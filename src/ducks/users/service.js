@@ -24,6 +24,13 @@ const authService = {
       data,
     });
   },
+  getUser: async data => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/users/get`,
+      data,
+    });
+  },
   getAllUsers: async data => {
     return axios({
       method: 'POST',
