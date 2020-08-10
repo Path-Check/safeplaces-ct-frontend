@@ -9,8 +9,8 @@ import { applicationStates } from 'types/applicationStates';
 function* createUserSaga({ data }) {
   try {
     yield put(applicationActions.updateStatus(applicationStates.BUSY));
-    yield call(usersService.createUser, data);
-    yield put(usersActions.createUserSuccess(data));
+    const res = yield call(usersService.createUser, data);
+    yield put(usersActions.createUserSuccess({ ...data, id: res.data.id }));
     yield put(applicationActions.notification({ title: `User added` }));
     yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (error) {

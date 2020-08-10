@@ -99,6 +99,7 @@ const Members = () => {
         email,
         role,
         organization_id: String(currentOrg.id),
+        redirect_url: 'https://sometestingurlthatwillchange.soon',
       }),
     );
   };
