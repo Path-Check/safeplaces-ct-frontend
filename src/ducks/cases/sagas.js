@@ -150,7 +150,6 @@ function* deleteCase() {
     });
 
     yield put(casesActions.setCase(null));
-
     yield put(
       applicationActions.notification({
         title: 'Case Deleted',

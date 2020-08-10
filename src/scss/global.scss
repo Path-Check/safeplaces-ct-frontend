@@ -39,7 +39,7 @@ $mobile-bottom-swipe-height: 75px;
   }
 
   .App {
-    input {
+    input:not(.mapboxgl-ctrl-geocoder--input) {
       padding: 10px;
       background: #fff;
       border: 2px solid #e5e7fa;
