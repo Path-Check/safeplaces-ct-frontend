@@ -41,7 +41,7 @@ function* addCase() {
 
   yield put(applicationActions.updateStatus(applicationStates.BUSY));
 
-  const { id: organizationId } = yield select(authSelectors.getCurrentUser);
+  const { id: organizationId } = yield select(authSelectors.getCurrentOrg);
 
   try {
     response = yield call(casesService.fetchCase, {

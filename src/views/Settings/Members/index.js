@@ -29,7 +29,7 @@ import userSelectors from '../../../ducks/users/selectors';
 
 const Members = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => authSelectors.getCurrentUser(state));
+  const currentOrg = useSelector(state => authSelectors.getCurrentOrg(state));
   const usersList = useSelector(state => userSelectors.getAllUsers(state));
 
   const options = [
@@ -98,7 +98,7 @@ const Members = () => {
       usersActions.createUserRequest({
         email,
         role,
-        organization_id: String(currentUser.id),
+        organization_id: String(currentOrg.id),
       }),
     );
   };
