@@ -21,8 +21,11 @@ export default {
       function (error) {
         // catches if the session ended!
         if (error.response.status === 401 || error.response.status === 403) {
-          localStorage.clear();
-          store.dispatch(authActions.logout());
+          const { data } = error.response;
+          if (!(data && data.error && data.error === 'MFARequired')) {
+            localStorage.clear();
+            store.dispatch(authActions.logout());
+          }
         }
         return Promise.reject(error);
       },

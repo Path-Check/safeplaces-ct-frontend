@@ -4,6 +4,7 @@ const authTypes = {
     SUCCESS: 'auth/SUCCESS_LOGIN',
     FAILURE: 'auth/FAILURE_LOGIN',
     FORGOT_PASSWORD: 'auth/FORGOT_PASSWORD',
+    FORGOT_PASSWORD_SUCCESS: 'auth/FORGOT_PASSWORD_SUCCESS',
     RESET_PASSWORD: 'auth/RESET_PASSWORD',
   },
   logout: {

@@ -10,16 +10,26 @@ import {
   passwordStrengthIndicatorItemValid,
 } from '../PasswordStrengthIndicator.module.scss';
 
-const PasswordStrengthIndicatorCondition = ({ pattern, text, password }) => {
+const PasswordStrengthIndicatorCondition = ({
+  pattern,
+  passwordsMatch,
+  text,
+  password,
+}) => {
   const [isValid, setIsValid] = useState(false);
-
   useEffect(() => {
-    if (!password) {
+    if (!password && !passwordsMatch) {
       setIsValid(false);
+    } else if (password && passwordsMatch) {
+      setIsValid(true);
     } else {
-      setIsValid(pattern.test(password));
+      if (pattern) {
+        setIsValid(pattern.test(password));
+      } else {
+        setIsValid(false);
+      }
     }
-  }, [password]);
+  }, [password, passwordsMatch]);
 
   const classes = classNames({
     [`${passwordStrengthIndicatorItem}`]: true,

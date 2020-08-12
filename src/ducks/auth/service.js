@@ -1,5 +1,4 @@
 import axios from 'axios';
-import userService from '../users/service';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -26,10 +25,8 @@ const authService = {
   login: async data => {
     let orgRes = null;
     let organization = null;
-
     const response = await authService.getToken(data);
     const { status, data: user } = response;
-
     if (status === 200) {
       orgRes = await authService.getOrganizationConfig();
       organization = orgRes ? { ...orgRes.data } : null;
@@ -50,13 +47,22 @@ const authService = {
       url: `${REACT_APP_API_URL}auth/logout`,
     });
   },
-  forgotPassword: async email => {
+  forgotPassword: async data => {
     return axios({
       method: 'POST',
       url: `${REACT_APP_API_URL}auth/users/reset-password`,
-      data: {
-        email,
-      },
+      data,
+    });
+  },
+  resetPassword: async data => {
+    const headers = { authorization: `Bearer ${data.authorization}` };
+    delete data.authorization;
+    delete data.confirmPassword;
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/reset-password`,
+      headers,
+      data,
     });
   },
 };

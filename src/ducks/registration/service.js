@@ -4,19 +4,33 @@ const { REACT_APP_API_URL } = process.env;
 
 const registrationService = {
   submitDetails: async data => {
+    const headers = { authorization: `Bearer ${data.authorization}` };
+    delete data.authorization;
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}auth/login`,
+      headers,
+      url: `${REACT_APP_API_URL}auth/register`,
       data,
     });
   },
-  submitAccessCode: async accessCode => {
+  submitPhoneNumber: async data => {
+    const headers = { authorization: `Bearer ${data.authorization}` };
+    delete data.authorization;
     return axios({
       method: 'POST',
-      url: `${REACT_APP_API_URL}organization`,
-      data: {
-        accessCode,
-      },
+      headers,
+      url: `${REACT_APP_API_URL}auth/mfa/enroll`,
+      data,
+    });
+  },
+  submitAccessCode: async data => {
+    const headers = { authorization: `Bearer ${data.authorization}` };
+    delete data.authorization;
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/mfa/verify`,
+      headers,
+      data,
     });
   },
 };
