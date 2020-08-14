@@ -26,6 +26,7 @@ const Header = ({ isAuthenticated, isOnboarded }) => {
 
 Header.propTypes = {
   isAuthenticated: PropTypes.bool,
+  isOnboarded: PropTypes.bool,
 };
 
 export default Header;
