@@ -4,6 +4,7 @@ const registrationTypes = {
   SUBMIT_ACCESS_CODE: 'registration/SUBMIT_ACCESS_CODE',
   PHONE_SENT: 'registration/PHONE_SENT',
   MFA_STARTED: 'registration/MFA_STARTED',
+  REMOVE_MFA: 'registration/REMOVE_MFA',
 };
 
 export default registrationTypes;

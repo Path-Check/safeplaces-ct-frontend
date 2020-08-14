@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import queryString from 'querystring';
 import { useForm } from 'react-hook-form';
 import { TextInput } from '@wfp/ui';
@@ -20,8 +20,17 @@ const PersonalInformation = () => {
   const { search } = useLocation();
   const [formValues, setFormValues] = useState({});
   const [passwordValid] = useValidatePassword(formValues?.password);
+  const [passwordsMatch, setPasswordsMatch] = useState(false);
   const { handleSubmit, errors, register } = useForm({});
   const { t } = queryString.parse(search.substr(1));
+
+  useEffect(() => {
+    if (formValues.confirmPassword === formValues.password) {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
+  }, [formValues]);
 
   const onChange = ({ target: { value, name } }) => {
     setFormValues({ ...formValues, [name]: value });
@@ -65,14 +74,28 @@ const PersonalInformation = () => {
           invalid={errors.password}
           invalidText={errors.password && errors.password.message}
         />
-        <PasswordStrengthIndicator password={formValues.password} />
+        <PasswordInput
+          onChange={onChange}
+          id="confirm-input"
+          autoCorrect="off"
+          autoCapitalize="off"
+          inputRef={register({ required: 'Please enter a password' })}
+          label="Confirm Password"
+          name="confirmPassword"
+          invalid={errors.confirmPassword}
+          invalidText={errors.confirmPassword && errors.confirmPassword.message}
+        />
+        <PasswordStrengthIndicator
+          passwordsMatch={passwordsMatch}
+          password={formValues.password}
+        />
         <div className={styles.submitWrapper}>
           <div className={styles.buttonContainer}>
             <Button
               id="login-button"
               height="16px"
               type="submit"
-              disabled={!passwordValid}
+              disabled={!passwordValid || !passwordsMatch}
               loading={fetching}
             >
               Create account

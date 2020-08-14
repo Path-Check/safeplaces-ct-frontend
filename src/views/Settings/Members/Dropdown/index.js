@@ -12,6 +12,7 @@ import { useOnClickOutside } from '../../../../hooks/useOnClickOutside';
 import { useDispatch } from 'react-redux';
 import usersActions from '../../../../ducks/users/actions';
 import authActions from '../../../../ducks/auth/actions';
+import registrationActions from '../../../../ducks/registration/actions';
 
 const Dropdown = ({
   id,
@@ -60,7 +61,11 @@ const Dropdown = ({
     }
   };
 
-  const resetPhoneNumber = () => {};
+  const resetPhoneNumber = () => {
+    if (id) {
+      dispatch(registrationActions.removeMfa({ id }));
+    }
+  };
 
   const renderChangeTo = () => {
     switch (role) {

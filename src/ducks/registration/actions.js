@@ -5,6 +5,10 @@ const registrationActions = {
     type: registrationTypes.MFA_STARTED,
     data,
   }),
+  removeMfa: data => ({
+    type: registrationTypes.REMOVE_MFA,
+    data,
+  }),
   submitInformation: data => ({
     type: registrationTypes.SUBMIT_INFORMATION,
     data,

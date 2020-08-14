@@ -33,6 +33,13 @@ const registrationService = {
       data,
     });
   },
+  removeMfa: async data => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/users/reset-mfa`,
+      data,
+    });
+  },
 };
 
 export default registrationService;

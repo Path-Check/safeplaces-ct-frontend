@@ -55,7 +55,22 @@ function* submitAccessCode({ data }) {
   }
 }
 
+function* removeMfaSaga({ data }) {
+  try {
+    yield call(registrationService.submitAccessCode, data);
+    yield put(applicationActions.notification({ text: 'MFA Removed' }));
+  } catch (error) {
+    yield put(
+      applicationActions.notification({
+        text: 'Something went wrong',
+        type: 'error',
+      }),
+    );
+  }
+}
+
 export function* registrationSagas() {
+  yield takeEvery(registrationTypes.REMOVE_MFA, removeMfaSaga);
   yield takeEvery(registrationTypes.SUBMIT_PHONE, submitPhoneSaga);
   yield takeEvery(registrationTypes.SUBMIT_INFORMATION, submitPersonalDetails);
   yield takeEvery(registrationTypes.SUBMIT_ACCESS_CODE, submitAccessCode);
