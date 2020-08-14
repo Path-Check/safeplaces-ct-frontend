@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom';
 
 describe('Logo', () => {
   it('should render', async () => {
+    // Shallow mount a component (child components are not rendered)
     const wrapper = shallow(<Logo />);
-    expect(wrapper.find('img').length).toBe(1);
-    expect(wrapper.find(Link).length).toBe(1);
+
+    // Assert 1 or more conditions
+    expect(wrapper.find('img')).toHaveLength(1);
+    expect(wrapper.find(Link)).toHaveLength(1);
   });
 });
