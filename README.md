@@ -56,6 +56,14 @@ Runs the [Nightwatch](https://nightwatchjs.org/) WebDriver tests using Google Ch
 running instance of the UI on port 3000 (e.g. http://localhost:3000/). You **MUST** have already started
 the dev server using `npm run start` in another terminal/console.
 
+### `yarn test:cucumber`
+
+Runs the [Nightwatch](https://nightwatchjs.org/) WebDriver tests using Google Chrome against a locally
+running instance of the UI on port 3000. The difference between this and the `test:e2e` is that it uses 
+[cucumber-js](https://github.com/cucumber/cucumber-js), feature files, and step definitions to do the
+test using Behavior Driven Development (BDD). See the `features/login.feature` file and the 
+`features/step-definitions/steps.js` files. 
+
 ### `yarn run a11y-check`
 
 Runs the current accessibility tests in `/a11y-tests/index.js` This file will have to be updates whenever new routes are created.<br />
