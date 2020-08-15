@@ -79,6 +79,7 @@ describe('Login', () => {
     await runAllPromises();
 
     wrapper.update();
+    // Expect the login button to no longer be disabled
     expect(wrapper.find('#login-button').at(0).prop('disabled')).toBeFalsy();
   });
 });
