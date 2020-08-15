@@ -1,5 +1,4 @@
 import axios from 'axios';
-import userService from '../users/service';
 
 const { REACT_APP_API_URL } = process.env;
 

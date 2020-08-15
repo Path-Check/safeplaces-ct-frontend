@@ -2,7 +2,13 @@ import React from 'react';
 import Modal from '../../../_global/Modal';
 import Dialog from '../../Dialog';
 import { TextInput } from '@wfp/ui';
-import { inputText, ModalButton, dialogText, dialogTitle, dialogButton } from './header.module.scss';
+import {
+  inputText,
+  ModalButton,
+  dialogText,
+  dialogTitle,
+  dialogButton,
+} from './header.module.scss';
 import Button from 'components/_shared/Button';
 
 const EditRecordModal = ({
@@ -31,7 +37,12 @@ const EditRecordModal = ({
           id="recordId"
         />
         <div className={ModalButton}>
-          <Button className={dialogButton} type="button" secondary onClick={() => setShowModal(false)}>
+          <Button
+            className={dialogButton}
+            type="button"
+            secondary
+            onClick={() => setShowModal(false)}
+          >
             Cancel
           </Button>
           <Button className={dialogButton} type="button" onClick={onSubmit}>

@@ -1,11 +1,9 @@
-import _ from 'lodash';
 import moment from 'moment';
 import { toPoint } from 'components/_shared/Map/_helpers';
 import inside from '@turf/inside';
 import { getDates, CURRENT_DATE_FORMAT } from 'helpers/pointsUtils';
 import { createSelector } from 'reselect';
 
-const appStoreSelec = state => state.application;
 const pointsStoreSelector = state => state.points;
 const pointsSelector = state => state.points.points;
 

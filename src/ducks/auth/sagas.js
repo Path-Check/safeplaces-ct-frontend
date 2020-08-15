@@ -14,7 +14,7 @@ function* authenticateSaga({ data }) {
   } catch (error) {
     yield put(authActions.loginFailure(error));
 
-    const { name, response } = error;
+    const { response } = error;
 
     const message = response?.data?.message || 'Something went wrong';
 
@@ -49,7 +49,6 @@ function* onboardingSaga({ data }) {
     yield put(push('/trace'));
   } catch (error) {
     const {
-      name,
       response: {
         data: { message },
         status,
@@ -69,7 +68,6 @@ function* forgotPasswordSaga({ emailAddress }) {
   );
 
   try {
-    const response = yield call(authService.forgotPassword, emailAddress);
     yield put(
       applicationActions.notification({
         text: `If ${emailAddress} exists in the database a password reset email will shortly appear in your inbox.`,
@@ -94,8 +92,6 @@ function* resetPasswordSaga({ password, passwordConfirmation }) {
   yield put(applicationActions.updateStatus(applicationStates.BUSY));
 
   try {
-    const response = yield call(authService.resetPassword, password);
-
     yield put(push('/login'));
     yield put(
       applicationActions.notification({
