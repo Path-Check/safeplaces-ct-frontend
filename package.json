@@ -83,8 +83,10 @@
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.5",
     "json-diff": "^0.5.4",
+    "mutationobserver-shim": "^0.3.7",
     "prettier": "2.0.5",
-    "react-json-pretty": "^2.2.0"
+    "react-json-pretty": "^2.2.0",
+    "redux-mock-store": "^1.5.4"
   },
   "husky": {
     "hooks": {
