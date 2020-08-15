@@ -33,7 +33,7 @@ module.exports = {
 
       screenshots: {
         enabled: false,
-        path: 'screens',
+        path: 'screenshots',
         on_failure: true,
       },
 
@@ -44,6 +44,12 @@ module.exports = {
       webdriver: {},
     },
     chrome: {
+      screenshots: {
+        enabled: false,
+        path: 'screenshots',
+        on_failure: true,
+      },
+
       desiredCapabilities: {
         browserName: 'chrome',
         chromeOptions: {

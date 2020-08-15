@@ -6,23 +6,11 @@ const {
   closeSession,
   startWebDriver,
   stopWebDriver,
+  getNewScreenshots,
 } = require('nightwatch-api');
 const reporter = require('cucumber-html-reporter');
 
 setDefaultTimeout(60000);
-
-const attachedScreenshots = getScreenshots();
-
-function getScreenshots() {
-  try {
-    const folder = path.resolve(__dirname, 'screenshots');
-
-    const screenshots = fs.readdirSync(folder).map(file => path.resolve(folder, file));
-    return screenshots;
-  } catch (err) {
-    return [];
-  }
-}
 
 BeforeAll(async () => {
   await startWebDriver({});
@@ -49,12 +37,7 @@ AfterAll(async () => {
 });
 
 After(function() {
-  return Promise.all(
-    getScreenshots()
-      .filter(file => !attachedScreenshots.includes(file))
-      .map(file => {
-        attachedScreenshots.push(file);
-        return this.attach(fs.readFileSync(file), 'image/png');
-      }),
+  getNewScreenshots().forEach(file =>
+    this.attach(fs.readFileSync(file), 'image/png'),
   );
 });
