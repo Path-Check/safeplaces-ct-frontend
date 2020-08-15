@@ -50,6 +50,12 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+### `yarn test:e2e`
+
+Runs the [Nightwatch](https://nightwatchjs.org/) WebDriver tests using Google Chrome against a locally
+running instance of the UI on port 3000 (e.g. http://localhost:3000/). You **MUST** have already started
+the dev server using `npm run start` in another terminal/console.
+
 ### `yarn run a11y-check`
 
 Runs the current accessibility tests in `/a11y-tests/index.js` This file will have to be updates whenever new routes are created.<br />
