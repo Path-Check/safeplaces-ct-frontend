@@ -29,6 +29,10 @@ const applicationActions = {
     type: applicationTypes.NEW_CASE,
     newCase,
   }),
+  tooltip: tooltipKey => ({
+    type: applicationTypes.SET_TOOLTIP,
+    tooltipKey,
+  }),
 };
 
 export default applicationActions;

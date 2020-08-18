@@ -10,10 +10,24 @@ const authService = {
       data,
     });
   },
+  changeUserRole: async data => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/users/assign-role`,
+      data,
+    });
+  },
   createUser: async data => {
     return axios({
       method: 'POST',
       url: `${REACT_APP_API_URL}auth/users/create`,
+      data,
+    });
+  },
+  getUser: async data => {
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/users/get`,
       data,
     });
   },

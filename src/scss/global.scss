@@ -48,6 +48,15 @@ $mobile-bottom-swipe-height: 75px;
       font-size: 18px;
       font-weight: 400;
     }
+
+    .mapboxgl-ctrl-geocoder--icon-search {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .mapboxgl-ctrl-geocoder--input {
+      padding-left: 30px;
+    }
   }
 
   label {

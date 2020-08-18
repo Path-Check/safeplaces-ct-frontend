@@ -7,6 +7,8 @@ const {
   GET_ALL_USERS_SUCCESS,
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
+  CHANGE_USER_ROLE_REQUEST,
+  CHANGE_USER_ROLE_SUCCESS,
 } = usersTypes;
 
 const usersActions = {
@@ -31,6 +33,14 @@ const usersActions = {
   }),
   getAllUsersSuccess: data => ({
     type: GET_ALL_USERS_SUCCESS,
+    data,
+  }),
+  changeUserRoleRequest: data => ({
+    type: CHANGE_USER_ROLE_REQUEST,
+    data,
+  }),
+  changeUserRoleSuccess: data => ({
+    type: CHANGE_USER_ROLE_SUCCESS,
     data,
   }),
 };

@@ -13,6 +13,7 @@ const applicationSelectors = {
   getRenderEditor: state => state.application.renderEditor,
   getMode: state => state.application.mode,
   getNewCase: state => state.application.newCase,
+  getTooltips: state => state.application.tooltips,
 };
 
 export default applicationSelectors;

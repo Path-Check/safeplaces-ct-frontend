@@ -47,3 +47,10 @@ export const returnMaxTime = date => {
     return setHours(setMinutes(now, 55), 23);
   }
 };
+
+export const returnIsBefore = ({ time, duration }) => {
+  const pointEndDate = moment(time).add(duration, 'm');
+  const currentDate = new Date();
+
+  return moment(pointEndDate._d).isBefore(currentDate);
+};

@@ -20,7 +20,7 @@ const HAConfig = () => {
   const [boundariesSet, setBoundariesSet] = useState(false);
   const [boundariesError, setBoundariesError] = useState(false);
   const [openMapModal, setOpenMapModal] = useState(false);
-  const user = useSelector(state => authSelectors.getCurrentUser(state));
+  const user = useSelector(state => authSelectors.getCurrentOrg(state));
   const { handleSubmit, errors, register } = useForm({});
   const [state, setState] = React.useState({
     externalId: user && user.externalId,
