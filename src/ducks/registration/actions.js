@@ -1,17 +1,29 @@
 import registrationTypes from './types';
 
 const registrationActions = {
+  mfaStarted: data => ({
+    type: registrationTypes.MFA_STARTED,
+    data,
+  }),
+  removeMfa: data => ({
+    type: registrationTypes.REMOVE_MFA,
+    data,
+  }),
   submitInformation: data => ({
     type: registrationTypes.SUBMIT_INFORMATION,
+    data,
+  }),
+  submitPhoneNumber: data => ({
+    type: registrationTypes.SUBMIT_PHONE,
+    data,
+  }),
+  phoneSent: data => ({
+    type: registrationTypes.PHONE_SENT,
     data,
   }),
   submitAccessCode: accessCode => ({
     type: registrationTypes.SUBMIT_ACCESS_CODE,
     accessCode,
-  }),
-  setRegisrationStage: stage => ({
-    type: registrationTypes.REGISTRATION_STAGE,
-    stage,
   }),
 };
 

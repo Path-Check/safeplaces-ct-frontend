@@ -1,4 +1,5 @@
 import authTypes from './types';
+import registrationTypes from '../registration/types';
 
 const { login, onboarding, logout } = authTypes;
 
@@ -16,6 +17,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         fetching: true,
+      };
+    case registrationTypes.MFA_STARTED:
+      return {
+        ...state,
+        fetching: false,
       };
     case login.SUCCESS:
       return {

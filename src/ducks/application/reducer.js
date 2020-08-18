@@ -38,6 +38,14 @@ export default function reducer(state = initialState, action) {
         ...state,
         mode: action.mode,
       };
+    case applicationTypes.SET_TOOLTIP:
+      return {
+        ...state,
+        tooltips: {
+          ...state.tooltips,
+          [action.tooltipKey]: true,
+        },
+      };
     default:
       return state;
   }

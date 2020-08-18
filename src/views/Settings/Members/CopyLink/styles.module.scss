@@ -1,0 +1,54 @@
+@import 'scss/global';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 464px;
+  height: 240px;
+  left: 0px;
+  top: 0px;
+  background: #FFFFFF;
+  box-shadow: $box-shadow;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #1C2537;
+}
+
+.subtitle {
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #3C475B;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .textInput {
+    margin-right: 10px;
+    cursor: copy;
+    background: #F8F8FF;
+    border: 2px solid #E5E7FA;
+    box-sizing: border-box;
+    border-radius: 8px;
+    max-width: 293px;
+    height: 48px;
+  }
+}
+
+.linkExpires {
+  font-size: 14px;
+  line-height: 16px;
+  color: #3C475B;
+  margin-top: 10px;
+}
