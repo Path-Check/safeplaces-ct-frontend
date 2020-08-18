@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import moment from 'moment';
-
-import { faCalendarAlt } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -41,7 +38,6 @@ function DateInput({
     <div className={styles.dateInputWrapper}>
       {label && <label htmlFor={id}>{label}</label>}
       <div className={styles.dateInput}>
-        <FontAwesomeIcon className={styles.icon} icon={faCalendarAlt} />
         <DatePicker
           selected={
             selectedValue ? moment(selectedValue).toDate() : initialValue

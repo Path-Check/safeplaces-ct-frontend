@@ -11,13 +11,11 @@ import Button from 'components/_shared/Button';
 import authActions from 'ducks/auth/actions';
 import Logo from '../../../components/_global/Logo';
 import emailValidator from '../../../helpers/emailValidator';
-import applicationActions from 'ducks/application/actions';
 import PasswordInput from 'components/_shared/PasswordInput';
-import { applicationStates } from 'types/applicationStates';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => authSelectors.getCurrentUser(state));
+  const currentOrg = useSelector(state => authSelectors.getCurrentOrg(state));
   const token = useSelector(state => authSelectors.getToken(state));
   const { fetching } = useSelector(state => authSelectors.getLoginState(state));
   const history = useHistory();
@@ -27,8 +25,8 @@ const Login = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (currentUser) {
-      const { completedOnboarding } = currentUser;
+    if (currentOrg) {
+      const { completedOnboarding } = currentOrg;
 
       if (token && completedOnboarding) {
         history.push(location.state?.referrer || 'trace');
@@ -37,7 +35,7 @@ const Login = () => {
         history.push('/onboarding');
       }
     }
-  }, [token, history, currentUser]);
+  }, [token, history, currentOrg]);
 
   const { handleSubmit, errors, register } = useForm({});
 
@@ -91,18 +89,6 @@ const Login = () => {
               invalid={errors.password}
               invalidText={errors.password && errors.password.message}
             />
-            <Button
-              unstyled
-              onClick={() =>
-                dispatch(
-                  applicationActions.updateStatus(
-                    applicationStates.FORGOT_PASSWORD,
-                  ),
-                )
-              }
-            >
-              Forgot password?
-            </Button>
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
                 <Button

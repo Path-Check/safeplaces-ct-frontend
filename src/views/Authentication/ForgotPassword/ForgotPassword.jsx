@@ -42,7 +42,7 @@ const ForgotPassword = ({ status }) => {
             placeholder="tracer@yourha.org"
             onChange={({ target: { value } }) => setEmailAddress(value)}
           />
-          <Button loading={isResetting} type="submit">
+          <Button id="submit-forgot-password" loading={isResetting} type="submit">
             Send reset link
           </Button>
         </form>

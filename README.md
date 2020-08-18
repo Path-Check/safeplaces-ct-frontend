@@ -29,6 +29,8 @@ REACT_APP_GOOGLE_PLACES_KEY=GOOGLE_API_KEY_WITH_PLACES_ENABLED
 REACT_APP_GOOGLE_PLACES_LANGUAGE=en
 REACT_APP_MAPBOX_KEY=MAPBOX_API_KEY
 REACT_APP_API_URL=REACT_APP_API_URL
+PA11Y_LOGIN_EMAIL= any valid onboarded account login email for the current API. Ideally the account should be a super user.
+PA11Y_LOGIN_PASSWORD= any valid onboarded account login password for the current API. Ideally the account should be a super user.
 ```
 
 ## Available Scripts
@@ -47,6 +49,13 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `yarn run a11y-check`
+
+Runs the current accessibility tests in `/a11y-tests/index.js` This file will have to be updates whenever new routes are created.<br />
+Requires `PA11Y_LOGIN_EMAIL` and `PA11Y_LOGIN_PASSWORD` <br />
+The script will output accessibility errors to the console and also generate html files with the error lists in `/a11y-tests/errors`<br />
+Corresponding screenshots of the pages with errors will be generated in `/a11y-tests/screenshots`<br />
 
 ### `yarn build`
 

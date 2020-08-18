@@ -11,6 +11,7 @@ import DurationFilter from 'components/_shared/RedactorTools/Filters/DurationFil
 import RecordIdsFilter from 'components/_shared/RedactorTools/Filters/RecordIdsFilter';
 import DateSelector from 'components/_shared/RedactorTools/Filters/DateSelector';
 import FilterData from 'components/_shared/RedactorTools/Filters/FilterData';
+import Tooltip from '../../Tooltip';
 
 const durationTimes = [10, 15, 30, 45, 60];
 
@@ -125,6 +126,11 @@ const Filters = React.memo(({ filteredPointsLength, pointsLength }) => {
       >
         REMOVE ALL FILTERS
       </button>
+      <Tooltip
+        text="Filter the data points by date range and duration."
+        tooltip={2}
+        top="5%"
+      />
     </>
   );
 });

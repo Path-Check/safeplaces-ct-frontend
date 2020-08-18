@@ -10,13 +10,16 @@ import {
   Switch,
   useLocation,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import authActions from '../../ducks/auth/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt, faUsers, faCog } from '@fortawesome/pro-solid-svg-icons';
+import authSelectors from '../../ducks/auth/selectors';
 
 const Settings = () => {
   const dispatch = useDispatch();
+  const { role } = useSelector(authSelectors.getCurrentUser);
+
   const { pathname } = useLocation();
   const navLinks = [
     {
@@ -32,6 +35,7 @@ const Settings = () => {
       icon: faUsers,
       component: Members,
       onClick: null,
+      superAdminOnly: true,
     },
     {
       id: 'Logout',
@@ -42,20 +46,25 @@ const Settings = () => {
   ];
 
   const renderLinks = () => {
-    return navLinks.map(({ id, icon, path, onClick }) => {
-      const classes = classNames({
-        [`${styles.option}`]: true,
-        [`${styles.active}`]: pathname === path,
-      });
-      return (
-        <li>
-          <NavLink id={id} className={classes} to={path} onClick={onClick}>
-            <FontAwesomeIcon className={styles.icon} icon={icon} />
-            {id}
-          </NavLink>
-        </li>
-      );
-    });
+    return navLinks.map(
+      ({ id, icon, path, onClick, superAdminOnly = false }) => {
+        const classes = classNames({
+          [`${styles.option}`]: true,
+          [`${styles.active}`]: pathname === path,
+        });
+        return (
+          (!superAdminOnly ||
+            (superAdminOnly && role && role === 'super_admin')) && (
+            <li>
+              <NavLink id={id} className={classes} to={path} onClick={onClick}>
+                <FontAwesomeIcon className={styles.icon} icon={icon} />
+                {id}
+              </NavLink>
+            </li>
+          )
+        );
+      },
+    );
   };
 
   const renderRoutes = () => {

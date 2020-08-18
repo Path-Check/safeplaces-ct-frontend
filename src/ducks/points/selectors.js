@@ -1,8 +1,7 @@
-import _ from 'lodash';
 import moment from 'moment';
 import { toPoint } from 'components/_shared/Map/_helpers';
 import inside from '@turf/inside';
-import { getDates, CURRENT_DATE_FORMAT } from 'helpers/pointsUtils';
+import { CURRENT_DATE_FORMAT, getDates } from 'helpers/pointsUtils';
 import { createSelector } from 'reselect';
 
 const appStoreSelec = state => state.application;
@@ -79,7 +78,7 @@ export const getAllowStaging = createSelector(
   getFilteredPoints,
   getPoints,
   (filteredPoints, points) => {
-    return filteredPoints.length === points.length;
+    return points.length > 0 && filteredPoints.length === points.length;
   },
 );
 

@@ -14,7 +14,7 @@ const PasswordInput = ({ label, ...rest }) => {
       {label && <label>{label}</label>}
       <div>
         <TextInput type={showPassword ? 'text' : 'password'} {...rest} />
-        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+        <button id="toggle-password-display" type="button" onClick={() => setShowPassword(!showPassword)}>
           <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </button>
       </div>

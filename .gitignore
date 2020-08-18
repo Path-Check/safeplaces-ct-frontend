@@ -19,6 +19,7 @@ __pycache__
 .env.development.local
 .env.test.local
 .env.production.local
+/.idea/
 
 npm-debug.log*
 yarn-debug.log*
@@ -26,7 +27,16 @@ yarn-error.log*
 
 .now
 .env
-/.idea/
 
+tests/docker/testhost/ui_test.py
+tests/docker/testhost/data/**
+tests/docker/testhost/page_objects.py
+tests/docker/testhost/__init__.py
 # editor configs
 .editorconfig
+
+#a11y-test output
+/a11y-tests/errors/*
+/a11y-tests/screenshots/*
+
+

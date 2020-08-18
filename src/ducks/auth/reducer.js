@@ -1,9 +1,11 @@
 import authTypes from './types';
+import registrationTypes from '../registration/types';
 
 const { login, onboarding, logout } = authTypes;
 
 const initialState = {
   token: undefined,
+  currentOrg: undefined,
   currentUser: undefined,
   error: null,
 };
@@ -16,9 +18,15 @@ export default function reducer(state = initialState, action) {
         ...state,
         fetching: true,
       };
+    case registrationTypes.MFA_STARTED:
+      return {
+        ...state,
+        fetching: false,
+      };
     case login.SUCCESS:
       return {
         ...state,
+        currentOrg: data.organization,
         currentUser: data.user,
         token: data.token,
         fetching: false,
@@ -32,7 +40,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         fetching: false,
-        currentUser: {
+        currentOrg: {
           ...data,
         },
       };
