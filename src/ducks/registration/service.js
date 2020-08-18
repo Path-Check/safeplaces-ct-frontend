@@ -6,6 +6,7 @@ const registrationService = {
   submitDetails: async data => {
     const headers = { authorization: `Bearer ${data.authorization}` };
     delete data.authorization;
+    delete data.confirmPassword;
     return axios({
       method: 'POST',
       headers,

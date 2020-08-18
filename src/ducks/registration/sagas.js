@@ -10,6 +10,7 @@ import authActions from '../auth/actions';
 function* submitPersonalDetails({ data }) {
   try {
     yield call(registrationService.submitDetails, data);
+    yield put(authActions.logout());
     yield put(push('/login'));
   } catch (error) {
     yield put(

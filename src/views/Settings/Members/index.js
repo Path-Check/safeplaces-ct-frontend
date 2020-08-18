@@ -94,9 +94,6 @@ const Members = () => {
 
     return (
       <div className={itemContainer} style={style} key={email}>
-        <div title={id} className={emailText}>
-          {id}
-        </div>
         <div title={email} className={emailText}>
           {email}
         </div>
