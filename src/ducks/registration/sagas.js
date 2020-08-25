@@ -1,7 +1,6 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 
-import registrationService from './service';
 import registrationActions from './actions';
 import registrationTypes from './types';
 import applicationActions from 'ducks/application/actions';

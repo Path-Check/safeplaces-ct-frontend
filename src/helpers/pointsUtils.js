@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import moment from 'moment';
 
 export const CURRENT_DATE_FORMAT = 'ddd, MMMM D, YYYY';

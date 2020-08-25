@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
-import moment from 'moment';
 
 import styles from './record.module.scss';
 import { useDispatch } from 'react-redux';

@@ -4,7 +4,6 @@ import inside from '@turf/inside';
 import { CURRENT_DATE_FORMAT, getDates } from 'helpers/pointsUtils';
 import { createSelector } from 'reselect';
 
-const appStoreSelec = state => state.application;
 const pointsStoreSelector = state => state.points;
 const pointsSelector = state => state.points.points;
 

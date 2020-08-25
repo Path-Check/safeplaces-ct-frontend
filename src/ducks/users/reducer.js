@@ -13,7 +13,8 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  const { type, data } = action;
+  // eslint-disable-next-line no-unused-vars
+  const { type, data, error } = action;
   switch (type) {
     case CREATE_USER_SUCCESS:
       return {

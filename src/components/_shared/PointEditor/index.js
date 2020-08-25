@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
-import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 
 import pointsActions from 'ducks/points/actions';
