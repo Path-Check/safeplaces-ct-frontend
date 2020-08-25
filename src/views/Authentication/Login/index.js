@@ -11,9 +11,7 @@ import Button from 'components/_shared/Button';
 import authActions from 'ducks/auth/actions';
 import Logo from '../../../components/_global/Logo';
 import emailValidator from '../../../helpers/emailValidator';
-import applicationActions from 'ducks/application/actions';
 import PasswordInput from 'components/_shared/PasswordInput';
-import { applicationStates } from 'types/applicationStates';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -91,19 +89,6 @@ const Login = () => {
               invalid={errors.password}
               invalidText={errors.password && errors.password.message}
             />
-            <Button
-              id="forgot-password"
-              unstyled
-              onClick={() =>
-                dispatch(
-                  applicationActions.updateStatus(
-                    applicationStates.FORGOT_PASSWORD,
-                  ),
-                )
-              }
-            >
-              Forgot password?
-            </Button>
             <div className={styles.submitWrapper}>
               <div className={styles.buttonContainer}>
                 <Button

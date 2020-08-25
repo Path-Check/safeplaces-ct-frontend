@@ -1,4 +1,5 @@
 import usersTypes from './types';
+import authTypes from '../auth/types';
 
 const {
   GET_ALL_USERS_SUCCESS,
@@ -39,6 +40,15 @@ export default function reducer(state = initialState, action) {
         ...state,
         list: data,
       };
+    case authTypes.login.FORGOT_PASSWORD_SUCCESS: {
+      const updatedList = state.list.map(p =>
+        p.id === data.id ? { ...p, redirectUrl: data.redirectUrl } : p,
+      );
+      return {
+        ...state,
+        list: updatedList,
+      };
+    }
     default:
       return state;
   }

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { call, put, takeEvery } from 'redux-saga/effects';
 import authTypes from './types';
 import authService from './service';
@@ -5,6 +6,7 @@ import authActions from './actions';
 import { push } from 'connected-react-router';
 import applicationActions from '../application/actions';
 import { applicationStates } from 'types/applicationStates';
+import registrationActions from '../registration/actions';
 
 function* authenticateSaga({ data }) {
   try {
@@ -12,21 +14,30 @@ function* authenticateSaga({ data }) {
     const response = yield call(authService.login, data);
     yield put(authActions.loginSuccess(response));
   } catch (error) {
-    yield put(authActions.loginFailure(error));
+    const { response: res } = error;
+    if (res.data && res.data.error === 'MFARequired') {
+      yield put(registrationActions.mfaStarted(res.data.mfa_token));
+      yield put(push('/phone'));
+      yield put(
+        applicationActions.notification({ text: 'Enable 2FA to continue' }),
+      );
+    } else {
+      yield put(authActions.loginFailure(error));
+      const message =
+        res.data?.message ||
+        res.data?.error_description ||
+        'Something went wrong';
 
-    const { response } = error;
-
-    const message = response?.data?.message || 'Something went wrong';
-
-    yield put(
-      applicationActions.notification({ text: message, type: 'error' }),
-    );
+      yield put(
+        applicationActions.notification({ text: message, type: 'error' }),
+      );
+    }
   }
 
   yield put(applicationActions.updateStatus(applicationStates.IDLE));
 }
 
-function* logoutSaga() {
+export function* logoutSaga() {
   try {
     yield put(applicationActions.updateStatus(applicationStates.BUSY));
     yield call(authService.logout);
@@ -62,18 +73,16 @@ function* onboardingSaga({ data }) {
   yield put(applicationActions.updateStatus(applicationStates.IDLE));
 }
 
-function* forgotPasswordSaga({ emailAddress }) {
-  yield put(
-    applicationActions.updateStatus(applicationStates.REQUEST_PASSWORD_LINK),
-  );
-
+function* forgotPasswordSaga({ data }) {
+  yield put(applicationActions.updateStatus('BUSY'));
   try {
+    const res = yield call(authService.forgotPassword, data);
     yield put(
-      applicationActions.notification({
-        text: `If ${emailAddress} exists in the database a password reset email will shortly appear in your inbox.`,
+      authActions.forgotPasswordSuccess({
+        id: data.id,
+        redirectUrl: res.data.password_reset_url,
       }),
     );
-
     yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (error) {
     yield put(
@@ -88,16 +97,18 @@ function* forgotPasswordSaga({ emailAddress }) {
   }
 }
 
-function* resetPasswordSaga({ password, passwordConfirmation }) {
+function* resetPasswordSaga({ data }) {
   yield put(applicationActions.updateStatus(applicationStates.BUSY));
-
   try {
+    const response = yield call(authService.resetPassword, data);
+
     yield put(push('/login'));
     yield put(
       applicationActions.notification({
         text: `Your password has been reset.`,
       }),
     );
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
   } catch (error) {
     yield put(
       applicationActions.notification({
@@ -105,6 +116,7 @@ function* resetPasswordSaga({ password, passwordConfirmation }) {
         text: 'Something went wrong. Please try again.',
       }),
     );
+    yield put(applicationActions.updateStatus(applicationStates.IDLE));
   }
 
   yield put(applicationActions.updateStatus(applicationStates.IDLE));

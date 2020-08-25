@@ -4,6 +4,7 @@ import { selectedDataList } from '../SelectedData.module.scss';
 
 import moment from 'moment';
 import SelectedDataGroup from 'components/_shared/SelectedData/SelectedDataList/SelectedDataGroup';
+import Tooltip from '../../Tooltip';
 
 const SelectedDataList = React.memo(({ filteredPoints }) => {
   const groupByDate = items =>
@@ -20,6 +21,11 @@ const SelectedDataList = React.memo(({ filteredPoints }) => {
 
   return filteredPoints?.length > 0 ? (
     <div className={selectedDataList}>
+      <Tooltip
+        text="Click a data point and you will be able to edit, label or delete it."
+        tooltip={3}
+        top={'22%'}
+      />
       {groupedPointsArray?.map((p, i) => {
         return (
           <SelectedDataGroup

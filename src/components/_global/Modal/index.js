@@ -68,15 +68,15 @@ const ModalUI = ({
   return (
     <FocusTrap active={focusTrapped}>
       <div className={classes}>
-        <button
-          type="button"
-          onClick={() => closeAction()}
-          className={closeButton}
-          style={{ opacity: showCloseAction ? '1' : '0' }}
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
         <div id="modal" className={modalInner}>
+          <button
+            type="button"
+            onClick={() => closeAction()}
+            className={closeButton}
+            style={{ opacity: showCloseAction ? '1' : '0' }}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
           {children}
         </div>
       </div>
