@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router-dom';
 import Modal from 'components/_global/Modal';
 import Dialog from 'components/_shared/Dialog';
 

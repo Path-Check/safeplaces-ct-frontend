@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import queryString from 'querystring';
 import { useForm } from 'react-hook-form';
-import { TextInput } from '@wfp/ui';
 import styles from '../Registration.module.scss';
 
 import Button from 'components/_shared/Button';
 
 import FormWrapper from 'components/_shared/Forms/FormWrapper';
-import registrationActions from 'ducks/registration/actions';
 import { useDispatch } from 'react-redux';
 import PasswordInput from 'components/_shared/PasswordInput';
 import PasswordStrengthIndicator from 'components/_shared/PasswordStrengthIndicator';
 import { useValidatePassword } from 'hooks/useValidatePassword';
 import { useLocation } from 'react-router';
+import authActions from '../../../ducks/auth/actions';
 
-const PersonalInformation = () => {
+const ResetPassword = () => {
   const fetching = false;
   const dispatch = useDispatch();
   const { search } = useLocation();
@@ -38,7 +37,7 @@ const PersonalInformation = () => {
 
   const onSubmit = async () => {
     dispatch(
-      registrationActions.submitInformation({
+      authActions.resetPassword({
         ...formValues,
         authorization: t,
       }),
@@ -46,23 +45,8 @@ const PersonalInformation = () => {
   };
 
   return (
-    <FormWrapper title="Create your account" intro="">
+    <FormWrapper title="Reset your password" intro="">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <TextInput
-          id="name-input"
-          autoCorrect="off"
-          autoCapitalize="off"
-          onChange={onChange}
-          labelText="Full Name"
-          placeholder="David Jones"
-          inputRef={register({ required: 'Please enter your full name' })}
-          name="name"
-          invalid={errors.name}
-          invalidText={
-            (errors.name && errors.name.message) ||
-            'Please enter your first name'
-          }
-        />
         <PasswordInput
           onChange={onChange}
           id="pass-input"
@@ -98,7 +82,7 @@ const PersonalInformation = () => {
               disabled={!passwordValid || !passwordsMatch}
               loading={fetching}
             >
-              Create account
+              Reset password
             </Button>
           </div>
         </div>
@@ -107,4 +91,4 @@ const PersonalInformation = () => {
   );
 };
 
-export default PersonalInformation;
+export default ResetPassword;
