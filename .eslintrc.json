@@ -2,6 +2,15 @@
   "extends": ["react-app", "standard", "plugin:prettier/recommended"],
   "rules": {
     "react-hooks/exhaustive-deps": 0,
-    "no-unused-vars": 1
+    "no-unused-vars": 1,
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
+  },
+  "plugins": ["jest"],
+  "env": {
+    "jest/globals": true
   }
 }
