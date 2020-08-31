@@ -118,6 +118,7 @@ const Filters = React.memo(({ filteredPointsLength, pointsLength }) => {
           </FilterData>
         )}
       </div>
+      
       <button
         onClick={clearAllFilters}
         className={clearFilters}
@@ -133,4 +134,5 @@ const Filters = React.memo(({ filteredPointsLength, pointsLength }) => {
     </>
   );
 });
+
 export default Filters;
