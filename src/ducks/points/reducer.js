@@ -49,6 +49,7 @@ export default function reducer(state = initialState, action) {
         recordIds,
       };
     case pointsTypes.CLEAR_FILTERS:
+      // eslint-disable-next-line no-case-declarations
       const dates = getDates(state.points);
       return {
         ...state,
