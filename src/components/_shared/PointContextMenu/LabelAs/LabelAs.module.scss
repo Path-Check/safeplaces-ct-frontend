@@ -52,6 +52,8 @@
     font-size: 16px;
     width: 100%;
     padding: 0;
+    word-break: break-word;
+    text-align: left;
 
     &:not([disabled]):hover {
       color: #384df6;
