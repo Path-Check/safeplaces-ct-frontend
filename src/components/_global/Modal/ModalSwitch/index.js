@@ -7,7 +7,6 @@ import DeletePoints from 'views/Trace/DeletePoints';
 import RecordsTable from 'components/_shared/RecordsTable';
 import StageForPublishing from 'views/Trace/StageForPublishing';
 import PublishData from 'views/Publish/PublishData';
-import ForgotPassword from 'views/Authentication/ForgotPassword';
 
 const ModalSwitch = ({ status, mode }) => {
   switch (status) {
@@ -21,9 +20,6 @@ const ModalSwitch = ({ status, mode }) => {
       return <StageForPublishing />;
     case applicationStates.SUBMIT_FOR_PUBLISHING:
       return <PublishData />;
-    case applicationStates.FORGOT_PASSWORD:
-    case applicationStates.REQUEST_PASSWORD_LINK:
-      return <ForgotPassword status={status} />;
     default:
       return null;
   }
