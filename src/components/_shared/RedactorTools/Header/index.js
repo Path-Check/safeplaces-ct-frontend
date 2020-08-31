@@ -1,13 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  headerTitle,
   redactorToolsHeader,
   selectedEditAction,
-  headerTitle,
-  newCasePopup,
-  newCasePopupIn,
 } from './header.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,11 +14,7 @@ import casesSelectors from 'ducks/cases/selectors';
 import caseAction from 'ducks/cases/actions';
 import EditRecordModal from './EditRecordModal';
 import applicationSelectors from 'ducks/application/selectors';
-import Button from 'components/_shared/Button';
-import applicationActions from 'ducks/application/actions';
-import { Transition } from 'react-transition-group';
-
-import classNames from 'classnames';
+import Tooltip from '../../Tooltip';
 
 const RedactorToolsHeader = () => {
   const dispatch = useDispatch();
@@ -30,9 +24,6 @@ const RedactorToolsHeader = () => {
   );
   const externalId = useSelector(state => casesSelectors.getExternalId(state));
   const mode = useSelector(state => applicationSelectors.getMode(state));
-  const isNewCase = useSelector(state =>
-    applicationSelectors.getNewCase(state),
-  );
   const [showModal, setShowModal] = useState(false);
   const [externalInputValue, setInputValue] = useState('');
 
@@ -101,37 +92,11 @@ const RedactorToolsHeader = () => {
         showModal={showModal}
       />
 
-      <Transition
-        in={isNewCase}
-        appear
-        timeout={{
-          enter: 200,
-          exit: 200,
-        }}
-        unmountOnExit
-      >
-        {transition => {
-          const classes = classNames({
-            [`${newCasePopup}`]: true,
-            [`${newCasePopupIn}`]: transition === 'entered',
-          });
-
-          return (
-            <div className={classes}>
-              <p>
-                If you are using a system to manage your patients and already
-                have an ID for this patient, you can change it here.
-              </p>
-              <Button
-                unstyled
-                onClick={() => dispatch(applicationActions.newCase(false))}
-              >
-                Got it
-              </Button>
-            </div>
-          );
-        }}
-      </Transition>
+      <Tooltip
+        text="If you are using a system to manage your patients and already have
+              an ID for this patient, you can change it here."
+        tooltip={1}
+      />
     </>
   );
 };
