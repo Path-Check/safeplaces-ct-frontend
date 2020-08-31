@@ -88,9 +88,6 @@ const Members = () => {
 
   const rowRenderer = ({ data, index, style }) => {
     const { id, email, role } = data[index];
-    const scrollToItem = () => {
-      listRef.current.scrollTo((0, index * 72));
-    };
 
     return (
       <div className={itemContainer} style={style} key={email}>
