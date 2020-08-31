@@ -24,19 +24,15 @@ const authService = {
   },
   login: async data => {
     let orgRes = null;
-    let user = null;
-
+    let organization = null;
     const response = await authService.getToken(data);
-    const { status } = response;
-
-    if (status === 204) {
+    const { status, data: user } = response;
+    if (status === 200) {
       orgRes = await authService.getOrganizationConfig();
-      if (orgRes) {
-        user = orgRes ? { ...orgRes.data } : null;
-      }
+      organization = orgRes ? { ...orgRes.data } : null;
     }
 
-    return { user, token: status };
+    return { user, organization, token: status };
   },
   onboarding: data => {
     return axios({
@@ -51,13 +47,22 @@ const authService = {
       url: `${REACT_APP_API_URL}auth/logout`,
     });
   },
-  forgotPassword: async email => {
+  forgotPassword: async data => {
     return axios({
       method: 'POST',
       url: `${REACT_APP_API_URL}auth/users/reset-password`,
-      data: {
-        email,
-      },
+      data,
+    });
+  },
+  resetPassword: async data => {
+    const headers = { authorization: `Bearer ${data.authorization}` };
+    delete data.authorization;
+    delete data.confirmPassword;
+    return axios({
+      method: 'POST',
+      url: `${REACT_APP_API_URL}auth/reset-password`,
+      headers,
+      data,
     });
   },
 };
