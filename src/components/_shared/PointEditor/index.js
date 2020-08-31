@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
-import pointsSelectors from 'ducks/points/selectors';
 import applicationActions from 'ducks/application/actions';
 
 import pointsActions from 'ducks/points/actions';
@@ -104,6 +103,7 @@ const PointEditor = ({ isEdit, animationState }) => {
 
   useEffect(() => {
     if (!selectedLocation?.duration || !selectedLocation?.time) {
+      setPointInFuture(false);
       return;
     }
 
@@ -164,7 +164,7 @@ const PointEditor = ({ isEdit, animationState }) => {
     e.preventDefault();
     const payload = generatePayload();
 
-    if (!pointInFuture) {
+    if (pointInFuture) {
       return;
     }
 
@@ -189,116 +189,112 @@ const PointEditor = ({ isEdit, animationState }) => {
     [`${pointEditorEntered}`]: animationState === 'entered',
   });
 
-  console.log(pointInFuture);
-
   return (
-    <>
-      <form className={classes} onSubmit={handleSubmit}>
-        <div className={pointEditorMain}>
-          <div className={pointEditorHeader}>
-            <button
-              id="point-editor-close"
-              className={closeAction}
-              onClick={handleClose}
-              type="button"
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-            <h4>{isEdit ? 'Edit Point' : 'Add Point(s)'}</h4>
-          </div>
-          <div className={locationControls}>
-            <LocationSearchInput
-              handlePointChange={handleChange}
-              defaultValue={initialLocation}
-              isEdit={isEdit}
-            />
-          </div>
-          <div className={timeControls}>
-            <DateInput
-              type="time"
-              id="time"
-              label="Date - Time"
-              minDate={new Date('2019-12-31T12:05:00-05:00')}
-              maxDate={now}
-              minTime={returnMinTime()}
-              maxTime={returnMaxTime(selectedLocation?.time)}
-              handleChange={handleChange}
-              displayValue={isEdit ? activePoint?.time : null}
-              selectedValue={selectedLocation?.time}
-              placeholder="01/01/2020 - 12:00AM"
-            />
-          </div>
-
-          <div className={durationControls}>
-            <h6>Duration</h6>
-            <div className={durationControl}>
-              <TextInput
-                id="durationHours"
-                name="durationHours"
-                onChange={handleDuration}
-                step="1"
-                min="0"
-                type="number"
-                labelText=""
-                value={localDuration[0]}
-              />
-              <label htmlFor="durationHours">Hours</label>
-            </div>
-            <div className={durationControl}>
-              <TextInput
-                id="durationMinutes"
-                name="durationMinutes"
-                onChange={handleDuration}
-                step="5"
-                min="0"
-                max="55"
-                type="number"
-                labelText=""
-                value={localDuration[1]}
-              />
-              <label htmlFor="durationMinutes">Minutes</label>
-            </div>
-          </div>
-
-          <Transition
-            in={pointInFuture}
-            appear
-            timeout={{
-              enter: 200,
-              exit: 200,
-            }}
-            unmountOnExit
+    <form className={classes} onSubmit={handleSubmit}>
+      <div className={pointEditorMain}>
+        <div className={pointEditorHeader}>
+          <button
+            id="point-editor-close"
+            className={closeAction}
+            onClick={handleClose}
+            type="button"
           >
-            {transition => {
-              const classes = classNames({
-                [`${isAfterWarning}`]: true,
-                [`${isAfterWarningIn}`]: transition === 'entered',
-              });
-
-              return (
-                <p className={classes}>
-                  End time is in the future, please adjust date and/or duration
-                </p>
-              );
-            }}
-          </Transition>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <h4>{isEdit ? 'Edit Point' : 'Add Point(s)'}</h4>
+        </div>
+        <div className={locationControls}>
+          <LocationSearchInput
+            handlePointChange={handleChange}
+            defaultValue={initialLocation}
+            isEdit={isEdit}
+          />
+        </div>
+        <div className={timeControls}>
+          <DateInput
+            type="time"
+            id="time"
+            label="Date - Time"
+            minDate={new Date('2019-12-31T12:05:00-05:00')}
+            maxDate={now}
+            minTime={returnMinTime()}
+            maxTime={returnMaxTime(selectedLocation?.time)}
+            handleChange={handleChange}
+            displayValue={isEdit ? activePoint?.time : null}
+            selectedValue={selectedLocation?.time}
+            placeholder="01/01/2020 - 12:00AM"
+          />
         </div>
 
-        <div className={pointEditorActions}>
-          <Button
-            id="save-data"
-            type="submit"
-            fullWidth
-            disabled={pointInFuture || isDisabled}
-          >
-            {isEdit ? 'Save Changes' : 'Add New Point'}
-          </Button>
-          <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
-            Cancel
-          </Button>
+        <div className={durationControls}>
+          <h6>Duration</h6>
+          <div className={durationControl}>
+            <TextInput
+              id="durationHours"
+              name="durationHours"
+              onChange={handleDuration}
+              step="1"
+              min="0"
+              type="number"
+              labelText=""
+              value={localDuration[0]}
+            />
+            <label htmlFor="durationHours">Hours</label>
+          </div>
+          <div className={durationControl}>
+            <TextInput
+              id="durationMinutes"
+              name="durationMinutes"
+              onChange={handleDuration}
+              step="5"
+              min="0"
+              max="55"
+              type="number"
+              labelText=""
+              value={localDuration[1]}
+            />
+            <label htmlFor="durationMinutes">Minutes</label>
+          </div>
         </div>
-      </form>
-    </>
+
+        <Transition
+          in={pointInFuture}
+          appear
+          timeout={{
+            enter: 200,
+            exit: 200,
+          }}
+          unmountOnExit
+        >
+          {transition => {
+            const classes = classNames({
+              [`${isAfterWarning}`]: true,
+              [`${isAfterWarningIn}`]: transition === 'entered',
+            });
+
+            return (
+              <p className={classes}>
+                End time is in the future, please adjust date and/or duration
+              </p>
+            );
+          }}
+        </Transition>
+      </div>
+
+      <div className={pointEditorActions}>
+        <Button
+          id="save-data"
+          type="submit"
+          fullWidth
+          disabled={pointInFuture || isDisabled}
+        >
+          {isEdit ? 'Save Changes' : 'Add New Point'}
+        </Button>
+        <Button id="cancel-point" secondary fullWidth onClick={handleClose}>
+          Cancel
+        </Button>
+      </div>
+    </form>
   );
 };
 
