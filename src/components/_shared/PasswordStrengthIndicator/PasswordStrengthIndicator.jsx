@@ -3,30 +3,33 @@ import PasswordStrengthIndicatorCondition from 'components/_shared/PasswordStren
 
 import { passwordStrengthIndicator } from './PasswordStrengthIndicator.module.scss';
 
-const items = [
-  {
-    text: 'At least 8 characters',
-    pattern: new RegExp('(?=.{8,})'),
-  },
-  {
-    text: 'One lowercase character',
-    pattern: new RegExp('^(?=.*[a-z])'),
-  },
-  {
-    text: 'One uppercase character',
-    pattern: new RegExp('(?=.*[A-Z])'),
-  },
-  {
-    text: 'One special character',
-    pattern: new RegExp('(?=.*[!@#$%^&*])'),
-  },
-  {
-    text: 'One number',
-    pattern: new RegExp('(?=.*[0-9])'),
-  },
-];
-
-const PasswordStrengthIndicator = ({ password }) => {
+const PasswordStrengthIndicator = ({ password, passwordsMatch }) => {
+  const items = [
+    {
+      text: 'At least 8 characters',
+      pattern: new RegExp('(?=.{8,})'),
+    },
+    {
+      text: 'One lowercase character',
+      pattern: new RegExp('^(?=.*[a-z])'),
+    },
+    {
+      text: 'One uppercase character',
+      pattern: new RegExp('(?=.*[A-Z])'),
+    },
+    {
+      text: 'One special character',
+      pattern: new RegExp('(?=.*[!@#$%^&*])'),
+    },
+    {
+      text: 'One number',
+      pattern: new RegExp('(?=.*[0-9])'),
+    },
+    {
+      text: 'Passwords match',
+      passwordsMatch: passwordsMatch,
+    },
+  ];
   return (
     <ul className={passwordStrengthIndicator}>
       {items.map(i => (

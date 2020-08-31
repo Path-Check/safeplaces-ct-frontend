@@ -9,6 +9,7 @@ import points from './points/reducer';
 import tags from './tags/reducer';
 import registration from './registration/reducer';
 import users from './users/reducer';
+import tooltips from './tooltips/reducer';
 
 import { createBrowserHistory } from 'history';
 import { put } from 'redux-saga/effects';
@@ -33,13 +34,14 @@ const reducers = combineReducers({
   map,
   registration,
   users,
+  tooltips,
 });
 
 const rootReducer = (state, action) => {
   if (action.type === 'RESET_VIEW') {
-    const { auth, router, tags } = state;
+    const { auth, router, tags, tooltips } = state;
 
-    state = { auth, router, tags };
+    state = { auth, router, tags, tooltips };
   }
 
   return reducers(state, action);

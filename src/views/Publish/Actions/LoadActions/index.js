@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { sidebarActions } from 'views/ViewWrapper.module.scss';
 import Button from 'components/_shared/Button';

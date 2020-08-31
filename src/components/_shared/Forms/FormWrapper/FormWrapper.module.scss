@@ -3,10 +3,11 @@
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: calc(100% - 100px);
+  padding-top: 10%;
+  height: 100vh;
 }
 
 .formTitle {

@@ -66,17 +66,17 @@
 .closeButton {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 15px;
   background: none;
   outline: none;
   border: none;
-  color: #fff;
-  font-size: 30px;
+  color: #000;
+  font-size: 24px;
   cursor: pointer;
   transition: transform 300ms;
 
   &:hover,
   &:focus {
-    transform: scale(1.4);
+    transform: scale(1.2);
   }
 }

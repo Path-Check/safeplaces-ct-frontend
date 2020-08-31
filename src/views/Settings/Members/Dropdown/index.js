@@ -11,14 +11,27 @@ import {
 import { useOnClickOutside } from '../../../../hooks/useOnClickOutside';
 import { useDispatch } from 'react-redux';
 import usersActions from '../../../../ducks/users/actions';
+import authActions from '../../../../ducks/auth/actions';
+import registrationActions from '../../../../ducks/registration/actions';
 
-const Dropdown = ({ id, role: userRole }) => {
+const Dropdown = ({
+  id,
+  role: userRole,
+  scrollToItem,
+  setShowModal,
+  setPasswordReset,
+}) => {
   const containerRef = useRef();
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
   const [role, setRole] = useState(userRole);
 
   useOnClickOutside(containerRef, () => setOpenMenu(false));
+
+  const openMenuAndScroll = () => {
+    setOpenMenu(!openMenu);
+    scrollToItem();
+  };
 
   const deleteMember = () => {
     const isTheySure = window.confirm('Are you sure?');
@@ -32,6 +45,25 @@ const Dropdown = ({ id, role: userRole }) => {
     if (isTheySure) {
       dispatch(usersActions.changeUserRoleRequest({ id, role: to }));
       setRole(to);
+    }
+  };
+
+  const resetPassword = () => {
+    if (id) {
+      dispatch(
+        authActions.forgotPassword({
+          id,
+          redirect_url: `${process.env.REACT_APP_BASE_URL}reset-password`,
+        }),
+      );
+      setPasswordReset(id);
+      setShowModal(true);
+    }
+  };
+
+  const resetPhoneNumber = () => {
+    if (id) {
+      dispatch(registrationActions.removeMfa({ id }));
     }
   };
 
@@ -78,15 +110,17 @@ const Dropdown = ({ id, role: userRole }) => {
     }
   };
   return (
-    <div
-      onClick={() => setOpenMenu(!openMenu)}
-      className={dropdown}
-      ref={containerRef}
-    >
+    <div onClick={openMenuAndScroll} className={dropdown} ref={containerRef}>
       <FontAwesomeIcon icon={faEllipsisV} className={menuIcon} />
       {openMenu && (
         <div id="dropdownMenu" className={dropdownContent}>
           {renderChangeTo()}
+          <div onClick={resetPassword} className={item}>
+            Reset password
+          </div>
+          <div onClick={resetPhoneNumber} className={item}>
+            Reset phone number
+          </div>
           <div onClick={deleteMember} className={`${item} ${deleteMemberText}`}>
             Delete member
           </div>

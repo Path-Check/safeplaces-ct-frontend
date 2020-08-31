@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Modal from 'components/_global/Modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import applicationActions from 'ducks/application/actions';
 import RecordsTablePublishing from 'components/_shared/RecordsTable/RecordsTablePublishing';

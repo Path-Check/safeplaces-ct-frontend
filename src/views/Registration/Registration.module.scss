@@ -19,6 +19,13 @@
   margin-bottom: 56px;
 }
 
+.subtitle {
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #3C475B;
+}
+
 .loginFormContainer {
   display: flex;
   justify-content: center;
@@ -61,8 +68,18 @@
 
 .buttonContainer {
   display: flex;
-  height: 16px;
-  margin-bottom: 16px;
+  height: 48px;
+  align-items: center;
+  
+  button {
+    margin-right: 16px;
+  }
+}
+
+.differentNumber {
+  align-self: center;
+  margin-top: 16px;
+  padding: 10px;
 }
 
 .rememberMeContainer {
