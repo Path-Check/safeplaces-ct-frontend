@@ -18,7 +18,7 @@
     "@wfp/icons": "^0.0.82",
     "@wfp/ui": "^1.4.1-alpha.45",
     "array-move": "^2.2.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "classnames": "latest",
     "connected-react-router": "^6.8.0",
     "dotenv": "^8.2.0",
