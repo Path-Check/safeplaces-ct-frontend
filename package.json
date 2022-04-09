@@ -30,7 +30,7 @@
     "mapbox-gl": "^1.10.0",
     "mapbox-gl-style-switcher": "^1.0.4",
     "mapbox-layer-switcher": "0.0.6",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "node-sass": "^4.13.1",
     "pa11y": "^5.3.0",
     "pa11y-reporter-html": "^2.0.0",
